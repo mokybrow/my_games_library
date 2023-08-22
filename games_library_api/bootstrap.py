@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+
 from .settings import get_settings
 from fastapi import APIRouter, FastAPI
 from .transport.handlers.user import router
@@ -19,6 +20,5 @@ def make_app() -> FastAPI:
         # debug=settings.debug,
     )
     _setup_api_routers(app.router)  # noqa
-
 
     return app
