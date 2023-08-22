@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "my-games-library"
+version = "0.1.0"
+description = "gamers society"
+authors = ["Mikhail Panin <mokybrow@gmail.com>"]
+readme = "README.md"
+packages = [{include = "my_games_library"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.101.1"}
+sqlalchemy = "^2.0.20"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+alembic = "^1.11.3"
+aiosqlite = "^0.19.0"
+asyncpg = "^0.28.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
