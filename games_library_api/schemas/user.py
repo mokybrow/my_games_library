@@ -9,23 +9,6 @@ from pydantic import EmailStr
 from sqlalchemy import UUID, Boolean, Column, Date, MetaData, String, Table
 from sqlalchemy.orm import DeclarativeBase
 
-metadata = MetaData()
-
-user_table = Table(
-    "user",
-    metadata,
-    Column("id", UUID, primary_key=True),
-    Column("email", String, unique=True, index=True),
-    Column("hashed_password", String),
-    Column("is_active", Boolean, default=True),
-    Column("is_superuser", Boolean, default=False),
-    Column("is_verified", Boolean, default=False),
-    Column("username", String, nullable=False, unique=True),
-    Column("name", String, nullable=False),
-    Column("surname", String, nullable=True),
-    Column("birthdate", Date, nullable=True),
-)
-
 
 class Base(DeclarativeBase):
     pass

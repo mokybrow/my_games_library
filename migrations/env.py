@@ -5,7 +5,7 @@ from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
-from games_library_api.schemas.user import metadata
+from games_library_api.schemas.database import metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -17,9 +17,11 @@ async def user_profile():
 async def user_profile():
     return {"Privet": "Mir"}
 
+
 @router.get("/games/best/{time_interval}")
 async def user_profile():
     return {"Privet": "Mir"}
+
 
 @router.get("/games/novelty/")
 async def user_profile():
