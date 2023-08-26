@@ -18,7 +18,8 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     username = Column(String, nullable=False)
     name = Column(String, nullable=False)
     surname = Column(String, nullable=True)
-    birthdate = Column(Date, nullable=True)
+    birthdate = Column(Date, nullable=True, default=None)
+    gender = Column(String, nullable=True)
     pass
 
 
@@ -27,6 +28,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     name: str
     surname: Optional[str]
     birthdate: Optional[datetime.date]
+    gender : Optional[str]
     pass
 
 
@@ -35,6 +37,7 @@ class UserCreate(schemas.BaseUserCreate):
     name: str
     surname: Optional[str]
     birthdate: Optional[datetime.date]
+    gender : Optional[str]
     pass
 
 
@@ -43,4 +46,5 @@ class UserUpdate(schemas.BaseUserUpdate):
     name: Optional[str]
     surname: Optional[str]
     birthdate: Optional[datetime.date]
+    gender : Optional[str]
     pass

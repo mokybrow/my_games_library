@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import (
     auth_backend,
-    current_active_user,
+    current_superuser,
     fastapi_users,
 )
 from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
@@ -35,8 +35,3 @@ router.include_router(
     prefix="/users",
     tags=["users"],
 )
-
-
-@router.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
-    return {"message": f"Hello {user.email}!"}
