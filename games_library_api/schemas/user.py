@@ -23,11 +23,11 @@ user_table = Table(
     Column("is_superuser", Boolean, default=False),
     Column("is_verified", Boolean, default=False),
 
-    # Column("username", String, nullable=False, unique=True),
-    # Column("name", String, nullable=False),
-    # Column("surname", String, nullable=True),
+    Column("username", String, nullable=False, unique=True),
+    Column("name", String, nullable=False),
+    Column("surname", String, nullable=True),
 
-    # Column("birthdate", Date, nullable=True)
+    Column("birthdate", Date, nullable=True)
 )
 
 
@@ -36,31 +36,31 @@ class Base(DeclarativeBase):
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    # username = Column(String, nullable=False)
-    # name = Column(String, nullable=False)
-    # surname = Column(String, nullable=True)
-    # birthdate = Column(Date, nullable=True)
+    username = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    surname = Column(String, nullable=True)
+    birthdate = Column(Date, nullable=True)
     pass
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
-    # username: str
-    # name: str
-    # surname: Optional[str]
-    # birthdate: Optional[datetime.date]
+    username: str
+    name: str
+    surname: Optional[str]
+    birthdate: Optional[datetime.date]
     pass
 
 class UserCreate(schemas.BaseUserCreate):
-    # username: str
-    # name: str
-    # surname: Optional[str]
-    # birthdate: Optional[datetime.date]
+    username: str
+    name: str
+    surname: Optional[str]
+    birthdate: Optional[datetime.date]
     pass
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    # username: Optional[str]
-    # name: Optional[str]
-    # surname: Optional[str]
-    # birthdate: Optional[datetime.date]
+    username: Optional[str]
+    name: Optional[str]
+    surname: Optional[str]
+    birthdate: Optional[datetime.date]
     pass
