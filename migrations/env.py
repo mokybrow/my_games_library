@@ -1,13 +1,12 @@
-from logging.config import fileConfig
 import os
-
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from logging.config import fileConfig
 
 from alembic import context
-
 from dotenv import load_dotenv
-from games_library_api.schemas.user import metadata 
+from sqlalchemy import engine_from_config, pool
+
+from games_library_api.schemas.user import metadata
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 load_dotenv()
@@ -72,9 +71,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

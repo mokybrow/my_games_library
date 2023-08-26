@@ -1,15 +1,13 @@
+import datetime
+import uuid
 from typing import TYPE_CHECKING, Optional
-from pydantic import EmailStr
-from sqlalchemy import UUID, Table, Column, String, MetaData, Boolean, Date
 
 from fastapi import Depends
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from sqlalchemy.orm import DeclarativeBase
-import uuid
-import datetime
-
-
 from fastapi_users import schemas
+from fastapi_users.db import SQLAlchemyBaseUserTableUUID
+from pydantic import EmailStr
+from sqlalchemy import UUID, Boolean, Column, Date, MetaData, String, Table
+from sqlalchemy.orm import DeclarativeBase
 
 metadata = MetaData()
 
@@ -22,12 +20,10 @@ user_table = Table(
     Column("is_active", Boolean, default=True),
     Column("is_superuser", Boolean, default=False),
     Column("is_verified", Boolean, default=False),
-
     Column("username", String, nullable=False, unique=True),
     Column("name", String, nullable=False),
     Column("surname", String, nullable=True),
-
-    Column("birthdate", Date, nullable=True)
+    Column("birthdate", Date, nullable=True),
 )
 
 
@@ -49,6 +45,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     surname: Optional[str]
     birthdate: Optional[datetime.date]
     pass
+
 
 class UserCreate(schemas.BaseUserCreate):
     username: str

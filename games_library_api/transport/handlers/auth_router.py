@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, FastAPI
 import httpx
+from fastapi import APIRouter, Depends, FastAPI
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import auth_backend, current_active_user, fastapi_users
-from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
-from games_library_api.services.verify_user import verify_user_by_email
+from games_library_api.auth.utils import (auth_backend, current_active_user,
+                                          fastapi_users)
+from games_library_api.schemas.user import (User, UserCreate, UserRead,
+                                            UserUpdate)
 
 router = APIRouter()
 
@@ -33,12 +34,7 @@ router.include_router(
     tags=["users"],
 )
 
+
 @router.get("/authenticated-route")
 async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
-
-
-@router.get("/user/verify/{token}")
-async def verify_user_by_email_route(token: str):
-    await verify_user_by_email(token=token)
-    return {"message": f"Hello {token}!"}

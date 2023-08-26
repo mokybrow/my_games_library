@@ -1,8 +1,7 @@
 from functools import lru_cache
 
-from pydantic_settings import BaseSettings
-
 from fastapi.templating import Jinja2Templates
+from pydantic_settings import BaseSettings
 
 
 class Settings(
