@@ -35,3 +35,9 @@ router.include_router(
     prefix="/users",
     tags=["users"],
 )
+
+current_active_verified_user = fastapi_users.current_user(active=True, verified=True)
+
+@router.get("/protected-route", dependencies=[Depends(current_superuser)])
+def protected_route():
+    return "Hello, some user."

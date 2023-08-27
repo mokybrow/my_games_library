@@ -28,19 +28,19 @@ def make_app() -> FastAPI:
     )
     _setup_api_routers(app.router)  # noqa
 
-    origins = [
-        "http://localhost",
-        "http://localhost:8000/",
-        "http://localhost:8000/auth/login",
-        "http://localhost:8000/authenticated-route"
-    ]
+    # origins = [
+    #     "http://localhost",
+    #     "http://localhost:8000/",
+    #     "http://localhost:8000/auth/login",
+    #     "http://localhost:8000/authenticated-route"
+    # ]
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    # app.add_middleware(
+    #     CORSMiddleware,
+    #     allow_origins=origins,
+    #     allow_credentials=True,
+    #     allow_methods=["*"],
+    #     allow_headers=["*"],
+    # )
 
     return app
