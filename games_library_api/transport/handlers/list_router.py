@@ -1,7 +1,3 @@
-import os
-import shutil
-import uuid
-
 from fastapi import APIRouter, Depends, FastAPI, File, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -10,8 +6,9 @@ from games_library_api.auth.utils import (
     current_active_user,
     fastapi_users,
 )
-from games_library_api.integrations.list_opertions import create_list, get_list
+from games_library_api.integrations.list_operations import create_list, get_list
 from games_library_api.schemas.user import User
+from games_library_api.services.cover_upload import save_upload_cover
 
 from ...database import get_async_session
 
@@ -27,18 +24,8 @@ async def create_list_route(
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    upload_dir = os.path.join(os.getcwd(), "uploads")
-    # Create the upload directory if it doesn't exist
-    if not os.path.exists(upload_dir):
-        os.makedirs(upload_dir)
     if cover:
-        # get the destination path
-        dest = os.path.join(upload_dir, cover.filename)
-        print(dest)
-
-        # copy the file contents
-        with open(dest, "wb") as buffer:
-            shutil.copyfileobj(cover.file, buffer)
+        dest = save_upload_cover(cover)
 
     if not cover:
         dest = None
