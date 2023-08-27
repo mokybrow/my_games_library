@@ -1,19 +1,8 @@
 import datetime
 import uuid
 
-from sqlalchemy import (
-    TIMESTAMP,
-    UUID,
-    Boolean,
-    Column,
-    DateTime,
-    ForeignKey,
-    Integer,
-    MetaData,
-    String,
-    Table,
-    Text,
-)
+from sqlalchemy import (TIMESTAMP, UUID, Boolean, Column, DateTime, ForeignKey,
+                        Integer, MetaData, String, Table, Text)
 
 metadata = MetaData()
 
@@ -47,7 +36,6 @@ list_table = Table(
     metadata,
     Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("owner_id", UUID, ForeignKey("user.id")),
-    Column("user_id", UUID, ForeignKey("user.id")),
     Column("name", String, nullable=False),
     Column("cover", String, nullable=True),
     Column("description", String, nullable=True),
