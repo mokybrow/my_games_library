@@ -28,7 +28,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     name: str
     surname: Optional[str]
     birthdate: Optional[datetime.date]
-    gender : Optional[str]
+    gender: Optional[str]
     pass
 
 
@@ -37,7 +37,7 @@ class UserCreate(schemas.BaseUserCreate):
     name: str
     surname: Optional[str]
     birthdate: Optional[datetime.date]
-    gender : Optional[str]
+    gender: Optional[str]
     pass
 
 
@@ -46,5 +46,5 @@ class UserUpdate(schemas.BaseUserUpdate):
     name: Optional[str]
     surname: Optional[str]
     birthdate: Optional[datetime.date]
-    gender : Optional[str]
+    gender: Optional[str]
     pass

@@ -1,6 +1,8 @@
 import datetime
+import uuid
 
 from sqlalchemy import (
+    TIMESTAMP,
     UUID,
     Boolean,
     Column,
@@ -11,7 +13,6 @@ from sqlalchemy import (
     String,
     Table,
     Text,
-    TIMESTAMP
 )
 
 metadata = MetaData()
@@ -35,7 +36,7 @@ user_table = Table(
 game_table = Table(
     "game",
     metadata,
-    Column("id", UUID, primary_key=True, default=UUID),
+    Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("title", String, nullable=False),
     Column("cover", String, nullable=True),
     Column("description", String, nullable=True),
@@ -44,14 +45,22 @@ game_table = Table(
 list_table = Table(
     "list",
     metadata,
-    Column("id", UUID, primary_key=True, default=UUID),
+    Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("owner_id", UUID, ForeignKey("user.id")),
     Column("user_id", UUID, ForeignKey("user.id")),
     Column("name", String, nullable=False),
-    Column("cover", String, nullable=False),
+    Column("cover", String, nullable=True),
     Column("description", String, nullable=True),
     Column("is_private", Boolean, default=False),
     Column("created_at", DateTime, default=datetime.datetime.utcnow()),
+)
+
+list_user_table = Table(
+    "list_user",
+    metadata,
+    Column("list_id", UUID, ForeignKey("list.id"), primary_key=True),
+    Column("user_id", UUID, ForeignKey("user.id")),
+    Column("added", DateTime, default=datetime.datetime.utcnow()),
 )
 
 list_game_table = Table(
@@ -75,7 +84,7 @@ follower_table = Table(
 like_table = Table(
     "like",
     metadata,
-    Column("id", UUID, primary_key=True, default=UUID),
+    Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("user_id", UUID, ForeignKey("user.id")),
     Column("cover", String, nullable=False),
 )
@@ -92,7 +101,7 @@ like_game_table = Table(
 wantplay_table = Table(
     "wantplay",
     metadata,
-    Column("id", UUID, primary_key=True, default=UUID),
+    Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("user_id", UUID, ForeignKey("user.id")),
     Column("cover", String, nullable=False),
 )
@@ -109,7 +118,7 @@ wantplay_game_table = Table(
 passed_table = Table(
     "passed",
     metadata,
-    Column("id", UUID, primary_key=True, default=UUID),
+    Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("user_id", UUID, ForeignKey("user.id")),
     Column("cover", String, nullable=False),
 )
@@ -127,7 +136,7 @@ passed_game_table = Table(
 review_table = Table(
     "review",
     metadata,
-    Column("id", UUID, primary_key=True),
+    Column("id", UUID, primary_key=True, default=uuid.uuid4()),
     Column("user_id", UUID, ForeignKey("user.id")),
     Column("game_id", UUID, ForeignKey("game.id")),
     Column("grade", Integer, nullable=False),
