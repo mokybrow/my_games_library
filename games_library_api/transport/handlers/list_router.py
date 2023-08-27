@@ -10,7 +10,7 @@ from games_library_api.auth.utils import (
     current_active_user,
     fastapi_users,
 )
-from games_library_api.integrations.list_opertions import create_list
+from games_library_api.integrations.list_opertions import create_list, get_list
 from games_library_api.schemas.user import User
 
 from ...database import get_async_session
@@ -31,14 +31,18 @@ async def create_list_route(
     # Create the upload directory if it doesn't exist
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
+    if cover:
+        # get the destination path
+        dest = os.path.join(upload_dir, cover.filename)
+        print(dest)
 
-    # get the destination path
-    dest = os.path.join(upload_dir, cover.filename)
-    print(dest)
+        # copy the file contents
+        with open(dest, "wb") as buffer:
+            shutil.copyfileobj(cover.file, buffer)
 
-    # copy the file contents
-    with open(dest, "wb") as buffer:
-        shutil.copyfileobj(cover.file, buffer)
+    if not cover:
+        dest = None
+
     await create_list(
         db=db,
         owner_id=user.id,
@@ -48,4 +52,9 @@ async def create_list_route(
         is_private=is_private,
     )
 
-    return {"Warning": f"filename {cover.filename}"}
+    return {"Warning": f"filename"}
+
+
+@router.get("/lists/all/")
+async def get_all_lists(db: AsyncSession = Depends(get_async_session)):
+    await get_list(db=db)

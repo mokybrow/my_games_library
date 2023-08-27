@@ -15,6 +15,7 @@ async def create_list(
     is_private: bool,
 ):
     stmt = insert(list_table).values(
+        id=uuid.uuid4(),
         owner_id=owner_id,
         name=name,
         cover=cover,
@@ -23,3 +24,9 @@ async def create_list(
     )
     await db.execute(stmt)
     await db.commit()
+
+
+async def get_list(db: AsyncSession):
+    query = select(list_table.c.name)
+    result = await db.execute(query)
+    print(result.all())
