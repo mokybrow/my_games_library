@@ -1,8 +1,19 @@
 import datetime
 import uuid
 
-from sqlalchemy import (TIMESTAMP, UUID, Boolean, Column, DateTime, ForeignKey,
-                        Integer, MetaData, String, Table, Text)
+from sqlalchemy import (
+    TIMESTAMP,
+    UUID,
+    Boolean,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    MetaData,
+    String,
+    Table,
+    Text,
+)
 
 metadata = MetaData()
 

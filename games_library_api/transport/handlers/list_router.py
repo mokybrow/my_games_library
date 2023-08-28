@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, FastAPI, File, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
-from games_library_api.integrations.list_operations import (create_list,
-                                                            get_list)
+from games_library_api.integrations.list_operations import create_list, get_list
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
 
@@ -26,7 +25,7 @@ async def create_list_route(
 
     if not cover:
         dest = None
-    #Обращение к базе данных 
+    # Обращение к базе данных
     await create_list(
         db=db,
         owner_id=user.id,
