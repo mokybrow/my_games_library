@@ -16,7 +16,10 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 from games_library_api.database import get_user_db
 from games_library_api.email.send_mail import send_in_background
 from games_library_api.schemas.user import User
-from games_library_api.services.verify_user import veryfiy_request
+from games_library_api.services.after_registration import (
+    create_default_lists,
+    veryfiy_request,
+)
 
 load_dotenv()
 
@@ -49,6 +52,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     async def on_after_verify(self, user: User, request: Optional[Request] = None):
         print(f"User {user.id} has been verified")
+        await create_default_lists(user_id=user.id)
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):

@@ -1,7 +1,10 @@
 from fastapi import APIRouter, Depends, FastAPI, File, UploadFile
+from pydantic import UUID4
+from sqlalchemy import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
+from games_library_api.integrations.after_registration import create_default_lists
 from games_library_api.integrations.list_operations import create_list, get_list
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
@@ -41,3 +44,10 @@ async def create_list_route(
 @router.get("/lists/all/")
 async def get_all_lists(db: AsyncSession = Depends(get_async_session)):
     await get_list(db=db)
+
+
+@router.post("/lists/create_default_list")
+async def create_default_list_router(
+    user_id: UUID4, db: AsyncSession = Depends(get_async_session)
+):
+    await create_default_lists(user_id=user_id, db=db)

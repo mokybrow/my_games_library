@@ -2,6 +2,7 @@ import datetime
 import uuid
 
 from sqlalchemy import (
+    JSON,
     TIMESTAMP,
     UUID,
     Boolean,
@@ -40,6 +41,9 @@ game_table = Table(
     Column("title", String, nullable=False),
     Column("cover", String, nullable=True),
     Column("description", String, nullable=True),
+    Column("slug", String, nullable=False, unique=True),
+    Column("release", DateTime, nullable=False),
+    Column("platform", JSON, nullable=False),
 )
 
 list_table = Table(
@@ -84,7 +88,7 @@ like_table = Table(
     "like",
     metadata,
     Column("id", UUID, primary_key=True, default=uuid.uuid4()),
-    Column("user_id", UUID, ForeignKey("user.id")),
+    Column("user_id", UUID, ForeignKey("user.id"), unique=True),
     Column("cover", String, nullable=False),
 )
 
@@ -101,7 +105,7 @@ wantplay_table = Table(
     "wantplay",
     metadata,
     Column("id", UUID, primary_key=True, default=uuid.uuid4()),
-    Column("user_id", UUID, ForeignKey("user.id")),
+    Column("user_id", UUID, ForeignKey("user.id"), unique=True),
     Column("cover", String, nullable=False),
 )
 
@@ -118,7 +122,7 @@ passed_table = Table(
     "passed",
     metadata,
     Column("id", UUID, primary_key=True, default=uuid.uuid4()),
-    Column("user_id", UUID, ForeignKey("user.id")),
+    Column("user_id", UUID, ForeignKey("user.id"), unique=True),
     Column("cover", String, nullable=False),
 )
 
