@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.integrations.list_operations import (
+    get_liked_game,
+    get_passed_game,
     get_user_list,
     get_wantplay_game,
 )
@@ -52,7 +54,7 @@ async def get_user_lists(
     "/{username}/want_to_play",
     response_model=list[list_model.WantPlayListResponseModel],
 )
-async def get_user_passed_game(
+async def get_user_wantplay_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
@@ -63,11 +65,36 @@ async def get_user_passed_game(
         return result
 
 
-@router.get("/{username}/passed")
-async def user_profile():
-    return {"Privet": "Mir"}
+@router.get(
+    "/{username}/passed",
+    response_model=list[list_model.WantPlayListResponseModel],
+)
+async def get_user_passed_game(
+    username: str,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+) -> List[list_model.WantPlayListResponseModel]:
+    if username == user.username:
+        result = await get_passed_game(db=db, user_id=user.id)
+        print(result)
+        return result
 
 
-@router.get("/{username}/like")
-async def user_profile():
-    return {"Privet": "Mir"}
+@router.get(
+    "/{username}/like",
+    response_model=list[list_model.WantPlayListResponseModel],
+)
+async def get_user_liked_game(
+    username: str,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+) -> List[list_model.WantPlayListResponseModel]:
+    if username == user.username:
+        result = await get_liked_game(db=db, user_id=user.id)
+        print(result)
+        return result
+
+
+@router.get("/{username}/list/{list_name}",)
+async def get_user_list_page(username: str, list_name:str):
+    pass

@@ -36,7 +36,7 @@ async def create_list_route(
     if not cover:
         dest = None
     # Обращение к базе данных
-    await create_list(
+    result = await create_list(
         db=db,
         owner_id=user.id,
         name=name,
@@ -44,9 +44,9 @@ async def create_list_route(
         description=description,
         is_private=is_private,
     )
-
-    return {"Warning": f"filename"}
-
+    if not result:
+        return {"List alreay": "exist"}
+    return {"List created": "success"}
 
 @router.get("/lists/all/")
 async def get_all_lists(db: AsyncSession = Depends(get_async_session)):

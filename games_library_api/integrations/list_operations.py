@@ -5,9 +5,12 @@ from pydantic import UUID4
 from sqlalchemy import UUID, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from games_library_api.services.list_slug import making_slug
+
 from ..schemas.database import (
     game_table,
     like_game_table,
+    like_table,
     list_game_table,
     list_table,
     passed_game_table,
@@ -26,16 +29,22 @@ async def create_list(
     description: str,
     is_private: bool,
 ):
+    query = select(list_table.c.name).filter(list_table.c.slug==name.strip().replace(" ", "_"))
+    result = await db.execute(query)
+    if result.all():
+        return False
     stmt = insert(list_table).values(
         id=uuid.uuid4(),
         owner_id=owner_id,
         name=name,
+        slug=await making_slug(name),
         cover=cover,
         description=description,
         is_private=is_private,
     )
     await db.execute(stmt)
     await db.commit()
+    return True
 
 
 async def get_list(db: AsyncSession):
@@ -115,6 +124,30 @@ async def get_wantplay_game(db: AsyncSession, user_id: UUID):
         .filter(wantplay_table.c.user_id == user_id)
         .join(game_table)
         .filter(game_table.c.id == wantplay_game_table.c.game_id)
+    )
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_liked_game(db: AsyncSession, user_id: UUID):
+    query = (
+        select(game_table.c.title, game_table.c.cover, game_table.c.slug)
+        .join(like_table)
+        .filter(like_table.c.user_id == user_id)
+        .join(game_table)
+        .filter(game_table.c.id == like_game_table.c.game_id)
+    )
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_passed_game(db: AsyncSession, user_id: UUID):
+    query = (
+        select(game_table.c.title, game_table.c.cover, game_table.c.slug)
+        .join(passed_table)
+        .filter(passed_table.c.user_id == user_id)
+        .join(game_table)
+        .filter(game_table.c.id == passed_game_table.c.game_id)
     )
     result = await db.execute(query)
     return result.all()
