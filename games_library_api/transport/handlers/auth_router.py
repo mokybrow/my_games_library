@@ -2,12 +2,10 @@ import httpx
 from fastapi import APIRouter, Depends, FastAPI
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import (
-    auth_backend,
-    current_active_user,
-    fastapi_users,
-)
-from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
+from games_library_api.auth.utils import (auth_backend, current_active_user,
+                                          fastapi_users)
+from games_library_api.schemas.user import (User, UserCreate, UserRead,
+                                            UserUpdate)
 
 router = APIRouter()
 

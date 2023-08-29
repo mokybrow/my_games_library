@@ -6,12 +6,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
-from games_library_api.integrations.list_operations import (
-    get_liked_game,
-    get_passed_game,
-    get_user_list,
-    get_wantplay_game,
-)
+from games_library_api.integrations.list_operations import (get_liked_game,
+                                                            get_passed_game,
+                                                            get_user_list,
+                                                            get_wantplay_game)
 from games_library_api.schemas.user import User
 
 from ...database import get_async_session
@@ -95,6 +93,8 @@ async def get_user_liked_game(
         return result
 
 
-@router.get("/{username}/list/{list_name}",)
-async def get_user_list_page(username: str, list_name:str):
+@router.get(
+    "/{username}/list/{list_name}",
+)
+async def get_user_list_page(username: str, list_name: str):
     pass

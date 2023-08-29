@@ -5,21 +5,16 @@ from typing import Optional
 from dotenv import load_dotenv
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
-from fastapi_users.authentication import (
-    AuthenticationBackend,
-    BearerTransport,
-    CookieTransport,
-    JWTStrategy,
-)
+from fastapi_users.authentication import (AuthenticationBackend,
+                                          BearerTransport, CookieTransport,
+                                          JWTStrategy)
 from fastapi_users.db import SQLAlchemyUserDatabase
 
 from games_library_api.database import get_user_db
 from games_library_api.email.send_mail import send_in_background
 from games_library_api.schemas.user import User
 from games_library_api.services.after_registration import (
-    create_default_lists,
-    veryfiy_request,
-)
+    create_default_lists, veryfiy_request)
 
 load_dotenv()
 

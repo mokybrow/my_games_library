@@ -8,15 +8,12 @@ from fastapi import APIRouter, Depends, FastAPI, File, UploadFile
 from pydantic import Json
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import (
-    auth_backend,
-    current_active_user,
-    current_superuser,
-    fastapi_users,
-)
+from games_library_api.auth.utils import (auth_backend, current_active_user,
+                                          current_superuser, fastapi_users)
 from games_library_api.integrations.admin_operations import get_all_users
 from games_library_api.integrations.game_operations import add_game
-from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
+from games_library_api.schemas.user import (User, UserCreate, UserRead,
+                                            UserUpdate)
 from games_library_api.services.cover_upload import save_upload_cover
 
 from ...database import get_async_session

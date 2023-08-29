@@ -7,18 +7,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.services.list_slug import making_slug
 
-from ..schemas.database import (
-    game_table,
-    like_game_table,
-    like_table,
-    list_game_table,
-    list_table,
-    passed_game_table,
-    passed_table,
-    user_table,
-    wantplay_game_table,
-    wantplay_table,
-)
+from ..schemas.database import (game_table, like_game_table, like_table,
+                                list_game_table, list_table, passed_game_table,
+                                passed_table, user_table, wantplay_game_table,
+                                wantplay_table)
 
 
 async def create_list(
@@ -29,7 +21,9 @@ async def create_list(
     description: str,
     is_private: bool,
 ):
-    query = select(list_table.c.name).filter(list_table.c.slug==name.strip().replace(" ", "_"))
+    query = select(list_table.c.name).filter(
+        list_table.c.slug == name.strip().replace(" ", "_")
+    )
     result = await db.execute(query)
     if result.all():
         return False

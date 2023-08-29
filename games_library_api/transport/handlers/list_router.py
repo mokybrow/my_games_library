@@ -4,15 +4,11 @@ from sqlalchemy import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
-from games_library_api.integrations.after_registration import create_default_lists
+from games_library_api.integrations.after_registration import \
+    create_default_lists
 from games_library_api.integrations.list_operations import (
-    add_game_to_liked_list,
-    add_game_to_passed_list,
-    add_game_to_user_list,
-    add_game_to_wantplay_list,
-    create_list,
-    get_list,
-)
+    add_game_to_liked_list, add_game_to_passed_list, add_game_to_user_list,
+    add_game_to_wantplay_list, create_list, get_list)
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
 
@@ -47,6 +43,7 @@ async def create_list_route(
     if not result:
         return {"List alreay": "exist"}
     return {"List created": "success"}
+
 
 @router.get("/lists/all/")
 async def get_all_lists(db: AsyncSession = Depends(get_async_session)):
