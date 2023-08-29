@@ -19,8 +19,8 @@ def _setup_api_routers(
     api.include_router(auth_router)
     api.include_router(verify_router, tags=["verify email"])
     api.include_router(game_router, tags=["game router"])
-    api.include_router(list_router, tags=["ops with lists"])
-    api.include_router(admin_router, tags=["admin moves"])
+    api.include_router(list_router, tags=["lists"])
+    api.include_router(admin_router, tags=["admin dashboard"])
 
 
 @lru_cache

@@ -69,7 +69,7 @@ list_user_table = Table(
 list_game_table = Table(
     "list_game",
     metadata,
-    Column("list_id", UUID, ForeignKey("list.id"), primary_key=True),
+    Column("list_id", UUID, ForeignKey("list.id")),
     Column("game_id", UUID, ForeignKey("game.id")),
     Column("created_at", DateTime, default=datetime.datetime.utcnow()),
 )
@@ -96,7 +96,8 @@ like_table = Table(
 like_game_table = Table(
     "like_game",
     metadata,
-    Column("list_id", UUID, ForeignKey("like.id"), primary_key=True),
+    metadata,
+    Column("list_id", UUID, ForeignKey("like.id")),
     Column("game_id", UUID, ForeignKey("game.id")),
     Column("created_at", DateTime, default=datetime.datetime.utcnow()),
 )
@@ -113,7 +114,7 @@ wantplay_table = Table(
 wantplay_game_table = Table(
     "wantplay_game",
     metadata,
-    Column("list_id", UUID, ForeignKey("wantplay.id"), primary_key=True),
+    Column("list_id", UUID, ForeignKey("wantplay.id")),
     Column("game_id", UUID, ForeignKey("game.id")),
     Column("created_at", DateTime, default=datetime.datetime.utcnow()),
 )
@@ -130,7 +131,7 @@ passed_table = Table(
 passed_game_table = Table(
     "passed_game",
     metadata,
-    Column("list_id", UUID, ForeignKey("passed.id"), primary_key=True),
+    Column("list_id", UUID, ForeignKey("passed.id")),
     Column("game_id", UUID, ForeignKey("game.id")),
     Column("created_at", DateTime, default=datetime.datetime.utcnow()),
 )

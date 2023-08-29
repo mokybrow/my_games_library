@@ -6,7 +6,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
-from games_library_api.integrations.list_operations import get_user_list
+from games_library_api.integrations.list_operations import (
+    get_user_list,
+    get_wantplay_game,
+)
 from games_library_api.schemas.user import User
 
 from ...database import get_async_session
@@ -28,7 +31,7 @@ async def user_profile(username: str, user: User = Depends(current_active_user))
         list[list_model.ListResponseModel] | error_model.ErrorResponseModel
     ],
 )
-async def user_profile(
+async def get_user_lists(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
@@ -41,15 +44,26 @@ async def user_profile(
         )
     if username == user.username:
         result = await get_user_list(db=db, user_id=user.id)
+        print(result)
+        return result
+
+
+@router.get(
+    "/{username}/want_to_play",
+    response_model=list[list_model.WantPlayListResponseModel],
+)
+async def get_user_passed_game(
+    username: str,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+) -> List[list_model.WantPlayListResponseModel]:
+    if username == user.username:
+        result = await get_wantplay_game(db=db, user_id=user.id)
+        print(result)
         return result
 
 
 @router.get("/{username}/passed")
-async def user_profile():
-    return {"Privet": "Mir"}
-
-
-@router.get("/{username}/want_to_play")
 async def user_profile():
     return {"Privet": "Mir"}
 
