@@ -1,12 +1,9 @@
 import datetime
 import uuid
-from typing import TYPE_CHECKING, Optional
 
-from fastapi import Depends
 from fastapi_users import schemas
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from pydantic import EmailStr
-from sqlalchemy import UUID, Boolean, Column, Date, MetaData, String, Table
+from sqlalchemy import Column, Date, String
 from sqlalchemy.orm import DeclarativeBase
 
 
@@ -26,25 +23,25 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 class UserRead(schemas.BaseUser[uuid.UUID]):
     username: str
     name: str
-    surname: Optional[str]
-    birthdate: Optional[datetime.date]
-    gender: Optional[str]
+    surname: str | None
+    birthdate: datetime.date | None
+    gender: str | None
     pass
 
 
 class UserCreate(schemas.BaseUserCreate):
     username: str
     name: str
-    surname: Optional[str]
-    birthdate: Optional[datetime.date]
-    gender: Optional[str]
+    surname: str | None
+    birthdate: datetime.date | None
+    gender: str | None
     pass
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    username: Optional[str]
-    name: Optional[str]
-    surname: Optional[str]
-    birthdate: Optional[datetime.date]
-    gender: Optional[str]
+    username: str | None
+    name: str | None
+    surname: str | None
+    birthdate: datetime.date | None
+    gender: str | None
     pass
