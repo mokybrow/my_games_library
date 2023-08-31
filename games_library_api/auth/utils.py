@@ -21,13 +21,13 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
 
-    async def on_after_register(self, user: User, request: Request | None = None):
+    async def on_after_register(self, user: User, request: Request | None = None)-> None:
         await veryfiy_request(user_email=user.email)
 
-    async def on_after_forgot_password(self, user: User, token: str, request: Request | None = None):
+    async def on_after_forgot_password(self, user: User, token: str, request: Request | None = None)-> None:
         print(f'User {user.id} has forgot their password. Reset token: {token}')
 
-    async def on_after_request_verify(self, user: User, token: str, request: Request | None = None):
+    async def on_after_request_verify(self, user: User, token: str, request: Request | None = None) -> None:
         await send_in_background(
             email={
                 'email': [f'{user.email}'],
@@ -35,19 +35,19 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
             },
         )
 
-    async def on_after_verify(self, user: User, request: Request | None = None):
+    async def on_after_verify(self, user: User, request: Request | None = None)-> None:
         print(f'User {user.id} has been verified')
         await create_default_lists(user_id=user.id)
 
 
-async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)) -> None:
+async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
     yield UserManager(user_db)
 
 
 cookie_transport = CookieTransport(cookie_name='mishkastudio', cookie_max_age=3600)
 
 
-def get_jwt_strategy() -> JWTStrategy:
+def get_jwt_strategy() -> JWTStrategy: #noqa
     return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
 
 
