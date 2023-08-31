@@ -1425,20 +1425,6 @@ anyio = ">=3.4.0,<5"
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyaml"]
 
 [[package]]
-name = "transliterate"
-version = "1.10.2"
-description = "Bi-directional transliterator for Python"
-optional = false
-python-versions = "*"
-files = [
-    {file = "transliterate-1.10.2-py2.py3-none-any.whl", hash = "sha256:010a5021bf6021689c4fade0985f3f7b3db1f2f16a48a09a56797f171c08ed42"},
-    {file = "transliterate-1.10.2.tar.gz", hash = "sha256:bc608e0d48e687db9c2b1d7ea7c381afe0d1849cad216087d8e03d8d06a57c85"},
-]
-
-[package.dependencies]
-six = ">=1.1.0"
-
-[[package]]
 name = "typing-extensions"
 version = "4.7.1"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -1704,4 +1690,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "a959d83c899a924e0187dcc2c523a169054de3a83db0d6d0377e714a3c78994b"
+content-hash = "795d7e833abfcc7c230b89146900f256ea3833e89d8567913fd42d5efbc22c13"

@@ -2,7 +2,7 @@ import datetime
 import uuid
 
 from pydantic import UUID4
-from sqlalchemy import UUID, func, insert, select, update
+from sqlalchemy import UUID, delete, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.services.list_slug import making_slug
@@ -22,7 +22,7 @@ async def create_list(
     is_private: bool,
 ):
     query = select(list_table.c.name).filter(
-        list_table.c.slug == name.strip().replace(" ", "_")
+        list_table.c.slug == await making_slug(name)
     )
     result = await db.execute(query)
     if result.all():
@@ -145,3 +145,40 @@ async def get_passed_game(db: AsyncSession, user_id: UUID):
     )
     result = await db.execute(query)
     return result.all()
+
+
+async def delete_user_list(db: AsyncSession, list_id: UUID):
+    stmt = delete(list_table).where(list_table.c.id == list_id)
+    result = await db.execute(stmt)
+    await db.commit()
+
+
+async def update_list(
+    list_id: UUID4,
+    db: AsyncSession,
+    name: str,
+    cover: str,
+    description: str,
+    is_private: bool,
+):
+    query = select(list_table).filter(
+        list_table.c.slug == await making_slug(name)
+    )
+    result = await db.execute(query)
+    if result.all():
+        return False
+    
+    stmt = (
+        update(list_table)
+        .values(
+            name=name,
+            slug=await making_slug(name),
+            cover=cover,
+            description=description,
+            is_private=is_private,
+        )
+        .where(list_table.c.id == list_id)
+    )
+    result = await db.execute(stmt)
+    await db.commit()
+    return True
