@@ -2,7 +2,7 @@ import datetime
 import uuid
 
 from pydantic import Json
-from sqlalchemy import UUID, insert, select, update
+from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..schemas.database import game_table

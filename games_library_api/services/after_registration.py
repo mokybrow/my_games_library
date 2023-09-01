@@ -1,5 +1,4 @@
 import httpx
-
 from sqlalchemy import UUID
 
 

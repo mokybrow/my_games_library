@@ -1,11 +1,6 @@
-from fastapi import APIRouter, Depends, FastAPI
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter
 
-from games_library_api.database import get_async_session
-from games_library_api.schemas.user import User
 from games_library_api.services.after_registration import verify_user_by_email
-
-from ...auth.utils import current_active_user
 
 router = APIRouter()
 

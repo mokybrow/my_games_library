@@ -1,6 +1,5 @@
 import datetime
 import uuid
-
 from collections.abc import Sequence
 from typing import Any
 
