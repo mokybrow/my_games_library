@@ -33,8 +33,8 @@ conf = ConnectionConfig(
 async def send_in_background(email: EmailSchema) -> JSONResponse:
     message = MessageSchema(
         subject='Fastapi-Mail module',
-        recipients=email.model_dump().get('email'),
-        template_body=email.model_dump().get('body'),
+        recipients=email.get('email'),
+        template_body=email.get('body'),
         subtype=MessageType.html,
     )
     fm = FastMail(conf)

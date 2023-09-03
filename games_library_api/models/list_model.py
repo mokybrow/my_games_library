@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import UploadFile
 from pydantic import BaseModel
 
@@ -22,3 +24,8 @@ class WantPlayListResponseModel(BaseModel):
     title: str
     cover: str
     slug: str
+
+
+class GetListsResponseModel(BaseModel):
+    name: str
+    cover: Optional[str]

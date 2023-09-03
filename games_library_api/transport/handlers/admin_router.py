@@ -25,6 +25,7 @@ async def add_game_router(
     slug: str,
     release: datetime.date,
     platform: Json,
+    genre: Json,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_superuser),
 ) -> Any:
@@ -42,6 +43,7 @@ async def add_game_router(
         slug=slug,
         release=release,
         platform=platform,
+        genre=genre
     )
 
 

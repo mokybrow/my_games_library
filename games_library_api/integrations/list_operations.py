@@ -48,7 +48,7 @@ async def create_list(
 
 
 async def get_list(db: AsyncSession) -> Any:
-    query = select(list_table.c.name).where(list_table.c.is_private is False)
+    query = select(list_table.c.name, list_table.c.cover).filter(list_table.c.is_private == False)
     result = await db.execute(query)
     return result.all()
 

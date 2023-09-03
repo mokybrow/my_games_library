@@ -17,6 +17,7 @@ from games_library_api.integrations.list_operations import (
     get_list,
     update_list,
 )
+from games_library_api.models import list_model
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
 
@@ -51,9 +52,10 @@ async def create_list_route(
     return {'List created': 'success'}
 
 
-@router.get('/lists/all/')
-async def get_all_lists(db: AsyncSession = Depends(get_async_session)):
-    await get_list(db=db)
+@router.get('/lists/all/', response_model=list[list_model.GetListsResponseModel])
+async def get_all_lists(db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_list(db=db)
+    return result
 
 
 @router.post('/lists/create_default_list')

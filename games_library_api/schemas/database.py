@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from sqlalchemy import ARRAY, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
+from sqlalchemy import ARRAY, JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
 
 metadata = MetaData()
 
@@ -19,6 +19,8 @@ user_table = Table(
     Column('surname', String, nullable=True),
     Column('birthdate', DateTime, nullable=True, default=None),
     Column('gender', String, nullable=True),
+    Column('img', String, nullable=True),
+    Column('reporter', Boolean, default=False),
 )
 
 game_table = Table(
@@ -30,7 +32,8 @@ game_table = Table(
     Column('description', String, nullable=True),
     Column('slug', String, nullable=False, unique=True),
     Column('release', DateTime, nullable=False),
-    Column('platform', ARRAY(String), nullable=False),
+    Column('platform', JSON, nullable=False),
+    Column('genre', JSON, nullable=True),
 )
 
 list_table = Table(
@@ -135,4 +138,22 @@ review_table = Table(
     Column('grade', Integer, nullable=False),
     Column('comment', Text, nullable=True),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
+)
+
+review_like_table = Table(
+    'review_like',
+    metadata,
+    Column('review_id', ForeignKey('review.id', ondelete='CASCADE')),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
+)
+
+news_table = Table(
+    'news',
+    metadata,
+    Column('id', UUID, primary_key=True, default=uuid.uuid4()),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
+    Column('title', String, nullable=False),
+    Column('text', Text, nullable=False),
+    Column('slug', String, nullable=False),
+    Column('publishing', Boolean, default=False),
 )
