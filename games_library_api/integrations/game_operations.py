@@ -1,11 +1,10 @@
 import datetime
 import uuid
 
-from pydantic import Json
 from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..schemas.database import game_table
+from games_library_api.schemas.database import game_table
 
 
 async def add_game(
@@ -15,7 +14,7 @@ async def add_game(
     description: str,
     slug: str,
     release: datetime.date,
-    platform: Json,
+    platform: list,
 ):
     stmt = insert(game_table).values(
         id=uuid.uuid4(),

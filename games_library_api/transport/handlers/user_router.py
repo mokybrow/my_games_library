@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,7 +19,7 @@ router = APIRouter()
 
 
 @router.get('/{username}')
-async def user_profile(username: str, user: User = Depends(current_active_user)):
+async def user_profile(username: str, user: User = Depends(current_active_user)) -> Any:
     if username == user.username:
         return {'Hello': f'{username} yor profile {user.username}'}
     return {'Warning': 'is not your profile'}
@@ -31,7 +33,7 @@ async def get_user_lists(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
-) -> list[list_model.ListResponseModel]:
+) -> Any:
     if username != user.username:
         error = error_model.ErrorResponseModel(details='you cant see these lists')
         return JSONResponse(
@@ -40,8 +42,7 @@ async def get_user_lists(
         )
     if username == user.username:
         result = await get_user_list(db=db, user_id=user.id)
-        print(result)
-        return result
+    return result
 
 
 @router.get(
@@ -52,10 +53,10 @@ async def get_user_wantplay_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
-) -> list[list_model.WantPlayListResponseModel]:
+) -> Any:
     if username == user.username:
         result = await get_wantplay_game(db=db, user_id=user.id)
-        return result
+    return result
 
 
 @router.get(
@@ -66,11 +67,10 @@ async def get_user_passed_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
-) -> list[list_model.WantPlayListResponseModel]:
+) -> Any:
     if username == user.username:
         result = await get_passed_game(db=db, user_id=user.id)
-        print(result)
-        return result
+    return result
 
 
 @router.get(
@@ -81,15 +81,15 @@ async def get_user_liked_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
-) -> list[list_model.WantPlayListResponseModel]:
+) -> Any:
     if username == user.username:
         result = await get_liked_game(db=db, user_id=user.id)
-        print(result)
-        return result
+
+    return result
 
 
 @router.get(
     '/{username}/list/{list_name}',
 )
-async def get_user_list_page(username: str, list_name: str):
-    pass
+async def get_user_list_page(username: str, list_name: str) -> Any:
+    return None

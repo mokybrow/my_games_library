@@ -1,23 +1,21 @@
-from typing import Optional
-
 from fastapi import UploadFile
 from pydantic import BaseModel
 
 
 class CreateListResponseModel(BaseModel):
     name: str
-    description: Optional[str]
+    description: str | None
     is_private: bool
 
 
 class CreateListCoverResponseModel(CreateListResponseModel):
-    cover: Optional[UploadFile]
+    cover: UploadFile | None
 
 
 class ListResponseModel(BaseModel):
     name: str
-    cover: Optional[str]
-    description: Optional[str]
+    cover: str | None
+    description: str | None
 
 
 class WantPlayListResponseModel(BaseModel):

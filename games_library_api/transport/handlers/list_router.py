@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import APIRouter, Depends, UploadFile
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -136,7 +138,7 @@ async def update_user_list_router(
     is_private: bool = False,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
-):
+) -> Any:
     if new_cover:
         dest = save_upload_cover(new_cover)
 

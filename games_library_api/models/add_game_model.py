@@ -1,6 +1,6 @@
 import datetime
 
-from pydantic import BaseModel, Json
+from pydantic import BaseModel
 
 
 class GamesResponseModel(BaseModel):
@@ -9,4 +9,4 @@ class GamesResponseModel(BaseModel):
     description: str
     slug: str
     release: datetime.date
-    platform: Json
+    platform: list

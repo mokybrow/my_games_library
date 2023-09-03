@@ -1,5 +1,7 @@
 import os
+
 from collections.abc import AsyncGenerator
+from typing import Any
 
 from dotenv import load_dotenv
 from fastapi import Depends
@@ -20,5 +22,5 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 
-async def get_user_db(session: AsyncSession = Depends(get_async_session)):
+async def get_user_db(session: AsyncSession = Depends(get_async_session)) -> Any:
     yield SQLAlchemyUserDatabase(session, User)

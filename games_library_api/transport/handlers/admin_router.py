@@ -1,5 +1,7 @@
 import datetime
 
+from typing import Any
+
 from fastapi import APIRouter, Depends, UploadFile
 from pydantic import Json
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -25,7 +27,7 @@ async def add_game_router(
     platform: Json,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_superuser),
-):
+) -> Any:
     if cover:
         dest = save_upload_cover(cover)
 
@@ -47,7 +49,7 @@ async def add_game_router(
 async def get_all_users_router(
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_superuser),
-) -> list[users_model.UserResponseModel]:
+) -> Any:
     result = await get_all_users(db=db)
     return result
 

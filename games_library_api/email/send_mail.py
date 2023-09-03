@@ -1,4 +1,5 @@
 import os
+
 from typing import Any
 
 from dotenv import load_dotenv
@@ -32,11 +33,10 @@ conf = ConnectionConfig(
 async def send_in_background(email: EmailSchema) -> JSONResponse:
     message = MessageSchema(
         subject='Fastapi-Mail module',
-        recipients=email.get('email'),
-        template_body=email.get('body'),
+        recipients=email.model_dump().get('email'),
+        template_body=email.model_dump().get('body'),
         subtype=MessageType.html,
     )
-    print(email)
     fm = FastMail(conf)
 
     await fm.send_message(message, template_name='email.html')

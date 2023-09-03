@@ -15,11 +15,10 @@ repos:
 
       - id: ruff
         name: ruff
-        entry: ruff check --fix
+        entry: ruff
         language: system
         files: ^(games_library_api|tests)/.+\.py$
-        args:
-        - --fix
+
 
       - id: mypy
         name: mypy

@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from sqlalchemy import JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
+from sqlalchemy import ARRAY, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
 
 metadata = MetaData()
 
@@ -30,7 +30,7 @@ game_table = Table(
     Column('description', String, nullable=True),
     Column('slug', String, nullable=False, unique=True),
     Column('release', DateTime, nullable=False),
-    Column('platform', JSON, nullable=False),
+    Column('platform', ARRAY(String), nullable=False),
 )
 
 list_table = Table(
