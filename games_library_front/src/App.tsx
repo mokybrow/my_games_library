@@ -1,14 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { getPosts } from './api/request';
-
-
 
 function App() {
-  useEffect(() => {
-    getPosts();
-  }, [])
   return (
     <div className="App">
       <header className="App-header">
