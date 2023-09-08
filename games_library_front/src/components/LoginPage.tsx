@@ -1,7 +1,8 @@
 import React, { SyntheticEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { api } from '../api/api';
+import { saveLocalToken } from '../utils/utils';
 
-const API_URL = "http://localhost:8000 ";
 
 
 export const LoginPage = () => {
@@ -11,20 +12,14 @@ export const LoginPage = () => {
     const navigate = useNavigate();
     const submitHandler = async (e: SyntheticEvent) => {
         e.preventDefault()
-        console.log(JSON.stringify({
-            username: email,
-            password: password
-        }))
-        await fetch('http://localhost:8000/auth/login', {
-            method: "POST",
-            headers: { 'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-            credentials: 'include',
-            body: JSON.stringify({
-                username: email,
-                password: password
-            })
-        })
-        navigate("/");
+
+        const response = await api.logInGetToken(email, password);
+        const token = response.data.access_token;
+        if (token) {
+            saveLocalToken(token);
+        }
+
+        //navigate("/");
 
     }
 
