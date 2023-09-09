@@ -1,22 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { api } from '../api/api';
-import axios from 'axios';
-import { getLocalToken } from '../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 
 export const Profile = () => {
-    const submitHandler = async () => {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Nzc0ZmJlMS03YWEwLTRhOGEtYWU3OC1iMjI4MzNmMjNjYTkiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImV4cCI6MTY5NDI3NTYzMn0.ZT0EwoNus66XxBgWCwXNpgeb2JHGj9XSNl7xs4dOCZg'
-        const gettoken = getLocalToken()
-        const response = await api.getMe();
-        console.log(gettoken)
+    const navigate = useNavigate();
 
+    const [user, setUser] = useState({
+        "id": "",
+        "email": "",
+        "is_active": true,
+        "is_superuser": false,
+        "username": "",
+        "name": "",
+        "surname": ""
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await api.getMe();
+            setUser(result);
+
+        };
+        fetchData();
+    }, []);
+
+    const callLogout = async () => {
+        api.logOut();
+        navigate("/");
     };
-    submitHandler();
 
     return (
         <div className="container">
-
+            <h1>{user.username}</h1>
+            <button onClick={callLogout}>Выход</button>
         </div>
     );
 };
+
+
+
