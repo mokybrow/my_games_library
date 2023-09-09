@@ -14,8 +14,8 @@ export const LoginPage = () => {
 
         const response = await api.loginRequest(email, password);
         console.log(response)
-        
-        //navigate("/");
+
+        navigate("/profile");
 
     }
 

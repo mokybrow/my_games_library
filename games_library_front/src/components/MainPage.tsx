@@ -18,6 +18,9 @@ export const MainPage = () => {
           <li>
             <Link to='/sign_up'>SignUp Page</Link>
           </li>
+          <li>
+            <Link to='/profile'>Profile</Link>
+          </li>
         </ul>
       </nav>
       <hr />

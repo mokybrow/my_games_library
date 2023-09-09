@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { saveLocalToken } from '../utils/utils';
 
 
 export const api = {
@@ -13,9 +14,12 @@ export const api = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                withCredentials: true,
+                
             },
+            
         )
-            .then((response) => console.log(response))
+            .then((response) => saveLocalToken(response.data.access_token))
             .catch((error) => console.log(error));
     },
 
@@ -32,7 +36,24 @@ export const api = {
             .then((response) => console.log(response))
             .catch((error) => console.log(error));
 
-    }
+    },
+    async getMe(TOKEN : string) {
+        return axios.get(
+            'http://localhost:8000/users/me', {
+            headers: {
+                'Authorization': `Cookie ${TOKEN }`,
+            },
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+      },
 
 };
 
+export const getCurrentUser = () => {
+    const userStr = localStorage.getItem("mishkastudio");
+    console.log(userStr)
+    if (userStr) return JSON.parse(userStr);
+  
+    return null;
+  };

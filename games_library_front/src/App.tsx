@@ -6,6 +6,7 @@ import { PageTwo } from './components/PageTwo';
 import { MainPage } from './components/MainPage';
 import { LoginPage } from './components/LoginPage';
 import { SignUpPage } from './components/SignUpPage';
+import { Profile } from './components/Profile';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="two" element={<PageTwo />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="sign_up" element={<SignUpPage />} />
+        <Route path="profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
