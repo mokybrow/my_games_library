@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from games_library_api.auth.utils import auth_backend, current_active_user, fastapi_users
-from games_library_api.schemas.user import User, UserCreate, UserRead
+from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
 
 router = APIRouter()
 
@@ -23,6 +23,10 @@ router.include_router(
     tags=['auth'],
 )
 
+router.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+    prefix='/users',
+)
 
 @router.get('/check/authenticated-route')
 async def authenticated_route(user: User = Depends(current_active_user)) -> dict:

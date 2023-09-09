@@ -1,23 +1,18 @@
 import React from 'react'
-import { api, getCurrentUser } from '../api/api';
+import { api } from '../api/api';
+import axios from 'axios';
 import { getLocalToken } from '../utils/utils';
 
+
 export const Profile = () => {
-    const token = localStorage.getItem('token');
-    console.log(token)
-    if (token) {
-        console.log('token есть')
-    }
     const submitHandler = async () => {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0Nzc0ZmJlMS03YWEwLTRhOGEtYWU3OC1iMjI4MzNmMjNjYTkiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImV4cCI6MTY5NDI3NTYzMn0.ZT0EwoNus66XxBgWCwXNpgeb2JHGj9XSNl7xs4dOCZg'
+        const gettoken = getLocalToken()
+        const response = await api.getMe();
+        console.log(gettoken)
 
-        const tokentoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYzAzMDQxOC1mODQyLTRmYWYtYjg3My1lNmI1MjhkMmFlODgiLCJhdWQiOlsiZmFzdGFwaS11c2VyczphdXRoIl0sImV4cCI6MTY5NDI2OTAyNX0.UE62xx3-Cqa1aveOre_rSA9Na4H-UvA_Vrxa9vgd9m8'
-        const response = await api.getMe(tokentoken);
-        console.log(response)
-
-    }
+    };
     submitHandler();
-    // const response =  api.getMe(token)
-    // console.log(response)
 
     return (
         <div className="container">

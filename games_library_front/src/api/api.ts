@@ -37,16 +37,19 @@ export const api = {
             .catch((error) => console.log(error));
 
     },
-    async getMe(TOKEN : string) {
+    async getMe() {
+        const TOKEN = localStorage.getItem('token')    
         return axios.get(
             'http://localhost:8000/users/me', {
             headers: {
-                'Authorization': `Cookie ${TOKEN }`,
+                'Authorization': `Bearer ${TOKEN}`,
             },
         })
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
       },
+      
+
 
 };
 

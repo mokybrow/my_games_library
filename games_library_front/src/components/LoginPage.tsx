@@ -11,9 +11,7 @@ export const LoginPage = () => {
     const navigate = useNavigate();
     const submitHandler = async (e: SyntheticEvent) => {
         e.preventDefault()
-
         const response = await api.loginRequest(email, password);
-        console.log(response)
 
         navigate("/profile");
 

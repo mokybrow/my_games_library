@@ -56,7 +56,4 @@ async def get_all_users_router(
     return result
 
 
-router.include_router(
-    fastapi_users.get_users_router(UserRead, UserUpdate),
-    prefix='/admin/users',
-)
+
