@@ -1,5 +1,8 @@
 import React, { SyntheticEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import { api } from '../api/api';
+
 
 
 
@@ -15,24 +18,11 @@ export const SignUpPage = () => {
 
     const submitHandler = async (e: SyntheticEvent) => {
         e.preventDefault()
-
         //взаимодействие с бекендом 
-        await fetch('http://localhost:8000/auth/register/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email,
-                password,
-                is_active: true,
-                is_superuser: false,
-                is_verified: false,
-                username,
-                name,
-                surname,
-                birthdate: null,
-                gender: null,
-            }),
-        })
+
+        const response = await api.registerRequest(email, password, username, name);
+        console.log(response)
+
 
         navigate("/login");
     }

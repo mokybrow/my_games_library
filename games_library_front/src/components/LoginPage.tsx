@@ -1,7 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
-import { saveLocalToken } from '../utils/utils';
 
 
 
@@ -13,12 +12,9 @@ export const LoginPage = () => {
     const submitHandler = async (e: SyntheticEvent) => {
         e.preventDefault()
 
-        const response = await api.logInGetToken(email, password);
-        const token = response.data.access_token;
-        if (token) {
-            saveLocalToken(token);
-        }
-
+        const response = await api.loginRequest(email, password);
+        console.log(response)
+        
         //navigate("/");
 
     }

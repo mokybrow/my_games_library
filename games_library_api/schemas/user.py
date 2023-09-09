@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 import uuid
 
 from fastapi_users import schemas
@@ -23,25 +24,25 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 class UserRead(schemas.BaseUser[uuid.UUID]):
     username: str
     name: str
-    surname: str | None
-    birthdate: datetime.date | None
-    gender: str | None
+    surname: Optional[str]
+    birthdate: Optional[datetime.date]
+    gender: Optional[str]
     pass
 
 
 class UserCreate(schemas.BaseUserCreate):
     username: str
     name: str
-    surname: str | None
-    birthdate: datetime.date | None
-    gender: str | None
+    surname: Optional[str]
+    birthdate: Optional[datetime.date]
+    gender: Optional[str]
     pass
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    username: str | None
-    name: str | None
-    surname: str | None
-    birthdate: datetime.date | None
-    gender: str | None
+    username: Optional[str]
+    name: Optional[str]
+    surname: Optional[str]
+    birthdate: Optional[datetime.date]
+    gender: Optional[str]
     pass
