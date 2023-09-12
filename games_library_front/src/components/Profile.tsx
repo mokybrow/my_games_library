@@ -21,13 +21,14 @@ export const Profile = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await api.getMe();
-            console.log(result)
+        //   if (await api.isAuthenticated()){
+            const result = await api.getUser();
             setUser(result);
-
+         // };
         };
         fetchData();
-    }, []);
+      // eslint-disable-next-line
+      }, []);
 
     const callLogout = async () => {
         api.logOut();

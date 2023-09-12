@@ -37,7 +37,7 @@ export const api = {
             .catch((error) => console.log(error));
 
     },
-    async getMe() {
+    async getUser() {
         const TOKEN = getLocalToken()
         return axios.get(
             'http://localhost:8000/users/me', {
@@ -62,7 +62,7 @@ export const api = {
                 withCredentials: true,
 
             }
-            
+
         )
             .then((response) => console.log(response))
             .catch((error) => console.log(error));
@@ -80,5 +80,13 @@ export const api = {
         })
             .then((response) => response.data)
             .catch((error) => console.log(error));
-    }
+    },
+    async isAuthenticated() {
+        const permissions = localStorage.getItem('permissions');
+        if (!permissions) {
+            return false;
+        }
+        console.log(permissions)
+        return permissions === 'user' ? true : false;
+    },
 };

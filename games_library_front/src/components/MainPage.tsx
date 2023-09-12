@@ -7,7 +7,7 @@ export const MainPage = () => {
     <>
       <header className="header">
         <div className="top-left">
-          <Link to='/one' className="header-logo">Геймификация</Link>
+          <Link to='/' className="header-logo">Геймификация</Link>
         </div>
         <div className="header-menu menu">
           <div className="menu-icon">
