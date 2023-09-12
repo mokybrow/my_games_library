@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getLocalToken, saveLocalToken } from '../utils/utils';
-import { useNavigate } from 'react-router-dom';
 
 
 export const api = {
@@ -67,7 +66,19 @@ export const api = {
         )
             .then((response) => console.log(response))
             .catch((error) => console.log(error));
-
-            
+    },
+    async getLists() {
+        const TOKEN = getLocalToken()
+        return axios.get(
+            'http://localhost:8000/lists/all', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${TOKEN}`,
+            },
+            withCredentials: true,
+        })
+            .then((response) => response.data)
+            .catch((error) => console.log(error));
     }
 };

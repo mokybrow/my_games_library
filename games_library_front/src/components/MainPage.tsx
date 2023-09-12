@@ -1,29 +1,44 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import '../styles/MainPage.css';
 
 export const MainPage = () => {
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <Link to='/one'>Page One</Link>
+      <header className="header">
+        <div className="top-left">
+          <Link to='/one' className="header-logo">Геймификация</Link>
+        </div>
+        <div className="header-menu menu">
+          <div className="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <nav className="menu-body">
+            <ul className="menu-list">
+              <li className="menu-item" id="menu-item-transition">
+                <Link to='/games' className="menu-link">Игры</Link>
+              </li>
+              <li className="menu-item" id="menu-item-transition">
+                <Link to='/lists/all' className="menu-link">Списки</Link>
+              </li>
+              <li className="menu-item" id="menu-item-transition">
+                <Link to='/news' className="menu-link">Новости</Link>
+              </li>
+              <li className="menu-item" id="menu-item-transition">
+                <Link to='/reviews' className="menu-link">Отзывы</Link>
+              </li>
+
+            </ul>
+          </nav>
+        </div>
+        <div className="social-icons">
+          <li className="menu-item" id="menu-item-transition">
+            <Link to='/login' className="menu-link">Log In</Link>
           </li>
-          <li>
-            <Link to='/two'>Page Two</Link>
-          </li>
-          <li>
-            <Link to='/login'>Login Page</Link>
-          </li>
-          <li>
-            <Link to='/sign_up'>SignUp Page</Link>
-          </li>
-          <li>
-            <Link to='/profile'>Profile</Link>
-          </li>
-        </ul>
-      </nav>
-      <hr />
+        </div>
+      </header>
       <Outlet />
     </>
   )

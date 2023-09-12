@@ -55,11 +55,6 @@ export const SignUpPage = () => {
                 />
 
 
-                <input placeholder='surname' type="text"
-                    value={surname}
-                    onChange={e => setSurname(e.target.value)}
-                />
-
                 <button type='submit'>SignUp</button>
             </form>
         </>

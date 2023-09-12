@@ -9,16 +9,20 @@ export const Profile = () => {
     const [user, setUser] = useState({
         "id": "",
         "email": "",
-        "is_active": true,
-        "is_superuser": false,
+        "is_active": "",
+        "is_superuser": "",
+        "is_verified": "",
         "username": "",
         "name": "",
-        "surname": ""
+        "surname": "",
+        "gender": "",
+        "birthdate": "",
     });
 
     useEffect(() => {
         const fetchData = async () => {
             const result = await api.getMe();
+            console.log(result)
             setUser(result);
 
         };
@@ -33,6 +37,7 @@ export const Profile = () => {
     return (
         <div className="container">
             <h1>{user.username}</h1>
+            <h1>{user.surname}</h1>
             <button onClick={callLogout}>Выход</button>
         </div>
     );
