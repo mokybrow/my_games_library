@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
+import { Link, Outlet, useParams } from 'react-router-dom';
 
 export const Profile = () => {
     const navigate = useNavigate();
+    const { usename } = useParams<{ usename?: string }>();
 
     const [user, setUser] = useState({
         "id": "",
@@ -21,14 +23,11 @@ export const Profile = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-        //   if (await api.isAuthenticated()){
             const result = await api.getUser();
             setUser(result);
-         // };
         };
         fetchData();
-      // eslint-disable-next-line
-      }, []);
+    }, []);
 
     const callLogout = async () => {
         api.logOut();

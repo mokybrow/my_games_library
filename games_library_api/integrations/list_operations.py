@@ -15,6 +15,7 @@ from games_library_api.schemas.database import (
     list_table,
     passed_game_table,
     passed_table,
+    user_table,
     wantplay_game_table,
     wantplay_table,
 )
@@ -53,12 +54,13 @@ async def get_list(db: AsyncSession) -> Any:
     return result.all()
 
 
-async def get_user_list(db: AsyncSession, user_id: UUID4) -> Any:
+async def get_user_list(db: AsyncSession, username: str) -> Any:
     query = select(
+        user_table.c.username,
         list_table.c.name,
         list_table.c.cover,
         list_table.c.description,
-    ).where(list_table.c.owner_id == user_id)
+    ).where(user_table.c.username == username)
     result = await db.execute(query)
 
     return result.all()
@@ -117,37 +119,37 @@ async def add_game_to_wantplay_list(list_id: UUID4, game_id: UUID4, db: AsyncSes
     return True
 
 
-async def get_wantplay_game(db: AsyncSession, user_id: UUID4) -> Any:
+async def get_wantplay_game(db: AsyncSession, username: str) -> Any:
     query = (
-        select(game_table.c.title, game_table.c.cover, game_table.c.slug)
+        select(user_table.c.username, game_table.c.title, game_table.c.slug, game_table.c.cover)
+        .where(user_table.c.username == username)
         .join(wantplay_table)
-        .filter(wantplay_table.c.user_id == user_id)
+        .join(wantplay_game_table)
         .join(game_table)
-        .filter(game_table.c.id == wantplay_game_table.c.game_id)
     )
     result = await db.execute(query)
     return result.all()
 
 
-async def get_liked_game(db: AsyncSession, user_id: UUID4) -> Any:
+async def get_passed_game(db: AsyncSession, username: str) -> Any:
     query = (
-        select(game_table.c.title, game_table.c.cover, game_table.c.slug)
-        .join(like_table)
-        .filter(like_table.c.user_id == user_id)
-        .join(game_table)
-        .filter(game_table.c.id == like_game_table.c.game_id)
-    )
-    result = await db.execute(query)
-    return result.all()
-
-
-async def get_passed_game(db: AsyncSession, user_id: UUID4) -> Any:
-    query = (
-        select(game_table.c.title, game_table.c.cover, game_table.c.slug)
+        select(user_table.c.username, game_table.c.title, game_table.c.slug, game_table.c.cover)
+        .where(user_table.c.username == username)
         .join(passed_table)
-        .filter(passed_table.c.user_id == user_id)
+        .join(passed_game_table)
         .join(game_table)
-        .filter(game_table.c.id == passed_game_table.c.game_id)
+    )
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_liked_game(db: AsyncSession, username: str) -> Any:
+    query = (
+        select(user_table.c.username, game_table.c.title, game_table.c.slug, game_table.c.cover)
+        .where(user_table.c.username == username)
+        .join(like_table)
+        .join(like_game_table)
+        .join(game_table)
     )
     result = await db.execute(query)
     return result.all()

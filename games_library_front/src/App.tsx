@@ -21,7 +21,7 @@ function App() {
         <Route path="news" element={<NewsPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="sign_up" element={<SignUpPage />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="/:id" element={<Profile />} />
         <Route path="lists/all" element={<AllLists />} />
         <Route path="reviews" element={<ReviewPage />} />
       </Routes>

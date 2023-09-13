@@ -12,17 +12,25 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.models import error_model, list_model
+from games_library_api.integrations.user_operations import get_user
+from games_library_api.models import error_model, list_model, users_model
 from games_library_api.schemas.user import User
 
 router = APIRouter()
 
 
-@router.get('/{username}')
-async def user_profile(username: str, user: User = Depends(current_active_user)) -> Any:
-    if username == user.username:
-        return {'Hello': f'{username} yor profile {user.username}'}
-    return {'Warning': 'is not your profile'}
+@router.get('/{username}', response_model=list[users_model.NonPublicUserResponseModel | error_model.ErrorResponseModel])
+async def user_profile(
+    username: str, db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
+) -> Any:
+    result = await get_user(username=username, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User does not exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result
 
 
 @router.get(
@@ -34,57 +42,52 @@ async def get_user_lists(
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    if username != user.username:
-        error = error_model.ErrorResponseModel(details='you cant see these lists')
+    result = await get_user_list(db=db, username=username)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    if username == user.username:
-        result = await get_user_list(db=db, user_id=user.id)
     return result
 
 
 @router.get(
     '/{username}/want_to_play',
-    response_model=list[list_model.WantPlayListResponseModel],
+    response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_wantplay_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    if username == user.username:
-        result = await get_wantplay_game(db=db, user_id=user.id)
+    result = await get_wantplay_game(db=db, username=username)
     return result
 
 
 @router.get(
     '/{username}/passed',
-    response_model=list[list_model.WantPlayListResponseModel],
+    response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_passed_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    if username == user.username:
-        result = await get_passed_game(db=db, user_id=user.id)
+    result = await get_passed_game(db=db, username=username)
     return result
 
 
 @router.get(
     '/{username}/like',
-    response_model=list[list_model.WantPlayListResponseModel],
+    response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_liked_game(
     username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    if username == user.username:
-        result = await get_liked_game(db=db, user_id=user.id)
-
+    result = await get_liked_game(db=db, username=username)
     return result
 
 

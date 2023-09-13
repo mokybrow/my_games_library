@@ -1,7 +1,9 @@
+import datetime
+
 from typing import Optional
 
 from fastapi import UploadFile
-from pydantic import BaseModel
+from pydantic import UUID4, BaseModel
 
 
 class CreateListResponseModel(BaseModel):
@@ -20,10 +22,11 @@ class ListResponseModel(BaseModel):
     description: str | None
 
 
-class WantPlayListResponseModel(BaseModel):
+class DefaultListResponseModel(BaseModel):
+    username: str
     title: str
-    cover: str
     slug: str
+    cover: Optional[str]
 
 
 class GetListsResponseModel(BaseModel):

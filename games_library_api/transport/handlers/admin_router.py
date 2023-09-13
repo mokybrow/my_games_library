@@ -43,7 +43,7 @@ async def add_game_router(
         slug=slug,
         release=release,
         platform=platform,
-        genre=genre
+        genre=genre,
     )
 
 
@@ -54,6 +54,3 @@ async def get_all_users_router(
 ) -> Any:
     result = await get_all_users(db=db)
     return result
-
-
-
