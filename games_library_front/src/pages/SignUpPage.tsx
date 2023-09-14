@@ -1,6 +1,5 @@
 import React, { SyntheticEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios';
 import { api } from '../api/api';
 
 
@@ -12,8 +11,6 @@ export const SignUpPage = () => {
     const [password, setPassword] = useState('')
     const [username, setUsername] = useState('')
     const [name, setName] = useState('')
-    const [surname, setSurname] = useState('')
-
     const navigate = useNavigate();
 
     const submitHandler = async (e: SyntheticEvent) => {

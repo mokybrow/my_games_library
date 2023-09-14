@@ -1,3 +1,4 @@
+import datetime
 from typing import Optional
 
 from pydantic import UUID4, BaseModel, EmailStr
@@ -10,7 +11,16 @@ class UserResponseModel(BaseModel):
     email: EmailStr
 
 
-class NonPublicUserResponseModel(BaseModel):
+class PublicUserResponseModel(BaseModel):
     name: str
     img: Optional[str]
     username: str
+
+
+class PrivateUserResponseModel(BaseModel):
+    name: str
+    surname: Optional[str]
+    img: Optional[str]
+    username: str
+    birthdate: Optional[datetime.date]
+    gender: Optional[str]

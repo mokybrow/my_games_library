@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
-import { Link, Outlet, useParams } from 'react-router-dom';
-
 export const Profile = () => {
     const navigate = useNavigate();
-    const { usename } = useParams<{ usename?: string }>();
 
     const [user, setUser] = useState({
         "id": "",

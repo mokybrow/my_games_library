@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import '../styles/MainPage.css';
-import { Profile } from './Profile';
 
-export const MainPage = () => {
+export const Header = () => {
   return (
     <>
       <header className="header">

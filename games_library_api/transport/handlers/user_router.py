@@ -12,14 +12,14 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import get_user
+from games_library_api.integrations.user_operations import get_another_user, get_user
 from games_library_api.models import error_model, list_model, users_model
 from games_library_api.schemas.user import User
 
 router = APIRouter()
 
 
-@router.get('/{username}', response_model=list[users_model.NonPublicUserResponseModel | error_model.ErrorResponseModel])
+@router.get('/{username}', response_model=list[users_model.PrivateUserResponseModel | users_model.PublicUserResponseModel  |users_model.PrivateUserResponseModel | error_model.ErrorResponseModel])
 async def user_profile(
     username: str, db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
 ) -> Any:
@@ -30,6 +30,10 @@ async def user_profile(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
+    if user.username != username:
+        result = await get_another_user(username=username, db=db)
+
+
     return result
 
 
