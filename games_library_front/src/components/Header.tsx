@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import '../styles/MainPage.css';
+import { HeaderProfileImg } from './HeaderProfileImg';
 
 export const Header = () => {
   return (
@@ -34,9 +35,10 @@ export const Header = () => {
           </nav>
         </div>
         <div className="social-icons">
-          <li className="menu-item" id="menu-item-transition">
-            <Link to='/login' className="menu-link">Log In</Link>
-          </li>
+          {/* <li className="menu-item" id="menu-item-transition"> */}
+            {/* <Link to='/login' className="menu-link">Log In</Link> */}
+            <HeaderProfileImg/>
+          {/* </li> */}
         </div>
       </header>
       <Outlet />

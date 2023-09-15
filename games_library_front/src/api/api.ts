@@ -48,8 +48,18 @@ export const api = {
             },
             withCredentials: true,
         })
-            .then((response) => response.data)
-            .catch((error) => console.log(error));
+            .then((response) => {return response.data})
+            .catch((error) => {return error.response.status});
+    },
+    async getPublicUser(user: string | undefined) {
+        return axios.get(
+            `http://localhost:8000/user/${user}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        }).then((response) => {return response.data[0]})
+        .catch((error) => {return error.response.status});
     },
     async logOut() {
         const TOKEN = getLocalToken()
