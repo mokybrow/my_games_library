@@ -6,8 +6,8 @@ from typing import Any
 from pydantic import UUID4
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from games_library_api.models.list_model import CreateListModel
 
+from games_library_api.models.list_model import CreateListModel
 from games_library_api.schemas.database import (
     game_table,
     like_game_table,
@@ -44,16 +44,23 @@ async def create_list(
     await db.commit()
     return True
 
-async def add_cover_to_list(    
+
+async def add_cover_to_list(
     db: AsyncSession,
     cover: str,
-    list_id: str,):
-    stmt = update(list_table).where(list_table.c.id ==list_id).values(
-        cover=cover,
+    list_id: str,
+):
+    stmt = (
+        update(list_table)
+        .where(list_table.c.id == list_id)
+        .values(
+            cover=cover,
+        )
     )
     await db.execute(stmt)
     await db.commit()
     return True
+
 
 async def get_list(db: AsyncSession) -> Any:
     query = select(list_table.c.name, list_table.c.cover).filter(list_table.c.is_private == False)

@@ -21,10 +21,7 @@ router = APIRouter()
 
 @router.get(
     '/{username}',
-    response_model=list[
-        users_model.PrivateUserResponseModel
-        | error_model.ErrorResponseModel
-    ],
+    response_model=list[users_model.PrivateUserResponseModel | error_model.ErrorResponseModel],
 )
 async def user_profile(
     username: str, db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
@@ -41,15 +38,12 @@ async def user_profile(
 
     return result
 
+
 @router.get(
     '/user/{username}',
-    response_model=list[users_model.PublicUserResponseModel
-        | error_model.ErrorResponseModel
-    ],
+    response_model=list[users_model.PublicUserResponseModel | error_model.ErrorResponseModel],
 )
-async def user_profile(
-    username: str, db: AsyncSession = Depends(get_async_session)
-) -> Any:
+async def user_profile(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user(username=username, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
@@ -58,6 +52,7 @@ async def user_profile(
             status_code=status.HTTP_404_NOT_FOUND,
         )
     return result
+
 
 @router.get(
     '/{username}/lists',

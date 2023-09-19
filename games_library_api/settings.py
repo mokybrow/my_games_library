@@ -6,9 +6,9 @@ from pydantic_settings import BaseSettings
 class Settings(
     BaseSettings,
 ):
-    project_name: str 
+    project_name: str
     database_url: str
-    secret:str
+    secret: str
     algoritm: str
 
     mail_username: str
@@ -20,6 +20,7 @@ class Settings(
     ver_body: str
     fog_pass: str
     res_pass: str
+
     class Config:
         env_prefix = 'GAMIFICATION_'
         env_file = '.env'

@@ -31,13 +31,8 @@ async def create_list_route(
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-
     # Обращение к базе данных
-    result = await create_list(
-        db=db,
-        owner_id=user.id,
-        new_list=new_list
-    )
+    result = await create_list(db=db, owner_id=user.id, new_list=new_list)
     if not result:
         return {'List alreay': 'exist'}
     return {'List created': 'success'}
@@ -56,11 +51,7 @@ async def create_list_route(
     if not cover:
         dest = None
     # Обращение к базе данных
-    result = await add_cover_to_list(
-        db=db,
-        list_id=list_id,
-        cover=dest
-    )
+    result = await add_cover_to_list(db=db, list_id=list_id, cover=dest)
     return {'List success updated': 'success'}
 
 
@@ -145,7 +136,6 @@ async def update_user_list_router(
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-
     # Обращение к базе данных
     result = await update_list(
         list_id=list_id,

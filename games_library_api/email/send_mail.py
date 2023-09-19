@@ -1,8 +1,8 @@
 import os
 
 from typing import Any
-from fastapi import BackgroundTasks
 
+from fastapi import BackgroundTasks
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
 from pydantic import BaseModel, EmailStr
 from starlette.responses import JSONResponse
@@ -30,11 +30,7 @@ conf = ConnectionConfig(
 async def sending_mail(email: str, subject: str, body: str) -> JSONResponse:
     html = f"""<p>{body}</p> """
 
-    message = MessageSchema(
-        subject=subject,
-        recipients=[email],
-        body=html,
-        subtype=MessageType.html)
+    message = MessageSchema(subject=subject, recipients=[email], body=html, subtype=MessageType.html)
 
     fm = FastMail(conf)
     await fm.send_message(message)

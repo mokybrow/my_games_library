@@ -1,12 +1,11 @@
 import uuid
-from fastapi import Depends
 
+from fastapi import Depends
 from sqlalchemy import UUID, insert
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from games_library_api.database import async_session_maker
-
 from games_library_api.schemas.database import like_table, passed_table, wantplay_table
-
 
 
 async def create_default_lists(user_id: UUID):
