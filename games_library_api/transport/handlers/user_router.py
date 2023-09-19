@@ -1,7 +1,8 @@
 from typing import Any
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Body, Depends, status
 from fastapi.responses import JSONResponse
+from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
@@ -12,7 +13,7 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import get_another_user, get_user
+from games_library_api.integrations.user_operations import follow_on_user, get_another_user, get_user
 from games_library_api.models import error_model, list_model, users_model
 from games_library_api.schemas.user import User
 
@@ -117,3 +118,12 @@ async def get_user_liked_game(
 )
 async def get_user_list_page(username: str, list_name: str) -> Any:
     return None
+
+
+@router.post('/follow_to/{user_id}')
+async def follow_to(user_id: str, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session),):
+    result = await follow_on_user(follower_id=user.id, user_id=user_id, db=db)
+    if not result:
+        return False
+    
+    return True

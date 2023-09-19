@@ -7,7 +7,7 @@ from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import AuthenticationBackend, CookieTransport, JWTStrategy
 from fastapi_users.db import SQLAlchemyUserDatabase
-
+from fastapi_users.authentication import BearerTransport
 from games_library_api.database import get_user_db
 from games_library_api.email.send_mail import sending_mail
 from games_library_api.integrations.after_registration import create_default_lists
@@ -38,7 +38,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     async def on_after_request_verify(self, user: User, token: str, request: Optional[Request] = None):
         await sending_mail(
-            email=user.email, subject='Спасибо за регистрацию в GAMIFICATION', body=f'{settings.ver_body} + {token}'
+            email=user.email, subject='Подтверждение почты в GAMIFICATION', body=f'{settings.ver_body} + {token}'
         )
         print(f"Verification requested for user {user.id}. Verification token: {token}")
 
@@ -50,16 +50,15 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
     yield UserManager(user_db)
 
 
-cookie_transport = CookieTransport(cookie_name='gamification', cookie_max_age=3600)
-
+bearer_transport = BearerTransport(tokenUrl="auth/login")
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=settings.secret, lifetime_seconds=3600)
+    return JWTStrategy(secret=settings.secret, lifetime_seconds=None)
 
 
 auth_backend = AuthenticationBackend(
     name='jwt',
-    transport=cookie_transport,
+    transport=bearer_transport,
     get_strategy=get_jwt_strategy,
 )
 
