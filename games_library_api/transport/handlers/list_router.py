@@ -8,6 +8,7 @@ from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.after_registration import create_default_lists
 from games_library_api.integrations.list_operations import (
+    add_cover_to_list,
     add_game_to_liked_list,
     add_game_to_passed_list,
     add_game_to_user_list,
@@ -24,12 +25,28 @@ from games_library_api.services.cover_upload import save_upload_cover
 router = APIRouter()
 
 
-@router.post('/lists/create/')
+@router.post('/list/create/')
 async def create_list_route(
-    name: str,
+    new_list: list_model.CreateListModel,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+):
+
+    # Обращение к базе данных
+    result = await create_list(
+        db=db,
+        owner_id=user.id,
+        new_list=new_list
+    )
+    if not result:
+        return {'List alreay': 'exist'}
+    return {'List created': 'success'}
+
+
+@router.post('/list/add_cover/')
+async def create_list_route(
+    list_id: UUID4,
     cover: UploadFile = None,
-    description: str | None = None,
-    is_private: bool = False,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
@@ -39,28 +56,18 @@ async def create_list_route(
     if not cover:
         dest = None
     # Обращение к базе данных
-    result = await create_list(
+    result = await add_cover_to_list(
         db=db,
-        owner_id=user.id,
-        name=name,
-        cover=dest,
-        description=description,
-        is_private=is_private,
+        list_id=list_id,
+        cover=dest
     )
-    if not result:
-        return {'List alreay': 'exist'}
-    return {'List created': 'success'}
+    return {'List success updated': 'success'}
 
 
 @router.get('/lists/all/', response_model=list[list_model.GetListsResponseModel])
 async def get_all_lists(db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_list(db=db)
     return result
-
-
-@router.post('/lists/create_default_list')
-async def create_default_list_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)):
-    await create_default_lists(user_id=user_id, db=db)
 
 
 @router.post('/lists/add_game_to_user_list')
@@ -134,25 +141,15 @@ async def delete_user_list_router(
 @router.patch('/list/update_list/')
 async def update_user_list_router(
     list_id: UUID4,
-    name: str | None = None,
-    new_cover: UploadFile = None,
-    description: str | None = None,
-    is_private: bool = False,
+    new_list: list_model.CreateListModel,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    if new_cover:
-        dest = save_upload_cover(new_cover)
 
-    if not new_cover:
-        dest = None
     # Обращение к базе данных
     result = await update_list(
         list_id=list_id,
-        name=name,
-        cover=dest,
-        description=description,
-        is_private=is_private,
+        new_list=new_list,
         db=db,
     )
 

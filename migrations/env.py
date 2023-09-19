@@ -3,20 +3,20 @@ import os
 from logging.config import fileConfig
 
 from alembic import context
-from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
 from games_library_api.schemas.database import metadata
+from games_library_api.settings import get_settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-load_dotenv()
+settings = get_settings()
 
 config = context.config
 
 
 section = config.config_ini_section
-config.set_section_option(section, 'DATABASE_URL', os.environ.get('DATABASE_URL'))
+config.set_section_option(section, 'DATABASE_URL', settings.database_url)
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:

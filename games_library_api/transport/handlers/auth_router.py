@@ -28,7 +28,3 @@ router.include_router(
     prefix='/users',
 )
 
-
-@router.get('/check/authenticated-route')
-async def authenticated_route(user: User = Depends(current_active_user)) -> dict:
-    return {'message': f'Hello {user.email}!'}

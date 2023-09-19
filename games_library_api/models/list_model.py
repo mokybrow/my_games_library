@@ -6,14 +6,14 @@ from fastapi import UploadFile
 from pydantic import UUID4, BaseModel
 
 
-class CreateListResponseModel(BaseModel):
+class CreateListModel(BaseModel):
     name: str
     description: str | None
     is_private: bool
 
 
-class CreateListCoverResponseModel(CreateListResponseModel):
-    cover: UploadFile | None
+class AddListCoverModel(BaseModel):
+    cover: Optional[UploadFile]
 
 
 class ListResponseModel(BaseModel):

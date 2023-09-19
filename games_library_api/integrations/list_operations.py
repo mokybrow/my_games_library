@@ -6,6 +6,7 @@ from typing import Any
 from pydantic import UUID4
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
+from games_library_api.models.list_model import CreateListModel
 
 from games_library_api.schemas.database import (
     game_table,
@@ -25,28 +26,34 @@ from games_library_api.services.list_slug import making_slug
 async def create_list(
     db: AsyncSession,
     owner_id: UUID4,
-    name: str,
-    cover: str,
-    description: str,
-    is_private: bool,
+    new_list: CreateListModel,
 ) -> bool:
-    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(name))
+    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(new_list.name))
     result = await db.execute(query)
     if result.all():
         return False
     stmt = insert(list_table).values(
         id=uuid.uuid4(),
         owner_id=owner_id,
-        name=name,
-        slug=await making_slug(name),
-        cover=cover,
-        description=description,
-        is_private=is_private,
+        name=new_list.name,
+        slug=await making_slug(new_list.name),
+        description=new_list.description,
+        is_private=new_list.is_private,
     )
     await db.execute(stmt)
     await db.commit()
     return True
 
+async def add_cover_to_list(    
+    db: AsyncSession,
+    cover: str,
+    list_id: str,):
+    stmt = update(list_table).where(list_table.c.id ==list_id).values(
+        cover=cover,
+    )
+    await db.execute(stmt)
+    await db.commit()
+    return True
 
 async def get_list(db: AsyncSession) -> Any:
     query = select(list_table.c.name, list_table.c.cover).filter(list_table.c.is_private == False)
@@ -164,12 +171,9 @@ async def delete_user_list(db: AsyncSession, list_id: UUID4) -> None:
 async def update_list(
     list_id: UUID4,
     db: AsyncSession,
-    name: str,
-    cover: str,
-    description: str,
-    is_private: bool,
+    new_list: CreateListModel,
 ) -> bool:
-    query = select(list_table).filter(list_table.c.slug == await making_slug(name))
+    query = select(list_table).filter(list_table.c.slug == await making_slug(new_list.name))
     result = await db.execute(query)
     if result.all():
         return False
@@ -177,11 +181,10 @@ async def update_list(
     stmt = (
         update(list_table)
         .values(
-            name=name,
-            slug=await making_slug(name),
-            cover=cover,
-            description=description,
-            is_private=is_private,
+            name=new_list.name,
+            slug=await making_slug(new_list.name),
+            description=new_list.description,
+            is_private=new_list.is_private,
         )
         .where(list_table.c.id == list_id)
     )

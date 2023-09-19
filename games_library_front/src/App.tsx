@@ -1,34 +1,26 @@
 import React from 'react';
+import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { GamesPage } from './pages/GamesPage';
-import { NewsPage } from './pages/NewsPage';
-import { LoginPage } from './pages/LoginPage';
-import { SignUpPage } from './pages/SignUpPage';
-import { Profile } from './pages/Profile';
-import { AllLists } from './pages/AllLists';
-import { ReviewPage } from './pages/ReviewPage';
-import { Header } from './components/Header';
-import { MainPage } from './pages/MainPage';
 
 function App() {
-
   return (
-    <BrowserRouter>
-    <Header/>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="games" element={<GamesPage />} />
-        <Route path="news" element={<NewsPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="sign_up" element={<SignUpPage />} />
-        <Route path="/:username" element={<Profile />} />
-        <Route path="lists/all" element={<AllLists />} />
-        <Route path="reviews" element={<ReviewPage />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
-
 
 export default App;
