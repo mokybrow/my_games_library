@@ -1,19 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { MainPage } from './pages/MainPage';
-import { AdminDashboard } from './pages/AdminDashboard';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { HomeScreen } from './screens/HomeScreen';
+import { SignupScreen } from './screens/SignupScreen';
+import { LoginScreen } from './screens/LoginScreen';
+import { api } from './api/api';
+
 
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<MainPage/>}/>
-        <Route path='/admin' element={<AdminDashboard/>}/>
+  const [firstName, setFirstName] = useState('')
 
-      </Routes>
-    </BrowserRouter>
+  useEffect(()=>{
+    (
+    async ()=>{
+      const response = await api.getUser()
+
+      if(response.status != 0){
+      const data = response.data
+      setFirstName(data.name)
+      }else{
+        setFirstName('John Doe')
+      }
+    })
+    ()
+  })
+  return (
+
+    <>
+      <BrowserRouter>
+        <Header firstName={firstName} setFirstName={setFirstName}/>
+        <h1>Hello</h1>
+        <Routes>
+          <Route path='/' Component={() => <HomeScreen firstName={firstName}/>} />
+          <Route path='/signup' Component={SignupScreen} />
+          <Route path='/login' Component={LoginScreen} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </>
   );
 }
 

@@ -1,19 +1,17 @@
-import os
-
 from collections.abc import AsyncGenerator
 from typing import Any
 
-from dotenv import load_dotenv
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from games_library_api.schemas.user import User
+from games_library_api.settings import get_settings
 
-load_dotenv()
+settings = get_settings()
 
 
-engine = create_async_engine(os.environ.get('DATABASE_URL'))
+engine = create_async_engine(settings.database_url)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
