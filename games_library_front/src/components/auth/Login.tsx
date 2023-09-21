@@ -10,13 +10,19 @@ export const Login = () => {
     let navigate = useNavigate();
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
-        const response = await api.logInGetToken(email, password)
-        console.log(response.data.access_token)
-        const token = response.data.access_token
-        if (token){
-            saveLocalToken(token);
-            navigate("/");
+        try {
+            const response = await api.logInGetToken(email, password)
+            console.log(response.data.access_token)
+            const token = response.data.access_token
+            if (token) {
+                saveLocalToken(token);
+                navigate("/");
+            }
+        } catch (err) {
+            console.log("login error");
         }
+
+
     }
     return (
         <div>

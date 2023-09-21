@@ -16,14 +16,13 @@ function App() {
   useEffect(()=>{
     (
     async ()=>{
+      try {
       const response = await api.getUser()
-
-      if(response.status != 0){
       const data = response.data
       setFirstName(data.name)
-      }else{
-        setFirstName('John Doe')
-      }
+      }catch (err) {
+        console.log("login error");
+    }
     })
     ()
   })
