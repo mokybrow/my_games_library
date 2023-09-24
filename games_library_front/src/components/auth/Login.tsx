@@ -17,6 +17,7 @@ export const Login = () => {
             if (token) {
                 saveLocalToken(token);
                 navigate("/");
+                window.location.reload()
             }
         } catch (err) {
             console.log("login error");

@@ -2,7 +2,7 @@ import axios from "axios";
 import { getLocalToken } from "./utils";
 
 export const api = {
-    async SignupGetToken(email: string, password: string, username:string, name: string) {
+    async SignupGetToken(email: string, password: string, username: string, name: string) {
         return axios.post('http://localhost:8000/auth/register', {
             email: email,
             username: username,
@@ -38,12 +38,17 @@ export const api = {
     async Logout() {
         const TOKEN = getLocalToken()
         return axios.post('http://localhost:8000/auth/logout',
-        null,
-        {
-            headers: {
-                'Authorization': `Bearer ${TOKEN}`,
-            },
-        }
-    )
+            null,
+            {
+                headers: {
+                    'Authorization': `Bearer ${TOKEN}`,
+                },
+            }
+        )
+    },
+    async User(username: string) {
+        return axios.get(`http://localhost:8000/user/${username}`,
+
+        )
     },
 }

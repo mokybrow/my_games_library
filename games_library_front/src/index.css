@@ -18,7 +18,7 @@ body.lock {
 
 .header {
   font-family: 'Inter', sans-serif;
-  height: 90px;
+  height: 60px;
   padding: 4vh 14vw;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -44,7 +44,7 @@ body.lock {
   text-transform: uppercase;
   padding: 5px;
   text-decoration: none;
-  font-size: 32px;
+  font-size: 24px;
   color: rgba(39, 41, 43, 1);
 }
 
@@ -74,6 +74,9 @@ body.lock {
 #menu-item-transition:hover {
   transition: all 0.4s;
   opacity: 1;
+}
+.social-icons{
+  font-size: 20px;
 }
 
 @media (max-width: 1023px) {
@@ -211,7 +214,7 @@ body.lock {
 
 }
 
-.menu-link:after {
+/* .menu-link:after {
   background-color: #000000;
   display: block;
   content: "";
@@ -220,7 +223,7 @@ body.lock {
   -webkit-transition: width .3s ease-in-out;
   -moz--transition: width .3s ease-in-out;
   transition: width .3s ease-in-out;
-} 
+}  */
 
 .menu-link,
 :hover:after,

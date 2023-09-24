@@ -7,35 +7,38 @@ import { HomeScreen } from './screens/HomeScreen';
 import { SignupScreen } from './screens/SignupScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import { api } from './api/api';
+import { ProfileScreen } from './screens/ProfileScreen';
 
 
 
 function App() {
+  
   const [firstName, setFirstName] = useState('')
 
-  useEffect(()=>{
+  useEffect(() => {
     (
-    async ()=>{
-      try {
-      const response = await api.getUser()
-      const data = response.data
-      setFirstName(data.name)
-      }catch (err) {
-        console.log("login error");
-    }
-    })
-    ()
+      async () => {
+        try {
+          const response = await api.getUser()
+          const data = response.data
+          setFirstName(data.name)
+        } catch (err) {
+          console.log("login error");
+        }
+      })
+      ()
   })
   return (
 
     <>
       <BrowserRouter>
-        <Header firstName={firstName} setFirstName={setFirstName}/>
+        <Header firstName={firstName} setFirstName={setFirstName} />
         <h1>Hello</h1>
         <Routes>
-          <Route path='/' Component={() => <HomeScreen firstName={firstName}/>} />
+          <Route path='/' Component={() => <HomeScreen firstName={firstName} />} />
           <Route path='/signup' Component={SignupScreen} />
           <Route path='/login' Component={LoginScreen} />
+          <Route path='/:username' Component={ProfileScreen} />
         </Routes>
         <Footer />
       </BrowserRouter>
