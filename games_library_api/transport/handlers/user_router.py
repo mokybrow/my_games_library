@@ -41,8 +41,7 @@ async def user_profile(
 
 
 @router.get(
-    '/user/{username}',
-    response_model=list[users_model.PublicUserResponseModel | error_model.ErrorResponseModel],
+    '/user/{username}', response_model=users_model.PrivateUserResponseModel
 )
 async def user_profile(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user(username=username, db=db)
@@ -52,12 +51,12 @@ async def user_profile(username: str, db: AsyncSession = Depends(get_async_sessi
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    return result
+    return result[0]
 
 
 @router.get(
     '/{username}/lists',
-    response_model=list[list_model.ListResponseModel] | error_model.ErrorResponseModel,
+    response_model=list_model.ListResponseModel
 )
 async def get_user_lists(
     username: str,
@@ -66,17 +65,17 @@ async def get_user_lists(
 ) -> Any:
     result = await get_user_list(db=db, username=username)
     if not result:
-        error = error_model.ErrorResponseModel(details='User does not exist')
+        error = error_model.ErrorResponseModel(details='User have no lists')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    return result
+    return result[0]
 
 
 @router.get(
     '/{username}/want_to_play',
-    response_model=list[list_model.DefaultListResponseModel],
+    response_model=list_model.DefaultListResponseModel,
 )
 async def get_user_wantplay_game(
     username: str,
@@ -84,12 +83,18 @@ async def get_user_wantplay_game(
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
     result = await get_wantplay_game(db=db, username=username)
-    return result
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no games')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result[0]
 
 
 @router.get(
     '/{username}/passed',
-    response_model=list[list_model.DefaultListResponseModel],
+    response_model=list_model.DefaultListResponseModel,
 )
 async def get_user_passed_game(
     username: str,
@@ -97,12 +102,18 @@ async def get_user_passed_game(
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
     result = await get_passed_game(db=db, username=username)
-    return result
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no games')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result[0]
 
 
 @router.get(
     '/{username}/like',
-    response_model=list[list_model.DefaultListResponseModel],
+    response_model=list_model.DefaultListResponseModel,
 )
 async def get_user_liked_game(
     username: str,
@@ -110,7 +121,13 @@ async def get_user_liked_game(
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
     result = await get_liked_game(db=db, username=username)
-    return result
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no games')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result[0]
 
 
 @router.get(

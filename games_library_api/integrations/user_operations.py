@@ -16,7 +16,7 @@ async def check_username_in_db(username: str, db: AsyncSession):
     return True
 
 
-async def get_user(username: str, db: AsyncSession) -> Any:
+async def get_user(username: str, db: AsyncSession) -> dict:
     query = select(
         user_table.c.name,
         user_table.c.surname,

@@ -33,12 +33,12 @@ function App() {
     <>
       <BrowserRouter>
         <Header firstName={firstName} setFirstName={setFirstName} />
-        <h1>Hello</h1>
         <Routes>
           <Route path='/' Component={() => <HomeScreen firstName={firstName} />} />
           <Route path='/signup' Component={SignupScreen} />
           <Route path='/login' Component={LoginScreen} />
           <Route path='/:username' Component={ProfileScreen} />
+
         </Routes>
         <Footer />
       </BrowserRouter>

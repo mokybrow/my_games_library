@@ -13,16 +13,18 @@ export const ProfileScreen = () => {
         try {
           const response = await api.User(String(username))
           const response2 = await api.getUser()
-          // const data = response.data
-          // console.log(response.data[0].username)
-
-          setUserName(response.data[0].username)
+          setUserName(response.data.username)
           if (response2.data.username == username) {
             console.log('aaa')
           }
+          else{
+            setUserName('Такого чувака нет')
+          }
 
         } catch (err) {
+          setUserName('Такого чувака нет')
           console.log("login error");
+          console.log(err)
         }
       })
       ()

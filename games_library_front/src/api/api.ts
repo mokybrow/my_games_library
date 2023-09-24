@@ -1,5 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { getLocalToken } from "./utils";
+import { User } from "../models/user";
+
 
 export const api = {
     async SignupGetToken(email: string, password: string, username: string, name: string) {
@@ -52,3 +54,4 @@ export const api = {
         )
     },
 }
+
