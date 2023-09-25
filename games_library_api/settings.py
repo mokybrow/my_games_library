@@ -2,22 +2,28 @@ from functools import lru_cache
 
 from pydantic_settings import BaseSettings
 
-from fastapi.templating import Jinja2Templates
-
 
 class Settings(
     BaseSettings,
 ):
-    project_name: str = "My Games Library"
+    project_name: str
+    database_url: str
+    secret: str
+    algoritm: str
 
-    # project_name: str
-    # debug: bool
-    # states_path: FilePath
-    # database_url = os.environ.get('DATABASE_URL')
+    mail_username: str
+    mail_password: str
+    mail_from: str
+    mail_server: str
+
+    reg_body: str
+    ver_body: str
+    fog_pass: str
+    res_pass: str
+
     class Config:
-        env_prefix = "QUICK_SUPPORT_"
-        env_file = ".env"
-        # allow_mutation = False
+        env_prefix = 'GAMIFICATION_'
+        env_file = '.env'
 
 
 @lru_cache

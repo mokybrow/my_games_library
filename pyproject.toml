@@ -9,17 +9,120 @@ packages = [{include = "my_games_library"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.101.1"}
-sqlalchemy = "^2.0.20"
+sqlalchemy = {extras = ["mypy"], version = "^2.0.20"}
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 alembic = "^1.11.3"
 aiosqlite = "^0.19.0"
 asyncpg = "^0.28.0"
 fastapi-users = {extras = ["sqlalchemy"], version = "^12.1.1"}
-requests = "^2.31.0"
 fastapi-mail = "^1.4.1"
+isort = "^5.12.0"
+black = "^23.7.0"
+pre-commit = "^3.3.3"
+ruff = "^0.0.286"
+mypy = "^1.5.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+\.git
+| \.mypy_cache
+| \.pytest_cache
+| \.venv
+| \.vscode
+| \.idea
+)
+'''
+
+
+[tool.mypy]
+strict = true
+
+
+[[tool.mypy.overrides]]
+module = "fastapi.concurrency"
+warn_unused_ignores = false
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "fastapi.tests.*"
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.isort]
+line_length = 120
+force_grid_wrap = 0
+multi_line_output = 3
+use_parentheses = true
+include_trailing_comma = true
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+lines_between_types = 1
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+exclude = [
+".venv",
+]
+select = [
+"F", # Pyflakes
+"E", # pycodestyle
+"C90", # mccabe
+# "I", # isort
+# "N", # pep8-naming
+# "D", # pydocstyle
+"UP", # pyupgrade
+"YTT", # flake8-2020
+# "ANN", # flake8-annotations
+# "S", # flake8-bandit
+# "BLE", # flake8-blind-except
+# "FBT", # flake8-boolean-trap
+"B", # flake8-bugbear
+# "A", # flake8-builtins
+"COM", # flake8-commas
+# "C4", # flake8-comprehensions
+# "DTZ", # flake8-datetimez
+"T10", # flake8-debugger
+# "EM", # flake8-errmsg
+"EXE", # flake8-executable
+"ISC", # flake8-implicit-str-concat
+# "ICN", # flake8-import-conventions
+"G", # flake8-logging-format
+"INP", # flake8-no-pep420
+# "PIE", # flake8-pie
+"T20", # flake8-print
+# "PT", # flake8-pytest-style
+# "Q", # flake8-quotes
+# "RET", # flake8-return
+# "SIM", # flake8-simplify
+"TID", # flake8-tidy-imports
+# "TCH", # flake8-type-checking
+# "ARG", # flake8-unused-arguments
+"PTH", # flake8-use-pathlib
+"ERA", # eradicate
+# "PD", # pandas-vet
+# "PGH", # pygrep-hooks
+# "PL", # Pylint
+# "TRY", # tryceratops
+"RSE", # flake8-raise
+"SLF", # flake8-self
+"RUF", # Ruff-specific rules
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "RUF001",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 20
