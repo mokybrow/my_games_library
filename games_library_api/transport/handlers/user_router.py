@@ -22,7 +22,7 @@ router = APIRouter()
 
 @router.get(
     '/{username}',
-    response_model=list[users_model.PrivateUserResponseModel | error_model.ErrorResponseModel],
+    response_model=users_model.PrivateUserResponseModel ,
 )
 async def user_profile(
     username: str, db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
@@ -37,7 +37,7 @@ async def user_profile(
     if user.username != username:
         result = await get_another_user(username=username, db=db)
 
-    return result
+    return result[0]
 
 
 @router.get(
