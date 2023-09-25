@@ -2,23 +2,28 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Store from './store/store';
+import AuthStore from './store/auth_store';
+import UserStore from './store/user_store';
 
 interface State{
-  store: Store
+  auth_store: AuthStore
+  user_store: UserStore
 }
 
-const store = new Store();
+const auth_store = new AuthStore();
+const user_store = new UserStore();
 
 export const Context = createContext<State>({
-  store,
+  auth_store: auth_store,
+  user_store: user_store,
+
 })
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Context.Provider value={{store}}>
+  <Context.Provider value={{auth_store: auth_store, user_store: user_store}}>
     <App />
   </Context.Provider>
 );

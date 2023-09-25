@@ -5,19 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import RegForm from '../components/RegForm';
 
 const RegPage = () => {
-  const { store } = useContext(Context);
+  const { auth_store } = useContext(Context);
   let navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      store.checkAuth()
+      auth_store.checkAuth()
     }
   }, [])
 
-  if (store.isLoading) {
+  if (auth_store.isLoading) {
     return <div>Loading...</div>
   }
-  if (store.isAuth) {
+  if (auth_store.isAuth) {
     navigate("/");
   } else {
     return (<RegForm />)

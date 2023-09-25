@@ -1,15 +1,15 @@
 import { makeAutoObservable } from "mobx";
 import { AUser, IUser } from "../models/response";
 import AuthService from "../service/AuthService";
-import {  removeLocalToken, saveLocalToken } from "../utils/utils";
+import { removeLocalToken, saveLocalToken } from "../utils/utils";
 import { AxiosError } from "axios";
 
 
-export default class Store {
+export default class AuthStore {
     user = {} as IUser;
     isAuth = false;
     isLoading = false;
-    anotherUser = {} as AUser;
+
 
     constructor() {
         makeAutoObservable(this);
@@ -23,14 +23,11 @@ export default class Store {
         this.user = user;
     }
 
-    setAUser(user: AUser) {
-        this.anotherUser = user;
-    }
-
-
     setLoading(bool: boolean) {
         this.isLoading = bool;
     }
+
+
 
     async login(username: string, password: string) {
         try {
@@ -39,9 +36,9 @@ export default class Store {
             saveLocalToken(response.data.access_token);
             this.setAuth(true);
             const getMe = await AuthService.getMe();
-
-            this.setUser(getMe.data)
+            this.setUser(getMe.data);
         } catch (e) {
+
             console.log("login error");
         }
 
@@ -50,7 +47,6 @@ export default class Store {
     async registr(email: string, password: string, username: string, name: string) {
         try {
             const response = await AuthService.registration(email, password, username, name);
-            console.log(response.data)
             this.setAuth(true);
         } catch (e) {
             console.log("login error");
@@ -63,6 +59,7 @@ export default class Store {
             await AuthService.logout();
             removeLocalToken()
             this.setAuth(false);
+            window.location.reload()
         } catch (e) {
             console.log("login error");
         }
@@ -74,27 +71,11 @@ export default class Store {
         try {
             const response = await AuthService.getMe();
             this.setUser(response.data)
-            console.log(response.data)
-            this.setAuth(true);
+            this.setAuth(true);    
         } catch (error) {
             console.log(error);
         } finally {
             this.setLoading(false);
         }
     }
-
-    async CheckMyProfile(username: string){
-        this.setLoading(true);
-        try {
-            const me = await AuthService.getMe();
-            const user = await AuthService.getUser(username);
-            this.setAUser(user.data)
-            this.setUser(me.data)
-        } catch (error) {
-            const err = error as AxiosError
-        }finally {
-            this.setLoading(false);
-        }
-    }
-
 }

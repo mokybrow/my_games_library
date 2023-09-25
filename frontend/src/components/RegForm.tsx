@@ -10,7 +10,7 @@ const RegForm: FC = () => {
     const [username, setUsername] = useState<string>('');
     const [name, setName] = useState<string>('');
 
-    const {store} = useContext(Context);
+    const {auth_store} = useContext(Context);
 
     return (
         <div>
@@ -31,7 +31,7 @@ const RegForm: FC = () => {
                     <label htmlFor="name">name</label>
                     <input name="name" placeholder='name' type="text" value={name} onChange={e => setName(e.target.value)} />
                 </div>
-                <button onClick={()=> store.registr(email, password, username, name)}>Login</button>
+                <button onClick={()=> auth_store.registr(email, password, username, name)}>Login</button>
 
         </div>
     )

@@ -1,38 +1,37 @@
 import React, { useContext, useEffect } from 'react';
 import './App.css';
 import { Context } from '.';
-import { observer } from 'mobx-react-lite';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegPage from './pages/RegPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
-import  Header  from './components/Header';
+import Header from './components/Header';
 
 function App() {
-  const { store } = useContext(Context);
+  const { auth_store } = useContext(Context);
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      store.checkAuth()
+      auth_store.checkAuth()
     }
   }, [])
 
 
   return (
     <>
-    
-      <BrowserRouter>
-      <Header/>
+      <Router>
+        <Header />
         <Routes>
-          <Route path='/' Component={HomePage} />
-          <Route path='/signup' Component={RegPage} />
-          <Route path='/login' Component={LoginPage} />
-          <Route path='/:username' Component={ProfilePage} />
+          <Route path='/' element={<HomePage/>} />
+          <Route path='/signup' element={<RegPage/>} />
+          <Route path='/login' element={<LoginPage/>} />
+          <Route path='/:username' element={<ProfilePage/>} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   );
+
 }
 
-export default observer(App);
+export default App;
