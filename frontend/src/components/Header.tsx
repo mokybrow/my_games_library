@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 
@@ -7,18 +7,13 @@ import { observer } from 'mobx-react-lite';
 
 
 const Header: FC = () => {
-    const { store } = useContext(Context);
-    let navigate = useNavigate();
+    const { auth_store } = useContext(Context);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            store.checkAuth()
+            auth_store.checkAuth()
         }
     }, [])
-
-    if (!store.isAuth) {
-        navigate("/login");
-    }
 
     return (
         <>
@@ -27,12 +22,14 @@ const Header: FC = () => {
                     <li>
                         <Link to='/'>Home</Link>
                     </li>
-                    <li>
-                        <Link to={'/' + store.user.username}>Profile</Link>
-                    </li>
-                    <li>
-                        <button onClick={() => store.logout()}>Выход</button>
-                    </li>
+                    {auth_store.isAuth ? <><li>
+                        <Link to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
+                    </li> </>: null}
+
+                    {auth_store.isAuth ? <><li>
+                        <button onClick={() => auth_store.logout()}>Выход</button>
+                    </li> </> : <><Link to={'/login'}>Войти</Link>/<Link to={'/signup'}>Зарегистрироваться</Link></>}
+
                 </ul>
             </nav>
             <hr />
