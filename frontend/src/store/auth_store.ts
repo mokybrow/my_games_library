@@ -37,6 +37,7 @@ export default class AuthStore {
             this.setAuth(true);
             const getMe = await AuthService.getMe();
             this.setUser(getMe.data);
+            return 'success'
         } catch (e) {
 
             console.log("login error");
@@ -57,9 +58,10 @@ export default class AuthStore {
     async logout() {
         try {
             await AuthService.logout();
-            removeLocalToken()
+            removeLocalToken();
             this.setAuth(false);
-            window.location.reload()
+            this.setUser({} as IUser);
+            window.location.reload();
         } catch (e) {
             console.log("login error");
         }

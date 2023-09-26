@@ -19,7 +19,6 @@ const ProfilePage: FC = () => {
   }, [])
 
   if (!auth_store.isAuth) {
-    user_store.FindUser(String(username))
     return (
       <>{user_store.anotherUser.username}</>
     )
@@ -33,7 +32,7 @@ const ProfilePage: FC = () => {
   if (auth_store.isAuth && auth_store.user.username !== user_store.anotherUser.username) {
     console.log('Kak by goida', auth_store.user.username)
     return (
-      
+
       <>
         <div>{user_store.anotherUser.username}</div>
       </>
