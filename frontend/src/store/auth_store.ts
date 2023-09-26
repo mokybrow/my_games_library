@@ -10,6 +10,7 @@ export default class AuthStore {
     isAuth = false;
     isLoading = false;
 
+    loginError = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -27,7 +28,9 @@ export default class AuthStore {
         this.isLoading = bool;
     }
 
-
+    setLoginError(bool: boolean) {
+        this.loginError = bool;
+    }
 
     async login(username: string, password: string) {
         try {
@@ -37,9 +40,10 @@ export default class AuthStore {
             this.setAuth(true);
             const getMe = await AuthService.getMe();
             this.setUser(getMe.data);
+            this.setLoginError(false);
             return 'success'
         } catch (e) {
-
+            this.setLoginError(true);
             console.log("login error");
         }
 
