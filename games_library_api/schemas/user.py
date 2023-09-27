@@ -14,7 +14,7 @@ class Base(DeclarativeBase):
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    username = Column(String, nullable=False)
+    username = Column(String, nullable=False, unique=True)
     name = Column(String, nullable=False)
     surname = Column(String, nullable=True)
     birthdate = Column(Date, nullable=True, default=None)
@@ -23,27 +23,23 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
-    username: str
-    name: str
+    name: str    
     surname: Optional[str]
     birthdate: Optional[datetime.date]
     gender: Optional[str]
-    pass
+
 
 
 class UserCreate(schemas.BaseUserCreate):
-    username: str
     name: str
     # surname: Optional[str]
     # birthdate: Optional[datetime.date]
     # gender: Optional[str]
-    pass
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    username: Optional[str]
     name: Optional[str]
     surname: Optional[str]
     birthdate: Optional[datetime.date]
     gender: Optional[str]
-    pass
+

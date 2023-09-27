@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { useContext, useEffect } from 'react'
+import { FC, useContext, useEffect } from 'react'
 import { Context } from '..';
 import { useNavigate } from 'react-router-dom';
 import RegForm from '../components/RegForm';
 
-const RegPage = () => {
+const RegPage: FC = () => {
   const { auth_store } = useContext(Context);
   let navigate = useNavigate();
 

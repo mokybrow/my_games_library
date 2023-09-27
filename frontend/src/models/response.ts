@@ -39,3 +39,7 @@ export interface AUser {
     surname: string,
     username: string,
 }
+
+export interface detail {
+    detail: string
+}
