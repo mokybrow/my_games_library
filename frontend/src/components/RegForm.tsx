@@ -1,13 +1,13 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
-import { useForm, SubmitHandler } from "react-hook-form"
-import { useNavigate } from 'react-router-dom';
+import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form"
+import { error } from 'console';
+
 
 type FormData = {
     email: string
     password: string
-    confirmPassword: string
     username: string
     name: string
 }
@@ -26,59 +26,33 @@ const RegForm: FC = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<FormData>({ mode: 'onBlur' })
-    let navigate = useNavigate();
+    } = useForm<FormData>()
 
-    const submithandler = handleSubmit(() => {
-        const resp = auth_store.registr(email, password, username, name);
-        console.log(auth_store.emailError)
-        console.log(auth_store.usernameError)
-        if (auth_store.emailError && auth_store.usernameError) {
-            console.log("регистрация прошла успешно")
+    const onSubmit: SubmitHandler<FormData> = (data) => console.log(data)
+    const error : SubmitErrorHandler<FormData> = (data) => console.log(data)
+    const uniqUsername = (username: string) => {
+        user_store.FindUser(username)
+        if (user_store.anotherUser.username == username){
+            return false
         }
-    })
-    useEffect(() => {
-        console.log(auth_store.emailError, auth_store.usernameError)
-    }, [])
+        return true;
+      };
 
     return (
-        <div>
-            <form action="#" onSubmit={submithandler}>
-                <div>
-                    <label htmlFor="login">Email</label>
-                    <input
-                        placeholder='Email'
-                        id="email"
-                        {...register("email", {
-                            required: "required",
-                            pattern: {
-                                value: /\S+@\S+\.\S+/,
-                                message: "Entered value does not match email format",
-                            },
-                        })}
-                        type="email"
-                        value={email} onChange={e => setEmail(e.target.value)}
-                    />
-                    {errors.email && <span role="alert">{errors.email.message}</span>}                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input name="password" placeholder='password' type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                </div>
-                <div>
-                    <label htmlFor="username">username</label>
-                    <input name="username" placeholder='username' type="text" value={username} onChange={e => setUsername(e.target.value)} />
-                </div>
-                <div>
-                    <label htmlFor="name">name</label>
-                    <input name="name" placeholder='name' type="text" value={name} onChange={e => setName(e.target.value)} />
-                </div>
-                <button type='submit'>Зарегистрироваться</button>
-                {!auth_store.emailError ? <><h1>Пользователь с такой почтой существует</h1></> : null}
-                {!auth_store.usernameError ? <><h1>Пользователь с таким ником существует</h1></> : null}
+        /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
+        <form onSubmit={handleSubmit(onSubmit, error)}>
+            {/* register your input into the hook by invoking the "register" function */}
+            <input  {...register("email", {validate: uniqUsername})} />
 
-            </form>
-        </div>
+            {/* include validation with required or other standard HTML validation rules */}
+            <input {...register("password", { required: true })} />
+            {/* errors will return when field validation fails  */}
+            {errors.password && <span>This field is required</span>}
+
+            <input type="submit" />
+        </form>
     )
 }
+
 
 export default observer(RegForm);
