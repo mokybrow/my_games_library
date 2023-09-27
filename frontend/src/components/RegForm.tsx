@@ -29,20 +29,25 @@ const RegForm: FC = () => {
     } = useForm<FormData>()
 
     const onSubmit: SubmitHandler<FormData> = (data) => console.log(data)
-    const error : SubmitErrorHandler<FormData> = (data) => console.log(data)
+    const error: SubmitErrorHandler<FormData> = (data) => console.log(data)
     const uniqUsername = (username: string) => {
         user_store.FindUser(username)
-        if (user_store.anotherUser.username == username){
+        if (user_store.anotherUser.username == username) {
             return false
         }
         return true;
-      };
+    };
 
     return (
         /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
         <form onSubmit={handleSubmit(onSubmit, error)}>
             {/* register your input into the hook by invoking the "register" function */}
-            <input  {...register("email", {validate: uniqUsername})} />
+            <input  {...register("email", {
+                validate: uniqUsername, minLength: {
+                    value: 2,
+                    message: "min length is 5",
+                },
+            },)} />
 
             {/* include validation with required or other standard HTML validation rules */}
             <input {...register("password", { required: true })} />
