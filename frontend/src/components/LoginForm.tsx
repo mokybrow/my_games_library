@@ -24,15 +24,17 @@ const LoginForm: FC = () => {
         auth_store.login(email, password)
         console.log(auth_store.loginError)
     })
-
+    const [passwordShown, setPasswordShown] = useState(false);
+    const togglePasswordVisiblity = () => {
+        setPasswordShown(passwordShown ? false : true);
+    };
 
     return (
         <div>
             <form action="#" onSubmit={submithandler}>
                 <div>
-                    <label htmlFor="login">Email</label>
                     <input
-                    placeholder='Email'
+                        placeholder='Email'
                         id="email"
                         {...register("email", {
                             required: "required",
@@ -48,12 +50,12 @@ const LoginForm: FC = () => {
 
                 </div>
                 <div>
-
-                    <label htmlFor="password">Password</label>
-                    <input {...register('password', {required: "required",})} name="password" placeholder='password' type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <input {...register('password', { required: "required", })} name="password" placeholder='password' type={passwordShown ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} />
                     {errors.password && <span role="alert">{errors.password.message}</span>}
 
                 </div>
+                <i >Показать пароль</i>{" "}{" "}
+                <input type="checkbox" onClick={togglePasswordVisiblity}/>
                 <button type='submit'>Login</button>
             </form>
             {auth_store.loginError ? <><h1>Неверный логин или пароль</h1></> : null}

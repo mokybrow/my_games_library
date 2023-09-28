@@ -38,6 +38,7 @@ export interface AUser {
     name: string,
     surname: string,
     username: string,
+    email: string
 }
 
 export interface detail {

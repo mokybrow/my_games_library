@@ -23,5 +23,6 @@ class PrivateUserResponseModel(BaseModel):
     surname: Optional[str]
     img: Optional[str]
     username: str
+    email: str
     birthdate: Optional[datetime.date]
     gender: Optional[str]

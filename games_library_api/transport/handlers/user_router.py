@@ -13,7 +13,7 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import follow_on_user, get_another_user, get_user
+from games_library_api.integrations.user_operations import follow_on_user, get_another_user, get_user, get_user_by_email
 from games_library_api.models import error_model, list_model, users_model
 from games_library_api.schemas.user import User
 
@@ -45,6 +45,20 @@ async def user_profile(
 )
 async def user_profile(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user(username=username, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User does not exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result[0]
+
+
+@router.get(
+    '/user/email/{email}', response_model=users_model.PrivateUserResponseModel
+)
+async def user_profile(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_user_by_email(email=email, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(

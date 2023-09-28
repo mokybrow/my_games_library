@@ -31,6 +31,10 @@ export default class AuthService {
         return axios.get<AUser>(`${API_URL}user/${username}`,)
     }
 
+    static async getUserEmail(email:string): Promise<AxiosResponse<AUser>> {
+        return axios.get<AUser>(`${API_URL}user/email/${email}`,)
+    }
+
     static async logout(): Promise<void> {
         return $api.post('/auth/logout')
     }

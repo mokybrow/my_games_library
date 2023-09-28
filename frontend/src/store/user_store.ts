@@ -8,6 +8,7 @@ export default class UserStore {
     isAuth = false;
     isLoading = false;
     anotherUser = {} as AUser;
+    anotherUser2 = {} as AUser;
 
     constructor() {
         makeAutoObservable(this);
@@ -15,6 +16,10 @@ export default class UserStore {
 
     setAUser(user: AUser) {
         this.anotherUser = user;
+    }
+
+    setAUser2(user: AUser) {
+        this.anotherUser2 = user;
     }
 
 
@@ -35,4 +40,16 @@ export default class UserStore {
         }
     }
 
+    async FindUserEmail(email: string) {
+        this.setLoading(true);
+        try {
+            const user = await AuthService.getUserEmail(email);
+            this.setAUser2(user.data)
+            console.log(this.anotherUser2)
+        } catch (error) {
+            const err = error as AxiosError
+        } finally {
+            this.setLoading(false);
+        }
+    }
 }
