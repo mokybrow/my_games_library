@@ -13,28 +13,43 @@
     font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 30vw;
     padding: 10px;
-    border:0;
-    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border: 0;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
     border-radius: 3px;
+    background-color: var(--text-input-color);
+    transition: background-color 200ms linear;
 }
 
-.form-button{
+.form-button {
     text-align: center;
     align-items: center;
-    background: none;
     cursor: pointer;
+    background-color: var(--button-color);
     padding: 10px;
+    border: solid 1px rgba(39, 41, 43, 0.5);
+    color: #FFFFFF;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 30vw;
+    transition: background-color 200ms linear;
 }
 
-.form-button:hover{
-    transition: all 0.2s;
-    background-color: antiquewhite;
+@media (max-width: 1023px) {
+    .form-button {
+        width: 80vw;
+    }
+    .text-field-input {
+        width: 80vw;
+    }
+}
+
+.form-button:hover {
+    background-color: var(--button-hover);
+    color: var(--font-color-global);
+    transition: all 200ms linear;
 }
 
 .error-alert {
@@ -46,11 +61,12 @@
     content: "⚠ ";
 }
 
-.show-password-container{
+.show-password-container {
     display: flex;
     margin: 20px;
     align-items: center;
-    left: 0;
+    margin-left: 0;
+    flex-direction: row;
 }
 
 .show-password {

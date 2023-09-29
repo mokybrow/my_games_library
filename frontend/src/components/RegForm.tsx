@@ -128,11 +128,10 @@ const RegForm: FC = () => {
                         message: "Поле не может быть пустым"
                     },
                 })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' />
-                {errors.confPassword && <span role="alert">{errors?.confPassword?.message || <p>Пароли не совпадают</p>}</span>}
                 {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message}</p>}
 
                 <div className="show-password-container">
-                    <b >Показать пароль</b>
+                    <p>Показать пароль</p>
                     <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
                 </div>
                 <button className='form-button' type='submit'>Зарегистрироваться</button>

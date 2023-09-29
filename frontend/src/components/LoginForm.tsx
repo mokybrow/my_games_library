@@ -57,7 +57,7 @@ const LoginForm: FC = () => {
 
                 </div>
                 <div className="show-password-container">
-                    <b >Показать пароль</b>
+                    <p >Показать пароль</p>
                     <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
                 </div>
                 <button className='form-button' type='submit'>Войти</button>

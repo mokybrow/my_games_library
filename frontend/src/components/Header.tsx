@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
@@ -8,19 +8,27 @@ import { useTheme } from '../hooks/useTheme';
 
 const Header: FC = () => {
     const { auth_store } = useContext(Context);
-    const {theme, setTheme} = useTheme()
-    
-    const handleLightTheme = () =>{
-        setTheme('light')
+    const { theme, setTheme } = useTheme()
+    //чекбоксик
+    const [checked, setChecked] = useState(false);
+
+    function handleChange() {
+        setChecked(!checked); // инвертируем стейт
+        if (checked) {
+            setTheme('light')
+        }
+        if (!checked) {
+            setTheme('dark')
+        }
     }
-    const handleDarkTheme = () =>{
-        setTheme('dark')
-    }
+
     useEffect(() => {
         if (localStorage.getItem('token')) {
             auth_store.checkAuth()
         }
-
+        if (theme == 'dark') {
+            setChecked(true)
+        }
     }, [auth_store])
 
 
@@ -28,7 +36,7 @@ const Header: FC = () => {
         const menu = document.querySelector('.menu-body')
         const menuBtn = document.querySelector('.menu-icon')
         const body = document.body;
-        const mediaQuery = window.matchMedia('(min-width: 1000px)')
+        const mediaQuery = window.matchMedia('(min-width: 1023px)')
         if (menu && menuBtn) {
             menu.classList.toggle('active')
             menuBtn.classList.toggle('active')
@@ -83,20 +91,28 @@ const Header: FC = () => {
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists'>Плейлисты</Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/news'>Новости</Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews'>Отзывы</Link></li>
-                            <div className="user-icon-desktop menu-item menu-link">
+                            <li className="user-icon-desktop menu-item menu-link">
                                 {auth_store.isAuth ? <><li>
                                     <Link to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
                                 </li> </> : null}
                                 {auth_store.isAuth ? <><li>
                                     <button onClick={() => auth_store.logout()}>Выход</button>
                                 </li> </> : <><Link to={'/login'}>Войти</Link>/<Link to={'/signup'}>Зарегистрироваться</Link></>}
+                            </li>
+                            <div className="theme-controller-mobile">
+                                <div className="toggle-pill-dark">
+                                    <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                                    <label htmlFor="pill4"></label>
+                                </div>
                             </div>
                         </ul>
                     </nav>
                 </div>
-                <div className="theme-controller">
-                    <button onClick={handleLightTheme}>Ligth</button>
-                    <button onClick={handleDarkTheme}>Dark</button>
+                <div className="theme-controller-desktop">
+                    <div className="toggle-pill-dark">
+                        <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                        <label htmlFor="pill4"></label>
+                    </div>
                 </div>
                 <div className="user-icon">
                     {auth_store.isAuth ? <><li>

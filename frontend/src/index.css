@@ -5,6 +5,11 @@ html[data-theme='dark'] {
   --menu-list-color: #333333;
   --menu-icon-color:#CFCFCF;
   --header-logo-color: #CFCFCF;
+  --text-input-color: #242424;
+  --font-color-global: #CFCFCF;
+  --button-color: #1349C9;
+  --button-hover: rgba(39, 41, 43, 0.5);
+  --theme-controller: #595959;
 }
 
 
@@ -15,5 +20,9 @@ html[data-theme='light'] {
   --menu-list-color: #FFFFFF;
   --menu-icon-color:rgba(39, 41, 43, 1);
   --header-logo-color: rgba(39, 41, 43, 1);
-
+  --text-input-color: #FFFFFF;
+  --font-color-global: rgba(39, 41, 43, 1);
+  --button-color: #1349C9;
+  --button-hover: #FFFFFF;
+  --theme-controller: #F1F1F1;
 }
