@@ -12,4 +12,6 @@ body.lock {
 
 body{
   margin-top: 90px;
+  background-color: var(--background-color);
+  transition: background-color 200ms linear;
 }

@@ -30,33 +30,37 @@ const LoginForm: FC = () => {
     };
 
     return (
-        <div>
+        <div className="form-container">
             <form action="#" onSubmit={submithandler}>
                 <div>
-                    <input
-                        placeholder='Email'
-                        id="email"
-                        {...register("email", {
-                            required: "required",
-                            pattern: {
-                                value: /\S+@\S+\.\S+/,
-                                message: "Entered value does not match email format",
-                            },
-                        })}
-                        type="email"
-                        value={email} onChange={e => setEmail(e.target.value)}
-                    />
-                    {errors.email && <span role="alert">{errors.email.message}</span>}
+                    <input  {...register("email", {
+                        pattern: {
+                            value: /\S+@\S+\.\S+/,
+                            message: "Введите почту в формате user@example.com"
+                        },
+                        required: {
+                            value: true,
+                            message: 'Поле не может быть пустым'
+                        },
+                    },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input'/>
+                    {errors.email && <p className='error-alert' role="alert">{errors.email.message}</p>}
 
                 </div>
                 <div>
-                    <input {...register('password', { required: "required", })} name="password" placeholder='password' type={passwordShown ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} />
-                    {errors.password && <span role="alert">{errors.password.message}</span>}
+                    <input {...register('password', {
+                        required: {
+                            value: true,
+                            message: 'Поле не может быть пустым'
+                        },
+                    })} name="password" placeholder='Password' type={passwordShown ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} className='text-field-input'/>
+                    {errors.password && <p className='error-alert' role="alert">{errors.password.message}</p>}
 
                 </div>
-                <i >Показать пароль</i>{" "}{" "}
-                <input type="checkbox" onClick={togglePasswordVisiblity}/>
-                <button type='submit'>Login</button>
+                <div className="show-password-container">
+                    <b >Показать пароль</b>
+                    <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
+                </div>
+                <button className='form-button' type='submit'>Войти</button>
             </form>
             {auth_store.loginError ? <><h1>Неверный логин или пароль</h1></> : null}
         </div>

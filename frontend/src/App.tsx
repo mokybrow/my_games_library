@@ -11,10 +11,13 @@ import { GamesPage } from './pages/GamesPage';
 import { PlaylistsPage } from './pages/PlaylistsPage';
 import { NewsPage } from './pages/NewsPage';
 import { ReviewsPage } from './pages/ReviewsPage';
+import './styles/form.css'
+import { useTheme } from './hooks/useTheme';
+
 
 function App() {
   const { auth_store } = useContext(Context);
-
+  const {theme, setTheme} = useTheme()
   useEffect(() => {
     if (localStorage.getItem('token')) {
       auth_store.checkAuth()

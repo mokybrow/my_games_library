@@ -65,65 +65,79 @@ const RegForm: FC = () => {
     };
 
     return (
-        <form action="#" onSubmit={handleSubmit(onSubmit, error)}>
-            <input  {...register("email", {
-                validate: uniqEmail,
-                pattern: {
-                    value: /\S+@\S+\.\S+/,
-                    message: "Введите почту в формате user@example.com"
-                }
-            },)} onChange={e => setEmail(e.target.value)} placeholder='Email' />
-            {errors.email && <span role="alert">{errors?.email?.message || <p>Существует</p>}</span>}
+        <div className="form-container">
+            <form action="#" onSubmit={handleSubmit(onSubmit, error)}>
+                <input  {...register("email", {
+                    validate: uniqEmail,
+                    pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Введите почту в формате user@example.com"
+                    },
+                    required: {
+                        value: true,
+                        message: 'Поле не может быть пустым'
+                    },
+                },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' />
+
+                {errors.email && <p className='error-alert' role="alert">{errors?.email?.message ||"Пользователь с такой почтой существует"}</p>}
 
 
-            <input  {...register("username", {
-                validate: uniqUsername,
-                required: {
-                    value: true,
-                    message: 'Поле не может быть пустым'
-                },
-                minLength: {
-                    value: 3,
-                    message: 'Имя пользователя не может быть короче 3 символов'
-                }
-            },)} onChange={e => setUsername(e.target.value)} placeholder='Username' />
-            {errors.username && <span role="alert">{errors?.username?.message || <p>Существует</p>}</span>}
+                <input  {...register("username", {
+                    validate: uniqUsername,
+                    required: {
+                        value: true,
+                        message: 'Поле не может быть пустым'
+                    },
+                    minLength: {
+                        value: 3,
+                        message: 'Имя пользователя не может быть короче 3 символов'
+                    }
+                },)} onChange={e => setUsername(e.target.value)} placeholder='Username' className='text-field-input' />
+                {errors.username && <p className='error-alert' role="alert">{errors?.username?.message ||"Пользователь с таким именем существует"}</p>}
 
 
-            <input {...register("name", {
-                required: {
-                    value: true,
-                    message: "Поле не может быть пустым"
-                },
-                minLength: {
-                    value: 2,
-                    message: 'Имя пользователя не может быть короче 2 символов'
-                }
-            })} onChange={e => setName(e.target.value)} placeholder='Name' />
-            {errors.name && <span role="alert">{errors?.name?.message}</span>}
+                <input {...register("name", {
+                    required: {
+                        value: true,
+                        message: "Поле не может быть пустым"
+                    },
+                    minLength: {
+                        value: 2,
+                        message: 'Имя пользователя не может быть короче 2 символов'
+                    }
+                })} onChange={e => setName(e.target.value)} placeholder='Name' className='text-field-input' />
+                {errors.name && <p className='error-alert' role="alert">{errors?.name?.message}</p>}
 
-            <input type={passwordShown ? "text" : "password"} {...register("password", {
-                required: {
-                    value: true,
-                    message: "Поле не может быть пустым"
-                },
-                minLength: {
-                    value: 8,
-                    message: 'Придумайте надёжный пароль'
-                }
-            })} onChange={e => setPassword(e.target.value)} placeholder='Password' />
-            {errors.password && <span role="alert">{errors?.password?.message}</span>}
+                <input type={passwordShown ? "text" : "password"} {...register("password", {
+                    required: {
+                        value: true,
+                        message: "Поле не может быть пустым"
+                    },
+                    minLength: {
+                        value: 8,
+                        message: 'Придумайте надёжный пароль'
+                    }
+                })} onChange={e => setPassword(e.target.value)} placeholder='Password' className='text-field-input' />
+                {errors.password && <p className='error-alert' role="alert">{errors?.password?.message || "Пароли не совпадают"}</p>}
 
 
-            <input type={passwordShown ? "text" : "password"} {...register("confPassword", {
-                validate: confPasswordCheck
-            })} onChange={e => setConfPassword(e.target.value)} placeholder='Password' />
-            {errors.confPassword && <span role="alert">{errors?.confPassword?.message || <p>Пароли не совпадают</p>}</span>}
-            
-            <i >Показать пароль</i>{" "}{" "}
-            <input type="checkbox" onClick={togglePasswordVisiblity}/>
-            <input type="submit" />
-        </form>
+                <input type={passwordShown ? "text" : "password"} {...register("confPassword", {
+                    validate: confPasswordCheck,
+                    required: {
+                        value: true,
+                        message: "Поле не может быть пустым"
+                    },
+                })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' />
+                {errors.confPassword && <span role="alert">{errors?.confPassword?.message || <p>Пароли не совпадают</p>}</span>}
+                {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message}</p>}
+
+                <div className="show-password-container">
+                    <b >Показать пароль</b>
+                    <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
+                </div>
+                <button className='form-button' type='submit'>Зарегистрироваться</button>
+            </form>
+        </div>
     )
 }
 

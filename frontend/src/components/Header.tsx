@@ -3,11 +3,19 @@ import { Link, Outlet } from 'react-router-dom'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 import '../styles/header.css'
+import { useTheme } from '../hooks/useTheme';
 
 
 const Header: FC = () => {
     const { auth_store } = useContext(Context);
-
+    const {theme, setTheme} = useTheme()
+    
+    const handleLightTheme = () =>{
+        setTheme('light')
+    }
+    const handleDarkTheme = () =>{
+        setTheme('dark')
+    }
     useEffect(() => {
         if (localStorage.getItem('token')) {
             auth_store.checkAuth()
@@ -86,7 +94,11 @@ const Header: FC = () => {
                         </ul>
                     </nav>
                 </div>
-                <div className="user-icon menu-link menu-item">
+                <div className="theme-controller">
+                    <button onClick={handleLightTheme}>Ligth</button>
+                    <button onClick={handleDarkTheme}>Dark</button>
+                </div>
+                <div className="user-icon">
                     {auth_store.isAuth ? <><li>
                         <Link to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
                     </li> </> : null}
