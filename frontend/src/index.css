@@ -10,6 +10,7 @@ html[data-theme='dark'] {
   --button-color: #1349C9;
   --button-hover: rgba(39, 41, 43, 0.5);
   --theme-controller: #595959;
+  --dropdown-color: #4B4B4B;
 }
 
 
@@ -25,4 +26,5 @@ html[data-theme='light'] {
   --button-color: #1349C9;
   --button-hover: #FFFFFF;
   --theme-controller: #F1F1F1;
+  --dropdown-color: #D9D9D9;
 }

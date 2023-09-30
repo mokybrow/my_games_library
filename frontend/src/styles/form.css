@@ -10,7 +10,7 @@
 
 .text-field-input {
     margin: 10px 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;
     width: 30vw;
@@ -20,6 +20,7 @@
     border-radius: 3px;
     background-color: var(--text-input-color);
     transition: background-color 200ms linear;
+    color: var(--font-color-global)
 }
 
 .form-button {

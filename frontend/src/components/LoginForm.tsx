@@ -56,13 +56,17 @@ const LoginForm: FC = () => {
                     {errors.password && <p className='error-alert' role="alert">{errors.password.message}</p>}
 
                 </div>
+                {auth_store.loginError ? <p className='error-alert' role="alert">Неверный логин или пароль</p>: null}
+
                 <div className="show-password-container">
                     <p >Показать пароль</p>
                     <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
                 </div>
+                
                 <button className='form-button' type='submit'>Войти</button>
+
             </form>
-            {auth_store.loginError ? <><h1>Неверный логин или пароль</h1></> : null}
+            
         </div>
     )
 }

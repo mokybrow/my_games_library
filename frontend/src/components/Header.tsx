@@ -33,6 +33,7 @@ const Header: FC = () => {
 
 
     const buttonFunc = () => {
+
         const menu = document.querySelector('.menu-body')
         const menuBtn = document.querySelector('.menu-icon')
         const body = document.body;
@@ -52,7 +53,6 @@ const Header: FC = () => {
 
             menu.querySelectorAll('.menu-link').forEach(link => {
                 link.addEventListener('click', () => {
-                    console.log('click')
                     menu.classList.toggle('active')
                     menuBtn.classList.toggle('active')
                     body.classList.toggle('lock')
@@ -108,22 +108,39 @@ const Header: FC = () => {
                         </ul>
                     </nav>
                 </div>
-                <div className="theme-controller-desktop">
-                    <div className="toggle-pill-dark">
-                        <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
-                        <label htmlFor="pill4"></label>
-                    </div>
-                </div>
-                <div className="user-icon">
-                    {auth_store.isAuth ? <><li>
-                        <Link to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
-                    </li> </> : null}
-                    {auth_store.isAuth ? <><li>
-                        <button onClick={() => auth_store.logout()}>Выход</button>
-                    </li> </> : <><Link to={'/login'}>Войти</Link>/<Link to={'/signup'}>Зарегистрироваться</Link></>}
+
+                <div className="dropdown">
+                    {!auth_store.isAuth ? <><Link to={'/login'}><button className="dropbtn">Войти</button></Link>
+                        <div className="dropdown-content">
+                            <Link to={'/signup'}>Регистрация</Link>
+
+                            <div className="theme-controller-desktop">
+                                <div className="toggle-pill-dark">
+                                    <p>Тема</p>
+                                    <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                                    <label htmlFor="pill4"></label>
+                                </div>
+                            </div>
+                        </div></> :
+                        <><Link to={`/${auth_store.user.username}`}>
+                            <button className="dropbtn">{auth_store.user.username}</button>
+                        </Link>
+                            <div className="dropdown-content">
+                                <Link to='/' onClick={() => auth_store.logout()}>Выход</Link>
+                                <div className="theme-controller-desktop">
+                                <div className="toggle-pill-dark">
+                                    <p>Тема</p>
+                                    <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                                    <label htmlFor="pill4"></label>
+                                </div>
+                            </div>
+                            </div>
+                            </>
+                            }
                 </div>
 
-            </header>
+
+            </header >
             <Outlet />
 
         </>

@@ -1,6 +1,6 @@
 /*---------Шапка страницы--------*/
 .header {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     height: 60px;
     padding: 4vh 14vw;
     display: -webkit-box;
@@ -27,7 +27,7 @@
     text-transform: uppercase;
     padding: 5px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 24px;
     color: var(--header-logo-color);
     transition: color 200ms linear;
 }
@@ -151,7 +151,7 @@
     margin: 0 24px;
 }
 
-.theme-controller-mobile{
+.theme-controller-mobile {
     display: none;
 }
 
@@ -169,11 +169,13 @@
         transition: background-color 200ms linear;
         overflow: auto;
     }
-    .theme-controller-mobile{
+
+    .theme-controller-mobile {
         margin: 0 24px;
         display: flex;
     }
-    .theme-controller-desktop{
+
+    .theme-controller-desktop {
         display: none;
     }
 }
@@ -201,10 +203,15 @@
         transition: color 200ms linear;
     }
 
+    .dropdown {
+        display: none;
+    }
+
 }
 
 .theme-controller-desktop {
-    margin-top: 20px;
+    margin: 20px;
+
 }
 
 /* toggle-pill-color */
@@ -249,4 +256,68 @@
     left: 1.6em;
     -webkit-transform: rotate(295deg);
     transform: rotate(295deg);
+}
+
+/* Выпадающее меню */
+.dropbtn {
+    font-family: 'Roboto', sans-serif;
+    color: var(--font-color-global);
+    padding: 10px;
+    font-size: 20px;
+    text-transform: uppercase;
+    border: none;
+    width: 160px;
+    border-radius: 6px 6px 6px 6px;
+    cursor: pointer;
+    background: none;
+    transition: all 200ms linear;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.dropdown-content {
+    font-family: 'Roboto', sans-serif;
+    color: var(--font-color-global);
+    text-transform: uppercase;
+    display: none;
+    position: absolute;
+    background-color: var(--dropdown-color);
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 0 0 6px 6px;
+    transition: all 200ms linear;
+
+}
+
+.dropdown-content a {
+    color: var(--font-color-global);
+    padding: 6px 6px;
+    text-decoration: none;
+    display: block;
+    transition: all 200ms linear;
+
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: var(--dropdown-color);
+    border-radius: 6px 6px 0px 0px;
+    transition: all 200ms linear;
+
+}
+@media (max-width: 1023px){
+   .dropdown{
+    display: none;
+   }
 }
