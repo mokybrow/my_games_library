@@ -87,7 +87,7 @@ const Header: FC = () => {
                     </div>
                     <nav className="menu-body">
                         <ul className="menu-list">
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/games'>Игры</Link></li>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/games/page/1'>Игры</Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists'>Плейлисты</Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/news'>Новости</Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews'>Отзывы</Link></li>
@@ -115,8 +115,9 @@ const Header: FC = () => {
                             <Link to={'/signup'}>Регистрация</Link>
 
                             <div className="theme-controller-desktop">
+                            <p>Тема</p>
+
                                 <div className="toggle-pill-dark">
-                                    <p>Тема</p>
                                     <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
                                     <label htmlFor="pill4"></label>
                                 </div>
@@ -128,15 +129,17 @@ const Header: FC = () => {
                             <div className="dropdown-content">
                                 <Link to='/' onClick={() => auth_store.logout()}>Выход</Link>
                                 <div className="theme-controller-desktop">
-                                <div className="toggle-pill-dark">
-                                    <p>Тема</p>
-                                    <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
-                                    <label htmlFor="pill4"></label>
+                                    
+                                    <div className="toggle-pill-dark">
+
+                                        <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                                        <label htmlFor="pill4"></label>
+                                        
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                            </>
-                            }
+                        </>
+                    }
                 </div>
 
 

@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_superuser, fastapi_users
 from games_library_api.database import get_async_session
-from games_library_api.integrations.admin_operations import get_all_users
+from games_library_api.integrations.admin_operations import get_all_users, game_parser
 from games_library_api.integrations.game_operations import add_game
 from games_library_api.models import users_model
 from games_library_api.schemas.user import User, UserRead, UserUpdate
@@ -54,3 +54,8 @@ async def get_all_users_router(
 ) -> Any:
     result = await get_all_users(db=db)
     return result
+
+
+@router.get('/admin/game_parser')
+async def parse_games(db: AsyncSession = Depends(get_async_session),user: User = Depends(current_superuser),):
+    await game_parser(db=db)

@@ -44,3 +44,51 @@ export interface AUser {
 export interface detail {
     detail: string
 }
+
+
+export interface GamesResponse {
+    id: string
+    title: string
+    cover: string
+    slug: string
+    release: Date
+}
+
+
+// export interface GameProfileResponse {
+//     id: string
+//     title: string
+//     cover: string
+//     slug: string
+//     release: Date
+//     platform: string;
+// }
+
+export interface GameProfileResponse {
+    id:          string;
+    title:       string;
+    cover:       string;
+    description: null;
+    slug:        string;
+    release:     Date;
+    platform:    PlatformElement[];
+    genre:       Genre[];
+}
+
+export interface Genre {
+    id:               number;
+    name:             string;
+    slug:             string;
+    games_count:      number;
+    image_background: string;
+}
+
+export interface PlatformElement {
+    platform: PlatformPlatform;
+}
+
+export interface PlatformPlatform {
+    id:   number;
+    name: string;
+    slug: string;
+}

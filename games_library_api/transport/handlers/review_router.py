@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
-from games_library_api.integrations.game_operations import gef_all_games, get_game, get_game_review
+from games_library_api.integrations.game_operations import get_game, get_game_review
 from games_library_api.integrations.review_operations import create_review
 from games_library_api.models import game_model
 from games_library_api.schemas.user import User

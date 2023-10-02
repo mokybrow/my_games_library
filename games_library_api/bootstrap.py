@@ -38,6 +38,7 @@ def make_app() -> FastAPI:
         'http://localhost:3000/login',
         'http://localhost:3000/sign_up',
         'http://localhost:8000/auth/login',
+        'http://localhost:3000/games/page/',
     ]
 
     app.add_middleware(

@@ -211,7 +211,10 @@
 
 .theme-controller-desktop {
     margin: 20px;
-
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+    justify-content: center;
 }
 
 /* toggle-pill-color */

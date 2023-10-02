@@ -2,10 +2,10 @@ import json
 import requests
 
 
-with open('games.json', encoding='utf-8') as f:
-        data = json.loads(f.read())
-        for i in data['results']:
-                print(i['name'], i['background_image'],i['slug'], i['released'], i['parent_platforms'])
+# with open('games.json', encoding='utf-8') as f:
+#         data = json.loads(f.read())
+#         for i in data['results']:
+#                 print(i['name'], i['background_image'],i['slug'], i['released'], i['parent_platforms'])
                 #print(i['parent_platforms'])
                 # for j in i['parent_platforms']:
                 #         print(i['name'], i['background_image'],i['slug'], i['released'],j['platform']['name'])
@@ -28,3 +28,5 @@ for i in r.json()['results']:
 #         with open(f'{image_name}', 'wb') as file:
 #                 file.write(response.content)
 #                 print('es')
+
+

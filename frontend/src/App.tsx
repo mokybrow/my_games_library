@@ -12,7 +12,9 @@ import { PlaylistsPage } from './pages/PlaylistsPage';
 import { NewsPage } from './pages/NewsPage';
 import { ReviewsPage } from './pages/ReviewsPage';
 import './styles/form.css'
+import './styles/home-page.css'
 import { useTheme } from './hooks/useTheme';
+import { GameProfile } from './pages/GameProfile';
 
 
 function App() {
@@ -34,10 +36,11 @@ function App() {
           <Route path='/signup' element={<RegPage/>} />
           <Route path='/login' element={<LoginPage/>} />
           <Route path='/:username' element={<ProfilePage/>} />
-          <Route path='/games/' element={<GamesPage/>} />
+          <Route path='/games/page/:id' element={<GamesPage/>} />
           <Route path='/playlists/' element={<PlaylistsPage/>} />
           <Route path='/news/' element={<NewsPage/>} />
           <Route path='/reviews/' element={<ReviewsPage/>} />
+          <Route path='/game/:slug' element={<GameProfile/>} />
         </Routes>
       </Router>
     </>

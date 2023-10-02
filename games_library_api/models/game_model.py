@@ -19,17 +19,18 @@ class GetGamesResponseModel(BaseModel):
     title: str
     cover: Optional[str]
     slug: str
+    release: datetime.date
 
 
 class GetGamesPageResponseModel(BaseModel):
     id: UUID4
     title: str
     cover: Optional[str]
-    description: str
+    description: Optional[str]
     slug: str
     release: datetime.date
-    platform: dict
-    genre: Optional[dict]
+    platform: list
+    genre: Optional[list]
 
 
 class GetGameReviewsResponseModel(BaseModel):

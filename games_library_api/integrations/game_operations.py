@@ -1,4 +1,5 @@
 import datetime
+from operator import or_
 import uuid
 
 from pydantic import UUID4, Json
@@ -33,21 +34,38 @@ async def add_game(
     pass
 
 
-async def gef_all_games(db: AsyncSession):
+async def get_all_games(db: AsyncSession, page: int=0):
+    page_offset = page*30
     query = select(
         game_table.c.id,
         game_table.c.title,
         game_table.c.cover,
         game_table.c.slug,
-    )
+        game_table.c.release,
+    ).offset(page_offset).limit(20).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
     result = await db.execute(query)
     return result.all()
 
 
-async def get_game(id: UUID4, db: AsyncSession):
-    query = select(game_table).where(game_table.c.id == id)
+async def get_new_games(db: AsyncSession):
+    query = select(
+        game_table.c.id,
+        game_table.c.title,
+        game_table.c.cover,
+        game_table.c.slug,
+        game_table.c.release,
+    ).limit(6).offset(0).filter(game_table.c.release <= datetime.date.today()).order_by(game_table.c.release.desc())
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_game(slug: str, db: AsyncSession):
+    query = select(game_table).where(game_table.c.slug == slug)
 
     result = await db.execute(query)
+    a = result.all()
+    result = await db.execute(query)
+
     return result.all()
 
 
