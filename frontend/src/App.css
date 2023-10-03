@@ -11,7 +11,6 @@ body.lock {
 }
 
 body{
-  margin-top: 90px;
   background-color: var(--background-color);
   color: var(--font-color-global);
   font-family: 'Roboto', sans-serif;

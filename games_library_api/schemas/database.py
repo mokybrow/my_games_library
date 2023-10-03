@@ -21,6 +21,7 @@ user_table = Table(
     Column('gender', String, nullable=True),
     Column('img', String, nullable=True),
     Column('reporter', Boolean, default=False),
+    Column('subscriber', Boolean, default=False),
 )
 
 game_table = Table(
@@ -32,8 +33,12 @@ game_table = Table(
     Column('description', String, nullable=True),
     Column('slug', String, nullable=False, unique=True),
     Column('release', DateTime, nullable=False),
-    Column('platform', JSON, nullable=False),
-    Column('genre', JSON, nullable=True),
+    Column('playtime', Integer, nullable=False, unique=False),
+    Column('platform', JSON, nullable=False, unique=False),
+    Column('parent_platform', JSON, nullable=False, unique=False),
+    Column('genre', JSON, nullable=True, unique=False),
+    Column('tags', JSON, nullable=False, unique=False),
+    Column('esrb_rating', JSON, nullable=True, unique=False),
 )
 
 list_table = Table(

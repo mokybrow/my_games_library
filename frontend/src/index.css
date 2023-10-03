@@ -11,6 +11,8 @@ html[data-theme='dark'] {
   --button-hover: rgba(39, 41, 43, 0.5);
   --theme-controller: #595959;
   --dropdown-color: #4B4B4B;
+  --buttons-color: #383838;
+  --background-card-color: #242424;
 }
 
 
@@ -27,4 +29,6 @@ html[data-theme='light'] {
   --button-hover: #FFFFFF;
   --theme-controller: #F1F1F1;
   --dropdown-color: #D9D9D9;
+  --buttons-color: #D9D9D9;
+  --background-card-color: #FFFFFF;
 }

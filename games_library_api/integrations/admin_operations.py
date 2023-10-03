@@ -16,10 +16,11 @@ async def get_all_users(db: AsyncSession) -> Any:
 
 
 async def game_parser(db: AsyncSession)-> Any:
-        count = 10001
-        while count < 30000:
+        count = 5853
+        while count < 100000:
             r = requests.get(f'https://api.rawg.io/api/games?key=1ae731eafea74e33907d89607c9483cb&page={count}&page_size=50')
-            #print(r.json())
+            # print(r.json())
+            print(count)
             for i in r.json()['results']:
                     query = select(game_table.c.slug).where(game_table.c.slug == i['slug'])
                     result = await db.execute(query)
@@ -32,8 +33,8 @@ async def game_parser(db: AsyncSession)-> Any:
                         if i['released'] != None:
                             date = DT.datetime.strptime(i['released'], '%Y-%m-%d').date()
                             stmt = insert(game_table).values(id=uuid.uuid4(), title=i['name'], cover=i['background_image']
-                                                                ,description=None,slug=i['slug'],release=date, platform=i['parent_platforms'],
-                                                                genre=i['genres'])
+                                                                ,description=None,slug=i['slug'],release=date, playtime=i['playtime'], platform=i['platforms'], parent_platform=i['parent_platforms'],
+                                                                genre=i['genres'], tags=i['tags'], esrb_rating=['esrb_rating'])
 
                             await db.execute(stmt)
                             await db.commit()

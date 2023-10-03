@@ -13,8 +13,10 @@ import { NewsPage } from './pages/NewsPage';
 import { ReviewsPage } from './pages/ReviewsPage';
 import './styles/form.css'
 import './styles/home-page.css'
+import './styles/profile-page.css'
 import { useTheme } from './hooks/useTheme';
 import { GameProfile } from './pages/GameProfile';
+import { ListPage } from './pages/ListPage';
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
           <Route path='/news/' element={<NewsPage/>} />
           <Route path='/reviews/' element={<ReviewsPage/>} />
           <Route path='/game/:slug' element={<GameProfile/>} />
+          <Route path='/:username/:slug' element={<ListPage/>} />
+          <Route path='/:username/settings' element={<ListPage/>} />
         </Routes>
       </Router>
     </>
