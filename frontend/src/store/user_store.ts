@@ -1,14 +1,18 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, IUser } from "../models/response";
+import { AUser, GamesResponse, IUser, RegEmailCheck, UserStat } from "../models/response";
 import AuthService from "../service/AuthService";
 import { AxiosError } from "axios";
+import UserService from "../service/UserService";
+import GameService from "../service/GameService";
 
 
 export default class UserStore {
     isAuth = false;
     isLoading = false;
     anotherUser = {} as AUser;
-    anotherUser2 = {} as AUser;
+
+
+    isFollower = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -18,21 +22,25 @@ export default class UserStore {
         this.anotherUser = user;
     }
 
-    setAUser2(user: AUser) {
-        this.anotherUser2 = user;
-    }
 
 
     setLoading(bool: boolean) {
         this.isLoading = bool;
     }
 
+    setFollower(bool: boolean) {
+        this.isFollower = bool;
+    }
 
-    async FindUser(username: string) {
+    async findUser(username: string) {
         this.setLoading(true);
         try {
-            const user = await AuthService.getUser(username);
+            const user = await UserService.getUserProfile(username);
             this.setAUser(user.data)
+            const follow = await UserService.checkFollow(this.anotherUser.id);
+            if (follow.status === 200){
+                this.setFollower(true)
+            }
         } catch (error) {
             const err = error as AxiosError
         } finally {
@@ -40,16 +48,14 @@ export default class UserStore {
         }
     }
 
-    async FindUserEmail(email: string) {
-        this.setLoading(true);
-        try {
-            const user = await AuthService.getUserEmail(email);
-            this.setAUser2(user.data)
-            console.log(this.anotherUser2)
-        } catch (error) {
-            const err = error as AxiosError
-        } finally {
-            this.setLoading(false);
-        }
-    }
+    // async checkFollow(user_id: string) {
+    //     if (this.isLoading !== false) {
+    //         try {
+    //             const follow = await UserService.checkFollow(user_id);
+    //             this.setFollower(follow.data.follow)
+    //         } catch (error) {
+    //             const err = error as AxiosError
+    //         }
+    //     }
+    // }
 }

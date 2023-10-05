@@ -8,7 +8,7 @@ export const GameProfile = () => {
     const [game, setGames] = useState<GameProfileResponse>();
     const getGames = async () => {
         try {
-            const response = await GameService.get_game_by_slug(String(slug));
+            const response = await GameService.getGameBySlug(String(slug));
             setGames(response.data)
             console.log(game)
         } catch (error) {

@@ -136,13 +136,13 @@ const Header: FC = () => {
 
                             <div className="dropdown-content">
                                 <hr className='drop-down-line' />
-                                <Link to={`/${auth_store.user.username}`} >Профиль</Link>
-                                <Link to={`/${auth_store.user.username}/played`} >Пройденные</Link>
-                                <Link to={`/${auth_store.user.username}/wants-to-play`} >Пройду</Link>
-                                <Link to={`/${auth_store.user.username}/liked`} >Понравились</Link>
-                                <Link to={`/${auth_store.user.username}/lists`} >Списки</Link>
+                                <Link to={`/${auth_store.user.username}`} reloadDocument>Профиль</Link>
+                                <Link to={`/${auth_store.user.username}/played`} reloadDocument>Пройденные</Link>
+                                <Link to={`/${auth_store.user.username}/wants-to-play`} reloadDocument>Пройду</Link>
+                                <Link to={`/${auth_store.user.username}/liked`} reloadDocument>Понравились</Link>
+                                <Link to={`/${auth_store.user.username}/lists`} reloadDocument>Списки</Link>
                                 <hr className='drop-down-line' />
-                                <Link to={`/${auth_store.user.username}/settings`} >Настройки</Link>
+                                <Link to={`/${auth_store.user.username}/settings`} reloadDocument>Настройки</Link>
                                 <Link to='/' onClick={() => auth_store.logout()}>Выход</Link>
                                 <div className="theme-controller-desktop">
                                     <p>Тема</p>

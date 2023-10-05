@@ -1,9 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, IUser, detail } from "../models/response";
+import { AUser, GamesResponse, IUser, detail } from "../models/response";
 import AuthService from "../service/AuthService";
 import { removeLocalToken, saveLocalToken } from "../utils/utils";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import GameService from "../service/GameService";
 
 
 
@@ -39,7 +40,7 @@ export default class AuthStore {
             const response = await AuthService.login(username, password);
             saveLocalToken(response.data.access_token);
             this.setAuth(true);
-            const getMe = await AuthService.getMe();
+            const getMe = await AuthService.getUserInfo();
             this.setUser(getMe.data);
             this.setLoginError(false);
         } catch (e) {
@@ -71,13 +72,12 @@ export default class AuthStore {
         } catch (e) {
             console.log("login error");
         }
-
     }
 
     async checkAuth() {
         this.setLoading(true);
         try {
-            const response = await AuthService.getMe();
+            const response = await AuthService.getUserInfo();
             this.setUser(response.data)
             this.setAuth(true);
         } catch (error) {

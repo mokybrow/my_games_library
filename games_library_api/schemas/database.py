@@ -75,8 +75,8 @@ list_game_table = Table(
 follower_table = Table(
     'follower',
     metadata,
-    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), unique=False),
-    Column('follower_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), unique=False),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('follower_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('date', DateTime, default=datetime.datetime.utcnow()),
 )
 

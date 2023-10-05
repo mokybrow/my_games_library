@@ -19,7 +19,6 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     surname = Column(String, nullable=True)
     birthdate = Column(Date, nullable=True, default=None)
     gender = Column(String, nullable=True)
-    pass
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):

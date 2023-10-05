@@ -7,15 +7,13 @@ import { Link } from 'react-router-dom';
 const HomePage: FC = () => {
   const [games, setGames] = useState<GamesResponse[]>([]);
   const getGames = async () => {
-
     try {
-      const response = await GameService.get_new_games();
+      const response = await GameService.getNewGames();
       setGames(response.data)
     } catch (error) {
 
     }
   }
-
   useEffect(() => {
     getGames();
   }, [])

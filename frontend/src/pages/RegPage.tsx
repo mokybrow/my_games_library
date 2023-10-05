@@ -20,7 +20,10 @@ const RegPage: FC = () => {
   if (auth_store.isAuth) {
     navigate("/");
   } else {
-    return (<RegForm />)
+    return (
+      <section className='reg-page-section'>
+        <RegForm />
+      </section>)
   }
   return <div></div>
 }

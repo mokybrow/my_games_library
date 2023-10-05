@@ -14,6 +14,7 @@ import { ReviewsPage } from './pages/ReviewsPage';
 import './styles/form.css'
 import './styles/home-page.css'
 import './styles/profile-page.css'
+import './styles/reg-page.css'
 import { useTheme } from './hooks/useTheme';
 import { GameProfile } from './pages/GameProfile';
 import { ListPage } from './pages/ListPage';

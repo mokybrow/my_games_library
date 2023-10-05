@@ -1,10 +1,10 @@
-from typing import Any
+from typing import Annotated, Any, Optional
 
-from fastapi import APIRouter, Body, Depends, status
+from fastapi import APIRouter, Body, Depends, Header, Request, status
 from fastapi.responses import JSONResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
-
+import jwt
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.list_operations import (
@@ -13,38 +13,23 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import follow_on_user, get_another_user, get_user, get_user_by_email
-from games_library_api.models import error_model, list_model, users_model
+from games_library_api.integrations.user_operations import check_follow, follow_on_user, get_another_user, get_user, get_user_by_email, get_user_by_username, get_user_last_game, unfollow
+from games_library_api.models import error_model, game_model, list_model, users_model
 from games_library_api.schemas.user import User
+from games_library_api.settings import get_settings
 
 router = APIRouter()
+settings = get_settings()
 
 
 @router.get(
-    '/{username}',
-    response_model=users_model.PrivateUserResponseModel ,
+    '/username',
+    response_model=users_model.PrivateUserResponseModel
 )
-async def user_profile(
-    username: str, db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
+async def user_profile(db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
 ) -> Any:
-    result = await get_user(username=username, db=db)
-    if not result:
-        error = error_model.ErrorResponseModel(details='User does not exist')
-        return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-    if user.username != username:
-        result = await get_another_user(username=username, db=db)
+    result = await get_user(id=user.id, db=db)
 
-    return result[0]
-
-
-@router.get(
-    '/user/{username}', response_model=users_model.PrivateUserResponseModel
-)
-async def user_profile(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
-    result = await get_user(username=username, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
@@ -55,9 +40,23 @@ async def user_profile(username: str, db: AsyncSession = Depends(get_async_sessi
 
 
 @router.get(
-    '/user/email/{email}', response_model=users_model.PrivateUserResponseModel
+    '/user/{username}', response_model=users_model.PublicUserResponseModel
 )
-async def user_profile(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
+async def another_user_profile(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_another_user(username=username, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User does not exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result[0]
+
+@router.post(
+    '/user/get_by_email/{email}',
+    tags=['reg_validation']
+)
+async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_email(email=email, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
@@ -65,7 +64,21 @@ async def user_profile(email: str, db: AsyncSession = Depends(get_async_session)
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    return result[0]
+    return True
+
+@router.post(
+    '/user/get_by_username/{username}',
+    tags=['reg_validation']
+)
+async def get_user_by_username_router(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_user_by_username(username=username, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User does not exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return True
 
 
 @router.get(
@@ -152,9 +165,37 @@ async def get_user_list_page(username: str, list_name: str) -> Any:
 
 
 @router.post('/follow_to/{user_id}')
-async def follow_to(user_id: str, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session),):
+async def follow_to_rout(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)):
     result = await follow_on_user(follower_id=user.id, user_id=user_id, db=db)
     if not result:
         return False
     
     return True
+
+@router.delete('/unfollow_to/{user_id}')
+async def unfollow_rout(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)) -> None:
+    await unfollow(follower_id=user.id, user_id=user_id, db=db)
+
+
+@router.get('/follow_check/{user_id}')
+async def check_follow_route(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)) -> None:
+    result = await check_follow(follower_id=user.id, user_id=user_id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='False')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    print('true')
+    error = error_model.ErrorResponseModel(details='True')
+    return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_200_OK,
+        )
+
+
+@router.get('/last_game/{user_id}', response_model=list[game_model.GetGamesResponseModel])
+async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)) -> None:
+    result = await get_user_last_game(user_id=user_id, db=db)
+
+    return result

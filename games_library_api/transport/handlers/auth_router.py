@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 
 from games_library_api.auth.utils import auth_backend, current_active_user, fastapi_users
-from games_library_api.integrations.user_operations import check_username_in_db
 from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -34,10 +33,3 @@ router.include_router(
     prefix='/users',
     tags=['users'],
 )
-
-@router.post('/check_username',tags=['auth'],)
-async def check_username(username: str, db: AsyncSession = Depends(get_async_session)):
-    check = await check_username_in_db(username=username, db=db)
-    if not check:
-        return False
-    return True

@@ -13,10 +13,14 @@ class UserResponseModel(BaseModel):
 
 
 class PublicUserResponseModel(BaseModel):
+    id: UUID4
     name: str
+    surname: Optional[str]
     img: Optional[str]
     username: str
-
+    list_count: int
+    follower_count: int
+    passed_game_count: int
 
 class PrivateUserResponseModel(BaseModel):
     name: str
@@ -26,3 +30,15 @@ class PrivateUserResponseModel(BaseModel):
     email: str
     birthdate: Optional[datetime.date]
     gender: Optional[str]
+    is_active: bool
+    is_superuser: bool
+    is_verified: bool
+    reporter: bool
+    subscriber: bool
+    list_count: int
+    follower_count: int
+    passed_game_count: int
+
+
+class UserStatsModel(BaseModel):
+    count: int

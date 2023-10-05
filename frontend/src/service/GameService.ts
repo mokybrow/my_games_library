@@ -15,8 +15,7 @@ export default class GameService {
         })
     }
 
-    static async get_new_games(): Promise<AxiosResponse<GamesResponse[]>> {
-
+    static async getNewGames(): Promise<AxiosResponse<GamesResponse[]>> {
         return $api.get<GamesResponse[]>(`/games/new/`,
         {
             headers: {
@@ -24,9 +23,17 @@ export default class GameService {
             },
         })
     }
-    static async get_game_by_slug(slug: string): Promise<AxiosResponse<GameProfileResponse>> {
-
+    static async getGameBySlug(slug: string): Promise<AxiosResponse<GameProfileResponse>> {
         return $api.get<GameProfileResponse>(`/game/${slug}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+    }
+
+    static async getUserGames(user_id: string):Promise<AxiosResponse<GamesResponse[]>>  {
+        return $api.get<GamesResponse[]>(`/last_game/${user_id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',

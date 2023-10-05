@@ -61,7 +61,6 @@ async def get_new_games(db: AsyncSession):
 
 async def get_game(slug: str, db: AsyncSession):
     query = select(game_table).where(game_table.c.slug == slug)
-
     result = await db.execute(query)
     a = result.all()
     result = await db.execute(query)

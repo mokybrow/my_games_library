@@ -4,7 +4,6 @@ export interface AuthResponse {
 }
 
 export interface RegResponse {
-
     id: string
     email: string
     is_active: boolean,
@@ -29,16 +28,24 @@ export interface IUser {
     surname: string,
     birthdate: Date,
     gender: string
+    list_count: number,
+    follower_count: number,
+    passed_game_count: number,
 }
 
 export interface AUser {
-    birthdate: Date,
-    gender: string
-    img: string,
+    id: string,
     name: string,
     surname: string,
+    img: string,
     username: string,
-    email: string
+    list_count: number,
+    follower_count: number,
+    passed_game_count: number,
+}
+
+export interface RegEmailCheck {
+    result: boolean,
 }
 
 export interface detail {
@@ -55,40 +62,44 @@ export interface GamesResponse {
 }
 
 
-// export interface GameProfileResponse {
-//     id: string
-//     title: string
-//     cover: string
-//     slug: string
-//     release: Date
-//     platform: string;
-// }
+export interface UserStat {
+    follow: boolean
+}
+
 
 export interface GameProfileResponse {
-    id:          string;
-    title:       string;
-    cover:       string;
+    id: string;
+    title: string;
+    cover: string;
     description: null;
-    slug:        string;
-    release:     Date;
-    platform:    PlatformElement[];
-    genre:       Genre[];
+    slug: string;
+    release: Date;
+    platform: PlatformElement[];
+    genre: Genre[];
 }
 
 export interface Genre {
-    id:               number;
-    name:             string;
-    slug:             string;
-    games_count:      number;
+    id: number;
+    name: string;
+    slug: string;
+    games_count: number;
     image_background: string;
 }
 
 export interface PlatformElement {
     platform: PlatformPlatform;
+    released_at: Date;
+    requirements_en: null;
+    requirements_ru: null;
 }
 
 export interface PlatformPlatform {
-    id:   number;
+    id: number;
     name: string;
     slug: string;
+    image: null;
+    year_end: null;
+    year_start: number | null;
+    games_count: number;
+    image_background: string;
 }

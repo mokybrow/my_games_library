@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form"
 import { error } from 'console';
 import { useNavigate } from 'react-router-dom';
+import AuthService from '../service/AuthService';
 
 type FormData = {
     email: string
@@ -38,20 +39,38 @@ const RegForm: FC = () => {
     }
     const error: SubmitErrorHandler<FormData> = (data) => console.log(data)
 
-    const uniqEmail = (email: string) => {
-        user_store.FindUserEmail(email)
-        if (user_store.anotherUser2.email === email) {
+    const uniqEmail = async (email: string) => {
+        try {
+            const response = await AuthService.getUserbyEmail(email)
+            console.log(response.data.result)
+            if (response.data.result === true) {
+                console.log(response.data.result)
+                console.log('es')
+                return true
+            }
+            console.log('net')
             return false
+
+        } catch (error) {
         }
-        return true;
     };
-    const uniqUsername = (username: string) => {
-        user_store.FindUser(username)
-        if (user_store.anotherUser.username === username) {
+    const uniqUsername = async (username: string) => {
+        try {
+            const response = await AuthService.getUserbyUsername(username)
+            console.log(response.data.username)
+            if (response.data.username) {
+                console.log(response.data.username)
+                console.log('es')
+                return true
+            }
+            console.log('net')
             return false
+
+        } catch (error) {
         }
-        return true;
     };
+
+
     const confPasswordCheck = () => {
         if (password !== confPassword) {
             return false;
@@ -79,7 +98,7 @@ const RegForm: FC = () => {
                     },
                 },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' />
 
-                {errors.email && <p className='error-alert' role="alert">{errors?.email?.message ||"Пользователь с такой почтой существует"}</p>}
+                {errors.email && <p className='error-alert' role="alert">{errors?.email?.message || "Пользователь с такой почтой существует"}</p>}
 
 
                 <input  {...register("username", {
@@ -93,7 +112,7 @@ const RegForm: FC = () => {
                         message: 'Имя пользователя не может быть короче 3 символов'
                     }
                 },)} onChange={e => setUsername(e.target.value)} placeholder='Username' className='text-field-input' />
-                {errors.username && <p className='error-alert' role="alert">{errors?.username?.message ||"Пользователь с таким именем существует"}</p>}
+                {errors.username && <p className='error-alert' role="alert">{errors?.username?.message || "Пользователь с таким именем существует"}</p>}
 
 
                 <input {...register("name", {

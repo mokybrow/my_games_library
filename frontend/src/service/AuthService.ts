@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, RegResponse } from "../models/response";
+import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -20,19 +20,24 @@ export default class AuthService {
         return $api.post<RegResponse>('/auth/register', { email: email, password: password, username: username, name: name })
     }
 
-    static async getMe(): Promise<AxiosResponse<IUser>> {
-        return axios.get<IUser>(`${API_URL}users/me`, {
+    static async getUserInfo(): Promise<AxiosResponse<IUser>> {
+        return axios.get<IUser>(`${API_URL}username`, {
             headers: {
                 'Authorization': `Bearer ${getLocalToken()}`,
             },
         })
     }
-    static async getUser(username:string): Promise<AxiosResponse<AUser>> {
+
+    static async getUserProfile(username:string): Promise<AxiosResponse<AUser>> {
         return axios.get<AUser>(`${API_URL}user/${username}`,)
     }
 
-    static async getUserEmail(email:string): Promise<AxiosResponse<AUser>> {
-        return axios.get<AUser>(`${API_URL}user/email/${email}`,)
+    static async getUserbyUsername(username:string): Promise<AxiosResponse<AUser>> {
+        return axios.post<AUser>(`${API_URL}user/get_by_username/${username}`,)
+    }
+
+    static async getUserbyEmail(email:string): Promise<AxiosResponse<RegEmailCheck>> {
+        return axios.post<RegEmailCheck>(`${API_URL}user/get_by_email/${email}`,)
     }
 
     static async logout(): Promise<void> {

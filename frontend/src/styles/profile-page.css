@@ -1,5 +1,5 @@
 .profile-page-section {
-    margin-top: 12%;
+    margin-top: 60px;
     font-family: 'Inter', sans-serif;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -8,91 +8,146 @@
     padding: 0 14vw;
 }
 
-.profile-header {
-    margin-left: 5px;
-    grid-column: 1/7;
-    text-decoration: underline;
-    color: var(--font-color-global);
-}
-
-.back-banner {
-    position: relative;
-    display: flex;
-    grid-column: 1/7;
-    width: 100%;
-    height: 170px;
-}
-
-.banner {
-    display: flex;
+.profile-banner {
+    margin-top: 144px;
     background-color: var(--background-card-color);
-    height: 120px;
-    width: 100%;
+    grid-column: 1/7;
+    display: flex;
+    flex-direction: row;
     border-radius: 0 6px 6px 6px;
-    margin-top: 50px;
-    transition: all 200ms linear;
-}
-
-.edit-profile-button {
-    color: var(--font-color-global);
-    padding: 10px;
-    display: flex;
-    height: 20%;
-    margin-left: auto;
-    margin-right: 2%;
-    margin-top: 1.5%;
-    align-items: center;
-    text-align: center;
-    border: none;
-    background-color: var(--buttons-color);
-    transition: all 200ms linear;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.name-card{
-    margin-top: 1.5%;
-    margin-left: 15%;
-    margin-right: auto;
-    font-size: 32px;
+    align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
 }
 
-.main-card {
-    grid-column: 1/7;
-    border-radius: 10px;
-    height: 100%;
-    background-color: var(--background-card-color);
-    font-family: 'Inter', sans-serif;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px 24px;
-    align-items: stretch;
-    padding: 0 2%;
-    margin-bottom: 140px;
-    align-items: center;
-    transition: all 200ms linear;
-}
-
-.profile-img-container {
+.profile-banner-img {
+    margin-top: 80px;
     position: absolute;
-    display: flex;
-}
-
-.profile-img-container img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
     object-fit: cover;
 }
+
+.empty-block {
+    width: 120px;
+    height: 120px;
+}
+
+.profile-banner-name {
+    margin-left: 12px;
+    margin-top: 12px;
+    font-size: 36px;
+    color: var(--font-color-global);
+    transition: all 200ms linear;
+
+}
+
+.other-banner-info {
+    margin-left: 12px;
+    opacity: 0.4;
+    transition: all 200ms linear;
+
+}
+
+.profile-banner-button {
+    margin-top: 12px;
+    margin-right: 12px;
+    margin-left: auto;
+    padding: 6px;
+    background-color: var(--buttons-color);
+    color: var(--font-color-global);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 200ms linear;
+}
+
+.profile-banner-button-unfollow {
+    margin-top: 12px;
+    margin-right: 12px;
+    margin-left: auto;
+    padding: 6px;
+    background-color: var(--buttons-color);
+    color: var(--font-color-global);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 200ms linear;
+}
+
+.profile-banner-button-follow {
+    margin-top: 12px;
+    margin-right: 12px;
+    margin-left: auto;
+    padding: 6px;
+    background-color: #1349C9;
+    color: var(--font-color-global);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 200ms linear;
+}
+
+.profile-banner-button-link {
+    margin-left: auto;
+}
+
+
+.main-lists-container {
+    background-color: var(--background-card-color);
+    grid-column: 1/7;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border-radius:6px;
+    align-items: flex-start;
+    color: var(--font-color-global);
+    transition: all 200ms linear;
+}
+
 
 .list-card {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    background-color: #D9D9D9;
+    background-color: #39393b;
     cursor: pointer;
     transition: all 0.3s ease 0s;
-    height: 80%;
+    height: 200px;
+    margin: 12px;
+}
+
+.list-card:hover {
+    background-color: var(--background-card-color);
+    opacity: 0.7;
+}
+
+.card__image-container {
+    display: flex;
+    border-radius: 10px;
+    height: 100%;
+    padding-top: 56.25%;
+    overflow: hidden;
+    position: relative;
+}
+
+.card__image-container img {
+    object-fit: cover;
+    height: 100%;
+    /* width: 100%; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.last-game-container {
+    background-color: var(--background-card-color);
+    grid-column: 1/7;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    border-radius:6px;
+    align-items: flex-start;
+    color: var(--font-color-global);
+    transition: all 200ms linear;
 }
