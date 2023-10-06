@@ -23,6 +23,7 @@ class PublicUserResponseModel(BaseModel):
     passed_game_count: int
 
 class PrivateUserResponseModel(BaseModel):
+    id: UUID4
     name: str
     surname: Optional[str]
     img: Optional[str]

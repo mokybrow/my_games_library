@@ -103,3 +103,19 @@ export interface PlatformPlatform {
     games_count: number;
     image_background: string;
 }
+
+
+export interface GameReviews {
+    user_id: string;
+    grade: number;
+    comment: string;
+    created_at: Date;
+    id: string;
+    username: string;
+    img: null;
+}
+
+export interface GameAvgRate {
+    avg_rate: number;
+
+}

@@ -19,6 +19,7 @@ const ProfilePage: FC = () => {
     await UserService.unFollowOnUser(user_store.anotherUser.id)
     user_store.setFollower(false)
   }
+
   useEffect(() => {
     user_store.findUser(String(username))
     if (localStorage.getItem('token')) {
@@ -26,7 +27,19 @@ const ProfilePage: FC = () => {
     }
   }, [])
 
- 
+  if (user_store.isLoading === true || auth_store.isLoading == true) {
+    return (
+      <section className='loader-section'>
+        <div className="lds-spinner"><div></div>
+          <div></div><div></div>
+          <div></div><div></div><div>
+          </div><div></div><div></div><div
+          ></div><div></div><div></div>
+          <div></div></div>
+      </section>
+
+    )
+  }
 
   //Пользователь не залогинен и ищет профиль
   if (!auth_store.isAuth) {
@@ -41,6 +54,69 @@ const ProfilePage: FC = () => {
               <p className="other-banner-info">Подписчики {user_store.anotherUser.follower_count}</p>
               <p className="other-banner-info">Списки {user_store.anotherUser.list_count}</p>
               <p className="other-banner-info">Пройденные игры {user_store.anotherUser.passed_game_count}</p></div>
+            {user_store.isFollower ? <button onClick={unFollowHandler} className="profile-banner-button-unfollow">Отписаться</button> : <button onClick={followHandler} className="profile-banner-button-follow">Подписаться</button>}
+          </div>
+          <div className="main-lists-container">
+            <Link to='liked'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+            <Link to='wants-to-play'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+            <Link to='played'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+            <Link to='lists'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+
+          </div>
+          <div className="last-game-container">
+
+            <h2 className='profile-container-header'>Последние игры</h2>
+            {user_store.games.length > 0 ?
+              <>
+                {user_store.games.map(game =>
+                  <Link key={game.id} to={'/game/' + game.slug}>
+                    <div className="list-card">
+                      <div className="card__image-container">
+                        <img
+                          src={game.cover}
+                        />
+                        <div className="card-body">
+                          <p className="card-title">{game.title}</p>
+                        </div>
+                      </div>
+                    </div></Link>)}
+              </> :
+              <div className="empty-last-game-container">
+                <div className="games-card-placeholder"><h2>Тут пусто, даже слишком</h2></div>
+              </div>
+            }
           </div>
         </section>
       </>
@@ -66,6 +142,68 @@ const ProfilePage: FC = () => {
               <p className="other-banner-info">Списки {user_store.anotherUser.list_count}</p>
               <p className="other-banner-info">Пройденные игры {user_store.anotherUser.passed_game_count}</p></div>
             {user_store.isFollower ? <button onClick={unFollowHandler} className="profile-banner-button-unfollow">Отписаться</button> : <button onClick={followHandler} className="profile-banner-button-follow">Подписаться</button>}
+          </div>
+          <div className="main-lists-container">
+            <Link to='liked'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+            <Link to='wants-to-play'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+            <Link to='played'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+            <Link to='lists'>
+              <div className="list-card">
+                <div className="card__image-container">
+                  <img
+                    src='https://media.rawg.io/media/screenshots/8ae/8aef4c14afbd1f927f6f4b10276b064a.jpg'
+                  />
+                </div>
+              </div>
+            </Link>
+
+          </div>
+          <div className="last-game-container">
+
+            <h2 className='profile-container-header'>Последние игры</h2>
+            {user_store.games.length > 0 ?
+              <>
+                {user_store.games.map(game =>
+                  <Link key={game.id} to={'/game/' + game.slug}>
+                    <div className="list-card">
+                      <div className="card__image-container">
+                        <img
+                          src={game.cover}
+                        />
+                        <div className="card-body">
+                          <p className="card-title">{game.title}</p>
+                        </div>
+                      </div>
+                    </div></Link>)}
+              </> :
+              <div className="empty-last-game-container">
+                <div className="games-card-placeholder"><h2>Тут пусто, даже слишком</h2></div>
+              </div>
+            }
           </div>
         </section>
       </>
@@ -128,7 +266,28 @@ const ProfilePage: FC = () => {
         </div>
         <div className="last-game-container">
 
+          <h2 className='profile-container-header'>Последние игры</h2>
+          {auth_store.games.length > 0 ?
+            <>
+              {auth_store.games.map(game =>
+                <Link key={game.id} to={'/game/' + game.slug}>
+                  <div className="list-card">
+                    <div className="card__image-container">
+                      <img
+                        src={game.cover}
+                      />
+                      <div className="card-body">
+                        <p className="card-title">{game.title}</p>
+                      </div>
+                    </div>
+                  </div></Link>)}
+            </> :
+            <div className="empty-last-game-container">
+              <div className="games-card-placeholder"><h2>Тут пусто, даже слишком</h2></div>
+            </div>
+          }
         </div>
+
       </section>
     </>
   )

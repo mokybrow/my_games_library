@@ -15,19 +15,21 @@ import './styles/form.css'
 import './styles/home-page.css'
 import './styles/profile-page.css'
 import './styles/reg-page.css'
+import './styles/page-loader.css'
+import './styles/game-profile.css'
 import { useTheme } from './hooks/useTheme';
-import { GameProfile } from './pages/GameProfile';
 import { ListPage } from './pages/ListPage';
+import GameProfile from './pages/GameProfile';
 
 
 function App() {
   const { auth_store } = useContext(Context);
   const {theme, setTheme} = useTheme()
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      auth_store.checkAuth()
-    }
-  }, [auth_store])
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     auth_store.checkAuth()
+  //   }
+  // }, [auth_store])
 
 
   return (

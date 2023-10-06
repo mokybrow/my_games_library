@@ -4,13 +4,15 @@ import AuthService from "../service/AuthService";
 import { AxiosError } from "axios";
 import UserService from "../service/UserService";
 import GameService from "../service/GameService";
+import AuthStore from "./auth_store";
+import { getLocalToken } from "../utils/utils";
 
 
 export default class UserStore {
     isAuth = false;
     isLoading = false;
     anotherUser = {} as AUser;
-
+    games = [] as GamesResponse[];
 
     isFollower = false;
 
@@ -22,7 +24,9 @@ export default class UserStore {
         this.anotherUser = user;
     }
 
-
+    setGames(games: GamesResponse[]) {
+        this.games = games;
+    }
 
     setLoading(bool: boolean) {
         this.isLoading = bool;
@@ -37,16 +41,26 @@ export default class UserStore {
         try {
             const user = await UserService.getUserProfile(username);
             this.setAUser(user.data)
-            const follow = await UserService.checkFollow(this.anotherUser.id);
-            if (follow.status === 200){
-                this.setFollower(true)
+            const game = await GameService.getUserGames(user.data.id)
+            this.setGames(game.data)
+            if (getLocalToken() !== null){
+                const response = await AuthService.getUserInfo();
+                if (response.status !== 401){
+                    const follow = await UserService.checkFollow(this.anotherUser.id);
+                    console.log(follow.data.detail)
+                    if (follow.status === 200) {
+                        this.setFollower(true)
+                    }
+                }
             }
         } catch (error) {
             const err = error as AxiosError
         } finally {
             this.setLoading(false);
         }
+
     }
+
 
     // async checkFollow(user_id: string) {
     //     if (this.isLoading !== false) {

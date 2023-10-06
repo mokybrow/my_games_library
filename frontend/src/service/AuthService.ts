@@ -21,11 +21,7 @@ export default class AuthService {
     }
 
     static async getUserInfo(): Promise<AxiosResponse<IUser>> {
-        return axios.get<IUser>(`${API_URL}username`, {
-            headers: {
-                'Authorization': `Bearer ${getLocalToken()}`,
-            },
-        })
+        return $api.get<IUser>(`${API_URL}username`)
     }
 
     static async getUserProfile(username:string): Promise<AxiosResponse<AUser>> {

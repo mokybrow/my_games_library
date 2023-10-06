@@ -1,0 +1,159 @@
+.game-profile-section {
+    margin-top: 60px;
+    font-family: 'Inter', sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 20px 50px;
+    align-items: stretch;
+    padding: 0 14vw;
+    margin-bottom: 80px;
+}
+
+.game-profile-cover {
+    margin-top: 80px;
+    width: 200px;
+    height: 250px;
+    border-radius: 6px;
+    object-fit: cover;
+    grid-column: 1/2;
+}
+
+.game-profile-info {
+    margin-top: 80px;
+    display: flex;
+    grid-column: 2/7;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.game-profile-title {
+    font-size: 36px;
+}
+
+.inline-container-title {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.game-profile-release {
+    opacity: 0.55;
+}
+
+.left-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    grid-row: 1/2;
+}
+
+.game-profile-platforms {
+    width: auto;
+    max-width: 100%;
+    gap: 4px;
+    padding: 8px 16px;
+    background-color: #4C75D7;
+    border-radius: 6px;
+    width: 200px;
+}
+
+.game-profile-grade {
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+    gap: 4px;
+    padding: 8px 16px;
+    background-color: var(--buttons-color);
+    border: 1px solid #4C75D7 ;
+    border-radius: 6px;
+    width: 200px;
+}
+
+.game-profile-platforms-title {
+    padding: 8px 16px;
+    background-color: var(--buttons-color);
+    border-radius: 6px;
+    width: 200px;
+    transition: all 200ms linear;
+}
+
+.reviews-container {
+    grid-row: 2/3;
+    grid-column: 2/7;
+}
+
+.reviews-comment-container {
+    margin-top: 24px;
+}
+
+.reviews-title {
+    font-size: 40px;
+}
+
+.drop-down-line-game-profile {
+    border: 1px solid var(--font-color-global);
+    opacity: 0.6;
+    transition: all 200ms linear;
+    margin: 12px 0;
+}
+
+.user-in-comment-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.inline-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.comment-text {
+    margin-left: 5px;
+}
+
+.grade-container {
+    display: flex;
+    gap: 5px;
+    padding: 2px 5px;
+    border-radius: 6px;
+    background-color: var(--buttons-color);
+}
+
+.rate-star {
+    border-radius: 2px;
+}
+
+.passed-date {
+    margin-left: 36px;
+    font-size: 14px;
+    opacity: .55;
+}
+
+.star-rating{
+    display: none;
+}
+
+.star-rating.active{
+    display: flex;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  .on {
+    color: #000;
+  }
+  .off {
+    color: #da5050;
+  }

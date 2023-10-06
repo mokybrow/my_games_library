@@ -3,7 +3,7 @@ from operator import or_
 import uuid
 
 from pydantic import UUID4, Json
-from sqlalchemy import insert, select
+from sqlalchemy import func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import game_table, review_table, user_table
@@ -81,6 +81,17 @@ async def get_game_review(id: UUID4, db: AsyncSession):
         )
         .where(review_table.c.game_id == id)
         .join(user_table)
+    )
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_game_avg_rate(id: UUID4, db: AsyncSession):
+    query = (
+        select(
+            func.avg(review_table.c.grade).label('avg_rate')
+        )
+        .where(review_table.c.game_id == id)
     )
     result = await db.execute(query)
     return result.all()

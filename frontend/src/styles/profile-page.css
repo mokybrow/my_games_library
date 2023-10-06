@@ -6,6 +6,7 @@
     grid-gap: 20px 24px;
     align-items: stretch;
     padding: 0 14vw;
+    margin-bottom: 80px;
 }
 
 .profile-banner {
@@ -150,4 +151,32 @@
     align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
+}
+
+.empty-last-game-container{
+    background-color: var(--background-card-color);
+    grid-column: 1/7;
+    display:grid;
+    grid-template-columns: 1fr;
+    border-radius:6px;
+    align-items: flex-start;
+    color: var(--font-color-global);
+    transition: all 200ms linear;
+}
+
+.games-card-placeholder {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: #39393b;
+    transition: all 0.3s ease 0s;
+    height: 200px;
+    margin: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-container-header{
+    grid-column: 1/7;
+    margin: 12px;
 }

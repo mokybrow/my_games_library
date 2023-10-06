@@ -41,3 +41,6 @@ class GetGameReviewsResponseModel(BaseModel):
     id: UUID4
     username: str
     img: Optional[str]
+
+class GetGameAvgRateResponseModel(BaseModel):
+    avg_rate: float

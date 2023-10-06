@@ -3,13 +3,12 @@ import { AUser, GamesResponse, IUser, detail } from "../models/response";
 import AuthService from "../service/AuthService";
 import { removeLocalToken, saveLocalToken } from "../utils/utils";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
 import GameService from "../service/GameService";
-
 
 
 export default class AuthStore {
     user = {} as IUser;
+    games = [] as GamesResponse[];
     isAuth = false;
     isLoading = false;
 
@@ -25,6 +24,10 @@ export default class AuthStore {
 
     setUser(user: IUser) {
         this.user = user;
+    }
+
+    setGames(games: GamesResponse[]) {
+        this.games = games;
     }
 
     setLoading(bool: boolean) {
@@ -45,22 +48,18 @@ export default class AuthStore {
             this.setLoginError(false);
         } catch (e) {
             this.setLoginError(true);
-            console.log("login error");
         }
-
     }
 
     async registr(email: string, password: string, username: string, name: string) {
         try {
             await AuthService.registration(email, password, username, name);
 
-
         } catch (e) {
             const err = e as AxiosError<detail>
-            console.log(err.response?.data.detail);
 
-
-            }    }
+        }
+    }
 
     async logout() {
         try {
@@ -70,7 +69,6 @@ export default class AuthStore {
             this.setUser({} as IUser);
             window.location.reload();
         } catch (e) {
-            console.log("login error");
         }
     }
 
@@ -80,11 +78,11 @@ export default class AuthStore {
             const response = await AuthService.getUserInfo();
             this.setUser(response.data)
             this.setAuth(true);
+            const game = await GameService.getUserGames(response.data.id)
+            this.setGames(game.data)
         } catch (error) {
-            console.log(error);
         } finally {
             this.setLoading(false);
         }
     }
-
 }
