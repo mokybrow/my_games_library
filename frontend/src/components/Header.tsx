@@ -153,7 +153,7 @@ const Header: FC = () => {
 
                                 </p>
                                 <div className="toggle-pill-dark">
-                                    <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                                    <input type="checkbox"  name="check" checked={checked} onChange={handleChange} />
                                     <label htmlFor="pill4"></label>
                                 </div>
                             </div>
@@ -190,7 +190,7 @@ const Header: FC = () => {
                                 <div className="theme-controller-desktop">
                                     <p>Тема</p>
                                     <div className="toggle-pill-dark">
-                                        <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
+                                        <input type="checkbox" name="check" checked={checked} onChange={handleChange} />
                                         <label htmlFor="pill4"></label>
                                     </div>
                                 </div>

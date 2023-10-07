@@ -147,7 +147,7 @@ const RegForm: FC = () => {
                         message: "Поле не может быть пустым"
                     },
                 })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' />
-                {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message}</p>}
+                {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message || "Пароли не совпадают"}</p>}
 
                 <div className="show-password-container">
                     <p>Показать пароль</p>

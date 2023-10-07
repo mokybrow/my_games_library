@@ -34,8 +34,8 @@ class PrivateUserResponseModel(BaseModel):
     is_active: bool
     is_superuser: bool
     is_verified: bool
-    reporter: bool
-    subscriber: bool
+    reporter: Optional[bool]
+    subscriber: Optional[bool]
     list_count: int
     follower_count: int
     passed_game_count: int

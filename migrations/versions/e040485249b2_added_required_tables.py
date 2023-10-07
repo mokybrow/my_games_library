@@ -1,8 +1,8 @@
-"""empty message
+"""Added required tables
 
-Revision ID: 4c62599a6554
+Revision ID: e040485249b2
 Revises: 
-Create Date: 2023-09-27 18:02:25.200064
+Create Date: 2023-10-07 23:44:16.864809
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '4c62599a6554'
+revision: str = 'e040485249b2'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,8 +27,12 @@ def upgrade() -> None:
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('slug', sa.String(), nullable=False),
     sa.Column('release', sa.DateTime(), nullable=False),
+    sa.Column('playtime', sa.Integer(), nullable=False),
     sa.Column('platform', sa.JSON(), nullable=False),
+    sa.Column('parent_platform', sa.JSON(), nullable=False),
     sa.Column('genre', sa.JSON(), nullable=True),
+    sa.Column('tags', sa.JSON(), nullable=False),
+    sa.Column('esrb_rating', sa.JSON(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('slug')
     )
@@ -46,16 +50,18 @@ def upgrade() -> None:
     sa.Column('gender', sa.String(), nullable=True),
     sa.Column('img', sa.String(), nullable=True),
     sa.Column('reporter', sa.Boolean(), nullable=True),
+    sa.Column('subscriber', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_table('follower',
-    sa.Column('user_id', sa.UUID(), nullable=True),
-    sa.Column('follower_id', sa.UUID(), nullable=True),
+    sa.Column('user_id', sa.UUID(), nullable=False),
+    sa.Column('follower_id', sa.UUID(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['follower_id'], ['user.id'], ondelete='CASCADE'),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ondelete='CASCADE')
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('user_id', 'follower_id')
     )
     op.create_table('like',
     sa.Column('id', sa.UUID(), nullable=False),
@@ -115,11 +121,12 @@ def upgrade() -> None:
     sa.UniqueConstraint('user_id')
     )
     op.create_table('like_game',
-    sa.Column('list_id', sa.UUID(), nullable=True),
-    sa.Column('game_id', sa.UUID(), nullable=True),
+    sa.Column('list_id', sa.UUID(), nullable=False),
+    sa.Column('game_id', sa.UUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['game_id'], ['game.id'], ondelete='CASCADE'),
-    sa.ForeignKeyConstraint(['list_id'], ['like.id'], ondelete='CASCADE')
+    sa.ForeignKeyConstraint(['list_id'], ['like.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('list_id', 'game_id')
     )
     op.create_table('list_game',
     sa.Column('list_id', sa.UUID(), nullable=True),
@@ -137,11 +144,12 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('list_id')
     )
     op.create_table('passed_game',
-    sa.Column('list_id', sa.UUID(), nullable=True),
-    sa.Column('game_id', sa.UUID(), nullable=True),
+    sa.Column('list_id', sa.UUID(), nullable=False),
+    sa.Column('game_id', sa.UUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['game_id'], ['game.id'], ondelete='CASCADE'),
-    sa.ForeignKeyConstraint(['list_id'], ['passed.id'], ondelete='CASCADE')
+    sa.ForeignKeyConstraint(['list_id'], ['passed.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('list_id', 'game_id')
     )
     op.create_table('review_like',
     sa.Column('review_id', sa.UUID(), nullable=True),
@@ -150,11 +158,12 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ondelete='CASCADE')
     )
     op.create_table('wantplay_game',
-    sa.Column('list_id', sa.UUID(), nullable=True),
-    sa.Column('game_id', sa.UUID(), nullable=True),
+    sa.Column('list_id', sa.UUID(), nullable=False),
+    sa.Column('game_id', sa.UUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['game_id'], ['game.id'], ondelete='CASCADE'),
-    sa.ForeignKeyConstraint(['list_id'], ['wantplay.id'], ondelete='CASCADE')
+    sa.ForeignKeyConstraint(['list_id'], ['wantplay.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('list_id', 'game_id')
     )
     # ### end Alembic commands ###
 

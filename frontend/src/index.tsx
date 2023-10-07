@@ -30,9 +30,10 @@ export const Context = createContext<State>({
 const locale = navigator.language;
 
 let lang;
-if (locale === "ru") {
+if (locale === 'ru') {
   lang = Russian;
-} else {
+}
+else {
   lang = English;
 }
 
@@ -41,8 +42,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Context.Provider value={{ auth_store: auth_store, user_store: user_store, games_store: games_store }}>
-    <IntlProvider locale={locale} messages={Russian}>
+    <IntlProvider locale={locale} messages={lang}>
       <App />
     </IntlProvider>
+
   </Context.Provider>
+
 );
