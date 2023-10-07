@@ -9,14 +9,128 @@
     margin-bottom: 80px;
 }
 
-.game-profile-cover {
+.game-profile-cover-container {
     margin-top: 80px;
     width: 200px;
     height: 250px;
     border-radius: 6px;
     object-fit: cover;
     grid-column: 1/2;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
 }
+
+.game-profile-cover-container img {
+    object-fit: cover;
+    height: 100%;
+    /* width: 100%; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-card-body {
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #ffffff;
+    padding-bottom: 8%;
+}
+
+.check-box-panel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--checkbox-panel-background-color);
+    border-radius: 6px; 
+    transition: all 200ms linear;
+}
+/* Чекбоксы на картинке */
+
+/* для элемента input c type="checkbox" */
+.custom-checkbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+/* для элемента label, связанного с .custom-checkbox */
+.custom-checkbox+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+
+/* создание в label псевдоэлемента before со следующими стилями */
+.custom-checkbox+label::before {
+    content: '';
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: 3px solid var(--font-color-global);
+    border-radius: 0.25em;
+    margin: 0.3em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 70% 70%;
+    transition: all 100ms linear;
+}
+
+.custom-checkbox.check+label::before {
+    background-image: var(--check-checkbox-background-image);
+}
+.custom-checkbox.heart+label::before {
+    background-image: var(--heart-checkbox-background-image);
+}
+.custom-checkbox.clock+label::before {
+    background-image: var(--clock-checkbox-background-image);
+}
+.custom-checkbox.plus+label::before {
+    background-image: var(--plus-checkbox-background-image);
+}
+
+
+/* стили при наведении курсора на checkbox */
+.custom-checkbox:not(:disabled):not(:checked)+label:hover::before {
+    border-color: #4C75D7;
+}
+
+/* стили для активного чекбокса (при нажатии на него) */
+.custom-checkbox:not(:disabled):active+label::before {
+    background-color: #4C75D7;
+    border-color: #4C75D7;
+}
+
+/* стили для чекбокса, находящегося в состоянии checked */
+.custom-checkbox:checked+label::before {
+    border-color: #4C75D7;
+    background-color: #4C75D7;
+}
+
+.custom-checkbox.check:checked+label::before {
+    background-image: url('../icons/check-white.png');
+}
+.custom-checkbox.heart:checked+label::before {
+    background-image: url('../icons/heart-white.png');
+}
+.custom-checkbox.clock:checked+label::before {
+    background-image: url('../icons/clock-white.png');
+}
+.custom-checkbox.plus:checked+label::before {
+    background-image: url('../icons/plus-white.png');
+}
+
+/* Чекбоксы на картинке */
 
 .game-profile-info {
     margin-top: 80px;
@@ -27,6 +141,7 @@
 }
 
 .game-profile-title {
+    display: inline-flex;
     font-size: 36px;
 }
 
@@ -40,6 +155,10 @@
 
 .game-profile-release {
     opacity: 0.55;
+}
+
+.game-profile-desription{
+    margin-top: 24px;
 }
 
 .left-page-container {
@@ -66,9 +185,10 @@
     gap: 4px;
     padding: 8px 16px;
     background-color: var(--buttons-color);
-    border: 1px solid #4C75D7 ;
+    border: 1px solid #4C75D7;
     border-radius: 6px;
     width: 200px;
+    transition: all 200ms linear;
 }
 
 .game-profile-platforms-title {
@@ -94,9 +214,9 @@
 
 .drop-down-line-game-profile {
     border: 1px solid var(--font-color-global);
-    opacity: 0.6;
+    opacity: 0.4;
     transition: all 200ms linear;
-    margin: 12px 0;
+    margin: 16px 0;
 }
 
 .user-in-comment-img {
@@ -112,6 +232,8 @@
     gap: 5px;
     align-items: center;
     margin-bottom: 12px;
+    transition: all 200ms linear;
+
 }
 
 .comment-text {
@@ -124,10 +246,19 @@
     padding: 2px 5px;
     border-radius: 6px;
     background-color: var(--buttons-color);
+    transition: all 200ms linear;
+
 }
 
 .rate-star {
     border-radius: 2px;
+    transition: all 200ms linear;
+    transition: all 200ms linear;
+}
+
+.grade-border{
+    transition: all 200ms linear;
+
 }
 
 .passed-date {
@@ -136,24 +267,29 @@
     opacity: .55;
 }
 
-.star-rating{
+.star-rating {
     display: none;
+    transition: all 200ms linear;
+
 }
 
-.star-rating.active{
+.star-rating.active {
     display: flex;
+    transition: all 200ms linear;
 }
 
-button {
+#start-button {
     background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
     width: 100%;
-  }
-  .on {
-    color: #000;
-  }
-  .off {
+}
+
+.on {
     color: #da5050;
-  }
+}
+
+.off {
+    color: var(--font-color-global);
+}

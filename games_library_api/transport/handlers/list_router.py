@@ -6,16 +6,18 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
-from games_library_api.integrations.after_registration import create_default_lists
 from games_library_api.integrations.list_operations import (
     add_cover_to_list,
-    add_game_to_liked_list,
-    add_game_to_passed_list,
     add_game_to_user_list,
-    add_game_to_wantplay_list,
+    check_game_in_user_liked,
+    check_game_in_user_passed,
+    check_game_in_user_wantplay,
     create_list,
     delete_user_list,
     get_list,
+    universal_game_liked,
+    universal_game_passed,
+    universal_game_wanted,
     update_list,
 )
 from games_library_api.models import list_model
@@ -73,47 +75,43 @@ async def add_game_to_user_list_router(
         return {'Game added': 'Error'}
     return {'Game added': 'Success'}
 
-
-@router.post('/lists/add_game_to_passed_list')
-async def add_game_to_passed_list_router(
-    list_id: UUID4,
+@router.post('/lists/operation/passed/{game_id}')
+async def universal_wantplay_passed_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-    result = await add_game_to_passed_list(db=db, list_id=list_id, game_id=game_id)
-
+    result = await universal_game_passed(db=db, user_id=user.id, game_id=game_id)
     if not result:
-        return {'Game added': 'Error'}
+        return {'Game deleted': 'Success'}
+
     return {'Game added': 'Success'}
 
-
-@router.post('/lists/add_game_to_liked_list')
-async def add_game_to_liked_list_router(
-    list_id: UUID4,
+@router.post('/lists/operation/wantplay/{game_id}')
+async def universal_wantplay_list_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-    result = await add_game_to_liked_list(db=db, list_id=list_id, game_id=game_id)
-
+    result = await universal_game_wanted(db=db, user_id=user.id, game_id=game_id)
     if not result:
-        return {'Game added': 'Error'}
+        return {'Game deleted': 'Success'}
+
     return {'Game added': 'Success'}
 
 
-@router.post('/lists/add_game_to_wantplay_list')
-async def add_game_to_wantplay_list_router(
-    list_id: UUID4,
+@router.post('/lists/operation/liked/{game_id}')
+async def universal_wantplay_liked_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-    result = await add_game_to_wantplay_list(db=db, list_id=list_id, game_id=game_id)
+    result = await universal_game_liked(db=db, user_id=user.id, game_id=game_id)
     if not result:
-        return {'Game added': 'Error'}
+        return {'Game deleted': 'Success'}
 
     return {'Game added': 'Success'}
+
 
 
 @router.delete('/list/delete/')
@@ -146,3 +144,22 @@ async def update_user_list_router(
     if not result:
         return {'List name already': 'exist'}
     return {'List updated': 'success'}
+
+
+@router.get('/check/game_in_passed_list/{game_id}')
+async def check_game_in_passed_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_game_in_user_passed(game_id=game_id, user_id=user.id, db=db)
+    return result
+
+@router.get('/check/game_in_liked_list/{game_id}')
+async def check_game_in_liked_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_game_in_user_liked(game_id=game_id, user_id=user.id, db=db)
+    return result
+
+@router.get('/check/game_in_wanted_list/{game_id}')
+async def check_game_in_wanted_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_game_in_user_wantplay(game_id=game_id, user_id=user.id, db=db)
+    return result

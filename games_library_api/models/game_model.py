@@ -43,4 +43,4 @@ class GetGameReviewsResponseModel(BaseModel):
     img: Optional[str]
 
 class GetGameAvgRateResponseModel(BaseModel):
-    avg_rate: float
+    avg_rate: Optional[float]

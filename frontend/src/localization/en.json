@@ -1,0 +1,36 @@
+{
+    "app.header": "Edit the files and save to reload",
+    "app.content": "Learn React",
+    "app.channel.plug": "Tutorial brought to you by Medium",
+    "header.menu.logo": "Logo",
+    "header.menu.item1": "Games",
+    "header.menu.item2": "Playlists",
+    "header.menu.item3": "News",
+    "header.menu.item4": "Reviews",
+
+    "header.menu.login": "Log in",
+    "header.menu.logout": "Log out",
+    "header.menu.signin": "Sign up",
+    "header.menu.theme": "Theme",
+
+    "header.menu.profile": "Profile",
+    "header.menu.passed": "Passed",
+    "header.menu.wanttoplay": "I'll pass",
+    "header.menu.liked": "Liked",
+    "header.menu.lists": "Lists",
+    "header.menu.settings": "Settings",
+
+    "content.headers.newsgames": "New games",
+
+    "content.gameprofile.genre": "Genre",
+    "content.gameprofile.genre.plural": "Genres",
+    "content.gameprofile.platform": "Platform",
+    "content.gameprofile.platform.plural": "Platforms",
+    "content.gameprofile.nodata": "N/A",
+    "content.gameprofile.estimate": "Estimate",
+    "content.gameprofile.releasedate": "Release date",
+    "content.gameprofile.commentdate": "Passed on",
+    "content.gameprofile.header": "Reviews"
+
+
+}

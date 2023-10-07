@@ -89,7 +89,7 @@ async def get_game_review(id: UUID4, db: AsyncSession):
 async def get_game_avg_rate(id: UUID4, db: AsyncSession):
     query = (
         select(
-            func.avg(review_table.c.grade).label('avg_rate')
+            func.round(func.avg(review_table.c.grade), 1).label('avg_rate')
         )
         .where(review_table.c.game_id == id)
     )

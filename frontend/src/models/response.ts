@@ -86,6 +86,16 @@ export interface Genre {
     image_background: string;
 }
 
+export interface userGrade {
+    id: string,
+    user_id: string,
+    game_id: string,
+    grade: number,
+    comment: string | null,
+    created_at: Date
+
+}
+
 export interface PlatformElement {
     platform: PlatformPlatform;
     released_at: Date;

@@ -94,8 +94,8 @@ like_game_table = Table(
     'like_game',
     metadata,
     metadata,
-    Column('list_id', UUID, ForeignKey('like.id', ondelete='CASCADE')),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE')),
+    Column('list_id', UUID, ForeignKey('like.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
@@ -111,8 +111,8 @@ wantplay_table = Table(
 wantplay_game_table = Table(
     'wantplay_game',
     metadata,
-    Column('list_id', UUID, ForeignKey('wantplay.id', ondelete='CASCADE')),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE')),
+    Column('list_id', UUID, ForeignKey('wantplay.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
@@ -128,8 +128,8 @@ passed_table = Table(
 passed_game_table = Table(
     'passed_game',
     metadata,
-    Column('list_id', UUID, ForeignKey('passed.id', ondelete='CASCADE')),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE')),
+    Column('list_id', UUID, ForeignKey('passed.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 

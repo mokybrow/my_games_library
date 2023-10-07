@@ -52,7 +52,7 @@ async def get_game_review_router(id: UUID4, db: AsyncSession = Depends(get_async
 @router.get(
     "/game/{id}/avg_rate/", response_model=game_model.GetGameAvgRateResponseModel
 )
-async def get_game_review_router(id: UUID4, db: AsyncSession = Depends(get_async_session)) -> Any:
+async def get_game_avg_rate_router(id: UUID4, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_game_avg_rate(id=id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='This Game Have No Reviews')

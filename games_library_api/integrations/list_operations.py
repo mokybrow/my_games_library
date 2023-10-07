@@ -93,9 +93,18 @@ async def add_game_to_user_list(list_id: UUID4, game_id: UUID4, db: AsyncSession
     return True
 
 
-async def add_game_to_passed_list(list_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
+async def add_game_to_passed_list(user_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
+    list_id = select(passed_table.c.id).where(passed_table.c.user_id == user_id)
+    list_id_result = await db.execute(list_id)
+    uniq_game = select(passed_game_table).where(passed_game_table.c.game_id == game_id, passed_game_table.c.list_id==list_id_result.all()[0][0])
+    uniq_gameresult = await db.execute(uniq_game)
+        
+    if uniq_gameresult.all():
+        return False
+    
+    list_id_result = await db.execute(list_id)
     stmt = insert(passed_game_table).values(
-        list_id=list_id,
+        list_id=list_id_result.all()[0][0],
         game_id=game_id,
         created_at=datetime.datetime.utcnow(),
     )
@@ -106,30 +115,72 @@ async def add_game_to_passed_list(list_id: UUID4, game_id: UUID4, db: AsyncSessi
     return True
 
 
-async def add_game_to_liked_list(list_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
-    stmt = insert(like_game_table).values(
-        list_id=list_id,
+async def universal_game_passed(user_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
+    query = select(passed_game_table.c.game_id, passed_game_table.c.list_id).select_from(passed_game_table).join(passed_table, onclause=passed_game_table.c.list_id==passed_table.c.id, isouter=True).where(passed_table.c.user_id == user_id, passed_game_table.c.game_id == game_id)
+    result = await db.execute(query)
+    list_a_game = result.all()
+    if  list_a_game:
+        stmt = delete(passed_game_table).where(passed_game_table.c.game_id == list_a_game[0][0], passed_game_table.c.list_id == list_a_game[0][1])
+        await db.execute(stmt)
+        await db.commit()
+        return False
+    list_id = select(passed_table.c.id).where(passed_table.c.user_id == user_id)
+    list_id = await db.execute(list_id)
+    list_id = list_id.all()
+    stmt = insert(passed_game_table).values(
+        list_id=list_id[0][0],
         game_id=game_id,
         created_at=datetime.datetime.utcnow(),
     )
     result = await db.execute(stmt)
     await db.commit()
-
-    if not result:
-        return False
     return True
 
 
-async def add_game_to_wantplay_list(list_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
+
+
+
+async def universal_game_wanted(user_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
+    query = select(wantplay_game_table.c.game_id, wantplay_game_table.c.list_id).select_from(wantplay_game_table).join(wantplay_table, onclause=wantplay_game_table.c.list_id==wantplay_table.c.id, isouter=True).where(wantplay_table.c.user_id == user_id, wantplay_game_table.c.game_id == game_id)
+    result = await db.execute(query)
+    list_a_game = result.all()
+    if  list_a_game:
+        stmt = delete(wantplay_game_table).where(wantplay_game_table.c.game_id == list_a_game[0][0], wantplay_game_table.c.list_id == list_a_game[0][1])
+        await db.execute(stmt)
+        await db.commit()
+        return False
+    list_id = select(wantplay_table.c.id).where(wantplay_table.c.user_id == user_id)
+    list_id = await db.execute(list_id)
+    list_id = list_id.all()
     stmt = insert(wantplay_game_table).values(
-        list_id=list_id,
+        list_id=list_id[0][0],
         game_id=game_id,
         created_at=datetime.datetime.utcnow(),
     )
     result = await db.execute(stmt)
     await db.commit()
-    if not result:
+    return True
+
+
+async def universal_game_liked(user_id: UUID4, game_id: UUID4, db: AsyncSession) -> bool:
+    query = select(like_game_table.c.game_id, like_game_table.c.list_id).select_from(like_game_table).join(like_table, onclause=like_game_table.c.list_id==like_table.c.id, isouter=True).where(like_table.c.user_id == user_id, like_game_table.c.game_id == game_id)
+    result = await db.execute(query)
+    list_a_game = result.all()
+    if  list_a_game:
+        stmt = delete(like_game_table).where(like_game_table.c.game_id == list_a_game[0][0], like_game_table.c.list_id == list_a_game[0][1])
+        await db.execute(stmt)
+        await db.commit()
         return False
+    list_id = select(like_table.c.id).where(like_table.c.user_id == user_id)
+    list_id = await db.execute(list_id)
+    list_id = list_id.all()
+    stmt = insert(like_game_table).values(
+        list_id=list_id[0][0],
+        game_id=game_id,
+        created_at=datetime.datetime.utcnow(),
+    )
+    result = await db.execute(stmt)
+    await db.commit()
     return True
 
 
@@ -197,4 +248,32 @@ async def update_list(
     )
     result = await db.execute(stmt)
     await db.commit()
+    return True
+
+
+async def check_game_in_user_wantplay(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> dict:
+    query = select(wantplay_game_table.c.game_id, wantplay_game_table.c.list_id, wantplay_table.c.user_id).select_from(wantplay_game_table).join(wantplay_table, onclause=wantplay_game_table.c.list_id==wantplay_table.c.id, isouter=True).where(wantplay_table.c.user_id == user_id, wantplay_game_table.c.game_id == game_id)
+    result = await db.execute(query)
+    list_a_game = result.all()
+    if not list_a_game:
+        return False
+    return True
+
+
+async def check_game_in_user_liked(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> dict:
+    query = select(like_game_table.c.game_id, like_game_table.c.list_id, like_table.c.user_id).select_from(like_game_table).join(like_table, onclause=like_game_table.c.list_id==like_table.c.id, isouter=True).where(like_table.c.user_id == user_id, like_game_table.c.game_id == game_id)
+    result = await db.execute(query)
+    list_a_game = result.all()
+    if not list_a_game:
+        return False
+    return True
+
+
+async def check_game_in_user_passed(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> dict:
+    wantplay_list_id = select(passed_table.c.id).where(passed_table.c.user_id == user_id)
+    list_id_result = await db.execute(wantplay_list_id)
+    game_id = select(passed_game_table.c.list_id,).where(passed_game_table.c.list_id == list_id_result.all()[0][0], passed_game_table.c.game_id==game_id)
+    game_id_result = await db.execute(game_id)
+    if not game_id_result.all():
+        return False
     return True

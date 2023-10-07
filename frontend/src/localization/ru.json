@@ -1,0 +1,37 @@
+{
+    "app.header": "Отредактируйте файлы и сохраните, чтобы перезагрузить",
+    "app.content": "Изучите React",
+    "app.channel.plug": "Учебник предоставлен вам Medium",
+    "header.menu.logo": "Лого",
+    "header.menu.item1": "Игры",
+    "header.menu.item2": "Плейлисты",
+    "header.menu.item3": "Новости",
+    "header.menu.item4": "Рецензии",
+
+    "header.menu.login": "Вход",
+    "header.menu.logout": "Выход",
+    "header.menu.signin": "Регистрация",
+    "header.menu.theme": "Тема",
+
+    "header.menu.profile": "Профиль",
+    "header.menu.passed": "Пройденные",
+    "header.menu.wanttoplay": "Пройду",
+    "header.menu.liked": "Понравившиеся",
+    "header.menu.lists": "Списки",
+    "header.menu.settings": "Настройки",
+
+
+    "content.headers.newsgames": "Новинки",
+
+    "content.gameprofile.genre": "Жанр",
+    "content.gameprofile.genre.plural": "Жанры",
+    "content.gameprofile.platform": "Платформа",
+    "content.gameprofile.platform.plural": "Платформы",
+    "content.gameprofile.nodata": "Нет данных",
+    "content.gameprofile.estimate": "Оценить",
+    "content.gameprofile.releasedate": "Дата выхода",
+    "content.gameprofile.commentdate": "Прошёл",
+    "content.gameprofile.header": "Отзывы"
+
+
+}

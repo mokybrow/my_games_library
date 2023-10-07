@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, IUser, RegResponse } from "../models/response";
+import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, IUser, RegResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -60,9 +60,7 @@ export default class GameService {
     }
 
     static async addReview(id: string, grade: number):Promise<AxiosResponse>  {
-        return $api.post(`game/add_review/`,{ params: {
-            foo: 'bar'
-          }},
+        return $api.post(`game/add_review/?game_id=${id}&grade=${grade}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -71,4 +69,69 @@ export default class GameService {
         })
     }
 
+    static async getUserGrade(id: string):Promise<AxiosResponse<userGrade>>  {
+        return $api.get<userGrade>(`game/get_user_rate/?game_id=${id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+
+    static async checkInPassedList(game_id: string):Promise<AxiosResponse>  {
+        return $api.get(`check/game_in_passed_list/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+    static async checkInWantedList(game_id: string):Promise<AxiosResponse>  {
+        return $api.get(`check/game_in_wanted_list/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+    static async checkInLikedList(game_id: string):Promise<AxiosResponse>  {
+        return $api.get(`check/game_in_liked_list/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+
+    static async operationWithWanted(game_id: string):Promise<AxiosResponse>  {
+        return $api.post(`lists/operation/wantplay/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+    static async operationWithPassed(game_id: string):Promise<AxiosResponse>  {
+        return $api.post(`lists/operation/passed/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+    static async operationWithLiked(game_id: string):Promise<AxiosResponse>  {
+        return $api.post(`lists/operation/liked/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
 }

@@ -4,6 +4,7 @@ import { GamesResponse } from '../models/response';
 import GameService from '../service/GameService';
 import { Link } from 'react-router-dom';
 import { Context } from '..';
+import { FormattedMessage } from 'react-intl';
 
 const HomePage: FC = () => {
 
@@ -31,13 +32,16 @@ const HomePage: FC = () => {
     <>
       <section className='home-page-game-section'>
         <div className='header-new-game'>
-          <Link className='header-new-game' to='/games/new' ><h1 >Новинки</h1></Link>
+ 
+          <Link className='header-new-game' to='/games/new'><h1 >
+            <FormattedMessage id="content.headers.newsgames" />
+          </h1></Link>
         </div>
         {games_store.games.map(game =>
-          <Link key={game.id} to={'game/' + game.slug}>
+          <Link key={game.id} to={'game/' + game.slug} reloadDocument>
             <div className="card">
               <div className="card__image-container">
-                
+
                 <img
                   src={game.cover}
                 />
@@ -46,6 +50,8 @@ const HomePage: FC = () => {
                 </div>
               </div>
             </div></Link>)}
+
+
       </section>
     </>
   )
