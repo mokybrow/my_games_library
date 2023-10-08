@@ -2,7 +2,7 @@
 .header {
     font-family: 'Roboto', sans-serif;
     height: 60px;
-    padding: 4vh 14vw;
+    padding: 0 14vw;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -275,7 +275,6 @@
     font-size: 20px;
     text-transform: uppercase;
     border: none;
-    width: 160px;
     border-radius: 6px 6px 6px 6px;
     cursor: pointer;
     background: none;
@@ -285,12 +284,15 @@
     display: flex;
     text-decoration: none;
     gap: 5px;
+    min-width: 160px;
+    max-width: 100%;
 }
 
 .dropdown {
     position: relative;
     display: inline-block;
     font-size: 20px;
+
 }
 .drop-down-line{
     color: var(--font-color-global);
@@ -311,6 +313,7 @@
     position: absolute;
     background-color: var(--dropdown-color);
     min-width: 160px;
+    width: 100%;
     z-index: 1;
     border-radius: 0 0 6px 6px;
     transition: all 200ms linear;
@@ -325,6 +328,7 @@
     transition: all 200ms linear;
     text-transform: none;
     font-size: 14px;
+    width: 100%;
 }
 
 .dropdown-content a:hover {

@@ -29,9 +29,12 @@
     "content.gameprofile.platform.plural": "Платформы",
     "content.gameprofile.nodata": "Н/Д",
     "content.gameprofile.estimate": "Оценить",
+    "content.gameprofile.yourestimate": "Ваша оценка",
+    "content.gameprofile.deleteestimate": "Удалить оценку",
     "content.gameprofile.releasedate": "Дата выхода",
     "content.gameprofile.commentdate": "Прошёл",
-    "content.gameprofile.header": "Отзывы"
-
-
+    "content.gameprofile.header": "Отзывы",
+    "content.gameprofile.placeholder": "Данных нет, но скоро появятся"
+    
+    
 }

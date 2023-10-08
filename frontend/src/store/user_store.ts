@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, GamesResponse, IUser, RegEmailCheck, UserStat } from "../models/response";
+import { AUser, GamesResponse, IUser, RegEmailCheck, UserLastReviews, UserStat } from "../models/response";
 import AuthService from "../service/AuthService";
 import { AxiosError } from "axios";
 import UserService from "../service/UserService";
@@ -13,7 +13,7 @@ export default class UserStore {
     isLoading = false;
     anotherUser = {} as AUser;
     games = [] as GamesResponse[];
-
+    reviews = [] as UserLastReviews[];
     isFollower = false;
 
     constructor() {
@@ -27,6 +27,11 @@ export default class UserStore {
     setGames(games: GamesResponse[]) {
         this.games = games;
     }
+
+    setReviews(reviews: UserLastReviews[]) {
+        this.reviews = reviews;
+    }
+
 
     setLoading(bool: boolean) {
         this.isLoading = bool;
@@ -43,6 +48,8 @@ export default class UserStore {
             this.setAUser(user.data)
             const game = await GameService.getUserGames(user.data.id)
             this.setGames(game.data)
+            const reviews = await UserService.getUserReviews(user.data.id)
+            this.setReviews(reviews.data)
             if (getLocalToken() !== null){
                 const response = await AuthService.getUserInfo();
                 if (response.status !== 401){

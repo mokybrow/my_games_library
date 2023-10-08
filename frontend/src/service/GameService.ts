@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, IUser, RegResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
-import { getLocalToken } from "../utils/utils";
+
 
 
 export default class GameService {
@@ -33,7 +33,7 @@ export default class GameService {
     }
 
     static async getUserGames(user_id: string):Promise<AxiosResponse<GamesResponse[]>>  {
-        return $api.get<GamesResponse[]>(`/last_game/${user_id}`,
+        return $api.get<GamesResponse[]>(`/last/game/${user_id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -59,8 +59,8 @@ export default class GameService {
         })
     }
 
-    static async addReview(id: string, grade: number):Promise<AxiosResponse>  {
-        return $api.post(`game/add_review/?game_id=${id}&grade=${grade}`,
+    static async addReview(id: string, grade: number, comment: string):Promise<AxiosResponse>  {
+        return $api.post(`game/add_review/game_id/${id}/grade/${grade}/comment/${comment}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -70,7 +70,7 @@ export default class GameService {
     }
 
     static async getUserGrade(id: string):Promise<AxiosResponse<userGrade>>  {
-        return $api.get<userGrade>(`game/get_user_rate/?game_id=${id}`,
+        return $api.get<userGrade>(`game/get_user_rate/game_id/${id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -127,6 +127,16 @@ export default class GameService {
     }
     static async operationWithLiked(game_id: string):Promise<AxiosResponse>  {
         return $api.post(`lists/operation/liked/${game_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+
+    static async deleteUserRate(game_id: string):Promise<AxiosResponse>  {
+        return $api.delete(`game/delete/review/${game_id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',

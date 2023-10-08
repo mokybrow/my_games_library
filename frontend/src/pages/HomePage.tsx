@@ -32,24 +32,23 @@ const HomePage: FC = () => {
     <>
       <section className='home-page-game-section'>
         <div className='header-new-game'>
- 
+
           <Link className='header-new-game' to='/games/new'><h1 >
             <FormattedMessage id="content.headers.newsgames" />
           </h1></Link>
         </div>
+
         {games_store.games.map(game =>
           <Link key={game.id} to={'game/' + game.slug} reloadDocument>
-            <div className="card">
-              <div className="card__image-container">
-
-                <img
-                  src={game.cover}
-                />
-                <div className="card-body">
-                  <p className="card-title">{game.title}</p>
+            <div className="game-card-cover-container">
+              <img src={game.cover} />
+              <div className="title-card-body">
+                <div className="title-card">
+                  <span className="card-title">{game.title}</span>
                 </div>
               </div>
-            </div></Link>)}
+            </div>
+          </Link>)}
 
 
       </section>

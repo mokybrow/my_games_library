@@ -4,6 +4,7 @@ import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
 export default class AuthService {
+    
     static async login(username: string, password: string): Promise<AxiosResponse<AuthResponse>> {
         const formData = new FormData();
         formData.set('username', username);

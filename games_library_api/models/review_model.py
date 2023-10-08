@@ -10,3 +10,11 @@ class UserGameGradeResponseModel(BaseModel):
     grade: Optional[int]
     comment: Optional[str]
     created_at: Optional[datetime.datetime]
+
+    
+class GetLastReviewsResponseModel(BaseModel):
+    game_id: UUID4
+    user_id: UUID4
+    grade: int
+    cover: Optional[str]
+    slug: str

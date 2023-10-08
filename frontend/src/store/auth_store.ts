@@ -1,9 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, GamesResponse, IUser, detail } from "../models/response";
+import { AUser, GamesResponse, IUser, UserLastReviews, detail } from "../models/response";
 import AuthService from "../service/AuthService";
 import { removeLocalToken, saveLocalToken } from "../utils/utils";
 import { AxiosError } from "axios";
 import GameService from "../service/GameService";
+import UserService from "../service/UserService";
 
 
 export default class AuthStore {
@@ -11,11 +12,14 @@ export default class AuthStore {
     games = [] as GamesResponse[];
     isAuth = false;
     isLoading = false;
-
+    reviews = [] as UserLastReviews[];
     loginError = false;
 
     constructor() {
         makeAutoObservable(this);
+    }
+    setReviews(reviews: UserLastReviews[]) {
+        this.reviews = reviews;
     }
 
     setAuth(bool: boolean) {
@@ -80,6 +84,8 @@ export default class AuthStore {
             this.setAuth(true);
             const game = await GameService.getUserGames(response.data.id)
             this.setGames(game.data)
+            const reviews = await UserService.getUserReviews(response.data.id)
+            this.setReviews(reviews.data)
         } catch (error) {
         } finally {
             this.setLoading(false);

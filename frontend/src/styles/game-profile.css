@@ -1,18 +1,18 @@
 .game-profile-section {
-    margin-top: 60px;
+    margin-top: 140px;
     font-family: 'Inter', sans-serif;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px 50px;
     align-items: stretch;
     padding: 0 14vw;
-    margin-bottom: 80px;
+
 }
 
+
 .game-profile-cover-container {
-    margin-top: 80px;
-    width: 200px;
-    height: 250px;
+    width: 14em;
+    height: 18em;
     border-radius: 6px;
     object-fit: cover;
     grid-column: 1/2;
@@ -35,24 +35,117 @@
 .checkbox-card-body {
     font-size: 16px;
     position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    width: 100%;
     justify-content: center;
     align-items: center;
     display: flex;
     color: #ffffff;
-    padding-bottom: 8%;
+    bottom: 0;
+    margin-bottom: 1em;
 }
 
-.check-box-panel{
+.check-box-panel {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center;
+    justify-content: center; */
     background-color: var(--checkbox-panel-background-color);
-    border-radius: 6px; 
+    border-radius: 6px;
     transition: all 200ms linear;
 }
+
+.game-profile-grade {
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+    gap: 4px;
+    padding: 8px 16px;
+    background-color: var(--buttons-color);
+    border-radius: 6px;
+    transition: all 200ms linear;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.game-profile-grade:hover {
+    transform: scale(1.05);
+    transition: all 100ms ease;
+}
+
+.delete-grade {
+    transform: scale(0, 0);
+}
+
+.delete-grade.active {
+    transform: scale(1, 1);
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+    background-color: var(--buttons-color);
+    border-radius: 6px;
+    transition: all 100ms linear;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2em;
+    padding: 8px 16px;
+}
+
+.delete-grade.active:hover {
+    transform: scale(1.05);
+    transition: all 100ms ease;
+}
+
+.grade-numbers {
+    transform: scale(0, 0);
+}
+
+.grade-numbers.active {
+    transform: scale(1, 1);
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+    background-color: var(--buttons-color);
+    border-radius: 6px;
+    transition: all 100ms linear;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+
+#rate-numbers {
+    font-size: 1.0em;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.2em 0.2em;
+}
+
+#rate-numbers:hover {
+    transform: scale(1.1);
+    transition: all 100ms ease;
+}
+
+.red-rate {
+    color: #ff4800;
+}
+
+.gray-rate {
+    color: gray;
+}
+
+.green-rate {
+    color: green;
+}
+
+.off {
+    color: var(--font-color-global);
+}
+
 /* Чекбоксы на картинке */
 
 /* для элемента input c type="checkbox" */
@@ -89,12 +182,15 @@
 .custom-checkbox.check+label::before {
     background-image: var(--check-checkbox-background-image);
 }
+
 .custom-checkbox.heart+label::before {
     background-image: var(--heart-checkbox-background-image);
 }
+
 .custom-checkbox.clock+label::before {
     background-image: var(--clock-checkbox-background-image);
 }
+
 .custom-checkbox.plus+label::before {
     background-image: var(--plus-checkbox-background-image);
 }
@@ -120,12 +216,15 @@
 .custom-checkbox.check:checked+label::before {
     background-image: url('../icons/check-white.png');
 }
+
 .custom-checkbox.heart:checked+label::before {
     background-image: url('../icons/heart-white.png');
 }
+
 .custom-checkbox.clock:checked+label::before {
     background-image: url('../icons/clock-white.png');
 }
+
 .custom-checkbox.plus:checked+label::before {
     background-image: url('../icons/plus-white.png');
 }
@@ -133,7 +232,6 @@
 /* Чекбоксы на картинке */
 
 .game-profile-info {
-    margin-top: 80px;
     display: flex;
     grid-column: 2/7;
     flex-direction: column;
@@ -157,8 +255,9 @@
     opacity: 0.55;
 }
 
-.game-profile-desription{
+.game-profile-desription {
     margin-top: 24px;
+    font-weight: 600;
 }
 
 .left-page-container {
@@ -169,26 +268,18 @@
 }
 
 .game-profile-platforms {
+    display: flex;
     width: auto;
-    max-width: 100%;
     gap: 4px;
     padding: 8px 16px;
     background-color: #4C75D7;
     border-radius: 6px;
-    width: 200px;
+    font-weight: 600;
 }
 
-.game-profile-grade {
-    cursor: pointer;
-    width: auto;
-    max-width: 100%;
-    gap: 4px;
-    padding: 8px 16px;
-    background-color: var(--buttons-color);
-    border: 1px solid #4C75D7;
-    border-radius: 6px;
-    width: 200px;
-    transition: all 200ms linear;
+
+.game-profile-release{
+    font-weight: 600;
 }
 
 .game-profile-platforms-title {
@@ -250,46 +341,16 @@
 
 }
 
-.rate-star {
-    border-radius: 2px;
-    transition: all 200ms linear;
-    transition: all 200ms linear;
-}
-
-.grade-border{
-    transition: all 200ms linear;
-
-}
-
 .passed-date {
     margin-left: 36px;
     font-size: 14px;
     opacity: .55;
 }
 
-.star-rating {
-    display: none;
-    transition: all 200ms linear;
 
-}
+.inline-info-block {
 
-.star-rating.active {
     display: flex;
-    transition: all 200ms linear;
-}
-
-#start-button {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-.on {
-    color: #da5050;
-}
-
-.off {
-    color: var(--font-color-global);
+    flex-direction: row;
+    gap: 1em;
 }

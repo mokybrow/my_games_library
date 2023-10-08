@@ -9,66 +9,109 @@
     margin-bottom: 80px;
 }
 
+
 .profile-banner {
     margin-top: 144px;
     background-color: var(--background-card-color);
     grid-column: 1/7;
+    grid-row: 1/2;
     display: flex;
     flex-direction: row;
-    border-radius: 0 6px 6px 6px;
+    border-radius: 6px;
     align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
+
 }
 
-.profile-banner-img {
-    margin-top: 80px;
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+.user-profile-cover-container {
+    width: 10em;
+    height: 10em;
+    border-radius: 6px;
     object-fit: cover;
+    grid-column: 1/2;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    grid-row: 1/2;
+    margin: 4em 0 0 0;
 }
 
-.empty-block {
-    width: 120px;
-    height: 120px;
+.user-profile-cover-container img {
+    object-fit: cover;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
 
 .profile-banner-name {
-    margin-left: 12px;
-    margin-top: 12px;
     font-size: 36px;
     color: var(--font-color-global);
     transition: all 200ms linear;
-
+    text-align: left;
 }
 
-.other-banner-info {
-    margin-left: 12px;
-    opacity: 0.4;
-    transition: all 200ms linear;
-
+.user-follower-bolock {
+    opacity: 0.6;
 }
+
+.banner-text {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 12px;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    margin: 1em 12em 1em 12em;
+}
+
+.user-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-stat {
+    display: flex;
+    gap: 1em;
+}
+
+.other-banner-info-number {
+    font-weight: 600;
+    font-size: 2.2em;
+}
+
 
 .profile-banner-button {
-    margin-top: 12px;
-    margin-right: 12px;
     margin-left: auto;
-    padding: 6px;
+    padding: 0.6em;
     background-color: var(--buttons-color);
     color: var(--font-color-global);
     border-radius: 6px;
     border: none;
     cursor: pointer;
     transition: all 200ms linear;
+    font-weight: 600;
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .profile-banner-button-unfollow {
-    margin-top: 12px;
-    margin-right: 12px;
-    margin-left: auto;
-    padding: 6px;
+    padding: 0.6em;
     background-color: var(--buttons-color);
     color: var(--font-color-global);
     border-radius: 6px;
@@ -78,10 +121,7 @@
 }
 
 .profile-banner-button-follow {
-    margin-top: 12px;
-    margin-right: 12px;
-    margin-left: auto;
-    padding: 6px;
+    padding: 0.6em;
     background-color: #1349C9;
     color: var(--font-color-global);
     border-radius: 6px;
@@ -90,17 +130,13 @@
     transition: all 200ms linear;
 }
 
-.profile-banner-button-link {
-    margin-left: auto;
-}
-
 
 .main-lists-container {
     background-color: var(--background-card-color);
     grid-column: 1/7;
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    border-radius:6px;
+    border-radius: 6px;
     align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
@@ -115,12 +151,22 @@
     cursor: pointer;
     transition: all 0.3s ease 0s;
     height: 200px;
-    margin: 12px;
+    margin: 1em;
 }
 
 .list-card:hover {
-    background-color: var(--background-card-color);
-    opacity: 0.7;
+    transform: scale(1.04);
+}
+
+.card-title {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    font-weight: 500;
+    -webkit-text-shadow: 0px 0px 01px rgba(0, 0, 0, 0.5);
+    -moz-text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 }
 
 .card__image-container {
@@ -145,20 +191,21 @@
 .last-game-container {
     background-color: var(--background-card-color);
     grid-column: 1/7;
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    border-radius:6px;
+    border-radius: 6px;
     align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
+
 }
 
-.empty-last-game-container{
+.empty-container {
     background-color: var(--background-card-color);
     grid-column: 1/7;
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr;
-    border-radius:6px;
+    border-radius: 6px;
     align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
@@ -176,7 +223,74 @@
     justify-content: center;
 }
 
-.profile-container-header{
+.profile-container-header {
     grid-column: 1/7;
     margin: 12px;
+    font-size: 2em;
+}
+
+.last-reviews-container {
+    background-color: var(--background-card-color);
+    grid-column: 1/7;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    border-radius: 6px;
+    align-items: flex-start;
+    color: var(--font-color-global);
+    transition: all 200ms linear;
+
+}
+
+
+/* Краточки в профиле */
+
+.profile-card-cover-container {
+    height: 200px;
+    border-radius: 6px;
+    grid-column: 1/2;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    border: 2px solid black;
+    margin: 1em;
+}
+
+.profile-card-cover-container img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-card-cover-container:hover {
+    transform: scale(1.04);
+    
+}
+
+.title-card {
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    background-color: var(--checkbox-panel-background-color);
+    border-radius: 6px;
+    margin: 0.4em;
+    padding: 0.4em;
+    transition: all 200ms linear;
+}
+
+.title-card-body {
+    font-size: 16px;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #ffffff;
+    bottom: 0;
+    margin-bottom: 1em;
 }

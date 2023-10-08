@@ -4,7 +4,7 @@ import uuid
 from typing import Optional
 
 from pydantic import UUID4
-from sqlalchemy import insert, select, update
+from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import game_table, review_table, user_table
@@ -18,6 +18,7 @@ async def create_review(db: AsyncSession, game_id: UUID4, user_id: UUID4, grade:
         update(review_table)
         .values(
             grade=grade,
+            comment=comment,
         )
         .where(review_table.c.game_id == game_id, review_table.c.user_id == user_id))
         await db.execute(stmt)
@@ -41,3 +42,18 @@ async def get_user_grade(db: AsyncSession, game_id: UUID4, user_id: UUID4):
     a = result.all()
     result = await db.execute(query)
     return result.all()
+
+
+async def delete_user_grade(db: AsyncSession, game_id: UUID4, user_id: UUID4):
+    query = select(review_table.c.game_id, review_table.c.user_id).where(review_table.c.game_id == game_id, review_table.c.user_id == user_id)
+    result = await db.execute(query)
+    data = result.all()
+    if data:
+        print(data)
+        stmt = (
+            delete(review_table).where(review_table.c.game_id == data[0][0], review_table.c.user_id == data[0][1])
+            .where(review_table.c.game_id == game_id, review_table.c.user_id == user_id))
+        await db.execute(stmt)
+        await db.commit()
+        return True
+    return False

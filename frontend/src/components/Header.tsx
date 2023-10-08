@@ -153,14 +153,15 @@ const Header: FC = () => {
 
                                 </p>
                                 <div className="toggle-pill-dark">
-                                    <input type="checkbox"  name="check" checked={checked} onChange={handleChange} />
+                                    <input type="checkbox" name="check" checked={checked} onChange={handleChange} />
                                     <label htmlFor="pill4"></label>
                                 </div>
                             </div>
                         </div></>
                         :
                         <>
-                            <button className="dropbtn"><img className='dropdown-img' src="https://media.rawg.io/media/screenshots/bcf/bcf0dcaccca70632bd312282246a0078.jpg" alt="" />
+                            <button className="dropbtn">
+                                {auth_store.user.img == null ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={auth_store.user.img} />}
                                 {auth_store.user.username}</button>
 
                             <div className="dropdown-content">

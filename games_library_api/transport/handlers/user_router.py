@@ -13,8 +13,9 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import check_follow, follow_on_user, get_another_user, get_user, get_user_by_email, get_user_by_username, get_user_last_game, unfollow
-from games_library_api.models import error_model, game_model, list_model, users_model
+from games_library_api.integrations.user_operations import check_follow, follow_on_user, get_another_user, get_user, get_user_by_email, get_user_by_username, get_user_last_game, get_user_last_reviews, unfollow
+from games_library_api.models import error_model, game_model, list_model, users_model, review_model
+
 from games_library_api.schemas.user import User
 from games_library_api.settings import get_settings
 
@@ -194,8 +195,15 @@ async def check_follow_route(user_id: UUID4, user: User = Depends(current_active
         )
 
 
-@router.get('/last_game/{user_id}', response_model=list[game_model.GetGamesResponseModel])
+@router.get('/last/game/{user_id}', response_model=list[game_model.GetGamesResponseModel])
 async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)) -> None:
     result = await get_user_last_game(user_id=user_id, db=db)
+
+    return result
+
+
+@router.get('/last/reviews/{user_id}', response_model=list[review_model.GetLastReviewsResponseModel])
+async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)) -> None:
+    result = await get_user_last_reviews(user_id=user_id, db=db)
 
     return result

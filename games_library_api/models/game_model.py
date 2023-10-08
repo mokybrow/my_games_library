@@ -31,6 +31,7 @@ class GetGamesPageResponseModel(BaseModel):
     release: datetime.date
     platform: list
     genre: Optional[list]
+    esrb_rating: Optional[str]
 
 
 class GetGameReviewsResponseModel(BaseModel):

@@ -63,6 +63,7 @@ async def get_game(slug: str, db: AsyncSession):
     query = select(game_table).where(game_table.c.slug == slug)
     result = await db.execute(query)
     a = result.all()
+    print(a)
     result = await db.execute(query)
 
     return result.all()

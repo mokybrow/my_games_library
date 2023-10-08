@@ -20,6 +20,7 @@ export interface RegResponse {
 export interface IUser {
     id: string
     email: string
+    img: string,
     is_active: boolean,
     is_superuser: boolean,
     is_verified: boolean,
@@ -31,6 +32,7 @@ export interface IUser {
     list_count: number,
     follower_count: number,
     passed_game_count: number,
+    wanted_game_count: number
 }
 
 export interface AUser {
@@ -42,6 +44,7 @@ export interface AUser {
     list_count: number,
     follower_count: number,
     passed_game_count: number,
+    wanted_game_count: number
 }
 
 export interface RegEmailCheck {
@@ -62,6 +65,14 @@ export interface GamesResponse {
 }
 
 
+export interface UserLastReviews{
+    game_id: string,
+    user_id: string,
+    grade: number,
+    cover: string,
+    slug: string
+}
+
 export interface UserStat {
     follow: boolean
 }
@@ -76,6 +87,7 @@ export interface GameProfileResponse {
     release: Date;
     platform: PlatformElement[];
     genre: Genre[];
+    esrb_ratin: string;
 }
 
 export interface Genre {

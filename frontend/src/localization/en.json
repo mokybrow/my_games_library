@@ -28,9 +28,12 @@
     "content.gameprofile.platform.plural": "Platforms",
     "content.gameprofile.nodata": "N/A",
     "content.gameprofile.estimate": "Estimate",
+    "content.gameprofile.yourestimate": "Your estimate",
+    "content.gameprofile.deleteestimate": "Delete estimate",
     "content.gameprofile.releasedate": "Release date",
     "content.gameprofile.commentdate": "Passed on",
-    "content.gameprofile.header": "Reviews"
+    "content.gameprofile.header": "Reviews",
+    "content.gameprofile.placeholder": "No data available, but coming soon"
 
 
 }

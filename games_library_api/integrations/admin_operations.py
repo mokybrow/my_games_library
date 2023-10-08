@@ -16,7 +16,7 @@ async def get_all_users(db: AsyncSession) -> Any:
 
 
 async def game_parser(db: AsyncSession)-> Any:
-        count = 5853
+        count = 0
         while count < 100000:
             r = requests.get(f'https://api.rawg.io/api/games?key=1ae731eafea74e33907d89607c9483cb&page={count}&page_size=50')
             # print(r.json())

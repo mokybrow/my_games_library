@@ -21,6 +21,7 @@ class PublicUserResponseModel(BaseModel):
     list_count: int
     follower_count: int
     passed_game_count: int
+    wanted_game_count: int
 
 class PrivateUserResponseModel(BaseModel):
     id: UUID4
@@ -39,6 +40,7 @@ class PrivateUserResponseModel(BaseModel):
     list_count: int
     follower_count: int
     passed_game_count: int
+    wanted_game_count: int
 
 
 class UserStatsModel(BaseModel):

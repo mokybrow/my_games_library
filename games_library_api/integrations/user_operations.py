@@ -5,11 +5,11 @@ from pydantic import UUID4
 from sqlalchemy import distinct, func, insert, select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import user_table, follower_table,list_table,passed_table,passed_game_table,list_game_table,game_table
+from games_library_api.schemas.database import user_table, follower_table,list_table,passed_table,passed_game_table,list_game_table,game_table, wantplay_game_table, wantplay_table, review_table
 
 
 async def get_user(id: UUID4, db: AsyncSession) -> dict:
-    query = select(user_table, func.count(distinct(list_table.c.id)).label('list_count'), func.count(distinct(follower_table.c.follower_id)).label('follower_count'), func.count(distinct(passed_game_table.c.game_id)).label('passed_game_count')).join( follower_table, onclause=follower_table.c.user_id==user_table.c.id, isouter=True).join(list_table, onclause=list_table.c.owner_id==user_table.c.id, isouter=True).join(passed_table, onclause=passed_table.c.user_id==user_table.c.id, isouter=True).join(passed_game_table, onclause=passed_game_table.c.list_id==passed_table.c.id, isouter=True).group_by(user_table).where(user_table.c.id == id)
+    query = select(user_table, func.count(distinct(list_table.c.id)).label('list_count'), func.count(distinct(follower_table.c.follower_id)).label('follower_count'), func.count(distinct(passed_game_table.c.game_id)).label('passed_game_count'), func.count(distinct(wantplay_game_table.c.game_id)).label('wanted_game_count')).join( follower_table, onclause=follower_table.c.user_id==user_table.c.id, isouter=True).join(list_table, onclause=list_table.c.owner_id==user_table.c.id, isouter=True).join(passed_table, onclause=passed_table.c.user_id==user_table.c.id, isouter=True).join(passed_game_table, onclause=passed_game_table.c.list_id==passed_table.c.id, isouter=True).join(wantplay_table, onclause=wantplay_table.c.user_id==user_table.c.id, isouter=True).join(wantplay_game_table, onclause=wantplay_game_table.c.list_id==wantplay_table.c.id, isouter=True).group_by(user_table).where(user_table.c.id == id)
     result = await db.execute(query)
     return result.all()
 
@@ -23,7 +23,8 @@ async def get_another_user(username: str, db: AsyncSession) -> dict:
         user_table.c.username, 
         func.count(distinct(list_table.c.id)).label('list_count'), 
         func.count(distinct(follower_table.c.follower_id)).label('follower_count'), 
-        func.count(distinct(passed_game_table.c.game_id)).label('passed_game_count')).join(follower_table, onclause=follower_table.c.user_id==user_table.c.id, isouter=True).join(list_table, onclause=list_table.c.owner_id==user_table.c.id, isouter=True).join(passed_table, onclause=passed_table.c.user_id==user_table.c.id, isouter=True).join(passed_game_table, onclause=passed_game_table.c.list_id==passed_table.c.id, isouter=True).group_by(user_table).where(user_table.c.username == username)
+        func.count(distinct(passed_game_table.c.game_id)).label('passed_game_count'), 
+        func.count(distinct(wantplay_game_table.c.game_id)).label('wanted_game_count')).join(follower_table, onclause=follower_table.c.user_id==user_table.c.id, isouter=True).join(list_table, onclause=list_table.c.owner_id==user_table.c.id, isouter=True).join(passed_table, onclause=passed_table.c.user_id==user_table.c.id, isouter=True).join(passed_game_table, onclause=passed_game_table.c.list_id==passed_table.c.id, isouter=True).join(wantplay_table, onclause=wantplay_table.c.user_id==user_table.c.id, isouter=True).join(wantplay_game_table, onclause=wantplay_game_table.c.list_id==wantplay_table.c.id, isouter=True).group_by(user_table).where(user_table.c.username == username)
 
     result = await db.execute(query)
     return result.all()
@@ -82,5 +83,17 @@ async def get_user_last_game(user_id: UUID4, db: AsyncSession) -> None:
         game_table.c.cover,
         game_table.c.slug,
         game_table.c.release,).where(passed_table.c.user_id == user_id).join(passed_game_table, onclause=passed_table.c.id==passed_game_table.c.list_id).join(game_table, onclause=passed_game_table.c.game_id==game_table.c.id)
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_user_last_reviews(user_id: UUID4, db: AsyncSession) -> None:
+    query = select(         
+        review_table.c.game_id,
+        review_table.c.user_id,
+        review_table.c.grade,
+        game_table.c.cover,
+        game_table.c.slug,).where(review_table.c.user_id == user_id).join(game_table, onclause=game_table.c.id==review_table.c.game_id)
+        
     result = await db.execute(query)
     return result.all()
