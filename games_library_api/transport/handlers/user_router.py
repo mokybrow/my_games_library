@@ -195,7 +195,7 @@ async def check_follow_route(user_id: UUID4, user: User = Depends(current_active
         )
 
 
-@router.get('/last/game/{user_id}', response_model=list[game_model.GetGamesResponseModel])
+@router.get('/last/game/{user_id}', response_model=list[game_model.GetUserLastGameResponseModel])
 async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)) -> None:
     result = await get_user_last_game(user_id=user_id, db=db)
 

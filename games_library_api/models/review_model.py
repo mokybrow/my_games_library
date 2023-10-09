@@ -16,5 +16,6 @@ class GetLastReviewsResponseModel(BaseModel):
     game_id: UUID4
     user_id: UUID4
     grade: int
+    created_at: datetime.datetime
     cover: Optional[str]
     slug: str

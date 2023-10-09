@@ -28,11 +28,11 @@ const GameProfile: FC = () => {
 
     const isOpenMove = () => {
         setOpen(!isOpen)
-        setRating(Number(games_store.userGrade.grade))
-        setHover(Number(games_store.userGrade.grade))
+        setRating(Number(games_store.userGrade?.grade))
+        setHover(Number(games_store.userGrade?.grade))
     }
     const closeGradeBanner = () => {
-        if (isOpen == true){
+        if (isOpen == true) {
             setOpen(!isOpen)
         }
     }
@@ -52,7 +52,11 @@ const GameProfile: FC = () => {
     }
     const addGameToWantPlay = async () => {
         await GameService.operationWithWanted(games_store.gameProfile.id);
+    }
 
+    const likeToComment = async (review_id: string) => {
+
+        await GameService.likeToUserComment(String(review_id))
     }
 
     if (games_store.isLoading === true) {
@@ -69,8 +73,8 @@ const GameProfile: FC = () => {
     }
 
     return (
-        <main onClick={() => {closeGradeBanner()}}>
-            <section className='game-profile-section' onClick={() => {closeGradeBanner()}}>
+        <main onClick={() => { closeGradeBanner() }}>
+            <section className='game-profile-section' onClick={() => { closeGradeBanner() }}>
                 <div className='left-page-container'>
                     <div className="game-profile-cover-container">
                         <img src={games_store.gameProfile?.cover} />
@@ -98,13 +102,13 @@ const GameProfile: FC = () => {
 
                     {!auth_store.isAuth ? null :
                         <>
-                            {games_store.userGrade.grade > 0 ? 
-                            <div onClick={() => { isOpenMove() }} className='game-profile-grade'>
-                                <span><FormattedMessage id="content.gameprofile.yourestimate" />&nbsp;{games_store.userGrade.grade}</span>
-                            </div>: 
-                            <div onClick={() => { isOpenMove() }} className='game-profile-grade'>
-                                <span><FormattedMessage id="content.gameprofile.estimate" /></span>
-                            </div>}
+                            {games_store?.userGrade?.grade > 0 ?
+                                <div onClick={() => { isOpenMove() }} className='game-profile-grade'>
+                                    <span><FormattedMessage id="content.gameprofile.yourestimate" />&nbsp;{games_store.userGrade.grade}</span>
+                                </div> :
+                                <div onClick={() => { isOpenMove() }} className='game-profile-grade'>
+                                    <span><FormattedMessage id="content.gameprofile.estimate" /></span>
+                                </div>}
 
                             <div className={`grade-numbers ${isOpen ? 'active' : ''}`}>
                                 {[...Array(10)].map((star, index) => {
@@ -114,7 +118,7 @@ const GameProfile: FC = () => {
                                             id='rate-numbers'
                                             key={index}
                                             className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
-                                            onClick={() => { { rateGame(Number(index)) } { setRating(index) } { setOpen(!isOpen) } {games_store.userGrade.grade = index} }}
+                                            onClick={() => { { rateGame(Number(index)) } { setRating(index) } { setOpen(!isOpen) } { games_store.userGrade.grade = index } }}
                                             onMouseEnter={() => setHover(index)}
                                             onMouseLeave={() => setHover(rating)}
 
@@ -123,10 +127,10 @@ const GameProfile: FC = () => {
                                     );
                                 })}
                             </div>
-                            {games_store.userGrade.grade > 0 ? 
-                            <div onClick={() => {{ deleteGrade() } { setOpen(!isOpen) } { setRating(0)}  {games_store.userGrade.grade = 0} } } className={`delete-grade ${isOpen ? 'active' : ''}`}>
-                                <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
-                            </div>: null}
+                            {games_store?.userGrade?.grade > 0 ?
+                                <div onClick={() => { { deleteGrade() } { setOpen(!isOpen) } { setRating(0) } { games_store.userGrade.grade = 0 } }} className={`delete-grade ${isOpen ? 'active' : ''}`}>
+                                    <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
+                                </div> : null}
                         </>}
 
                 </div>
@@ -157,7 +161,7 @@ const GameProfile: FC = () => {
                         <p className='game-profile-desription'><FormattedMessage id="content.gameprofile.placeholder" /> </p>}
 
                     <div className="inline-info-block">
-                        <div className='game-profile-platforms'>
+                        <div className='game-profile-platforms genre'>
                             {games_store.gameProfile?.genre?.length >= 1 ?
                                 <> {games_store.gameProfile?.genre?.map(y => <span key={y.id}>{y.name}.</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>
                             }
@@ -180,10 +184,9 @@ const GameProfile: FC = () => {
                         {games_store.reviews?.map(x =>
                             <div className="comment-container" key={x.id}>
                                 <div className="inline-container">
-                                    {x.img == null ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :
+                                    {x.img == null || x.img == '' ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :
 
                                         <img className="user-in-comment-img" src={String(x.img)} />}
-
 
                                     <h3>{x.username}</h3>
                                     <div className="grade-container">
@@ -198,10 +201,14 @@ const GameProfile: FC = () => {
                                             day='numeric'
                                         />
                                     </p>
-
                                 </div>
 
                                 <p className='comment-text'>{x.comment}</p>
+                                <div className="checkbox">
+                                    {x.review_likes > 0 ? <><span>{x.review_likes}</span></> : null}
+                                    <input onClick={() => {likeToComment(x.review_id)}}  className="custom-checkbox-comment heart " type="checkbox" id={x.id} name={x.id} value="red"/>
+                                    <label htmlFor={x.id}></label>
+                                </div>
                                 <hr className='drop-down-line-game-profile' />
 
                             </div>

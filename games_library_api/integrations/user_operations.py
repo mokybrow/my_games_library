@@ -82,7 +82,8 @@ async def get_user_last_game(user_id: UUID4, db: AsyncSession) -> None:
         game_table.c.title,
         game_table.c.cover,
         game_table.c.slug,
-        game_table.c.release,).where(passed_table.c.user_id == user_id).join(passed_game_table, onclause=passed_table.c.id==passed_game_table.c.list_id).join(game_table, onclause=passed_game_table.c.game_id==game_table.c.id)
+        game_table.c.release,
+        passed_game_table.c.created_at).where(passed_table.c.user_id == user_id).join(passed_game_table, onclause=passed_table.c.id==passed_game_table.c.list_id).join(game_table, onclause=passed_game_table.c.game_id==game_table.c.id).limit(6).order_by(passed_game_table.c.created_at.desc())
     result = await db.execute(query)
     return result.all()
 
@@ -92,8 +93,9 @@ async def get_user_last_reviews(user_id: UUID4, db: AsyncSession) -> None:
         review_table.c.game_id,
         review_table.c.user_id,
         review_table.c.grade,
+        review_table.c.created_at,
         game_table.c.cover,
-        game_table.c.slug,).where(review_table.c.user_id == user_id).join(game_table, onclause=game_table.c.id==review_table.c.game_id)
+        game_table.c.slug,).where(review_table.c.user_id == user_id).join(game_table, onclause=game_table.c.id==review_table.c.game_id).limit(6).order_by(review_table.c.created_at.desc())
         
     result = await db.execute(query)
     return result.all()

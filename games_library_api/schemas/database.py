@@ -149,8 +149,10 @@ review_table = Table(
 review_like_table = Table(
     'review_like',
     metadata,
-    Column('review_id', ForeignKey('review.id', ondelete='CASCADE')),
-    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
+    Column('review_id', ForeignKey('review.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('created_at', DateTime, default=datetime.datetime.utcnow()),
+
 )
 
 news_table = Table(

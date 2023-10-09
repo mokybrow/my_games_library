@@ -3,10 +3,10 @@ from operator import or_
 import uuid
 
 from pydantic import UUID4, Json
-from sqlalchemy import func, insert, select
+from sqlalchemy import distinct, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import game_table, review_table, user_table
+from games_library_api.schemas.database import game_table, review_table, user_table, review_like_table
 
 
 async def add_game(
@@ -63,7 +63,6 @@ async def get_game(slug: str, db: AsyncSession):
     query = select(game_table).where(game_table.c.slug == slug)
     result = await db.execute(query)
     a = result.all()
-    print(a)
     result = await db.execute(query)
 
     return result.all()
@@ -72,6 +71,7 @@ async def get_game(slug: str, db: AsyncSession):
 async def get_game_review(id: UUID4, db: AsyncSession):
     query = (
         select(
+            review_table.c.id.label('review_id'),
             review_table.c.user_id,
             review_table.c.grade,
             review_table.c.comment,
@@ -79,9 +79,22 @@ async def get_game_review(id: UUID4, db: AsyncSession):
             user_table.c.id,
             user_table.c.username,
             user_table.c.img,
+            func.count(distinct(review_like_table.c.user_id)).label('review_likes')
         )
-        .where(review_table.c.game_id == id)
-        .join(user_table)
+        .join(user_table, onclause=user_table.c.id ==review_table.c.user_id ).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id, isouter=True).group_by(review_table.c.id,            user_table.c.id,
+            user_table.c.username,).where(review_table.c.game_id == id)
+    )
+    result = await db.execute(query)
+    return result.all()
+
+
+async def get_game_review_likes(id: UUID4, db: AsyncSession):
+    query = (
+        select(
+            review_table.c.id.label('review_id'),
+            review_like_table.c.user_id,
+        )
+        .join(user_table, onclause=user_table.c.id ==review_table.c.user_id ).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id, isouter=True).group_by(review_table.c.id, review_like_table.c.user_id).where(review_table.c.game_id == id)
     )
     result = await db.execute(query)
     return result.all()

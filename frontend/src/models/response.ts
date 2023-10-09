@@ -65,7 +65,7 @@ export interface GamesResponse {
 }
 
 
-export interface UserLastReviews{
+export interface UserLastReviews {
     game_id: string,
     user_id: string,
     grade: number,
@@ -105,8 +105,9 @@ export interface userGrade {
     grade: number,
     comment: string | null,
     created_at: Date
-
 }
+
+
 
 export interface PlatformElement {
     platform: PlatformPlatform;
@@ -129,12 +130,14 @@ export interface PlatformPlatform {
 
 export interface GameReviews {
     user_id: string;
+    review_id: string
     grade: number;
     comment: string;
     created_at: Date;
     id: string;
     username: string;
     img: null;
+    review_likes: number;
 }
 
 export interface GameAvgRate {

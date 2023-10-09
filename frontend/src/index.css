@@ -36,7 +36,7 @@ html[data-theme='light'] {
   --dropdown-color: #D9D9D9;
   --buttons-color: #D9D9D9;
   --background-card-color: #FFFFFF;
-  --checkbox-panel-background-color: rgba(255,255,255,0.5);
+  --checkbox-panel-background-color: rgba(255,255,255,0.7);
   --plus-checkbox-background-image: url('./icons/plus-black.png');
   --check-checkbox-background-image: url('./icons/check-black.png');
   --clock-checkbox-background-image: url('./icons/clock-black.png');

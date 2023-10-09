@@ -6,8 +6,10 @@ from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.database import get_async_session
-from games_library_api.integrations.game_operations import  get_all_games, get_game, get_game_avg_rate, get_game_review, get_new_games
+from games_library_api.integrations.game_operations import  get_all_games, get_game, get_game_avg_rate, get_game_review, get_game_review_likes, get_new_games
 from games_library_api.models import error_model, game_model
+from games_library_api.auth.utils import current_active_user
+from games_library_api.schemas.user import User
 
 router = APIRouter()
 
@@ -46,6 +48,18 @@ async def get_game_review_router(id: UUID4, db: AsyncSession = Depends(get_async
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result
+
+@router.get(
+    "/review/user/likes/game/{id}", response_model=list[game_model.GetGameReviewLikesResponseModel | error_model.ErrorResponseModel]
+)
+async def get_game_review_router(id: UUID4,  db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)) -> Any:
+    result = await get_game_review_likes(id=id,  db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='This Game Have No Reviews')
+        return JSONResponse(
+            content=error.model_dump(),
         )
     return result
 

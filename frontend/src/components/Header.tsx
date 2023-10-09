@@ -161,7 +161,8 @@ const Header: FC = () => {
                         :
                         <>
                             <button className="dropbtn">
-                                {auth_store.user.img == null ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={auth_store.user.img} />}
+                                
+                                {auth_store.user.img == null || auth_store.user.img == ''  ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={auth_store.user.img} />}
                                 {auth_store.user.username}</button>
 
                             <div className="dropdown-content">
@@ -189,7 +190,7 @@ const Header: FC = () => {
                                     <FormattedMessage id="header.menu.logout" />
                                 </Link>
                                 <div className="theme-controller-desktop">
-                                    <p>Тема</p>
+                                    <p><FormattedMessage id="header.menu.theme" /></p>
                                     <div className="toggle-pill-dark">
                                         <input type="checkbox" name="check" checked={checked} onChange={handleChange} />
                                         <label htmlFor="pill4"></label>

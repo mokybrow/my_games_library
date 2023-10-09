@@ -144,4 +144,15 @@ export default class GameService {
             },
         })
     }
+
+    static async likeToUserComment(review_id: string):Promise<AxiosResponse>  {
+        return $api.post(`game/like/user/review/${review_id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'accept': 'application/json'
+            },
+        })
+    }
+
 }

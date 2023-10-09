@@ -21,6 +21,13 @@ class GetGamesResponseModel(BaseModel):
     slug: str
     release: datetime.date
 
+class GetUserLastGameResponseModel(BaseModel):
+    id: UUID4
+    title: str
+    cover: Optional[str]
+    slug: str
+    release: datetime.date
+    created_at: datetime.datetime
 
 class GetGamesPageResponseModel(BaseModel):
     id: UUID4
@@ -31,17 +38,25 @@ class GetGamesPageResponseModel(BaseModel):
     release: datetime.date
     platform: list
     genre: Optional[list]
-    esrb_rating: Optional[str]
+    esrb_rating: Optional[str | list]
 
 
 class GetGameReviewsResponseModel(BaseModel):
     user_id: UUID4
+    review_id: UUID4
     grade: int
     comment: Optional[str]
     created_at: datetime.datetime
     id: UUID4
     username: str
     img: Optional[str]
+    review_likes: Optional[int]
+
+
+class GetGameReviewLikesResponseModel(BaseModel):
+    review_id: UUID4
+    user_id: UUID4
+
 
 class GetGameAvgRateResponseModel(BaseModel):
     avg_rate: Optional[float]

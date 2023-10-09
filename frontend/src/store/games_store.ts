@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import {GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, userGrade } from "../models/response";
+import { GameAvgRate, GameProfileResponse, GameReviews, GamesResponse,  userGrade } from "../models/response";
 import { AxiosError } from "axios";
 
 import GameService from "../service/GameService";
@@ -15,7 +15,6 @@ export default class GamesStore {
     gameAvgRate = {} as GameAvgRate;
     userGrade = {} as userGrade;
 
-
     isWanted = false;
     isPassed = false;
     isLiked = false;
@@ -23,6 +22,7 @@ export default class GamesStore {
     constructor() {
         makeAutoObservable(this);
     }
+
 
     setGames(games: GamesResponse[]) {
         this.games = games;
@@ -63,42 +63,56 @@ export default class GamesStore {
     }
 
 
-    async getGameData(slug: string){
+    async getGameData(slug: string) {
         this.setLoading(true);
         try {
             const response = await GameService.getGameBySlug(String(slug));
             this.setGameProfile(response.data)
-
+            console.log(response.data.id)
             const avgRate = await GameService.getGamesAvgRate(response.data.id)
             this.setAvgRate(avgRate.data)
 
             const checkInPassed = await GameService.checkInPassedList(response.data.id)
 
-            if (checkInPassed.data == true){
+            if (checkInPassed.data == true) {
                 this.setPassed(true)
             }
             const checkInWanted = await GameService.checkInWantedList(response.data.id)
-            if (checkInWanted.data == true){
+            if (checkInWanted.data == true) {
                 this.setWanted(true)
             }
             const checkInLiked = await GameService.checkInLikedList(response.data.id)
 
-            if (checkInLiked.data == true){
+            if (checkInLiked.data == true) {
                 this.setLiked(true)
             }
             const reviews = await GameService.getGamesReview(response.data.id)
             this.setGameReviews(reviews.data)
 
+
             const userGrade = await GameService.getUserGrade(response.data.id)
             this.setUserGrade(userGrade.data)
+
+            if (userGrade.data == null) {
+                this.setUserGrade({
+                    id: 'string',
+                    user_id: 'string',
+                    game_id: 'string',
+                    grade: 0,
+                    comment: 'string',
+                    created_at: response.data.release
+                })
+            }
+
 
         } catch (error) {
             const err = error as AxiosError
             this.setGameReviews([])
         } finally {
             this.setLoading(false);
+
         }
-        
+
     }
 
     async getNewstGame() {
