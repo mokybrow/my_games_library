@@ -1,13 +1,23 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, IUser, RegResponse, userGrade } from "../models/response";
+import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesCountResponse, GamesResponse, IUser, RegResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
 
 
 
 export default class GameService {
-    static async get_games(id: number): Promise<AxiosResponse<GamesResponse[]>> {
+    
+    static async getGames(id: number): Promise<AxiosResponse<GamesResponse[]>> {
 
         return $api.get<GamesResponse[]>(`/games/page/${id}`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+    }
+    static async getGamesCount(): Promise<AxiosResponse<GamesCountResponse>> {
+
+        return $api.get<GamesCountResponse>(`/games/count`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -59,7 +69,7 @@ export default class GameService {
         })
     }
 
-    static async addReview(id: string, grade: number, comment: string):Promise<AxiosResponse>  {
+    static async addReview(id: string, grade: number, comment: string | null):Promise<AxiosResponse>  {
         return $api.post(`game/add_review/game_id/${id}/grade/${grade}/comment/${comment}`,
         {
             headers: {

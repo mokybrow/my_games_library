@@ -20,11 +20,10 @@ router = APIRouter()
 async def create_review_router(
     game_id: UUID4,
     grade: int,
-    comment: str = None,
+    comment: Optional[str],
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-
     result = await create_review(user_id=user.id, game_id=game_id, grade=grade, comment=comment, db=db)
     return result
 

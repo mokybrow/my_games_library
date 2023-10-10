@@ -17,6 +17,7 @@ import './styles/profile-page.css'
 import './styles/reg-page.css'
 import './styles/page-loader.css'
 import './styles/game-profile.css'
+import './styles/games-page.css'
 import { useTheme } from './hooks/useTheme';
 import { ListPage } from './pages/ListPage';
 import GameProfile from './pages/GameProfile';

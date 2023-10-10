@@ -3,7 +3,7 @@ from operator import or_
 import uuid
 
 from pydantic import UUID4, Json
-from sqlalchemy import distinct, func, insert, select
+from sqlalchemy import case, distinct, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import game_table, review_table, user_table, review_like_table
@@ -42,7 +42,14 @@ async def get_all_games(db: AsyncSession, page: int=0):
         game_table.c.cover,
         game_table.c.slug,
         game_table.c.release,
-    ).offset(page_offset).limit(20).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+    ).offset(page_offset).limit(36).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+    result = await db.execute(query)
+    return result.all()
+
+async def get_count_games(db: AsyncSession):
+    query = select(
+        func.count("*")
+    ).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
     result = await db.execute(query)
     return result.all()
 
@@ -68,36 +75,23 @@ async def get_game(slug: str, db: AsyncSession):
     return result.all()
 
 
-async def get_game_review(id: UUID4, db: AsyncSession):
-    query = (
-        select(
-            review_table.c.id.label('review_id'),
+async def get_game_review(game_id: UUID4, user_id: UUID4,  db: AsyncSession):
+
+    query = select(            
+            user_table.c.id,
+            user_table.c.username,
+            user_table.c.img,
             review_table.c.user_id,
             review_table.c.grade,
             review_table.c.comment,
             review_table.c.created_at,
-            user_table.c.id,
-            user_table.c.username,
-            user_table.c.img,
-            func.count(distinct(review_like_table.c.user_id)).label('review_likes')
-        )
-        .join(user_table, onclause=user_table.c.id ==review_table.c.user_id ).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id, isouter=True).group_by(review_table.c.id,            user_table.c.id,
-            user_table.c.username,).where(review_table.c.game_id == id)
-    )
-    result = await db.execute(query)
-    return result.all()
-
-
-async def get_game_review_likes(id: UUID4, db: AsyncSession):
-    query = (
-        select(
             review_table.c.id.label('review_id'),
-            review_like_table.c.user_id,
-        )
-        .join(user_table, onclause=user_table.c.id ==review_table.c.user_id ).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id, isouter=True).group_by(review_table.c.id, review_like_table.c.user_id).where(review_table.c.game_id == id)
-    )
+            func.count(distinct(review_like_table.c.user_id)).label('review_likes'),
+            func.sum(case((review_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike')).select_from(user_table).join(review_table, onclause=review_table.c.user_id==user_table.c.id, isouter=True).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id, isouter=True).where(review_table.c.game_id == game_id).group_by(user_table.c.id, review_table.c.id)
+
     result = await db.execute(query)
     return result.all()
+
 
 
 async def get_game_avg_rate(id: UUID4, db: AsyncSession):

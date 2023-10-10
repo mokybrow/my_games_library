@@ -21,6 +21,9 @@ class GetGamesResponseModel(BaseModel):
     slug: str
     release: datetime.date
 
+class GetGamesCountResponseModel(BaseModel):
+    count: int
+
 class GetUserLastGameResponseModel(BaseModel):
     id: UUID4
     title: str
@@ -42,20 +45,18 @@ class GetGamesPageResponseModel(BaseModel):
 
 
 class GetGameReviewsResponseModel(BaseModel):
-    user_id: UUID4
-    review_id: UUID4
-    grade: int
-    comment: Optional[str]
-    created_at: datetime.datetime
     id: UUID4
     username: str
     img: Optional[str]
-    review_likes: Optional[int]
-
-
-class GetGameReviewLikesResponseModel(BaseModel):
-    review_id: UUID4
     user_id: UUID4
+    grade: int
+    comment: Optional[str]
+    created_at: datetime.datetime
+    review_id: UUID4
+    review_likes: Optional[int]
+    hasAuthorLike: Optional[int]
+
+
 
 
 class GetGameAvgRateResponseModel(BaseModel):

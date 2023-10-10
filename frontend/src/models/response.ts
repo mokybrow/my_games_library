@@ -63,7 +63,9 @@ export interface GamesResponse {
     slug: string
     release: Date
 }
-
+export interface GamesCountResponse {
+    count: number
+}
 
 export interface UserLastReviews {
     game_id: string,
@@ -129,15 +131,16 @@ export interface PlatformPlatform {
 
 
 export interface GameReviews {
-    user_id: string;
-    review_id: string
-    grade: number;
-    comment: string;
-    created_at: Date;
-    id: string;
-    username: string;
-    img: null;
-    review_likes: number;
+    id: string,
+    username: string,
+    img: string | null,
+    user_id: string,
+    grade: 3,
+    comment: string | null,
+    created_at: Date,
+    review_id: string,
+    review_likes: number,
+    hasAuthorLike: number
 }
 
 export interface GameAvgRate {
