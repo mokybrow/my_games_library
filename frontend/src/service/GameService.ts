@@ -6,7 +6,7 @@ import $api, { API_URL } from "../api/api";
 
 export default class GameService {
     
-    static async getGames(id: number): Promise<AxiosResponse<GamesResponse[]>> {
+    static async getGamesPages(id: number): Promise<AxiosResponse<GamesResponse[]>> {
 
         return $api.get<GamesResponse[]>(`/games/page/${id}`,
         {

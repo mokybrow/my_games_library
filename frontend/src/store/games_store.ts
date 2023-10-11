@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import { GameAvgRate, GameProfileResponse, GameReviews, GamesResponse,  userGrade } from "../models/response";
-import { AxiosError } from "axios";
+import { GameAvgRate, GameProfileResponse, GameReviews,  GamesResponse, userGrade } from "../models/response";
+//import { AxiosError } from "axios";
 
 import GameService from "../service/GameService";
 
@@ -10,11 +10,13 @@ export default class GamesStore {
     isLoading = false;
 
     games = [] as GamesResponse[];
+    gamesPage = [] as GamesResponse[];
     reviews = [] as GameReviews[];
     gameProfile = {} as GameProfileResponse;
     gameAvgRate = {} as GameAvgRate;
     userGrade = {} as userGrade;
-
+    pageCount = 0;
+    currentPage = 0;
     isWanted = false;
     isPassed = false;
     isLiked = false;
@@ -23,11 +25,15 @@ export default class GamesStore {
         makeAutoObservable(this);
     }
 
-
+    setPageCount(count: number) {
+        this.pageCount = count
+    }
     setGames(games: GamesResponse[]) {
         this.games = games;
     }
-
+    setGamesPage(games: GamesResponse[]) {
+        this.gamesPage = games;
+    }
     setAvgRate(gameAvgRate: GameAvgRate) {
         this.gameAvgRate = gameAvgRate;
     }
@@ -68,22 +74,21 @@ export default class GamesStore {
         try {
             const response = await GameService.getGameBySlug(String(slug));
             this.setGameProfile(response.data)
-            console.log(response.data.id)
             const avgRate = await GameService.getGamesAvgRate(response.data.id)
             this.setAvgRate(avgRate.data)
 
             const checkInPassed = await GameService.checkInPassedList(response.data.id)
 
-            if (checkInPassed.data == true) {
+            if (checkInPassed.data === true) {
                 this.setPassed(true)
             }
             const checkInWanted = await GameService.checkInWantedList(response.data.id)
-            if (checkInWanted.data == true) {
+            if (checkInWanted.data === true) {
                 this.setWanted(true)
             }
             const checkInLiked = await GameService.checkInLikedList(response.data.id)
 
-            if (checkInLiked.data == true) {
+            if (checkInLiked.data === true) {
                 this.setLiked(true)
             }
             const reviews = await GameService.getGamesReview(response.data.id)
@@ -93,7 +98,7 @@ export default class GamesStore {
             const userGrade = await GameService.getUserGrade(response.data.id)
             this.setUserGrade(userGrade.data)
 
-            if (userGrade.data == null) {
+            if (userGrade.data === null) {
                 this.setUserGrade({
                     id: 'string',
                     user_id: 'string',
@@ -106,13 +111,37 @@ export default class GamesStore {
 
 
         } catch (error) {
-            const err = error as AxiosError
+            //const err = error as AxiosError
             this.setGameReviews([])
         } finally {
             this.setLoading(false);
 
         }
 
+    }
+    async getGameByPage(id: number) {
+        this.setLoading(true);
+        try {
+            const response = await GameService.getGamesPages(Number(id));
+            this.setGamesPage(response.data)
+
+        } catch (error) {
+            //const err = error as AxiosError
+        } finally {
+            this.setLoading(false);
+        }
+    }
+    async getPageCount() {
+        this.setLoading(true);
+        try {
+            const response = await GameService.getGamesCount();
+            this.setPageCount(response.data.count/36)
+
+        } catch (error) {
+            //const err = error as AxiosError
+        } finally {
+            this.setLoading(false);
+        }
     }
 
     async getNewstGame() {
@@ -121,7 +150,7 @@ export default class GamesStore {
             const response = await GameService.getNewGames();
             this.setGames(response.data)
         } catch (error) {
-            const err = error as AxiosError
+           // const err = error as AxiosError
         } finally {
             this.setLoading(false);
         }

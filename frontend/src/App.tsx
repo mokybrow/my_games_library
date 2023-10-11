@@ -1,13 +1,10 @@
-import React, { useContext, useEffect } from 'react';
 import './App.css';
-import { Context } from '.';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegPage from './pages/RegPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 import Header from './components/Header';
-import { GamesPage } from './pages/GamesPage';
 import { PlaylistsPage } from './pages/PlaylistsPage';
 import { NewsPage } from './pages/NewsPage';
 import { ReviewsPage } from './pages/ReviewsPage';
@@ -18,14 +15,15 @@ import './styles/reg-page.css'
 import './styles/page-loader.css'
 import './styles/game-profile.css'
 import './styles/games-page.css'
-import { useTheme } from './hooks/useTheme';
+import './styles/pagination.css'
 import { ListPage } from './pages/ListPage';
 import GameProfile from './pages/GameProfile';
+import GamesPage from './pages/GamesPage';
 
 
 function App() {
-  const { auth_store } = useContext(Context);
-  const { theme, setTheme } = useTheme()
+  // const { auth_store } = useContext(Context);
+  // const { theme, setTheme } = useTheme()
   // useEffect(() => {
   //   if (localStorage.getItem('token')) {
   //     auth_store.checkAuth()

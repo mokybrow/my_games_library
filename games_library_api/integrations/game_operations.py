@@ -3,7 +3,7 @@ from operator import or_
 import uuid
 
 from pydantic import UUID4, Json
-from sqlalchemy import case, distinct, func, insert, select
+from sqlalchemy import JSON, Text, case, cast, distinct, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import game_table, review_table, user_table, review_like_table
@@ -34,8 +34,11 @@ async def add_game(
     pass
 
 
-async def get_all_games(db: AsyncSession, page: int=0):
-    page_offset = page*30
+async def get_all_games(db: AsyncSession, page: int):
+    if page == 1:
+        page_offset = 0
+    else: 
+        page_offset = (page-1)*36
     query = select(
         game_table.c.id,
         game_table.c.title,
@@ -45,6 +48,17 @@ async def get_all_games(db: AsyncSession, page: int=0):
     ).offset(page_offset).limit(36).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
     result = await db.execute(query)
     return result.all()
+
+
+async def get_all_games_filter(db: AsyncSession):
+    query = select(
+       cast((game_table.c.genre), JSON)[0]['name']
+    ).where(cast(game_table.c.genre[0]['name'], Text) == 'Action').limit(10)
+    print(query)
+    result = await db.execute(query)
+    print(result.all())
+    # print(result.all())
+
 
 async def get_count_games(db: AsyncSession):
     query = select(

@@ -10,7 +10,7 @@ export interface PaginatoProps {
     onChange: ({ selected }: { selected: number }) => void;
 }
 
-export const Paginator: FC<PaginatoProps> = ({
+export const Pagination: FC<PaginatoProps> = ({
     initialPage,
     marginPagesDisplayed,
     pageCount,
@@ -20,16 +20,17 @@ export const Paginator: FC<PaginatoProps> = ({
     return (
         <ReactPaginate
             className='pagination-container'
-            breakLabel="..."
-            nextLabel="next >"
-            previousLabel="< previous"
+            breakLabel=""
+            nextLabel=">"
+            previousLabel="<"
             initialPage={initialPage}
             renderOnZeroPageCount={null}
             pageCount={pageCount}
             marginPagesDisplayed={marginPagesDisplayed}
             pageRangeDisplayed={pageRangeDisplayed}
             onPageChange={onChange}
-            activeClassName='active'
+            containerClassName={'pagination'}
+            activeClassName={'active'}
         />
     )
 }

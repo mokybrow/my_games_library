@@ -1,0 +1,32 @@
+.pagination-container{
+    grid-column: 1/7;
+    justify-content: center;
+    list-style-type: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 20px;
+    gap: 0.5em;
+}
+
+
+.pagination-container li {
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 0.2em 0.3em;
+    background-color: var(--buttons-color);
+    transition: all 180ms linear;
+
+}
+
+.pagination-container li:hover {
+    cursor: pointer;
+    border-radius: 6px;
+    background-color: aliceblue;
+    transform: scale(1.1);
+}
+
+.pagination-container li.active{
+    background-color: #1349C9;
+}

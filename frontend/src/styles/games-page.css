@@ -4,7 +4,7 @@
     grid-gap: 20px 24px;
     align-items: stretch;
     padding: 0 14vw;
-    padding-top: 80px;
+    padding-top: 140px;
     margin-bottom: 80px;
 }
 
@@ -17,7 +17,6 @@
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease 0s;
-    border: 2px solid black;
 }
 
 .game-card-cover-container img {
@@ -32,39 +31,4 @@
 
 .card-title {
     color: var(--font-color-global);
-}
-
-.pagination-container {
-    display: flex;
-    list-style: none;
-    grid-column: 1/7;
-}
-
-.pagination-container li {
-    flex: 1;
-    margin: 0px 5px;
-    background: #dde1e7;
-    border-radius: 3px;
-    box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
-    cursor: pointer;
-}
-
-.pagination-container li a {
-    font-size: 18px;
-    text-decoration: none;
-    color: #4d3252;
-    height: 45px;
-    width: 55px;
-    display: block;
-    line-height: 45px;
-}
-
-.pagination-container li.active {
-    box-shadow: inset -3px -3px 7px #ffffff73,
-        inset 3px 3px 5px rgba(94, 104, 121, 0.288);
-}
-
-.pagination-container li.active a {
-    font-size: 17px;
-    color: #6f6cde;
 }

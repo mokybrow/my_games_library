@@ -6,7 +6,7 @@ from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.database import get_async_session
-from games_library_api.integrations.game_operations import  get_all_games, get_count_games, get_game, get_game_avg_rate, get_game_review, get_new_games
+from games_library_api.integrations.game_operations import  get_all_games, get_all_games_filter, get_count_games, get_game, get_game_avg_rate, get_game_review, get_new_games
 from games_library_api.models import error_model, game_model
 from games_library_api.auth.utils import current_active_user
 from games_library_api.schemas.user import User
@@ -18,6 +18,13 @@ router = APIRouter()
 async def get_all_games_router(page: int,db: AsyncSession = Depends(get_async_session)):
     result = await get_all_games(db=db, page=page)
     return result
+
+
+@router.get("/games/page/filter/")
+async def get_all_games_filter_router( db: AsyncSession = Depends(get_async_session)):
+    result = await get_all_games_filter(db=db)
+
+
 
 @router.get("/games/count", response_model=game_model.GetGamesCountResponseModel)
 async def get_all_games_router(db: AsyncSession = Depends(get_async_session)):
