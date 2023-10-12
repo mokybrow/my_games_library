@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, GamesResponse, IUser, RegEmailCheck, UserLastReviews, UserStat } from "../models/response";
+import { AUser, GamesResponse, IUser, RegEmailCheck, UserActivityResponse, UserLastReviews, UserStat } from "../models/response";
 import AuthService from "../service/AuthService";
 import { AxiosError } from "axios";
 import UserService from "../service/UserService";
@@ -12,7 +12,7 @@ export default class UserStore {
     isAuth = false;
     isLoading = false;
     anotherUser = {} as AUser;
-    games = [] as GamesResponse[];
+    userActivity = [] as UserActivityResponse[];
     reviews = [] as UserLastReviews[];
     isFollower = false;
 
@@ -24,8 +24,8 @@ export default class UserStore {
         this.anotherUser = user;
     }
 
-    setGames(games: GamesResponse[]) {
-        this.games = games;
+    setGames(games: UserActivityResponse[]) {
+        this.userActivity = games;
     }
 
     setReviews(reviews: UserLastReviews[]) {
@@ -46,20 +46,26 @@ export default class UserStore {
         try {
             const user = await UserService.getUserProfile(username);
             this.setAUser(user.data)
-            const game = await GameService.getUserGames(user.data.id)
-            this.setGames(game.data)
-            const reviews = await UserService.getUserReviews(user.data.id)
-            this.setReviews(reviews.data)
-            if (getLocalToken() !== null){
-                const response = await AuthService.getUserInfo();
-                if (response.status !== 401){
-                    const follow = await UserService.checkFollow(this.anotherUser.id);
-                    console.log(follow.data.detail)
-                    if (follow.status === 200) {
-                        this.setFollower(true)
-                    }
+
+            if (getLocalToken() != null){
+                const follow = await UserService.checkFollow(user.data.id);
+                console.log(follow.data.detail)
+    
+                if (follow.status === 200) {
+                    this.setFollower(true)
                 }
             }
+
+
+            const game = await GameService.getUserGames(user.data.id)
+            this.setGames(game.data)
+
+            const reviews = await UserService.getUserReviews(user.data.id)
+            this.setReviews(reviews.data)
+
+
+
+
         } catch (error) {
             const err = error as AxiosError
         } finally {

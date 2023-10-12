@@ -24,10 +24,11 @@
 /*-------Логотип сайта-------*/
 
 .header-logo {
+    font-family: PressToPlay;
     text-transform: uppercase;
     padding: 5px;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 1.2em;
     color: var(--header-logo-color);
     transition: color 200ms linear;
 }

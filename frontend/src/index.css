@@ -1,3 +1,8 @@
+@font-face {
+  font-family: PressToPlay;
+  src: url('./fonts/PressStart2P-Regular.ttf');
+}
+
 html[data-theme='dark'] {
   --background-color: #1A1A1A;
   --header-color: #333333;
@@ -18,6 +23,7 @@ html[data-theme='dark'] {
   --check-checkbox-background-image: url('./icons/check-white.png');
   --clock-checkbox-background-image: url('./icons/clock-white.png');
   --heart-checkbox-background-image: url('./icons/heart-white.png');
+
 }
 
 

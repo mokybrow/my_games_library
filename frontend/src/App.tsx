@@ -16,9 +16,11 @@ import './styles/page-loader.css'
 import './styles/game-profile.css'
 import './styles/games-page.css'
 import './styles/pagination.css'
+import './styles/admin-page.css'
 import { ListPage } from './pages/ListPage';
 import GameProfile from './pages/GameProfile';
 import GamesPage from './pages/GamesPage';
+import AdminPage from './pages/AdminPage';
 
 
 function App() {
@@ -46,6 +48,7 @@ function App() {
             <Route path='/game/:slug' element={<GameProfile />} />
             <Route path='/:username/:slug' element={<ListPage />} />
             <Route path='/:username/settings' element={<ListPage />} />
+            <Route path='/dash/admin' element={<AdminPage />} />
           </Routes>
         </Router>
       </>

@@ -19,6 +19,7 @@ from games_library_api.schemas.database import (
     user_table,
     wantplay_game_table,
     wantplay_table,
+    user_activity_table,
 )
 from games_library_api.services.list_slug import making_slug
 
@@ -121,6 +122,8 @@ async def universal_game_passed(user_id: UUID4, game_id: UUID4, db: AsyncSession
     list_a_game = result.all()
     if  list_a_game:
         stmt = delete(passed_game_table).where(passed_game_table.c.game_id == list_a_game[0][0], passed_game_table.c.list_id == list_a_game[0][1])
+        delete_activity = delete(user_activity_table).where(user_activity_table.c.game_id == list_a_game[0][0], user_activity_table.c.user_id == user_id, user_activity_table.c.activity_type == 'passed')
+        await db.execute(delete_activity)
         await db.execute(stmt)
         await db.commit()
         return False
@@ -132,11 +135,23 @@ async def universal_game_passed(user_id: UUID4, game_id: UUID4, db: AsyncSession
         game_id=game_id,
         created_at=datetime.datetime.utcnow(),
     )
-    result = await db.execute(stmt)
+    game_info_query = select(game_table.c.title, game_table.c.slug, game_table.c.cover,).where(game_table.c.id == game_id)
+    game_info = await db.execute(game_info_query)
+    game_info = game_info.all()
+    activity = insert(user_activity_table).values(
+        id=uuid.uuid4(),
+        user_id=user_id,
+        title=game_info[0][0],
+        cover=game_info[0][2],
+        slug=game_info[0][1],
+        game_id=game_id,
+        activity_type='passed',
+        created_at=datetime.datetime.utcnow(),
+    )
+    await db.execute(stmt)
+    await db.execute(activity)
     await db.commit()
     return True
-
-
 
 
 
@@ -146,18 +161,35 @@ async def universal_game_wanted(user_id: UUID4, game_id: UUID4, db: AsyncSession
     list_a_game = result.all()
     if  list_a_game:
         stmt = delete(wantplay_game_table).where(wantplay_game_table.c.game_id == list_a_game[0][0], wantplay_game_table.c.list_id == list_a_game[0][1])
+        delete_activity = delete(user_activity_table).where(user_activity_table.c.game_id == list_a_game[0][0], user_activity_table.c.user_id == user_id, user_activity_table.c.activity_type == 'wanted')
+        await db.execute(delete_activity)
         await db.execute(stmt)
         await db.commit()
         return False
     list_id = select(wantplay_table.c.id).where(wantplay_table.c.user_id == user_id)
     list_id = await db.execute(list_id)
     list_id = list_id.all()
+
     stmt = insert(wantplay_game_table).values(
         list_id=list_id[0][0],
         game_id=game_id,
         created_at=datetime.datetime.utcnow(),
     )
-    result = await db.execute(stmt)
+    game_info_query = select(game_table.c.title, game_table.c.slug, game_table.c.cover,).where(game_table.c.id == game_id)
+    game_info = await db.execute(game_info_query)
+    game_info = game_info.all()
+    activity = insert(user_activity_table).values(
+        id=uuid.uuid4(),
+        user_id=user_id,
+        title=game_info[0][0],
+        cover=game_info[0][2],
+        slug=game_info[0][1],
+        game_id=game_id,
+        activity_type='wanted',
+        created_at=datetime.datetime.utcnow(),
+    )
+    await db.execute(stmt)
+    await db.execute(activity)
     await db.commit()
     return True
 
@@ -168,6 +200,8 @@ async def universal_game_liked(user_id: UUID4, game_id: UUID4, db: AsyncSession)
     list_a_game = result.all()
     if  list_a_game:
         stmt = delete(like_game_table).where(like_game_table.c.game_id == list_a_game[0][0], like_game_table.c.list_id == list_a_game[0][1])
+        delete_activity = delete(user_activity_table).where(user_activity_table.c.game_id == list_a_game[0][0], user_activity_table.c.user_id == user_id, user_activity_table.c.activity_type == 'liked')
+        await db.execute(delete_activity)
         await db.execute(stmt)
         await db.commit()
         return False
@@ -179,8 +213,24 @@ async def universal_game_liked(user_id: UUID4, game_id: UUID4, db: AsyncSession)
         game_id=game_id,
         created_at=datetime.datetime.utcnow(),
     )
-    result = await db.execute(stmt)
+    game_info_query = select(game_table.c.title, game_table.c.slug, game_table.c.cover,).where(game_table.c.id == game_id)
+    game_info = await db.execute(game_info_query)
+    game_info = game_info.all()
+    activity = insert(user_activity_table).values(
+        id=uuid.uuid4(),
+        user_id=user_id,
+        title=game_info[0][0],
+        cover=game_info[0][2],
+        slug=game_info[0][1],
+        game_id=game_id,
+        activity_type='liked',
+        created_at=datetime.datetime.utcnow(),
+    )
+    await db.execute(stmt)
+    await db.execute(activity)
+
     await db.commit()
+
     return True
 
 

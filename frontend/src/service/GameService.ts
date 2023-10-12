@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesCountResponse, GamesResponse, IUser, RegResponse, userGrade } from "../models/response";
+import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesCountResponse, GamesResponse, IUser, RegResponse, UserActivityResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
 
 
@@ -42,15 +42,22 @@ export default class GameService {
         })
     }
 
-    static async getUserGames(user_id: string):Promise<AxiosResponse<GamesResponse[]>>  {
-        return $api.get<GamesResponse[]>(`/last/game/${user_id}`,
+    static async getUserGames(user_id: string):Promise<AxiosResponse<UserActivityResponse[]>>  {
+        return $api.get<UserActivityResponse[]>(`/last/game/${user_id}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         })
     }
-
+    static async getGamesReviewUnAuth(id: string):Promise<AxiosResponse<GameReviews[]>>  {
+        return $api.get<GameReviews[]>(`game/${id}/reviews/all`,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+    }
     static async getGamesReview(id: string):Promise<AxiosResponse<GameReviews[]>>  {
         return $api.get<GameReviews[]>(`game/${id}/reviews/`,
         {

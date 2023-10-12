@@ -47,12 +47,13 @@ async def add_game_router(
     )
 
 
-@router.get('/admin/get_all_users/', response_model=list[users_model.UserResponseModel])
+@router.get('/admin/users', response_model=list[users_model.UserResponseModel])
 async def get_all_users_router(
+    page: int, 
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_superuser),
 ) -> Any:
-    result = await get_all_users(db=db)
+    result = await get_all_users(page=page,db=db)
     return result
 
 

@@ -2,7 +2,7 @@
     "app.header": "Отредактируйте файлы и сохраните, чтобы перезагрузить",
     "app.content": "Изучите React",
     "app.channel.plug": "Учебник предоставлен вам Medium",
-    "header.menu.logo": "Лого",
+    "header.menu.logo": "Культ Медведя",
     "header.menu.item1": "Игры",
     "header.menu.item2": "Плейлисты",
     "header.menu.item3": "Новости",
@@ -34,7 +34,22 @@
     "content.gameprofile.releasedate": "Дата выхода",
     "content.gameprofile.commentdate": "Прошёл",
     "content.gameprofile.header": "Отзывы",
-    "content.gameprofile.placeholder": "Данных нет, но скоро появятся"
+    "content.gameprofile.placeholder": "Данных нет, но скоро появятся",
+
+    "content.userprofile.passed": "Пройденно",
+    "content.userprofile.liked": "Понравилось",
+    "content.userprofile.wanted": "Пройдёт",
+    "content.userprofile.lists": "Списки",
+    "content.userprofile.settings": "Изменить профиль",
+    "content.userprofile.createlist": "Создать список",
+    "content.userprofile.activity": "Активность",
+    "content.userprofile.inactive": "Пользователь сюда ничего не добавил",
+    "content.userprofile.lastreviews": "Последние отзывы",
+    "content.userprofile.followers": "Подписчиков",
+    "content.userprofile.follow": "Подписаться",
+    "content.userprofile.unfollow": "Отписаться"
+
+
     
     
 }

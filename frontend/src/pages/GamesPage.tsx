@@ -47,7 +47,7 @@ const GamesPage: FC = () => {
         {games_store.gamesPage.map(game =>
           <Link key={game.id} to={'/game/' + game.slug} reloadDocument>
             <div className="game-card-cover-container">
-              {game.cover != null ? <img src={game.cover} alt=''/>: <img src={require('../icons/user.png')} alt=''/>}
+              {game.cover != null ? <img src={game.cover} alt=''/>: <img src={require('../icons/img-not-found.png')} alt=''/>}
               <div className="title-card-body">
                 <div className="title-card">
                   <span className="card-title">{game.title}</span>

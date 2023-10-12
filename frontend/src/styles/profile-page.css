@@ -211,6 +211,38 @@
 
 /* Краточки в профиле */
 
+
+.main-profile-card-cover-container {
+    height: 200px;
+    border-radius: 6px;
+    grid-column: 1/2;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    margin: 1em;
+    transition: all 200ms linear;
+    background-color: var(--buttons-color);
+}
+
+.main-profile-card-cover-container img {
+    padding: 1em;
+    object-fit:contain;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-profile-card-cover-container:hover {
+    transform: scale(1.04);
+
+}
+
+
 .profile-card-cover-container {
     height: 200px;
     border-radius: 6px;
@@ -220,12 +252,13 @@
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease 0s;
-    border: 2px solid black;
     margin: 1em;
+    transition: all 200ms linear;
+    background-color: var(--buttons-color);
 }
 
 .profile-card-cover-container img {
-    object-fit: cover;
+    object-fit:cover;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -250,6 +283,25 @@
     transition: all 200ms linear;
 }
 
+.title-card-main {
+    display: flex;
+    border-radius: 6px;
+    transition: all 200ms linear;
+    font-family: PressToPlay;
+}
+
+.title-card-activity {
+    background-color: #1349C9;
+    border-radius: 6px;
+    margin: 0.4em;
+    padding: 0.4em;
+    transition: all 200ms linear;
+}
+
+.card-title-activity {
+    color: #CFCFCF;
+
+}
 
 .card-title-grade {
     font-weight: 600;
@@ -262,6 +314,7 @@
     justify-content: center;
     align-items: center;
     display: flex;
+    flex-direction: column;
     color: var(--font-color-global);
     bottom: 0;
     margin-bottom: 1em;

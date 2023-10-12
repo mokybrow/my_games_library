@@ -13,7 +13,7 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import check_follow, follow_on_user, get_another_user, get_user, get_user_by_email, get_user_by_username, get_user_last_game, get_user_last_reviews, unfollow
+from games_library_api.integrations.user_operations import check_follow,  follow_unfollow_on_user, get_another_user, get_user, get_user_activity, get_user_by_email, get_user_by_username, get_user_last_reviews
 from games_library_api.models import error_model, game_model, list_model, users_model, review_model
 
 from games_library_api.schemas.user import User
@@ -165,18 +165,12 @@ async def get_user_list_page(username: str, list_name: str) -> Any:
     return None
 
 
-@router.post('/follow_to/{user_id}')
+@router.post('/follow/unfollow/{user_id}')
 async def follow_to_rout(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)):
-    result = await follow_on_user(follower_id=user.id, user_id=user_id, db=db)
+    result = await follow_unfollow_on_user(follower_id=user.id, user_id=user_id, db=db)
     if not result:
         return False
-    
     return True
-
-@router.delete('/unfollow_to/{user_id}')
-async def unfollow_rout(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)) -> None:
-    await unfollow(follower_id=user.id, user_id=user_id, db=db)
-
 
 @router.get('/follow_check/{user_id}')
 async def check_follow_route(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)) -> None:
@@ -196,9 +190,17 @@ async def check_follow_route(user_id: UUID4, user: User = Depends(current_active
 
 
 @router.get('/last/game/{user_id}', response_model=list[game_model.GetUserLastGameResponseModel])
-async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)) -> None:
-    result = await get_user_last_game(user_id=user_id, db=db)
-
+async def get_user_activity_router(
+    user_id: UUID4,
+    db: AsyncSession = Depends(get_async_session),
+) -> Any:
+    result = await get_user_activity(user_id=user_id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no activity')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
     return result
 
 

@@ -1,4 +1,4 @@
-.pagination-container{
+.pagination-container {
     grid-column: 1/7;
     justify-content: center;
     list-style-type: none;
@@ -11,12 +11,23 @@
 
 
 .pagination-container li {
+    display: flex;
     font-weight: 400;
     cursor: pointer;
     border-radius: 6px;
-    padding: 0.2em 0.3em;
     background-color: var(--buttons-color);
     transition: all 180ms linear;
+
+}
+
+.pagination-container li a {
+    padding: 0.2em 0.3em;
+    display: flex;
+    width: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 
 }
 
@@ -27,6 +38,6 @@
     transform: scale(1.1);
 }
 
-.pagination-container li.active{
+.pagination-container li.active {
     background-color: #1349C9;
 }

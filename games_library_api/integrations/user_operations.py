@@ -5,7 +5,7 @@ from pydantic import UUID4
 from sqlalchemy import distinct, func, insert, select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import user_table, follower_table,list_table,passed_table,passed_game_table,list_game_table,game_table, wantplay_game_table, wantplay_table, review_table
+from games_library_api.schemas.database import user_table, follower_table,list_table,passed_table,passed_game_table,list_game_table,game_table, wantplay_game_table, wantplay_table, review_table,user_activity_table
 
 
 async def get_user(id: UUID4, db: AsyncSession) -> dict:
@@ -29,6 +29,7 @@ async def get_another_user(username: str, db: AsyncSession) -> dict:
     result = await db.execute(query)
     return result.all()
 
+
 async def get_user_by_email(email: str, db: AsyncSession) -> dict:
     query = select(
         user_table
@@ -45,27 +46,25 @@ async def get_user_by_username(username: str, db: AsyncSession) -> dict:
     return result.all()
 
 
-async def follow_on_user(follower_id: UUID4, user_id: UUID4, db: AsyncSession) -> Any:
+async def follow_unfollow_on_user(follower_id: UUID4, user_id: UUID4, db: AsyncSession) -> Any:
     if str(follower_id) == str(user_id):
         return False
     query = select(follower_table).where(follower_table.c.user_id == user_id, follower_table.c.follower_id == follower_id)
     result = await db.execute(query)
     if result.all():
+        stmt = delete(follower_table).where(
+        follower_table.c.user_id==user_id,
+        follower_table.c.follower_id==follower_id)
+        result = await db.execute(stmt)
+        await db.commit()
         return False
     stmt = insert(follower_table).values(
         user_id=user_id,
         follower_id=follower_id)
-    result = await db.execute(stmt)
+    await db.execute(stmt)
     await db.commit()
     return True
 
-async def unfollow(follower_id: UUID4, user_id: UUID4, db: AsyncSession) -> None:
-    query = select(follower_table).where(follower_table.c.user_id == user_id, follower_table.c.follower_id == follower_id)
-    result = await db.execute(query)
-    if result:
-        stmt = delete(follower_table).where(follower_table.c.user_id == user_id, follower_table.c.follower_id == follower_id)
-        result = await db.execute(stmt)
-    await db.commit()
 
 
 async def check_follow(follower_id: UUID4, user_id: UUID4, db: AsyncSession) -> None:
@@ -74,6 +73,20 @@ async def check_follow(follower_id: UUID4, user_id: UUID4, db: AsyncSession) -> 
     if not result.all():
         return False
     return True
+
+
+
+async def get_user_last_reviews(user_id: UUID4, db: AsyncSession) -> None:
+    query = select(         
+        review_table.c.game_id,
+        review_table.c.user_id,
+        review_table.c.grade,
+        review_table.c.created_at,
+        game_table.c.cover,
+        game_table.c.slug,).where(review_table.c.user_id == user_id).join(game_table, onclause=game_table.c.id==review_table.c.game_id).limit(6).order_by(review_table.c.created_at.desc())
+        
+    result = await db.execute(query)
+    return result.all()
 
 
 async def get_user_last_game(user_id: UUID4, db: AsyncSession) -> None:
@@ -88,14 +101,10 @@ async def get_user_last_game(user_id: UUID4, db: AsyncSession) -> None:
     return result.all()
 
 
-async def get_user_last_reviews(user_id: UUID4, db: AsyncSession) -> None:
-    query = select(         
-        review_table.c.game_id,
-        review_table.c.user_id,
-        review_table.c.grade,
-        review_table.c.created_at,
-        game_table.c.cover,
-        game_table.c.slug,).where(review_table.c.user_id == user_id).join(game_table, onclause=game_table.c.id==review_table.c.game_id).limit(6).order_by(review_table.c.created_at.desc())
-        
+async def get_user_activity(user_id: UUID4, db: AsyncSession) -> Any:
+    query = (
+        select(user_activity_table)
+        .where(user_activity_table.c.user_id == user_id).order_by(user_activity_table.c.created_at.desc())
+    )
     result = await db.execute(query)
     return result.all()

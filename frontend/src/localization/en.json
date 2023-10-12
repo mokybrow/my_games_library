@@ -2,7 +2,7 @@
     "app.header": "Edit the files and save to reload",
     "app.content": "Learn React",
     "app.channel.plug": "Tutorial brought to you by Medium",
-    "header.menu.logo": "Logo",
+    "header.menu.logo": "Cult of Bear",
     "header.menu.item1": "Games",
     "header.menu.item2": "Playlists",
     "header.menu.item3": "News",
@@ -33,7 +33,22 @@
     "content.gameprofile.releasedate": "Release date",
     "content.gameprofile.commentdate": "Passed on",
     "content.gameprofile.header": "Reviews",
-    "content.gameprofile.placeholder": "No data available, but coming soon"
+    "content.gameprofile.placeholder": "No data available, but coming soon",
+
+    "content.userprofile.passed": "Passed",
+    "content.userprofile.liked": "Liked",
+    "content.userprofile.wanted": "Wanted",
+    "content.userprofile.lists": "Lists",
+    "content.userprofile.settings": "Change profile",
+    "content.userprofile.createlist": "Create list",
+    "content.userprofile.activity": "Activity",
+    "content.userprofile.inactive": "The user hasn't added anything",
+    "content.userprofile.lastreviews": "Last reviews",
+    "content.userprofile.followers": "Followers",
+    "content.userprofile.follow": "Follow",
+    "content.userprofile.unfollow": "Unfollow"
+
+
 
 
 }

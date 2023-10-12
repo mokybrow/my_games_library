@@ -75,8 +75,9 @@ async def add_game_to_user_list_router(
         return {'Game added': 'Error'}
     return {'Game added': 'Success'}
 
+
 @router.post('/lists/operation/passed/{game_id}')
-async def universal_wantplay_passed_router(
+async def universal_passed_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
@@ -88,7 +89,7 @@ async def universal_wantplay_passed_router(
     return {'Game added': 'Success'}
 
 @router.post('/lists/operation/wantplay/{game_id}')
-async def universal_wantplay_list_router(
+async def universal_wantplay_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
@@ -101,7 +102,7 @@ async def universal_wantplay_list_router(
 
 
 @router.post('/lists/operation/liked/{game_id}')
-async def universal_wantplay_liked_router(
+async def universal_liked_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
@@ -144,6 +145,7 @@ async def update_user_list_router(
     if not result:
         return {'List name already': 'exist'}
     return {'List updated': 'success'}
+
 
 
 @router.get('/check/game_in_passed_list/{game_id}')

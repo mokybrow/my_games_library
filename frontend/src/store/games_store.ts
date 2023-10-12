@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
-import { GameAvgRate, GameProfileResponse, GameReviews,  GamesResponse, userGrade } from "../models/response";
+import { GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, userGrade } from "../models/response";
 //import { AxiosError } from "axios";
 
 import GameService from "../service/GameService";
+import { getLocalToken } from "../utils/utils";
 
 
 
@@ -77,43 +78,51 @@ export default class GamesStore {
             const avgRate = await GameService.getGamesAvgRate(response.data.id)
             this.setAvgRate(avgRate.data)
 
-            const checkInPassed = await GameService.checkInPassedList(response.data.id)
+            if (getLocalToken() !== null) {
+                const checkInPassed = await GameService.checkInPassedList(response.data.id)
+                if (checkInPassed.data === true) {
+                    this.setPassed(true)
+                }
+                const checkInWanted = await GameService.checkInWantedList(response.data.id)
+                if (checkInWanted.data === true) {
+                    this.setWanted(true)
+                }
+                const checkInLiked = await GameService.checkInLikedList(response.data.id)
 
-            if (checkInPassed.data === true) {
-                this.setPassed(true)
+                if (checkInLiked.data === true) {
+                    this.setLiked(true)
+                }
+                const reviews = await GameService.getGamesReview(response.data.id)
+                this.setGameReviews(reviews.data)
+
+                const userGrade = await GameService.getUserGrade(response.data.id)
+                this.setUserGrade(userGrade.data)
+
+                if (userGrade.data === null) {
+                    this.setUserGrade({
+                        id: 'string',
+                        user_id: 'string',
+                        game_id: 'string',
+                        grade: 0,
+                        comment: 'string',
+                        created_at: response.data.release
+                    })
+                }
             }
-            const checkInWanted = await GameService.checkInWantedList(response.data.id)
-            if (checkInWanted.data === true) {
-                this.setWanted(true)
+
+            if (getLocalToken() === null) {
+                const reviews_unauth = await GameService.getGamesReviewUnAuth(response.data.id)
+                this.setGameReviews(reviews_unauth.data)
             }
-            const checkInLiked = await GameService.checkInLikedList(response.data.id)
 
-            if (checkInLiked.data === true) {
-                this.setLiked(true)
-            }
-            const reviews = await GameService.getGamesReview(response.data.id)
-            this.setGameReviews(reviews.data)
-
-
-            const userGrade = await GameService.getUserGrade(response.data.id)
-            this.setUserGrade(userGrade.data)
-
-            if (userGrade.data === null) {
-                this.setUserGrade({
-                    id: 'string',
-                    user_id: 'string',
-                    game_id: 'string',
-                    grade: 0,
-                    comment: 'string',
-                    created_at: response.data.release
-                })
-            }
 
 
         } catch (error) {
             //const err = error as AxiosError
+
             this.setGameReviews([])
         } finally {
+
             this.setLoading(false);
 
         }
@@ -135,7 +144,7 @@ export default class GamesStore {
         this.setLoading(true);
         try {
             const response = await GameService.getGamesCount();
-            this.setPageCount(response.data.count/36)
+            this.setPageCount(response.data.count / 36)
 
         } catch (error) {
             //const err = error as AxiosError
@@ -150,7 +159,7 @@ export default class GamesStore {
             const response = await GameService.getNewGames();
             this.setGames(response.data)
         } catch (error) {
-           // const err = error as AxiosError
+            // const err = error as AxiosError
         } finally {
             this.setLoading(false);
         }

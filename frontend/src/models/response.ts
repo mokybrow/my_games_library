@@ -63,6 +63,20 @@ export interface GamesResponse {
     slug: string
     release: Date
 }
+
+
+export interface UserActivityResponse {
+    id: string
+    user_id: string
+    game_id: string
+    title: string
+    cover: string
+    activity_type: string
+    slug: string
+    created_at: Date
+}
+
+
 export interface GamesCountResponse {
     count: number
 }

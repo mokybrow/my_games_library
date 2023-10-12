@@ -165,3 +165,17 @@ news_table = Table(
     Column('slug', String, nullable=False),
     Column('publishing', Boolean, default=False),
 )
+
+user_activity_table = Table(
+    'user_activity',
+    metadata,
+    Column('id', UUID, primary_key=True, default=uuid.uuid4()),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('title', String, nullable=False),
+    Column('slug', String, nullable=False),
+    Column('cover', String, nullable=True),
+    Column('activity_type', String, nullable=False),
+    Column('created_at', DateTime, default=datetime.datetime.utcnow()),
+
+)

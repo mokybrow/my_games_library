@@ -9,8 +9,8 @@ export default class UserService {
         return axios.get<AUser>(`${API_URL}user/${username}`)
     }
 
-    static async followOnUser(user_id: string){
-        return $api.post(`${API_URL}follow_to/${user_id}`, {
+    static async followUnfollowOnUser(user_id: string){
+        return $api.post(`${API_URL}follow/unfollow/${user_id}`, {
         })
     }
     static async unFollowOnUser(user_id: string) {
