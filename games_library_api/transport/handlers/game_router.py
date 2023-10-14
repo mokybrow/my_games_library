@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
@@ -14,9 +14,9 @@ from games_library_api.schemas.user import User
 router = APIRouter()
 
 
-@router.get("/games/page/{page}", response_model=list[game_model.GetGamesResponseModel])
-async def get_all_games_router(page: int,db: AsyncSession = Depends(get_async_session)):
-    result = await get_all_games(db=db, page=page)
+@router.get("/games/page/{page}/sort/{sort}/decade/{decade}/genre/{genre}", response_model=list[game_model.GetGamesResponseModel])
+async def get_all_games_router(page: int, sort: Optional[str], decade: Optional[str], genre: Optional[str], db: AsyncSession = Depends(get_async_session)):
+    result = await get_all_games(db=db, page=page, sort=sort, decade=decade, genre=genre)
     return result
 
 

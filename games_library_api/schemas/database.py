@@ -33,13 +33,14 @@ game_table = Table(
     Column('cover', String, nullable=True),
     Column('description', String, nullable=True),
     Column('slug', String, nullable=False, unique=True),
-    Column('release', DateTime, nullable=False),
-    Column('playtime', Integer, nullable=False, unique=False),
-    Column('platform', JSON, nullable=False, unique=False),
-    Column('parent_platform', JSON, nullable=False, unique=False),
-    Column('genre', JSON, nullable=True, unique=False),
-    Column('tags', JSON, nullable=False, unique=False),
-    Column('esrb_rating', JSON, nullable=True, unique=False),
+    Column('release', DateTime, nullable=True),
+    Column('playtime', Integer, nullable=True, unique=False),
+    Column('platform', ARRAY(String), nullable=True, unique=False),
+    Column('platform_name', ARRAY(String), nullable=True, unique=False),
+    Column('parent_platform', ARRAY(String), nullable=True, unique=False),
+    Column('genre', ARRAY(String), nullable=True, unique=False),
+    Column('tags', ARRAY(String), nullable=True, unique=False),
+    Column('esrb_rating', String, nullable=True, unique=False),
 )
 
 list_table = Table(

@@ -1,13 +1,27 @@
 .game-page-section {
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vw;
+}
+
+.main-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 140px;
+    margin-bottom: 140px;
+    padding: 0 14vw;
+    grid-gap: 20px 24px;
+    width: 100%;
+}
+
+.card-with-games-container {
+    grid-row: 2/3;
+    grid-column: 1/7;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px 24px;
-    align-items: stretch;
-    padding: 0 14vw;
-    padding-top: 140px;
-    margin-bottom: 80px;
+    width: 100%;
 }
-
 
 .game-card-cover-container {
     height: 200px;
@@ -31,4 +45,92 @@
 
 .card-title {
     color: var(--font-color-global);
+}
+
+/* Выпадающее меню */
+.dropbtn-filter {
+    font-family: 'Roboto', sans-serif;
+    color: var(--font-color-global);
+    padding: 10px;
+    font-size: 20px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px 6px 6px 6px;
+    cursor: pointer;
+    background: none;
+    transition: all 200ms linear;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    gap: 5px;
+    min-width: 160px;
+    max-width: 100%;
+}
+
+.dropdown-filter {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+    grid-row: 1/1;
+    grid-column: 6/7;
+
+}
+
+.drop-down-line {
+    color: var(--font-color-global);
+    opacity: 0.4;
+}
+
+.dropdown-img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 50px;
+}
+
+.dropdown-content {
+    font-family: 'Roboto', sans-serif;
+    color: var(--font-color-global);
+    text-transform: uppercase;
+    display: none;
+    position: absolute;
+    background-color: var(--dropdown-color);
+    min-width: 160px;
+    width: auto;
+    z-index: 1;
+    border-radius: 0 0 6px 6px;
+    transition: all 200ms linear;
+    justify-content: center;
+}
+
+.dropdown-content li{
+    color: var(--font-color-global);
+    padding: 6px 6px;
+    text-decoration: none;
+    display: block;
+    transition: all 200ms linear;
+    text-transform: none;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.dropdown-content li:hover {
+    background-color: var(--font-color-global);
+    color: var(--buttons-color);
+}
+
+.dropdown-filter:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-filter:hover .dropbtn-filter {
+    background-color: var(--dropdown-color);
+    border-radius: 6px 6px 0px 0px;
+    transition: all 200ms linear;
+
 }

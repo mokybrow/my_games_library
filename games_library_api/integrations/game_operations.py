@@ -34,31 +34,56 @@ async def add_game(
     pass
 
 
-async def get_all_games(db: AsyncSession, page: int):
+async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: str = None, genre: str = None):
     if page == 1:
         page_offset = 0
     else: 
         page_offset = (page-1)*36
-    query = select(
+
+    if sort == 'alphabet':
+        query = select(
         game_table.c.id,
         game_table.c.title,
         game_table.c.cover,
         game_table.c.slug,
         game_table.c.release,
     ).offset(page_offset).limit(36).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+        result = await db.execute(query)
+        return result.all()
+    if sort == 'release':
+        query = select(
+        game_table.c.id,
+        game_table.c.title,
+        game_table.c.cover,
+        game_table.c.slug,
+        game_table.c.release,
+    ).offset(page_offset).limit(36).order_by(game_table.c.release).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+        result = await db.execute(query)
+        return result.all()
+    else:
+        sort=None 
+
+    query = select(
+        game_table.c.id,
+        game_table.c.title,
+        game_table.c.cover,
+        game_table.c.slug,
+        game_table.c.release,
+    ).offset(page_offset).limit(36).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+    print(query)
     result = await db.execute(query)
     return result.all()
 
 
+
+
 async def get_all_games_filter(db: AsyncSession):
-    #  query = select(game_table.c.genre).where(cast(game_table.c.genre[0], Text) == 'Action').limit(10)
-    query = select(game_table.c.genre[0]['name']).limit(10).where(func.lower(cast(game_table.c.genre[0]['name'],Text)) == func.lower('action'))
+    query = select(game_table.c.genre['name']).where(game_table.c.id == '79a62aab-34b0-420a-9a7c-10ac909a3784')
+    # query = select(func.json_each_text('name')).limit(1)
     print(query)
     result = await db.execute(query)
     list1 = result.all()
     print(list1)
-    for i in list1:
-        print(i[0])
     # print(result.all())
 
 

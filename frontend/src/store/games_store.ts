@@ -21,11 +21,16 @@ export default class GamesStore {
     isWanted = false;
     isPassed = false;
     isLiked = false;
+    sort = 'null';
+
 
     constructor() {
         makeAutoObservable(this);
     }
 
+    setSort(sort: string){
+        this.sort = sort
+    }
     setPageCount(count: number) {
         this.pageCount = count
     }
@@ -128,10 +133,10 @@ export default class GamesStore {
         }
 
     }
-    async getGameByPage(id: number) {
+    async getGameByPage(id: number, sort: string | null, decade: string | null, genre: string | null) {
         this.setLoading(true);
         try {
-            const response = await GameService.getGamesPages(Number(id));
+            const response = await GameService.getGamesPages(Number(id), sort, decade, genre);
             this.setGamesPage(response.data)
 
         } catch (error) {

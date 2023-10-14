@@ -92,9 +92,10 @@ const Header: FC = () => {
                     </div>
                     <nav className="menu-body">
                         <ul className="menu-list">
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/games/page/1'>
-                                <FormattedMessage id="header.menu.item1" />
-                            </Link></li>
+                            <li className="menu-item" id="menu-item-transition">
+                                <Link className="menu-link" to='/games/page/1'>
+                                    <FormattedMessage id="header.menu.item1" />
+                                </Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists'>
                                 <FormattedMessage id="header.menu.item2" />
                             </Link></li>
@@ -161,8 +162,8 @@ const Header: FC = () => {
                         :
                         <>
                             <button className="dropbtn">
-                                
-                                {auth_store.user.img == null || auth_store.user.img == ''  ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={auth_store.user.img} />}
+
+                                {auth_store.user.img == null || auth_store.user.img == '' ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={auth_store.user.img} />}
                                 {auth_store.user.username}</button>
 
                             <div className="dropdown-content">

@@ -6,9 +6,9 @@ import $api, { API_URL } from "../api/api";
 
 export default class GameService {
     
-    static async getGamesPages(id: number): Promise<AxiosResponse<GamesResponse[]>> {
+    static async getGamesPages(id: number, sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesResponse[]>> {
 
-        return $api.get<GamesResponse[]>(`/games/page/${id}`,
+        return $api.get<GamesResponse[]>(`/games/page/${id}/sort/${sort}/decade/${decade}/genre/${genre}`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',

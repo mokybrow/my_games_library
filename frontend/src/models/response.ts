@@ -93,7 +93,6 @@ export interface UserStat {
     follow: boolean
 }
 
-
 export interface GameProfileResponse {
     id: string;
     title: string;
@@ -101,18 +100,12 @@ export interface GameProfileResponse {
     description: null;
     slug: string;
     release: Date;
-    platform: PlatformElement[];
-    genre: Genre[];
-    esrb_ratin: string;
+    platform: string[];
+    platform_name: string[];
+    genre: string[];
+    esrb_rating: string;
 }
 
-export interface Genre {
-    id: number;
-    name: string;
-    slug: string;
-    games_count: number;
-    image_background: string;
-}
 
 export interface userGrade {
     id: string,
@@ -121,26 +114,6 @@ export interface userGrade {
     grade: number,
     comment: string | null,
     created_at: Date
-}
-
-
-
-export interface PlatformElement {
-    platform: PlatformPlatform;
-    released_at: Date;
-    requirements_en: null;
-    requirements_ru: null;
-}
-
-export interface PlatformPlatform {
-    id: number;
-    name: string;
-    slug: string;
-    image: null;
-    year_end: null;
-    year_start: number | null;
-    games_count: number;
-    image_background: string;
 }
 
 

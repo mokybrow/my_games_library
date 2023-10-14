@@ -21,6 +21,7 @@ import { ListPage } from './pages/ListPage';
 import GameProfile from './pages/GameProfile';
 import GamesPage from './pages/GamesPage';
 import AdminPage from './pages/AdminPage';
+import AdminUsers from './pages/AdminUsers';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/:username' element={<ProfilePage />} />
             <Route path='/games/page/:id' element={<GamesPage />} />
+            <Route path='/games/page/:id/sort/:name' element={<GamesPage />} />
             <Route path='/playlists/' element={<PlaylistsPage />} />
             <Route path='/news/' element={<NewsPage />} />
             <Route path='/reviews/' element={<ReviewsPage />} />
@@ -49,6 +51,7 @@ function App() {
             <Route path='/:username/:slug' element={<ListPage />} />
             <Route path='/:username/settings' element={<ListPage />} />
             <Route path='/dash/admin' element={<AdminPage />} />
+            <Route path='/dash/admin/users' element={<AdminUsers />} />
           </Routes>
         </Router>
       </>

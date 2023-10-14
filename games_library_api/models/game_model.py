@@ -42,9 +42,10 @@ class GetGamesPageResponseModel(BaseModel):
     description: Optional[str]
     slug: str
     release: datetime.date
-    platform: list
+    platform: Optional[list]
+    platform_name: Optional[list]
     genre: Optional[list]
-    esrb_rating: Optional[str | list]
+    esrb_rating: Optional[str]
 
 
 class GetGameReviewsResponseModel(BaseModel):

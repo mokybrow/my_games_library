@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useContext, useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import React, { FC,  useContext, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import GameService from '../service/GameService';
 import { observer } from 'mobx-react-lite';
 import { Context } from '..';
@@ -16,7 +16,7 @@ const GameProfile: FC = () => {
 
     useEffect(() => {
         games_store.getGameData(String(slug))
-    }, [])
+    }, [games_store, slug])
 
 
     const [rating, setRating] = useState(0);
@@ -33,7 +33,7 @@ const GameProfile: FC = () => {
         setHover(Number(games_store.userGrade?.grade))
     }
     const closeGradeBanner = () => {
-        if (isOpen == true) {
+        if (isOpen === true) {
             setOpen(!isOpen)
         }
     }
@@ -77,7 +77,7 @@ const GameProfile: FC = () => {
         <section className='game-profile-section' onClick={() => { closeGradeBanner() }}>
             <div className="game-cover-grade-container">
                 <div className="game-profile-cover-container">
-                {games_store.gameProfile?.cover!= null ? <img src={games_store.gameProfile?.cover} alt=''/>: <img src={require('../icons/img-not-found.png')} alt=''/>}
+                    {games_store.gameProfile?.cover != null ? <img src={games_store.gameProfile?.cover} alt='' /> : <img src={require('../icons/img-not-found.png')} alt='' />}
 
                     <div className="checkbox-card-body-desktop">
                         <div className="check-box-panel">
@@ -179,14 +179,14 @@ const GameProfile: FC = () => {
 
                 <div className="inline-info-block">
                     <div className='game-profile-platforms genre'>
-                        {games_store.gameProfile?.genre?.length >= 1 ?
-                            <> {games_store.gameProfile?.genre?.map(y => <span key={y.id}>{y.name}.</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>
+                        {games_store.gameProfile !== null ?
+                            <> {games_store.gameProfile?.genre?.map(y => <span key={y}>{y}.</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>
                         }
                     </div>
 
                     <div className='game-profile-platforms'>
-                        {games_store.gameProfile?.platform?.length >= 1 ?
-                            <> {games_store.gameProfile?.platform?.map(x => <span key={x.platform.id}>{x.platform.name}.&nbsp;</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>}
+                        {games_store.gameProfile !== null ?
+                            <> {games_store.gameProfile?.platform_name?.map(x => <span key={x}>{x}.&nbsp;</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>}
                     </div>
                 </div>
 
@@ -218,14 +218,14 @@ const GameProfile: FC = () => {
                     </div>
                     <div className="inline-info-block">
                         <div className='game-profile-platforms genre'>
-                            {games_store.gameProfile?.genre?.length >= 1 ?
-                                <> {games_store.gameProfile?.genre?.map(y => <span key={y.id}>{y.name}.</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>
+                            {games_store.gameProfile !== null ?
+                                <> {games_store.gameProfile?.genre?.map(y => <span key={y}>{y}</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>
                             }
                         </div>
 
                         <div className='game-profile-platforms'>
-                            {games_store.gameProfile?.platform?.length >= 1 ?
-                                <> {games_store.gameProfile?.platform?.map(x => <span key={x.platform.id}>{x.platform.name}.&nbsp;</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>}
+                            {games_store.gameProfile !== null ?
+                                <> {games_store.gameProfile?.platform_name?.map(x => <span key={x}>{x}&nbsp;</span>)}</> : <span><FormattedMessage id="content.gameprofile.nodata" /></span>}
                         </div>
                     </div>
 
@@ -240,7 +240,7 @@ const GameProfile: FC = () => {
                     {games_store.reviews?.map(x =>
                         <div className="comment-container" key={x.id}>
                             <div className="inline-container">
-                                {x.img == null || x.img == '' ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :
+                                {x.img === null || x.img === '' ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :
 
                                     <img className="user-in-comment-img" src={String(x.img)} />}
 
@@ -263,7 +263,7 @@ const GameProfile: FC = () => {
                             <div className="like-count-container">
                                 <span>{x.review_likes}</span>
                                 {auth_store.isAuth ? <>
-                                    <input onClick={() => { likeToComment(x.review_id) }} onChange={() => x.hasAuthorLike == 1 ? (x.hasAuthorLike = 0) & (x.review_likes = x.review_likes - 1) : (x.hasAuthorLike = 1) & (x.review_likes = x.review_likes + 1)} className="custom-checkbox-comment like " type="checkbox" id={x.id} name={x.id} value="red" checked={x.hasAuthorLike == 1 ? true : false} />
+                                    <input onClick={() => { likeToComment(x.review_id) }} onChange={() => x.hasAuthorLike === 1 ? (x.hasAuthorLike = 0) & (x.review_likes = x.review_likes - 1) : (x.hasAuthorLike = 1) & (x.review_likes = x.review_likes + 1)} className="custom-checkbox-comment like " type="checkbox" id={x.id} name={x.id} value="red" checked={x.hasAuthorLike === 1 ? true : false} />
                                     <label htmlFor={x.id}></label></> :
                                     <>
                                         <input className="custom-checkbox-comment like" type="checkbox" id='unauthorize' name='unauthorize' value="red" onClick={() => navigate('/login')} />
