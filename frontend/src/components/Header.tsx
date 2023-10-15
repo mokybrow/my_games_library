@@ -93,7 +93,7 @@ const Header: FC = () => {
                     <nav className="menu-body">
                         <ul className="menu-list">
                             <li className="menu-item" id="menu-item-transition">
-                                <Link className="menu-link" to='/games/page/1'>
+                                <Link className="menu-link" to='/games?page=1'>
                                     <FormattedMessage id="header.menu.item1" />
                                 </Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists'>

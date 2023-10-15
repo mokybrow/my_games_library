@@ -24,6 +24,7 @@ import AdminPage from './pages/AdminPage';
 import AdminUsers from './pages/AdminUsers';
 
 
+
 function App() {
   // const { auth_store } = useContext(Context);
   // const { theme, setTheme } = useTheme()
@@ -42,8 +43,7 @@ function App() {
             <Route path='/signup' element={<RegPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/:username' element={<ProfilePage />} />
-            <Route path='/games/page/:id' element={<GamesPage />} />
-            <Route path='/games/page/:id/sort/:name' element={<GamesPage />} />
+            <Route path='/games' element={<GamesPage />} />
             <Route path='/playlists/' element={<PlaylistsPage />} />
             <Route path='/news/' element={<NewsPage />} />
             <Route path='/reviews/' element={<ReviewsPage />} />
