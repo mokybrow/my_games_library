@@ -22,7 +22,7 @@ export default class GamesStore {
     isPassed = false;
     isLiked = false;
     sort = 'null';
-
+    genre = 'null';
 
     constructor() {
         makeAutoObservable(this);
@@ -30,6 +30,9 @@ export default class GamesStore {
 
     setSort(sort: string){
         this.sort = sort
+    }
+    setGenre(genre: string){
+        this.genre = genre
     }
     setPageCount(count: number) {
         this.pageCount = count
@@ -145,10 +148,10 @@ export default class GamesStore {
             this.setLoading(false);
         }
     }
-    async getPageCount() {
+    async getPageCount(sort: string | null, decade: string | null, genre: string | null) {
         this.setLoading(true);
         try {
-            const response = await GameService.getGamesCount();
+            const response = await GameService.getGamesCount(sort, decade, genre);
             this.setPageCount(response.data.count / 36)
 
         } catch (error) {

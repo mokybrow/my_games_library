@@ -3,7 +3,7 @@ from operator import or_
 import uuid
 
 from pydantic import UUID4, Json
-from sqlalchemy import JSON, Text, case, cast, distinct, func, insert, select
+from sqlalchemy import JSON, Text, case, cast, desc, distinct, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import game_table, review_table, user_table, review_like_table
@@ -39,30 +39,102 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
         page_offset = 0
     else: 
         page_offset = (page-1)*36
-
-    if sort == 'alphabet':
-        query = select(
-        game_table.c.id,
-        game_table.c.title,
-        game_table.c.cover,
-        game_table.c.slug,
-        game_table.c.release,
-    ).offset(page_offset).limit(36).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
-        result = await db.execute(query)
-        return result.all()
+    if sort == 'alphabetic':
+        if genre == None:
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(game_table.c.title).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+            result = await db.execute(query)
+            return result.all()
+        if genre != None: 
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(game_table.c.title).where(game_table.c.genre.any(genre))
+            result = await db.execute(query)
+            return result.all()
+    
+    if sort == 'alphabeticdesc':
+        if genre == None:
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(desc(game_table.c.title)).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+            result = await db.execute(query)
+            return result.all()
+        if genre != None: 
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(desc(game_table.c.title)).where(game_table.c.genre.any(genre))
+            result = await db.execute(query)
+            return result.all()
     if sort == 'release':
+        if genre == None:
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(game_table.c.release).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+            result = await db.execute(query)
+            return result.all()
+        if genre != None:
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(game_table.c.release).where(game_table.c.genre.any(genre))
+            result = await db.execute(query)
+            return result.all()
+    if sort == 'releasedesc':
+        if genre == None:
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(desc(game_table.c.release)).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+            result = await db.execute(query)
+            return result.all()
+        if genre != None:
+            query = select(
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).order_by(desc(game_table.c.release)).where(game_table.c.genre.any(genre))
+            result = await db.execute(query)
+            return result.all()
+    if genre != None:
         query = select(
-        game_table.c.id,
-        game_table.c.title,
-        game_table.c.cover,
-        game_table.c.slug,
-        game_table.c.release,
-    ).offset(page_offset).limit(36).order_by(game_table.c.release).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+            game_table.c.id,
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            game_table.c.release,
+        ).offset(page_offset).limit(36).where(game_table.c.genre.any(genre))
         result = await db.execute(query)
-        return result.all()
-    else:
-        sort=None 
-
+        return result.all() 
+    
     query = select(
         game_table.c.id,
         game_table.c.title,
@@ -70,24 +142,20 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
         game_table.c.slug,
         game_table.c.release,
     ).offset(page_offset).limit(36).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
-    print(query)
+
     result = await db.execute(query)
     return result.all()
 
 
 
-
-async def get_all_games_filter(db: AsyncSession):
-    query = select(game_table.c.genre['name']).where(game_table.c.id == '79a62aab-34b0-420a-9a7c-10ac909a3784')
-    # query = select(func.json_each_text('name')).limit(1)
-    print(query)
-    result = await db.execute(query)
-    list1 = result.all()
-    print(list1)
-    # print(result.all())
-
-
-async def get_count_games(db: AsyncSession):
+async def get_count_games(db: AsyncSession, sort: str = None, decade: str = None, genre: str = None):
+    if genre != None:
+        query = select(
+        func.count("*")
+        ).where(game_table.c.genre.any(genre))
+        result = await db.execute(query)
+        return result.all() 
+    
     query = select(
         func.count("*")
     ).filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')

@@ -1,8 +1,8 @@
 import datetime
 import uuid
 
-from sqlalchemy import ARRAY, JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
-
+from sqlalchemy import  JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
+from sqlalchemy.dialects.postgresql import ARRAY
 metadata = MetaData()
 
 user_table = Table(

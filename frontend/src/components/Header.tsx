@@ -81,6 +81,7 @@ const Header: FC = () => {
                     <Link className="header-logo" to='/'>
                         <FormattedMessage
                             id="header.menu.logo"
+                            
                         />
                     </Link>
                 </div>

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: aa3556b135e3
+Revision ID: 311974732c37
 Revises: 
-Create Date: 2023-10-14 17:01:50.145051
+Create Date: 2023-10-15 20:16:41.271385
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'aa3556b135e3'
+revision: str = '311974732c37'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,12 +26,13 @@ def upgrade() -> None:
     sa.Column('cover', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('slug', sa.String(), nullable=False),
-    sa.Column('release', sa.DateTime(), nullable=False),
-    sa.Column('playtime', sa.Integer(), nullable=False),
-    sa.Column('platform', sa.ARRAY(sa.String()), nullable=False),
-    sa.Column('parent_platform', sa.ARRAY(sa.String()), nullable=False),
+    sa.Column('release', sa.DateTime(), nullable=True),
+    sa.Column('playtime', sa.Integer(), nullable=True),
+    sa.Column('platform', sa.ARRAY(sa.String()), nullable=True),
+    sa.Column('platform_name', sa.ARRAY(sa.String()), nullable=True),
+    sa.Column('parent_platform', sa.ARRAY(sa.String()), nullable=True),
     sa.Column('genre', sa.ARRAY(sa.String()), nullable=True),
-    sa.Column('tags', sa.ARRAY(sa.String()), nullable=False),
+    sa.Column('tags', sa.ARRAY(sa.String()), nullable=True),
     sa.Column('esrb_rating', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('slug')

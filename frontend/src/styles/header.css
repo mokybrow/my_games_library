@@ -31,6 +31,9 @@
     font-size: 1.2em;
     color: var(--header-logo-color);
     transition: color 200ms linear;
+    justify-content: center;
+    align-items: center;
+    word-wrap: break-word;
 }
 
 .user-icon-desktop {

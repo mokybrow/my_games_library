@@ -6,22 +6,34 @@ import $api, { API_URL } from "../api/api";
 
 export default class GameService {
     
-    static async getGamesPages(id: number, sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesResponse[]>> {
+    static async getGamesPages(page: number, sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesResponse[]>> {
 
-        return $api.get<GamesResponse[]>(`/games/page/${id}/sort/${sort}/decade/${decade}/genre/${genre}`,
+        return $api.get<GamesResponse[]>(`/games/all`,
+
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            params: {
+                page,
+                sort,
+                decade,
+                genre
+            }
         })
     }
-    static async getGamesCount(): Promise<AxiosResponse<GamesCountResponse>> {
+    static async getGamesCount( sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesCountResponse>> {
 
         return $api.get<GamesCountResponse>(`/games/count`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+            params: {
+                sort,
+                decade,
+                genre
+            }
         })
     }
 
