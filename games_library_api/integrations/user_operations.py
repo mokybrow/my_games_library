@@ -2,7 +2,7 @@ from typing import Any
 import uuid
 from pydantic import UUID4
 
-from sqlalchemy import distinct, func, insert, select, delete
+from sqlalchemy import distinct, func, insert, select, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import user_table, follower_table,list_table,passed_table,passed_game_table,list_game_table,game_table, wantplay_game_table, wantplay_table, review_table,user_activity_table
@@ -108,3 +108,22 @@ async def get_user_activity(user_id: UUID4, db: AsyncSession) -> Any:
     )
     result = await db.execute(query)
     return result.all()
+
+async def get_user_img(id: UUID4, db: AsyncSession):
+    query = (
+        select(user_table.c.img)
+        .where(user_table.c.id == id)
+    )
+    result = await db.execute(query)
+    return result.all()
+
+async def update_user_img(img: str, user_id: UUID4, db: AsyncSession) -> Any:
+    stmt = (
+        update(user_table)
+        .values(
+            img=img
+        )
+        .where(user_table.c.id == user_id)
+    )
+    await db.execute(stmt)
+    await db.commit()

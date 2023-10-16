@@ -45,3 +45,7 @@ class PrivateUserResponseModel(BaseModel):
 
 class UserStatsModel(BaseModel):
     count: int
+
+
+class UserImg(BaseModel):
+    img: str

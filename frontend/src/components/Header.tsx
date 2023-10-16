@@ -164,7 +164,7 @@ const Header: FC = () => {
                         <>
                             <button className="dropbtn">
 
-                                {auth_store.user.img == null || auth_store.user.img == '' ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={auth_store.user.img} />}
+                                {auth_store.userImg == null || auth_store.userImg == '' ? <img className='dropdown-img' src={require('../icons/user.png')} /> : <img className='dropdown-img' src={`data:image/jpeg;base64,${auth_store.userImg}`} width={20} height={20}/>}
                                 {auth_store.user.username}</button>
 
                             <div className="dropdown-content">

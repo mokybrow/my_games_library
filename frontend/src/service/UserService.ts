@@ -13,11 +13,7 @@ export default class UserService {
         return $api.post(`${API_URL}follow/unfollow/${user_id}`, {
         })
     }
-    static async unFollowOnUser(user_id: string) {
-        return $api.delete(`${API_URL}unfollow_to/${user_id}`, {
 
-        })
-    }
 
     static async checkFollow(user_id: string): Promise<AxiosResponse<detail>> {
         return $api.get<detail>(`${API_URL}follow_check/${user_id}`, {
@@ -31,6 +27,21 @@ export default class UserService {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                
             })
     }
+
+    static async getUserImg(id: string): Promise<AxiosResponse> {
+
+        return $api.get(`/user/get/img`,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                params: {
+                    id,
+                }
+            })
+    }
+
 }

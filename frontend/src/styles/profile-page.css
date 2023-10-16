@@ -62,6 +62,7 @@
 .user-profile-cover-container img {
     object-fit: cover;
     height: 100%;
+    width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -111,6 +112,12 @@
     transition: all 200ms linear;
     font-weight: 600;
     width: 100%;
+}
+
+.profile-banner-button:hover{
+    background-color: #1349C9;
+    color: #CFCFCF;
+    transition: all 200ms linear;
 }
 
 .profile-banner-button-link {

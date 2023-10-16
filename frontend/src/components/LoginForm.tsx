@@ -1,7 +1,7 @@
-import { FC, SyntheticEvent, useContext, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm} from "react-hook-form"
 
 type FormData = {
     email: string
@@ -12,6 +12,7 @@ const LoginForm: FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const { auth_store } = useContext(Context);
+    const [passwordShown, setPasswordShown] = useState(false);
 
     const {
         register,
@@ -22,9 +23,8 @@ const LoginForm: FC = () => {
 
     const submithandler = handleSubmit(() => {
         auth_store.login(email, password)
-        console.log(auth_store.loginError)
     })
-    const [passwordShown, setPasswordShown] = useState(false);
+    
     const togglePasswordVisiblity = () => {
         setPasswordShown(passwordShown ? false : true);
     };
@@ -33,7 +33,7 @@ const LoginForm: FC = () => {
         <div className="form-container">
             <form action="#" onSubmit={submithandler}>
                 <div>
-                    <input  {...register("email", {
+                    <input autoComplete="on"  {...register("email", {
                         pattern: {
                             value: /\S+@\S+\.\S+/,
                             message: "Введите почту в формате user@example.com"
@@ -47,7 +47,7 @@ const LoginForm: FC = () => {
 
                 </div>
                 <div>
-                    <input {...register('password', {
+                    <input autoComplete="on"  {...register('password', {
                         required: {
                             value: true,
                             message: 'Поле не может быть пустым'

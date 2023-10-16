@@ -64,10 +64,9 @@
 
 .show-password-container {
     display: flex;
-    margin: 20px;
     align-items: center;
-    margin-left: 0;
     flex-direction: row;
+    font-size: 0.8em;
 }
 
 .show-password {

@@ -14,6 +14,7 @@ export default class AuthStore {
     isLoading = false;
     reviews = [] as UserLastReviews[];
     loginError = false;
+    userImg = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -21,7 +22,9 @@ export default class AuthStore {
     setReviews(reviews: UserLastReviews[]) {
         this.reviews = reviews;
     }
-
+    setUserImg(user: string) {
+        this.userImg = user;
+    }
     setAuth(bool: boolean) {
         this.isAuth = bool;
     }
@@ -83,7 +86,8 @@ export default class AuthStore {
             const response = await AuthService.getUserInfo();
             this.setUser(response.data)
             this.setAuth(true);
-
+            const img = await UserService.getUserImg(response.data.id)
+            this.setUserImg(img.data)
             const game = await GameService.getUserGames(response.data.id)
             this.setGames(game.data)
 

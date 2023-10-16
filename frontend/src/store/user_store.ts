@@ -6,12 +6,13 @@ import UserService from "../service/UserService";
 import GameService from "../service/GameService";
 import AuthStore from "./auth_store";
 import { getLocalToken } from "../utils/utils";
-
+import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
 export default class UserStore {
     isAuth = false;
     isLoading = false;
     anotherUser = {} as AUser;
+    anotherUserImg = '';
     userActivity = [] as UserActivityResponse[];
     reviews = [] as UserLastReviews[];
     isFollower = false;
@@ -22,6 +23,10 @@ export default class UserStore {
 
     setAUser(user: AUser) {
         this.anotherUser = user;
+    }
+
+    setAUserImg(user: string) {
+        this.anotherUserImg = user;
     }
 
     setGames(games: UserActivityResponse[]) {
@@ -47,15 +52,19 @@ export default class UserStore {
             const user = await UserService.getUserProfile(username);
             this.setAUser(user.data)
 
-            if (getLocalToken() != null){
+            const img = await UserService.getUserImg(user.data.id)
+            this.setAUserImg(img.data)
+
+            if (getLocalToken() != null) {
                 const follow = await UserService.checkFollow(user.data.id);
-                console.log(follow.data.detail)
-    
+
                 if (follow.status === 200) {
                     this.setFollower(true)
                 }
             }
 
+
+            this.anotherUser.img = String(img)
 
             const game = await GameService.getUserGames(user.data.id)
             this.setGames(game.data)

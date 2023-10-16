@@ -1,0 +1,126 @@
+.settings-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5em;
+}
+
+.user-settings-page {
+    display: flex;
+    max-width: 100vw;
+    overflow-y: hidden;
+}
+
+.user-settings-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 140px;
+    margin-bottom: 140px;
+    padding: 0 14vw;
+    grid-gap: 20px 24px;
+    width: 100%;
+}
+
+.profile-banner-with-name {
+    display: flex;
+    grid-column: 1/7;
+    background-color: var(--background-card-color);
+    border-radius: 6px;
+    transition: all 200ms linear;
+}
+.settings-banner-name{
+    margin: 1em;
+    font-size: 2.5em;
+}
+
+.profile-banner-security-settings {
+    display: flex;
+    grid-row: 2/3;
+    grid-column: 1/4;
+    background-color: var(--background-card-color);
+    border-radius: 6px;
+    transition: all 200ms linear;
+}
+
+.profile-banner-cover-settings {
+    display: flex;
+    grid-row: 2/3;
+    grid-column: 4/7;
+    background-color: var(--background-card-color);
+    border-radius: 6px;
+    transition: all 200ms linear;
+}
+
+.profile-banner-private-data-settings {
+    display: flex;
+    grid-row: 3/4;
+    grid-column: 1/4;
+    background-color: var(--background-card-color);
+    border-radius: 6px;
+    transition: all 200ms linear;
+}
+
+.user-settings-form-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1em;
+    gap: 1em;
+    justify-content: space-between;
+
+}
+
+.user-settings-text-field-input {
+    padding: 10px;
+    border: none;
+    width: 100%;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 3px;
+    background-color: var(--text-input-color);
+    transition: background-color 200ms linear;
+    color: var(--font-color-global)
+}
+
+
+.settings-form-button {
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+    width: 10em;
+    background-color: var(--button-color);
+    padding: 10px;
+    border: none;
+    color: #CFCFCF;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 200ms linear;
+}
+
+.error-alert{
+    position: absolute;
+    font-size: 0.8em;
+}
+.upload-field-container-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-filed-container {
+    display: flex;
+    border: 2px solid  var(--font-color-global);
+    border-radius: 6px;
+    height: 50px;
+    width: 100%;
+    padding: 1em;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+.settings-form-button-upload{
+    margin: 1em;
+}

@@ -24,7 +24,7 @@ const GamesPage: FC = () => {
 
 
   const handlePageClick = async (event: { selected: number; }) => {
-    console.log(games_store.currentPage)
+    setCurrentPage(currentPage)
     if (games_store.sort !== "null") {
       if (games_store.genre === "null") {
         setSearchParams({ page: String(event.selected + 1), sort: games_store.sort });
@@ -142,6 +142,7 @@ const GamesPage: FC = () => {
   }
 
   if (games_store.isLoading === true) {
+    console.log('true')
     return (
       <section className='loader-section'>
         <div className="lds-spinner"><div></div>
@@ -196,7 +197,7 @@ const GamesPage: FC = () => {
             {games_store.gamesPage.map(game =>
               <Link key={game.id} to={'/game/' + game.slug} >
                 <div className="game-card-cover-container">
-                  {game.cover != null ? <img src={game.cover} alt='' width="150" height="150" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                  {game.cover != null ? <img src={game.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                   <div className="title-card-body">
                     <div className="title-card">
                       <span className="card-title">{game.title}</span>

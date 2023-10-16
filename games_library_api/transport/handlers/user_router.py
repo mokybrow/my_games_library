@@ -1,7 +1,9 @@
+import base64
+import io
 from typing import Annotated, Any, Optional
 
-from fastapi import APIRouter, Body, Depends, Header, Request, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Body, Depends, Header, Request, Response, UploadFile, status
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 import jwt
@@ -13,10 +15,11 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import check_follow,  follow_unfollow_on_user, get_another_user, get_user, get_user_activity, get_user_by_email, get_user_by_username, get_user_last_reviews
+from games_library_api.integrations.user_operations import check_follow,  follow_unfollow_on_user, get_another_user, get_user, get_user_activity, get_user_by_email, get_user_by_username, get_user_img, get_user_last_reviews, update_user_img
 from games_library_api.models import error_model, game_model, list_model, users_model, review_model
 
 from games_library_api.schemas.user import User
+from games_library_api.services.cover_upload import save_upload_cover
 from games_library_api.settings import get_settings
 
 router = APIRouter()
@@ -209,3 +212,26 @@ async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(g
     result = await get_user_last_reviews(user_id=user_id, db=db)
 
     return result
+
+
+@router.get('/user/get/img')
+async def get_user_img_router(id: UUID4, db: AsyncSession = Depends(get_async_session)):
+    result = await get_user_img(id=id, db=db)
+    if result:
+        with open(result[0][0], 'rb') as f:
+            base64image = base64.b64encode(f.read())
+    return base64image
+
+
+@router.post('/user/change/img')
+async def update_user_img_router(img: UploadFile, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)):
+    if img:
+        dest = save_upload_cover(img)
+    if not img:
+        dest = None
+
+    await update_user_img(
+        img=dest,
+        user_id=user.id,
+        db=db
+    )
