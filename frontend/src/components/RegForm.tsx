@@ -22,7 +22,6 @@ const RegForm: FC = () => {
     const [name, setName] = useState<string>('');
 
     const { auth_store } = useContext(Context);
-    const { user_store } = useContext(Context);
     let navigate = useNavigate();
 
     const {
@@ -30,40 +29,34 @@ const RegForm: FC = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<FormData>({ mode: 'onChange' })
+    } = useForm<FormData>({ mode: 'onBlur' })
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
         auth_store.registr(email, password, username, name)
         navigate("/login");
-
     }
+
     const error: SubmitErrorHandler<FormData> = (data) => console.log(data)
 
     const uniqEmail = async (email: string) => {
         try {
             const response = await AuthService.getUserbyEmail(email)
-            console.log(response.data.result)
             if (response.data.result === true) {
                 console.log(response.data.result)
-                console.log('es')
                 return true
             }
-            console.log('net')
             return false
 
         } catch (error) {
         }
     };
+    
     const uniqUsername = async (username: string) => {
         try {
             const response = await AuthService.getUserbyUsername(username)
-            console.log(response.data.username)
             if (response.data.username) {
-                console.log(response.data.username)
-                console.log('es')
                 return true
             }
-            console.log('net')
             return false
 
         } catch (error) {

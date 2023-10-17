@@ -1,5 +1,4 @@
 .pagination-container {
-    grid-column: 1/7;
     justify-content: center;
     list-style-type: none;
     display: -webkit-box;

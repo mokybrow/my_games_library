@@ -132,5 +132,9 @@ export interface GameReviews {
 
 export interface GameAvgRate {
     avg_rate: number;
+}
 
+
+export interface ListCreateResponse {
+    list_created: string | boolean;
 }

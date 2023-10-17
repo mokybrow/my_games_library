@@ -37,6 +37,17 @@ export default class AuthService {
         return axios.post<RegEmailCheck>(`${API_URL}user/get_by_email/${email}`,)
     }
 
+    static async changeUserData(password: string, name: string, surname: string, sex: string): Promise<AxiosResponse> {
+
+        return $api.patch(`${API_URL}users/me`,
+        {
+            password: password,
+            name: name,
+            surname: surname,
+            gender: sex,
+        },)
+    }
+
     static async logout(): Promise<void> {
         return $api.post('/auth/logout')
     }

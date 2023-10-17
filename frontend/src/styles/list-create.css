@@ -1,0 +1,88 @@
+.list-create-page{
+    display: flex;
+    max-width: 100vw;
+    overflow-y: hidden;
+}
+
+.list-create-grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 140px;
+    margin-bottom: 140px;
+    padding: 0 14vw;
+    grid-gap: 20px 24px;
+    width: 100%;
+}
+
+.create-list-form-container{
+    background-color:var(--background-card-color);
+    grid-column: 1/7;
+    padding: 1em;
+    border-radius: 6px;
+}
+
+.upload-list-cover-filed-container {
+    display: flex;
+    border: 2px solid var(--font-color-global);
+    border-radius: 6px;
+    height: 50px;
+    padding: 1em;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 4em;
+}
+
+.list-create-input-container{
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.list-create-form{
+    margin: 1em 0;
+}
+
+.list-create-cover-container {
+    display: block;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    position: relative;
+    margin: 1em 1em;
+    inline-size: 114px;
+    block-size: 114px;
+}
+
+.list-create-cover-container img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.list-private-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    font-weight: 600;
+}
+
+@media (max-width: 800px) {
+    .list-create-grid-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        margin-top: 140px;
+        margin-bottom: 140px;
+        padding: 0 6vw;
+        grid-gap: 20px 24px;
+        width: 100%;
+    }
+}

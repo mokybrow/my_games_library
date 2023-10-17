@@ -50,7 +50,7 @@ const GamesPage: FC = () => {
         games_store.setGamesPage(response.data)
       }
     }
-    
+
     setCurrentPage(event.selected + 1)
 
   };
@@ -159,74 +159,59 @@ const GamesPage: FC = () => {
   return (
     <>
       <section className='game-page-section'>
-        <div className='main-grid-container'>
-          <div className="sort-filter-containers">
-            <div className="dropdown-genre">
-              <button className="dropbtn-genre">
-                Жанр
-              </button>
 
-              <div className="dropdown-content">
-                <hr className='drop-down-line' />
-                <li id='Action' onClick={setGenreFilter}>Action</li>
-                <li id='Shooter' onClick={setGenreFilter}>Шутер</li>
-                <li id='RPG' onClick={setGenreFilter}>РПГ</li>
-                <li id='Puzzle' onClick={setGenreFilter}>Пазл</li>
+        <div className="sort-filter-containers">
+          <div className="dropdown-genre">
+            <button className="dropbtn-genre">
+              Жанр
+            </button>
 
-              </div>
-            </div>
+            <div className="dropdown-content">
+              <hr className='drop-down-line' />
+              <li id='Action' onClick={setGenreFilter}>Action</li>
+              <li id='Shooter' onClick={setGenreFilter}>Шутер</li>
+              <li id='RPG' onClick={setGenreFilter}>РПГ</li>
+              <li id='Puzzle' onClick={setGenreFilter}>Пазл</li>
 
-            <div className="dropdown-filter">
-              <button className="dropbtn-filter">
-                Сортировать
-              </button>
-
-              <div className="dropdown-content">
-                <hr className='drop-down-line' />
-                <span className='dropdown-title'>По алфавиту</span>
-                <li id='alphabetic' onClick={setFilter}>А-Я</li>
-                <li id='alphabeticdesc' onClick={setFilter}>Я-А</li>
-                <span className='dropdown-title'>По дате</span>
-                <li id='release' onClick={setFilter}>Сначала старые</li>
-                <li id='releasedesc' onClick={setFilter}>Сначала новые</li>
-              </div>
             </div>
           </div>
-          <div className="card-with-games-container">
 
-            {games_store.gamesPage.map(game =>
-              <Link key={game.id} to={'/game/' + game.slug} >
-                <div className="game-card-cover-container">
-                  {game.cover != null ? <img src={game.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
-                  <div className="title-card-body">
-                    <div className="title-card">
-                      <span className="card-title">{game.title}</span>
-                    </div>
+          <div className="dropdown-filter">
+            <button className="dropbtn-filter">
+              Сортировать
+            </button>
+
+            <div className="dropdown-content">
+              <hr className='drop-down-line' />
+              <span className='dropdown-title'>По алфавиту</span>
+              <li id='alphabetic' onClick={setFilter}>А-Я</li>
+              <li id='alphabeticdesc' onClick={setFilter}>Я-А</li>
+              <span className='dropdown-title'>По дате</span>
+              <li id='release' onClick={setFilter}>Сначала старые</li>
+              <li id='releasedesc' onClick={setFilter}>Сначала новые</li>
+            </div>
+          </div>
+        </div>
+        <div className="card-with-games-container">
+
+          {games_store.gamesPage.map(game =>
+            <Link key={game.id} to={'/game/' + game.slug} >
+              <div className="game-card-cover-container">
+                {game.cover != null ? <img src={game.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                <div className="title-card-body">
+                  <div className="title-card">
+                    <span className="card-title">{game.title}</span>
                   </div>
                 </div>
-              </Link>)}
-          </div>
-          {/* 
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel="next >"
-            initialPage={currentPage - 1}
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            pageCount={Math.ceil(games_store.pageCount)}
-            previousLabel="< previous"
-            renderOnZeroPageCount={null}
-            containerClassName={'pagination'}
-            activeClassName={'active'}
-            className='pagination-container'
-          /> */}
-
-          <Pagination initialPage={currentPage - 1}
-            pageCount={Math.ceil(games_store.pageCount)}
-            onChange={handlePageClick} />
-
-
+              </div>
+            </Link>)}
         </div>
+
+
+        <Pagination initialPage={currentPage - 1}
+          pageCount={Math.ceil(games_store.pageCount)}
+          onChange={handlePageClick} />
+
       </section >
     </>
   )

@@ -427,7 +427,7 @@
     }
 
     .profile-card-cover-container {
-        height: 100px;
+        height: 200px;
     }
 
     .last-game-container {
@@ -444,10 +444,6 @@
         margin: 12px;
     }
 
-
-    .title-card-body-profile {
-        display: none;
-    }
 
 }
 

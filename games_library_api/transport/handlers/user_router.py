@@ -218,9 +218,10 @@ async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(g
 async def get_user_img_router(id: UUID4, db: AsyncSession = Depends(get_async_session)):
     result = await get_user_img(id=id, db=db)
     if result:
-        with open(result[0][0], 'rb') as f:
-            base64image = base64.b64encode(f.read())
-    return base64image
+        if result[0][0] != None:
+            with open(result[0][0], 'rb') as f:
+                base64image = base64.b64encode(f.read())
+            return base64image
 
 
 @router.post('/user/change/img')
@@ -229,7 +230,6 @@ async def update_user_img_router(img: UploadFile, user: User = Depends(current_a
         dest = save_upload_cover(img)
     if not img:
         dest = None
-
     await update_user_img(
         img=dest,
         user_id=user.id,

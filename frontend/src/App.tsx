@@ -18,12 +18,14 @@ import './styles/games-page.css'
 import './styles/pagination.css'
 import './styles/admin-page.css'
 import './styles/user-settings.css'
+import './styles/list-create.css'
 import { ListPage } from './pages/ListPage';
 import GameProfile from './pages/GameProfile';
 import GamesPage from './pages/GamesPage';
 import AdminPage from './pages/AdminPage';
 import AdminUsers from './pages/AdminUsers';
 import UserSettings from './pages/UserSettings';
+import ListCreate from './pages/ListCreate';
 
 
 
@@ -52,6 +54,7 @@ function App() {
             <Route path='/game/:slug' element={<GameProfile />} />
             <Route path='/:username/:slug' element={<ListPage />} />
             <Route path='/:username/settings' element={<UserSettings />} />
+            <Route path='/:username/list/create' element={<ListCreate />} />
             <Route path='/dash/admin' element={<AdminPage />} />
             <Route path='/dash/admin/users' element={<AdminUsers />} />
           </Routes>

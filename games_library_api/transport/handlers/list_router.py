@@ -1,8 +1,10 @@
-from typing import Any
+from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, UploadFile
+from fastapi import APIRouter, Depends,  UploadFile
+from fastapi.responses import JSONResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, Body, Depends, Header, Request, Response, UploadFile, status
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
@@ -12,6 +14,7 @@ from games_library_api.integrations.list_operations import (
     check_game_in_user_liked,
     check_game_in_user_passed,
     check_game_in_user_wantplay,
+    check_list,
     create_list,
     delete_user_list,
     get_list,
@@ -20,11 +23,14 @@ from games_library_api.integrations.list_operations import (
     universal_game_wanted,
     update_list,
 )
+from games_library_api.models import error_model, game_model, list_model, users_model, review_model
+
 from games_library_api.models import list_model
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
 
 router = APIRouter()
+
 
 
 @router.post('/list/create/')
@@ -33,11 +39,26 @@ async def create_list_route(
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    # Обращение к базе данных
-    result = await create_list(db=db, owner_id=user.id, new_list=new_list)
+    result = await create_list(db=db, owner_id=user.id, new_list=new_list, username=user.username)
     if not result:
-        return {'List alreay': 'exist'}
-    return {'List created': 'success'}
+        return {'list_created': False}
+    return {'list_created': result}
+
+
+@router.post('/list/check/')
+async def create_list_route(
+    name: str,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_list(db=db,  name=name, username=user.username)
+    if not result:
+        error = error_model.ErrorResponseModel(details='List does not exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return True
 
 
 @router.post('/list/add_cover/')

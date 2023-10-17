@@ -28,8 +28,9 @@ async def create_list(
     db: AsyncSession,
     owner_id: UUID4,
     new_list: CreateListModel,
+    username: str
 ) -> bool:
-    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(new_list.name))
+    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(username +'_' + new_list.name))
     result = await db.execute(query)
     if result.all():
         return False
@@ -37,14 +38,26 @@ async def create_list(
         id=uuid.uuid4(),
         owner_id=owner_id,
         name=new_list.name,
-        slug=await making_slug(new_list.name),
+        slug=await making_slug(username+'_'+new_list.name),
         description=new_list.description,
         is_private=new_list.is_private,
     )
     await db.execute(stmt)
     await db.commit()
-    return True
+    query = select(list_table.c.id).filter(list_table.c.slug == await making_slug(username +'_' + new_list.name))
+    result = await db.execute(query)
+    list_id = result.all()
+    return list_id[0][0]
 
+
+async def check_list(
+    db: AsyncSession,
+    name: str,
+    username: str
+) -> bool:
+    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(username +'_' + name))
+    result = await db.execute(query)
+    return result.all()
 
 async def add_cover_to_list(
     db: AsyncSession,

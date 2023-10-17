@@ -31,6 +31,7 @@ const HomePage: FC = () => {
   return (
     <>
       <section className='home-page-game-section'>
+        
         <div className='header-new-game'>
 
           <Link className='header-new-game' to='/games/new'>
