@@ -1,25 +1,37 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useCallback, useContext, useEffect, useState } from 'react'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form"
-import { error } from 'console';
-import { useNavigate } from 'react-router-dom';
-import AuthService from '../service/AuthService';
+
 import ListService from '../service/ListService';
+import { useDropzone } from 'react-dropzone';
+
+// type FormData = {
+//     name: string
+//     desctiption: string
+// }
 
 type FormData = {
-    description: string
+    email: string
+    password: string
+    confPassword: string
+    username: string
     name: string
+    desctiption: string
 }
 
 const ListCreateForm: FC = () => {
-    const [desctiption, setDescription] = useState<string>('');
-    const [name, setName] = useState<string>('');
+    const [desctiption, setDesctiption] = useState<string>('');
     const [isPrivate, setIsPrivate] = useState<boolean>(false);
+    // const { auth_store } = useContext(Context);
+    const { list_store } = useContext(Context);
+    const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
 
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confPassword, setConfPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
     const { auth_store } = useContext(Context);
-
-
     const {
         register,
         handleSubmit,
@@ -27,87 +39,105 @@ const ListCreateForm: FC = () => {
         formState: { errors },
     } = useForm<FormData>({ mode: 'onBlur' })
 
-    const onSubmit: SubmitHandler<FormData> = async (data) => {
-        const response = await ListService.createList(name, desctiption, isPrivate);
+    const onDrop = useCallback((acceptedFiles: Array<File>) => {
+        const file = new FileReader;
 
+        file.onload = function () {
+            setPreview(file.result);
+        }
+
+        file.readAsDataURL(acceptedFiles[0])
+    }, [])
+
+    const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop
+    });
+
+
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+        list_store.CreateList(name, desctiption, isPrivate, acceptedFiles[0])
+        if (typeof acceptedFiles[0] === 'undefined') return;
     }
 
-    const error: SubmitErrorHandler<FormData> = (data) => console.log(data)
-
-    const uniqEmail = async (email: string) => {
-        try {
-            const response = await AuthService.getUserbyEmail(email)
-            if (response.data.result === true) {
-                console.log(response.data.result)
-                return true
-            }
-            return false
-
-        } catch (error) {
-        }
-    };
-    
-    const uniqUsername = async (username: string) => {
-        try {
-            const response = await AuthService.getUserbyUsername(username)
-            if (response.data.username) {
-                return true
-            }
-            return false
-
-        } catch (error) {
-        }
-    };
+    const error: SubmitErrorHandler<FormData> = (data) => {
+        
+    }
 
 
     const uniqListName = async (name: string) => {
         try {
-            console.log(name)
-            const response = await ListService.checkUniqListname(name);
-            if (response.data.list_created === false) {
+            const response = await ListService.checkUniqListname(name, desctiption, isPrivate);
+
+            if (response.data.list_created === true) {
                 console.log(response.data.list_created)
                 return true
             }
-
+            return false
 
         } catch (error) {
-            return false
         }
     };
 
+
+
     return (
-        <div className="form-container">
-            <form action="#" onSubmit={handleSubmit(onSubmit, error)} className='list-create-form'>
+        <form action="#" onSubmit={handleSubmit(onSubmit, error)} className='list-create-form'>
             <div className="list-create-input-container">
+                <input
+                    {...register("name", {
+                        validate: uniqListName,
+                        required: {
+                            value: true,
+                            message: "Поле не может быть пустым"
+                        },
+                        minLength: {
+                            value: 2,
+                            message: 'Название списка не может быть короче 2 символов'
+                        }
+                    })} onChange={e => setName(e.target.value)} placeholder='Name' className='user-settings-text-field-input' />
+                {errors.name && <p className='error-alert' role="alert">{errors?.name?.message || "Вы уже создавали список с таким именем"}</p>}
 
-                <input  {...register("name", {
-                    validate: uniqListName,
-                    required: {
-                        value: true,
-                        message: 'Поле не может быть пустым'
-                    },
-                },)} onChange={e => setName(e.target.value)} placeholder='Email' className='user-settings-text-field-input'  />
+            </div>
+            <div className="list-create-input-container">
+                <input
+                    {...register("desctiption", {
 
-                {errors.name && <p className='error-alert' role="alert">{errors?.name?.message || "Вы уже создавали такой список"}</p>}
-
-                </div>
-                <div className="list-create-input-container">
-
-                <input  
-                {...register("description", {
-                    minLength: {
-                        value: 3,
-                        message: 'Название списка не может быть короче 3 символов'
+                        minLength: {
+                            value: 20,
+                            message: 'Описание должно быть длиннее 20 симоволов'
+                        }
+                    })} onChange={e => setDesctiption(e.target.value)} placeholder='Description' className='user-settings-text-field-input' />
+                {errors.desctiption && <p className='error-alert' role="alert">{errors?.desctiption?.message}</p>}
+            </div>
+            <div className="list-private-container">
+                <p>Приватный список</p>
+                <input className='show-password' type="checkbox" onClick={() => setIsPrivate(!isPrivate)} />
+            </div>
+            <div className="upload-field-container-form">
+                <div {...getRootProps()} className='upload-list-cover-filed-container'>
+                    <input {...getInputProps()} />
+                    {
+                        isDragActive ?
+                            <p>Да-да, бросай его сюда...</p> :
+                            <p>Нажмите на поле или перетащите в него фото, которое хотите установить для списка</p>
                     }
-                },)} onChange={e => setDescription(e.target.value)} placeholder='Username' className='user-settings-text-field-input'  />
-                {errors.description && <p className='error-alert' role="alert">{errors?.description?.message || "Пользователь с таким именем существует"}</p>}
-
                 </div>
 
-                <button className='form-button' type='submit'>Зарегистрироваться</button>
-            </form>
-        </div>
+                {preview && (
+
+                    <div className="list-create-cover-container">
+                        <img src={preview as string} alt="Upload preview" />
+                    </div>
+                )}
+            </div>
+            <div className="list-create-input-container">
+                <button className='settings-form-button' type='submit'>Создать список</button>
+
+            </div>
+
+        </form>
     )
+
 }
 
 

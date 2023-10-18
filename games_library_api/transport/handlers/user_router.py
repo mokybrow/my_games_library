@@ -12,6 +12,7 @@ from games_library_api.database import get_async_session
 from games_library_api.integrations.list_operations import (
     get_liked_game,
     get_passed_game,
+    get_user_added,
     get_user_list,
     get_wantplay_game,
 )
@@ -62,6 +63,7 @@ async def another_user_profile(username: str, db: AsyncSession = Depends(get_asy
 )
 async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_email(email=email, db=db)
+    print(result)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
@@ -80,28 +82,48 @@ async def get_user_by_username_router(username: str, db: AsyncSession = Depends(
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
+                        status_code=status.HTTP_200_OK,
+
         )
     return True
 
 
 @router.get(
-    '/{username}/lists',
-    response_model=list_model.ListResponseModel
+    '/{user_id}/lists',
+    response_model=list[list_model.ListResponseModel]
 )
 async def get_user_lists(
-    username: str,
-    user: User = Depends(current_active_user),
+    user_id: str,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_user_list(db=db, username=username)
+    result = await get_user_list(db=db, user_id=user_id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no lists')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_200_OK,
+
         )
-    return result[0]
+    return result
+
+
+@router.get(
+    '/{user_id}/added/lists',
+    response_model=list[list_model.ListResponseModel]
+)
+async def get_user_lists(
+    user_id: str,
+    db: AsyncSession = Depends(get_async_session),
+) -> Any:
+    result = await get_user_added(db=db, user_id=user_id)
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no lists')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_200_OK,
+
+        )
+    return result
 
 
 @router.get(
@@ -118,7 +140,7 @@ async def get_user_wantplay_game(
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_200_OK,
         )
     return result[0]
 
@@ -137,7 +159,7 @@ async def get_user_passed_game(
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_200_OK,
         )
     return result[0]
 
@@ -156,16 +178,10 @@ async def get_user_liked_game(
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_200_OK,
         )
     return result[0]
 
-
-@router.get(
-    '/{username}/list/{list_name}',
-)
-async def get_user_list_page(username: str, list_name: str) -> Any:
-    return None
 
 
 @router.post('/follow/unfollow/{user_id}')
@@ -184,7 +200,6 @@ async def check_follow_route(user_id: UUID4, user: User = Depends(current_active
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    print('true')
     error = error_model.ErrorResponseModel(details='True')
     return JSONResponse(
             content=error.model_dump(),
@@ -202,7 +217,8 @@ async def get_user_activity_router(
         error = error_model.ErrorResponseModel(details='User have no activity')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_200_OK,
+
         )
     return result
 

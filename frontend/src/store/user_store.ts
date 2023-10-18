@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, GamesResponse, IUser, RegEmailCheck, UserActivityResponse, UserLastReviews, UserStat } from "../models/response";
+import { AUser, GamesResponse, IUser, RegEmailCheck, UserActivityResponse, UserLastReviews, UserListsResponse, UserStat } from "../models/response";
 import AuthService from "../service/AuthService";
 import { AxiosError } from "axios";
 import UserService from "../service/UserService";
@@ -16,6 +16,8 @@ export default class UserStore {
     userActivity = [] as UserActivityResponse[];
     reviews = [] as UserLastReviews[];
     isFollower = false;
+    list = [] as UserListsResponse[]
+    addedList = [] as UserListsResponse[]
 
     constructor() {
         makeAutoObservable(this);
@@ -46,6 +48,13 @@ export default class UserStore {
         this.isFollower = bool;
     }
 
+    setLists(list: UserListsResponse[]) {
+        this.list = list;
+    }
+    setAddedLists(addedList: UserListsResponse[]) {
+        this.addedList = addedList;
+    }
+
     async findUser(username: string) {
         this.setLoading(true);
         try {
@@ -54,15 +63,12 @@ export default class UserStore {
 
             const img = await UserService.getUserImg(user.data.id)
             this.setAUserImg(img.data)
+            const lists = await UserService.getUserLists(user.data.id)
+            this.setLists(lists.data)
 
-            if (getLocalToken() != null) {
-                const follow = await UserService.checkFollow(user.data.id);
-
-                if (follow.status === 200) {
-                    this.setFollower(true)
-                }
-            }
-
+            const anotherLists = await UserService.getUserAddedLists(user.data.id)
+            this.setAddedLists(anotherLists.data)
+            console.log(anotherLists.data)
 
             this.anotherUser.img = String(img)
 
@@ -72,6 +78,14 @@ export default class UserStore {
             const reviews = await UserService.getUserReviews(user.data.id)
             this.setReviews(reviews.data)
 
+
+            if (getLocalToken() != null) {
+                const follow = await UserService.checkFollow(user.data.id);
+
+                if (follow.status === 200) {
+                    this.setFollower(true)
+                }
+            }
 
 
 

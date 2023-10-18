@@ -30,11 +30,13 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.description-block{
+
+.description-block {
     display: flex;
     flex-direction: column;
     gap: 0.4em;
 }
+
 .game-cover-grade-container {
     display: flex;
     flex-direction: column;
@@ -433,7 +435,7 @@
 }
 
 .passed-date {
-    margin-left: 36px;
+    margin-left: 12px;
     font-size: 14px;
     opacity: .55;
 }
@@ -562,9 +564,10 @@
 }
 
 @media (max-width: 500px) {
-    .game-profile-section{
+    .game-profile-section {
         padding-top: 80px;
     }
+
     .checkbox-card-body-desktop {
         display: none;
     }
@@ -593,7 +596,7 @@
         width: 100%;
         padding: 0.5em;
     }
-    
+
     .custom-checkbox+label::before {
         content: '';
         display: inline-block;
@@ -613,4 +616,39 @@
     .reviews-container {
         grid-row: 5/6;
     }
+}
+
+
+/* ВЫПАДАЮЩИЙ БЛОК ДОБАВЛЕНИЯ ИГРЫ В СВОЙ СПИСОК */
+
+.add-to-user-list-container {
+    display: none;
+    scale: 0;
+}
+
+.add-to-user-list-container.active {
+    width: 100%;
+    display: flex;
+    position: relative;
+    background-color: var(--background-card-color);
+    border-radius: 6px;
+    scale: 1;
+    transition: all 50ms;
+    align-items: center;
+    flex-direction: column;
+    padding: 0.5em;
+    gap: 0.5em;
+}
+
+.add-to-user-list-container button{
+    width: 100%;
+}
+
+.close-window-button {
+    border: none;
+    padding: 0.5em;
+    font-weight: 600;
+    background-color: var(--buttons-color);
+    color: var(--font-color-global);
+    border-radius: 6px;
 }

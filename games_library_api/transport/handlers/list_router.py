@@ -10,6 +10,7 @@ from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.list_operations import (
     add_cover_to_list,
+    add_delete_list,
     add_game_to_user_list,
     check_game_in_user_liked,
     check_game_in_user_passed,
@@ -18,6 +19,8 @@ from games_library_api.integrations.list_operations import (
     create_list,
     delete_user_list,
     get_list,
+    get_list_data,
+    get_list_games,
     universal_game_liked,
     universal_game_passed,
     universal_game_wanted,
@@ -41,19 +44,19 @@ async def create_list_route(
 ):
     result = await create_list(db=db, owner_id=user.id, new_list=new_list, username=user.username)
     if not result:
-        return {'list_created': False}
+        return False
     return {'list_created': result}
 
 
 @router.post('/list/check/')
-async def create_list_route(
-    name: str,
+async def check_list_route(
+    new_list: list_model.CreateListModel,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await check_list(db=db,  name=name, username=user.username)
+    result = await check_list(db=db,   new_list=new_list, username=user.username)
     if not result:
-        error = error_model.ErrorResponseModel(details='List does not exist')
+        error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
@@ -62,19 +65,17 @@ async def create_list_route(
 
 
 @router.post('/list/add_cover/')
-async def create_list_route(
+async def add_cover_to_list_route(
     list_id: UUID4,
-    cover: UploadFile = None,
+    cover: UploadFile,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
     if cover:
         dest = save_upload_cover(cover)
-
     if not cover:
         dest = None
-    # Обращение к базе данных
-    result = await add_cover_to_list(db=db, list_id=list_id, cover=dest)
+    await add_cover_to_list(db=db, list_id=list_id, cover=dest)
     return {'List success updated': 'success'}
 
 
@@ -91,10 +92,8 @@ async def add_game_to_user_list_router(
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-    result = await add_game_to_user_list(db=db, list_id=list_id, game_id=game_id)
-    if not result:
-        return {'Game added': 'Error'}
-    return {'Game added': 'Success'}
+    await add_game_to_user_list(db=db, list_id=list_id, game_id=game_id)
+
 
 
 @router.post('/lists/operation/passed/{game_id}')
@@ -168,6 +167,71 @@ async def update_user_list_router(
     return {'List updated': 'success'}
 
 
+
+@router.get('/list_games/{slug}/', response_model=list[list_model.ListGamesResponseModel | None])
+async def ist_games_router(
+    slug: str,
+    db: AsyncSession = Depends(get_async_session),
+) -> Any:
+    # Обращение к базе данных
+    result = await get_list_games(
+        slug=slug,
+        db=db,
+    )
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no activity')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_200_OK,
+
+        )
+    return result
+
+
+@router.post('/add/delete/lists/{slug}/user/{user_id}')
+async def ist_games_router(
+    slug: str,
+    user_id: UUID4,
+    db: AsyncSession = Depends(get_async_session),
+) -> Any:
+    # Обращение к базе данных
+    result = await add_delete_list(
+        slug=slug,
+        user_id=user_id,
+        db=db,
+    )
+    if not result:
+        error = error_model.ErrorResponseModel(details='User have no activity')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_200_OK,
+
+        )
+    return result
+
+
+
+@router.get('/list/{slug}/check/added/{user_id}', response_model=list_model.ListDataResponseModel)
+async def list_data_router(
+    slug: str,
+    user_id: UUID4,
+    db: AsyncSession = Depends(get_async_session),
+) -> Any:
+    # Обращение к базе данных
+    result = await get_list_data(
+        slug=slug,
+        user_id=user_id,
+        db=db,
+    )
+    if not result:
+        error = error_model.ErrorResponseModel(details='Not in list')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_200_OK,
+
+        )
+    print(result[0])
+    return result[0]
 
 @router.get('/check/game_in_passed_list/{game_id}')
 async def check_game_in_passed_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),

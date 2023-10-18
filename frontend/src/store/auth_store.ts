@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, GamesResponse, IUser, UserActivityResponse, UserLastReviews, detail } from "../models/response";
+import { AUser, GamesResponse, IUser, UserActivityResponse,  UserLastReviews, UserListsResponse, detail } from "../models/response";
 import AuthService from "../service/AuthService";
 import { getLocalToken, removeLocalToken, saveLocalToken } from "../utils/utils";
 import { AxiosError } from "axios";
@@ -15,6 +15,8 @@ export default class AuthStore {
     reviews = [] as UserLastReviews[];
     loginError = false;
     userImg = '';
+    list = [] as UserListsResponse[]
+    addedList = [] as UserListsResponse[]
 
     constructor() {
         makeAutoObservable(this);
@@ -31,6 +33,14 @@ export default class AuthStore {
 
     setUser(user: IUser) {
         this.user = user;
+    }
+
+    setLists(list: UserListsResponse[]) {
+        this.list = list;
+    }
+
+    setAddedLists(addedList: UserListsResponse[]) {
+        this.addedList = addedList;
     }
 
     setGames(games: UserActivityResponse[]) {
@@ -86,8 +96,17 @@ export default class AuthStore {
             const response = await AuthService.getUserInfo();
             this.setUser(response.data)
             this.setAuth(true);
+
+            const lists = await UserService.getUserLists(response.data.id)
+            this.setLists(lists.data)
+
+            const anotherLists = await UserService.getUserAddedLists(response.data.id)
+            this.setAddedLists(anotherLists.data)
+
             const img = await UserService.getUserImg(response.data.id)
             this.setUserImg(img.data)
+
+
             const game = await GameService.getUserGames(response.data.id)
             this.setGames(game.data)
 

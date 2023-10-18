@@ -130,8 +130,8 @@ const ProfilePage: FC = () => {
 
                   </Link>)}
               </> :
-              <div className="empty-container">
-                <div className="games-card-placeholder"><h2><FormattedMessage id="content.userprofile.inactive" /> </h2></div>
+              <div className="error-card-container">
+                <h2><FormattedMessage id="content.userprofile.inactive" /></h2>
               </div>
             }
           </div>
@@ -152,8 +152,8 @@ const ProfilePage: FC = () => {
                     </div>
                   </Link>)}
               </> :
-              <div className="empty-container">
-                <div className="games-card-placeholder"><h2><FormattedMessage id="content.userprofile.inactive" /> </h2></div>
+              <div className="error-card-container">
+                <h2><FormattedMessage id="content.userprofile.inactive" /></h2>
               </div>
             }
           </div>
@@ -255,8 +255,8 @@ const ProfilePage: FC = () => {
 
                   </Link>)}
               </> :
-              <div className="empty-container">
-                <div className="games-card-placeholder"><h2><FormattedMessage id="content.userprofile.inactive" /> </h2></div>
+              <div className="error-card-container">
+                <h2><FormattedMessage id="content.userprofile.inactive" /></h2>
               </div>
             }
           </div>
@@ -277,8 +277,8 @@ const ProfilePage: FC = () => {
                     </div>
                   </Link>)}
               </> :
-              <div className="empty-container">
-                <div className="games-card-placeholder"><h2><FormattedMessage id="content.userprofile.inactive" /> </h2></div>
+              <div className="error-card-container">
+                <h2><FormattedMessage id="content.userprofile.inactive" /></h2>
               </div>
             }
           </div>
@@ -295,7 +295,7 @@ const ProfilePage: FC = () => {
         <div className="profile-banner-with-cover">
           <div className="user-profile-cover-container">
 
-            {auth_store.userImg == null || auth_store.userImg == '' ? <img src={require('../icons/user.png')} /> : <img src={`data:image/jpeg;base64,${auth_store.userImg}`} width={100} height={100}/>}
+            {auth_store.userImg == null || auth_store.userImg == '' ? <img src={require('../icons/user.png')} /> : <img src={`data:image/jpeg;base64,${auth_store.userImg}`} width={100} height={100} />}
           </div>
           <div className="user-name-container">
             <h1 className="profile-banner-name">{auth_store.user.name} {auth_store?.user?.surname}</h1>
@@ -378,8 +378,8 @@ const ProfilePage: FC = () => {
 
                 </Link>)}
             </> :
-            <div className="empty-container">
-              <div className="games-card-placeholder"><h2><FormattedMessage id="content.userprofile.inactive" /></h2></div>
+            <div className="error-card-container">
+              <h2><FormattedMessage id="content.userprofile.inactive" /></h2>
             </div>
           }
         </div>
@@ -400,9 +400,10 @@ const ProfilePage: FC = () => {
                   </div>
                 </Link>)}
             </> :
-            <div className="empty-container">
-              <div className="games-card-placeholder"><h2><FormattedMessage id="content.userprofile.inactive" /></h2></div>
+            <div className="error-card-container">
+              <h2><FormattedMessage id="content.userprofile.inactive" /></h2>
             </div>
+
           }
         </div>
 

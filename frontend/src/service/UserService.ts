@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse, UserLastReviews, UserStat, detail } from "../models/response";
+import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse,  UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -44,4 +44,24 @@ export default class UserService {
             })
     }
 
+    static async getUserLists(id: string): Promise<AxiosResponse<UserListsResponse[]>> {
+
+        return $api.get<UserListsResponse[]>(`/${id}/lists   `,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+
+            })
+    }
+    static async getUserAddedLists(id: string): Promise<AxiosResponse<UserListsResponse[]>> {
+
+        return $api.get<UserListsResponse[]>(`/${id}/added/lists   `,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+
+            })
+    }
 }

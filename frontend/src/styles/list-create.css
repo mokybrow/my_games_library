@@ -75,6 +75,10 @@
     font-weight: 600;
 }
 
+.error-handler-message{
+    grid-column: 1/7;
+}
+
 @media (max-width: 800px) {
     .list-create-grid-container{
         display: grid;

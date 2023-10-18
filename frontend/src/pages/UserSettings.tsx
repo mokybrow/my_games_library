@@ -44,7 +44,16 @@ const UserSettings: FC = () => {
         if (typeof acceptedFiles[0] === 'undefined') return;
         window.location.reload();
     }
-
+    
+    if (!auth_store.checkAuth) {
+        return (
+            <section className='list-create-page'>
+                <div className='list-create-grid-container'>
+                    Войдите, чтобы создавать свои списки
+                </div>
+            </section>
+        )
+    }
 
     return (
         <>
