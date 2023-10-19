@@ -22,11 +22,10 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
-    name: str    
+    name: str
     surname: Optional[str]
     birthdate: Optional[datetime.date]
     gender: Optional[str]
-
 
 
 class UserCreate(schemas.BaseUserCreate):
@@ -38,8 +37,7 @@ class UserCreate(schemas.BaseUserCreate):
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    name: Optional[str]= None
-    surname: Optional[str]= None
-    birthdate: Optional[datetime.date]= None
+    name: Optional[str] = None
+    surname: Optional[str] = None
+    birthdate: Optional[datetime.date] = None
     gender: Optional[str] = None
-

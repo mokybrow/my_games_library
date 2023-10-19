@@ -95,7 +95,6 @@ export default class ListService {
     }
 
     static async addGameToList(list_id: string, game_id: string): Promise<AxiosResponse> {
-        console.log(game_id, list_id)
         return $api.post(`/lists/add_game_to_user_list`, null, { params: {
             list_id,
             game_id

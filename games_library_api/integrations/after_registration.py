@@ -17,4 +17,3 @@ async def create_default_lists(user_id: UUID):
         await db.execute(stmt2)
         await db.execute(stmt3)
         await db.commit()
-

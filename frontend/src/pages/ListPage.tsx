@@ -48,7 +48,8 @@ const ListPage: FC = () => {
       {list_store.ListsGames.length > 0 ? <>{list_store.ListsGames.map(list =>
         <Link key={list.game_id} to={'/game/' + list.slug} >
           <div className="game-card-cover-container">
-            {list.cover != null ? <img src={list.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+          <img src={`data:image/jpeg;base64,${auth_store.userImg}`} width={100} height={100} />
+            {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
             <div className="title-card-body">
               <div className="title-card">
                 <span className="card-title">{list.title}</span>

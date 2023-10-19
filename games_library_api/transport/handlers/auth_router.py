@@ -1,12 +1,9 @@
 from fastapi import APIRouter, Depends
-
-from games_library_api.auth.utils import auth_backend, current_active_user, fastapi_users
-from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import current_active_user
+from games_library_api.auth.utils import auth_backend, current_active_user, fastapi_users
 from games_library_api.database import get_async_session
-
+from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
 
 router = APIRouter()
 

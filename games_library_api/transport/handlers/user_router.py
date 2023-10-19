@@ -1,12 +1,15 @@
 import base64
 import io
+
 from typing import Annotated, Any, Optional
+
+import jwt
 
 from fastapi import APIRouter, Body, Depends, Header, Request, Response, UploadFile, status
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
-import jwt
+
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.list_operations import (
@@ -16,9 +19,19 @@ from games_library_api.integrations.list_operations import (
     get_user_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import check_follow,  follow_unfollow_on_user, get_another_user, get_user, get_user_activity, get_user_by_email, get_user_by_username, get_user_img, get_user_last_reviews, update_user_img
-from games_library_api.models import error_model, game_model, list_model, users_model, review_model
-
+from games_library_api.integrations.user_operations import (
+    check_follow,
+    follow_unfollow_on_user,
+    get_another_user,
+    get_user,
+    get_user_activity,
+    get_user_by_email,
+    get_user_by_username,
+    get_user_img,
+    get_user_last_reviews,
+    update_user_img,
+)
+from games_library_api.models import error_model, game_model, list_model, review_model, users_model
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
 from games_library_api.settings import get_settings
@@ -27,12 +40,8 @@ router = APIRouter()
 settings = get_settings()
 
 
-@router.get(
-    '/username',
-    response_model=users_model.PrivateUserResponseModel
-)
-async def user_profile(db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)
-) -> Any:
+@router.get('/username', response_model=users_model.PrivateUserResponseModel)
+async def user_profile(db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)) -> Any:
     result = await get_user(id=user.id, db=db)
 
     if not result:
@@ -44,9 +53,7 @@ async def user_profile(db: AsyncSession = Depends(get_async_session), user: User
     return result[0]
 
 
-@router.get(
-    '/user/{username}', response_model=users_model.PublicUserResponseModel
-)
+@router.get('/user/{username}', response_model=users_model.PublicUserResponseModel)
 async def another_user_profile(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_another_user(username=username, db=db)
     if not result:
@@ -57,10 +64,8 @@ async def another_user_profile(username: str, db: AsyncSession = Depends(get_asy
         )
     return result[0]
 
-@router.post(
-    '/user/get_by_email/{email}',
-    tags=['reg_validation']
-)
+
+@router.post('/user/get_by_email/{email}', tags=['reg_validation'])
 async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_email(email=email, db=db)
     print(result)
@@ -72,26 +77,20 @@ async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_as
         )
     return True
 
-@router.post(
-    '/user/get_by_username/{username}',
-    tags=['reg_validation']
-)
+
+@router.post('/user/get_by_username/{username}', tags=['reg_validation'])
 async def get_user_by_username_router(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_username(username=username, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
             content=error.model_dump(),
-                        status_code=status.HTTP_200_OK,
-
+            status_code=status.HTTP_200_OK,
         )
     return True
 
 
-@router.get(
-    '/{user_id}/lists',
-    response_model=list[list_model.ListResponseModel]
-)
+@router.get('/{user_id}/lists', response_model=list[list_model.ListResponseModel])
 async def get_user_lists(
     user_id: str,
     db: AsyncSession = Depends(get_async_session),
@@ -102,15 +101,11 @@ async def get_user_lists(
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
-
         )
     return result
 
 
-@router.get(
-    '/{user_id}/added/lists',
-    response_model=list[list_model.ListResponseModel]
-)
+@router.get('/{user_id}/added/lists', response_model=list[list_model.ListResponseModel])
 async def get_user_lists(
     user_id: str,
     db: AsyncSession = Depends(get_async_session),
@@ -121,20 +116,19 @@ async def get_user_lists(
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
-
         )
     return result
 
 
 @router.get(
-    '/wantplay/games',
+    '/user/wantplay/games',
     response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_wantplay_game(
-    user: User = Depends(current_active_user),
+    user_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_wantplay_game(db=db, user_id=user.id)
+    result = await get_wantplay_game(db=db, user_id=user_id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
@@ -145,14 +139,14 @@ async def get_user_wantplay_game(
 
 
 @router.get(
-    '/passed/games',
+    '/user/passed/games',
     response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_passed_game(
-    user: User = Depends(current_active_user),
+    user_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_passed_game(db=db, user_id=user.id)
+    result = await get_passed_game(db=db, user_id=user_id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
@@ -163,14 +157,14 @@ async def get_user_passed_game(
 
 
 @router.get(
-    '/like/games',
+    '/user/like/games',
     response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_liked_game(
-    user: User = Depends(current_active_user),
+    user_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_liked_game(db=db, user_id=user.id)
+    result = await get_liked_game(db=db, user_id=user_id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
@@ -180,16 +174,20 @@ async def get_user_liked_game(
     return result
 
 
-
 @router.post('/follow/unfollow/{user_id}')
-async def follow_to_rout(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)):
+async def follow_to_rout(
+    user_id: UUID4, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)
+):
     result = await follow_unfollow_on_user(follower_id=user.id, user_id=user_id, db=db)
     if not result:
         return False
     return True
 
+
 @router.get('/follow_check/{user_id}')
-async def check_follow_route(user_id: UUID4, user: User = Depends(current_active_user),db: AsyncSession = Depends(get_async_session)) -> None:
+async def check_follow_route(
+    user_id: UUID4, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)
+) -> None:
     result = await check_follow(follower_id=user.id, user_id=user_id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='False')
@@ -199,9 +197,9 @@ async def check_follow_route(user_id: UUID4, user: User = Depends(current_active
         )
     error = error_model.ErrorResponseModel(details='True')
     return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_200_OK,
-        )
+        content=error.model_dump(),
+        status_code=status.HTTP_200_OK,
+    )
 
 
 @router.get('/last/game/{user_id}', response_model=list[game_model.GetUserLastGameResponseModel])
@@ -215,7 +213,6 @@ async def get_user_activity_router(
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
-
         )
     return result
 
@@ -238,13 +235,11 @@ async def get_user_img_router(id: UUID4, db: AsyncSession = Depends(get_async_se
 
 
 @router.post('/user/change/img')
-async def update_user_img_router(img: UploadFile, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)):
+async def update_user_img_router(
+    img: UploadFile, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)
+):
     if img:
         dest = save_upload_cover(img)
     if not img:
         dest = None
-    await update_user_img(
-        img=dest,
-        user_id=user.id,
-        db=db
-    )
+    await update_user_img(img=dest, user_id=user.id, db=db)

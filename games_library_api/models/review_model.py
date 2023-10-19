@@ -1,5 +1,7 @@
 import datetime
+
 from typing import Optional
+
 from pydantic import UUID4, BaseModel, EmailStr
 
 
@@ -11,7 +13,7 @@ class UserGameGradeResponseModel(BaseModel):
     comment: Optional[str]
     created_at: Optional[datetime.datetime]
 
-    
+
 class GetLastReviewsResponseModel(BaseModel):
     game_id: UUID4
     user_id: UUID4

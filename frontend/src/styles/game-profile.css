@@ -646,6 +646,8 @@
     color: var(--font-color-global);
     border-radius: 6px;
     border: 1px solid var(--font-color-global);
+    transition: all 200ms linear;
+
 }
 
 .comment-area{
@@ -655,4 +657,5 @@
     width: 100%;
     background-color: var( --text-field-input-color);
     transition: all 200ms linear;
+    color: var(--font-color-global);
 }

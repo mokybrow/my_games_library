@@ -1,10 +1,10 @@
+import base64
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends,  UploadFile
+from fastapi import APIRouter, Body, Depends, Header, Request, Response, UploadFile, status
 from fastapi.responses import JSONResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import APIRouter, Body, Depends, Header, Request, Response, UploadFile, status
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
@@ -26,14 +26,11 @@ from games_library_api.integrations.list_operations import (
     universal_game_wanted,
     update_list,
 )
-from games_library_api.models import error_model, game_model, list_model, users_model, review_model
-
-from games_library_api.models import list_model
+from games_library_api.models import error_model, game_model, list_model, review_model, users_model
 from games_library_api.schemas.user import User
 from games_library_api.services.cover_upload import save_upload_cover
 
 router = APIRouter()
-
 
 
 @router.post('/list/create/')
@@ -54,7 +51,7 @@ async def check_list_route(
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await check_list(db=db,   new_list=new_list, username=user.username)
+    result = await check_list(db=db, new_list=new_list, username=user.username)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
@@ -73,10 +70,15 @@ async def add_cover_to_list_route(
 ):
     if cover:
         dest = save_upload_cover(cover)
+        with open(dest , 'rb') as f:
+            base64image = base64.b64encode(f.read())
+            print(base64image)
+            
     if not cover:
         dest = None
-    await add_cover_to_list(db=db, list_id=list_id, cover=dest)
-    return {'List success updated': 'success'}
+        
+    await add_cover_to_list(db=db, list_id=list_id, cover=base64image)
+    return {'List success updated': base64image}
 
 
 @router.get('/lists/all/', response_model=list[list_model.GetListsResponseModel])
@@ -95,7 +97,6 @@ async def add_game_to_user_list_router(
     await add_game_to_user_list(db=db, list_id=list_id, game_id=game_id)
 
 
-
 @router.post('/lists/operation/passed/{game_id}')
 async def universal_passed_router(
     game_id: UUID4,
@@ -107,6 +108,7 @@ async def universal_passed_router(
         return {'Game deleted': 'Success'}
 
     return {'Game added': 'Success'}
+
 
 @router.post('/lists/operation/wantplay/{game_id}')
 async def universal_wantplay_router(
@@ -132,7 +134,6 @@ async def universal_liked_router(
         return {'Game deleted': 'Success'}
 
     return {'Game added': 'Success'}
-
 
 
 @router.delete('/list/delete/')
@@ -167,7 +168,6 @@ async def update_user_list_router(
     return {'List updated': 'success'}
 
 
-
 @router.get('/list_games/{slug}/', response_model=list[list_model.ListGamesResponseModel | None])
 async def ist_games_router(
     slug: str,
@@ -183,7 +183,6 @@ async def ist_games_router(
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
-
         )
     return result
 
@@ -205,10 +204,8 @@ async def ist_games_router(
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
-
         )
     return result
-
 
 
 @router.get('/list/{slug}/check/added/{user_id}', response_model=list_model.ListDataResponseModel)
@@ -228,25 +225,36 @@ async def list_data_router(
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
-
         )
     print(result[0])
     return result[0]
 
+
 @router.get('/check/game_in_passed_list/{game_id}')
-async def check_game_in_passed_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),
+async def check_game_in_passed_lists(
+    game_id: UUID4,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
 ):
     result = await check_game_in_user_passed(game_id=game_id, user_id=user.id, db=db)
     return result
 
+
 @router.get('/check/game_in_liked_list/{game_id}')
-async def check_game_in_liked_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),
+async def check_game_in_liked_lists(
+    game_id: UUID4,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
 ):
     result = await check_game_in_user_liked(game_id=game_id, user_id=user.id, db=db)
     return result
 
+
 @router.get('/check/game_in_wanted_list/{game_id}')
-async def check_game_in_wanted_lists(game_id: UUID4, user: User = Depends(current_active_user),    db: AsyncSession = Depends(get_async_session),
+async def check_game_in_wanted_lists(
+    game_id: UUID4,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
 ):
     result = await check_game_in_user_wantplay(game_id=game_id, user_id=user.id, db=db)
     return result

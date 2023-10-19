@@ -20,17 +20,17 @@ const UserListsPage: FC = () => {
 
     if (list_store.isLoading === true) {
         return (
-          <section className='loader-section'>
-            <div className="lds-spinner"><div></div>
-              <div></div><div></div>
-              <div></div><div></div><div>
-              </div><div></div><div></div><div
-              ></div><div></div><div></div>
-              <div></div></div>
-          </section>
-    
+            <section className='loader-section'>
+                <div className="lds-spinner"><div></div>
+                    <div></div><div></div>
+                    <div></div><div></div><div>
+                    </div><div></div><div></div><div
+                    ></div><div></div><div></div>
+                    <div></div></div>
+            </section>
+
         )
-      }
+    }
 
     if (auth_store.user.username !== user_store.anotherUser.username) {
         const nonPrivateLists = user_store.list.filter(
@@ -67,7 +67,8 @@ const UserListsPage: FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </Link>)}</> : null}
+                            </Link>)}</> :
+                        null}
 
                 </div>
             </section>)

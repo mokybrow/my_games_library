@@ -27,18 +27,7 @@ const GameProfile: FC = () => {
     const [comment, setComment] = useState<string>('');
     const [isOpen, setOpen] = useState(false);
 
-    const [submitComment, seSubmitComment] = useState(false);
 
-
-    const rateGame = () => {
-        console.log(rating)
-        try {
-            GameService.addReview(games_store.gameProfile.id, rating, comment)
-
-        } catch (error) {
-
-        }
-    }
 
     const isOpenMove = () => {
         setOpen(!isOpen)
@@ -46,11 +35,6 @@ const GameProfile: FC = () => {
         setHover(Number(games_store.userGrade?.grade))
     }
 
-
-    const deleteGrade = () => {
-        console.log('delete')
-        GameService.deleteUserRate(games_store.gameProfile.id)
-    }
 
     const addGameToPassed = async () => {
         await GameService.operationWithPassed(games_store.gameProfile.id);
@@ -69,10 +53,6 @@ const GameProfile: FC = () => {
         await ListService.addGameToList(list_id, games_store.gameProfile.id)
     }
 
-    const likeToComment = async (review_id: string) => {
-
-        await GameService.likeToUserComment(String(review_id))
-    }
 
     if (games_store.isLoading === true) {
         return (
@@ -141,7 +121,7 @@ const GameProfile: FC = () => {
                                                 id='rate-numbers'
                                                 key={index}
                                                 className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
-                                                onClick={() => { { setRating(index) } { seSubmitComment(true) } }}
+                                                onClick={() => { { setRating(index) } }}
                                                 onMouseEnter={() => setHover(index)}
                                                 onMouseLeave={() => setHover(rating)}
 
@@ -150,40 +130,19 @@ const GameProfile: FC = () => {
                                         );
                                     })}
                                 </div>
-                                <textarea className='comment-area' id="story" name="story" 
-                                placeholder='Опишите ваш игровой опыт... (400 символов максимум)' 
-                                onChange={e => setComment(e.target.value)} cols={40} rows={10} maxLength={400}>
+                                <textarea className='comment-area' id="story" name="story"
+                                    placeholder='Опишите ваш игровой опыт... (400 символов максимум)'
+                                    onChange={e => setComment(e.target.value)} cols={40} rows={10} maxLength={400}>
 
                                 </textarea >
-                                {submitComment == false ? <button className='window-button-blocked'>Поставте оценку, прежде чем отправить отзыв</button> :
-                                    <button className='window-button' onClick={() => { { setOpen(!isOpen) } { rateGame() } }}>Оставить отзывы</button>}
-                                {games_store.userGrade.grade > 0 ? <div onClick={() => { { deleteGrade() } { setOpen(!isOpen) } { setRating(0) } { seSubmitComment(false) } { setComment('') } { games_store.userGrade.grade = 0 } }}
+                                <button className='window-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment('') } }}>Оставить отзывы</button>
+
+                                {games_store.userGrade?.grade > 0 || games_store.userGrade?.grade != null ? <div onClick={() => { { games_store.deleteReview(games_store.gameProfile.id, String(slug)) } { setComment('') } { setOpen(!isOpen) } { setRating(0) } }}
                                     className={`window-button ${isOpen ? 'active' : ''}`}>
                                     <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
                                 </div> : null}
                             </ModalWindow>
-                            {/* {games_store?.userGrade?.grade > 0 ?
-                                <ModalWindow active={isOpen} setActive={setModalActive}>
-                                    <div className={`grade-numbers ${isOpen ? 'active' : ''}`}>
-                                        {[...Array(10)].map((star, index) => {
-                                            index += 1;
-                                            return (
-                                                <span
-                                                    id='rate-numbers'
-                                                    key={index}
-                                                    className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
-                                                    onClick={() => { { rateGame(Number(index), null) } { setRating(index) } { games_store.userGrade.grade = index } }}
-                                                    onMouseEnter={() => setHover(index)}
-                                                    onMouseLeave={() => setHover(rating)}
 
-                                                >{index}
-                                                </span>
-                                            );
-                                        })}
-                                    </div>
-
-                                </ModalWindow> 
-                                : null} */}
                         </>}
                 </div>
                 <div className="checkbox-card-body-mobile">
@@ -289,7 +248,7 @@ const GameProfile: FC = () => {
                     <hr className='drop-down-line-game-profile' />
                     <div className='reviews-comment-container'>
 
-                        {games_store.reviews?.map(x =>
+                        {games_store.reviews?.map(x => <>{x.comment !== '' ?
                             <div className="comment-container" key={x.id}>
                                 <div className="inline-container">
                                     {x.img === null || x.img === '' ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :
@@ -315,7 +274,7 @@ const GameProfile: FC = () => {
                                 <div className="like-count-container">
                                     <span>{x.review_likes}</span>
                                     {auth_store.isAuth ? <>
-                                        <input onClick={() => { likeToComment(x.review_id) }} onChange={() => x.hasAuthorLike === 1 ? (x.hasAuthorLike = 0) & (x.review_likes = x.review_likes - 1) : (x.hasAuthorLike = 1) & (x.review_likes = x.review_likes + 1)} className="custom-checkbox-comment like " type="checkbox" id={x.id} name={x.id} value="red" checked={x.hasAuthorLike === 1 ? true : false} />
+                                        <input onClick={() => { games_store.likeReview(x.review_id, String(slug)) }} className="custom-checkbox-comment like " type="checkbox" id={x.id} name={x.id} value="red" checked={x.hasAuthorLike === 1 ? true : false} />
                                         <label htmlFor={x.id}></label></> :
                                         <>
                                             <input className="custom-checkbox-comment like" type="checkbox" id='unauthorize' name='unauthorize' value="red" onClick={() => navigate('/login')} />
@@ -325,7 +284,9 @@ const GameProfile: FC = () => {
                                 <hr className='drop-down-line-game-profile' />
 
                             </div>
-                        )}
+                            : null}
+
+                        </>)}
                     </div>
 
 

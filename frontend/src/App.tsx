@@ -28,6 +28,9 @@ import UserSettings from './pages/UserSettings';
 import ListCreate from './pages/ListCreate';
 import UserListsPage from './pages/UserListsPage';
 import ListPage from './pages/ListPage';
+import PlayedGamesPage from './pages/PlayedGamesPage';
+import LikedGamesPage from './pages/LikedGamesPage';
+import WantPlayGamePage from './pages/WantPlayGamePage';
 
 
 
@@ -58,6 +61,9 @@ function App() {
             <Route path='/:username/settings' element={<UserSettings />} />
             <Route path='/:username/list/create' element={<ListCreate />} />
             <Route path='/:username/lists' element={<UserListsPage />} />
+            <Route path='/:username/played' element={<PlayedGamesPage />} />
+            <Route path='/:username/liked' element={<LikedGamesPage />} />
+            <Route path='/:username/wants-to-play' element={<WantPlayGamePage />} />
             <Route path='/dash/admin' element={<AdminPage />} />
             <Route path='/dash/admin/users' element={<AdminUsers />} />
           </Routes>

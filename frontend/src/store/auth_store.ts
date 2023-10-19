@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { AUser, GamesResponse, IUser, UserActivityResponse,  UserLastReviews, UserListsResponse, detail } from "../models/response";
+import { AUser, GamesResponse, IUser, ListsGameResponse, UserActivityResponse, UserLastReviews, UserListsResponse, detail } from "../models/response";
 import AuthService from "../service/AuthService";
 import { getLocalToken, removeLocalToken, saveLocalToken } from "../utils/utils";
 import { AxiosError } from "axios";
@@ -17,6 +17,10 @@ export default class AuthStore {
     userImg = '';
     list = [] as UserListsResponse[]
     addedList = [] as UserListsResponse[]
+
+    wantedGames = [] as ListsGameResponse[];
+    likedGames = [] as ListsGameResponse[];
+    passedGames = [] as ListsGameResponse[];
 
     constructor() {
         makeAutoObservable(this);
@@ -45,6 +49,16 @@ export default class AuthStore {
 
     setGames(games: UserActivityResponse[]) {
         this.userActivity = games;
+    }
+
+    setWantGames(games: ListsGameResponse[]) {
+        this.wantedGames = games;
+    }
+    setLikedGames(games: ListsGameResponse[]) {
+        this.likedGames = games;
+    }
+    setPassedGames(games: ListsGameResponse[]) {
+        this.passedGames = games;
     }
 
     setLoading(bool: boolean) {
@@ -97,23 +111,35 @@ export default class AuthStore {
             this.setUser(response.data)
             this.setAuth(true);
 
-            const lists = await UserService.getUserLists(response.data.id)
+        } catch (error) {
+
+        } try {
+            const lists = await UserService.getUserLists(this.user.id)
             this.setLists(lists.data)
+        } catch (error) {
 
-            const anotherLists = await UserService.getUserAddedLists(response.data.id)
+        } try {
+            const anotherLists = await UserService.getUserAddedLists(this.user.id)
             this.setAddedLists(anotherLists.data)
+        } catch (error) {
 
-            const img = await UserService.getUserImg(response.data.id)
+        } try {
+            const img = await UserService.getUserImg(this.user.id)
             this.setUserImg(img.data)
 
+        } catch (error) {
 
-            const game = await GameService.getUserGames(response.data.id)
+        } try {
+            const game = await GameService.getUserGames(this.user.id)
             this.setGames(game.data)
+        } catch (error) {
 
-            const reviews = await UserService.getUserReviews(response.data.id)
+        } try {
+            const reviews = await UserService.getUserReviews(this.user.id)
             this.setReviews(reviews.data)
         } catch (error) {
-        } finally {
+
+        }  finally {
             this.setLoading(false);
         }
     }

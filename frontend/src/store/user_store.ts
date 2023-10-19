@@ -6,7 +6,7 @@ import UserService from "../service/UserService";
 import GameService from "../service/GameService";
 import AuthStore from "./auth_store";
 import { getLocalToken } from "../utils/utils";
-import {decode as base64_decode, encode as base64_encode} from 'base-64';
+import { decode as base64_decode, encode as base64_encode } from 'base-64';
 
 export default class UserStore {
     isAuth = false;
@@ -61,24 +61,6 @@ export default class UserStore {
             const user = await UserService.getUserProfile(username);
             this.setAUser(user.data)
 
-            const img = await UserService.getUserImg(user.data.id)
-            this.setAUserImg(img.data)
-            const lists = await UserService.getUserLists(user.data.id)
-            this.setLists(lists.data)
-
-            const anotherLists = await UserService.getUserAddedLists(user.data.id)
-            this.setAddedLists(anotherLists.data)
-            console.log(anotherLists.data)
-
-            this.anotherUser.img = String(img)
-
-            const game = await GameService.getUserGames(user.data.id)
-            this.setGames(game.data)
-
-            const reviews = await UserService.getUserReviews(user.data.id)
-            this.setReviews(reviews.data)
-
-
             if (getLocalToken() != null) {
                 const follow = await UserService.checkFollow(user.data.id);
 
@@ -87,25 +69,62 @@ export default class UserStore {
                 }
             }
 
-
-
         } catch (error) {
             const err = error as AxiosError
+        } try {
+            const img = await UserService.getUserImg(this.anotherUser.id)
+            this.setAUserImg(img.data)
+        } catch (error) {
+
+        } try {
+            const lists = await UserService.getUserLists(this.anotherUser.id)
+            this.setLists(lists.data)
+
+        } catch (error) {
+
+        } try {
+
+            const anotherLists = await UserService.getUserAddedLists(this.anotherUser.id)
+            this.setAddedLists(anotherLists.data)
+
+        } catch (error) {
+
+        } try {
+            const game = await GameService.getUserGames(this.anotherUser.id)
+            this.setGames(game.data)
+
+        } catch (error) {
+
+        } try {
+            const reviews = await UserService.getUserReviews(this.anotherUser.id)
+            this.setReviews(reviews.data)
+        } catch (error) {
+
         } finally {
             this.setLoading(false);
         }
 
     }
 
+    async followController(username: string) {
+        this.setLoading(true);
+        try {
+            const user = await UserService.getUserProfile(username);
+            const follow = await UserService.followUnfollowOnUser(user.data.id)
+            const newUserData = await UserService.getUserProfile(username);
+            this.setAUser(newUserData.data)
+            if (follow.data == false) {
+                this.setFollower(false)
 
-    // async checkFollow(user_id: string) {
-    //     if (this.isLoading !== false) {
-    //         try {
-    //             const follow = await UserService.checkFollow(user_id);
-    //             this.setFollower(follow.data.follow)
-    //         } catch (error) {
-    //             const err = error as AxiosError
-    //         }
-    //     }
-    // }
+            } if (follow.data == true) {
+                this.setFollower(true)
+
+            }
+        } catch (error) {
+
+        } finally {
+            this.setLoading(false);
+        }
+    }
+
 }

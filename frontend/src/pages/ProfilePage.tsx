@@ -10,18 +10,6 @@ const ProfilePage: FC = () => {
   const { user_store } = useContext(Context);
   const { username } = useParams<string>();
 
-  const followController = async () => {
-    await UserService.followUnfollowOnUser(user_store.anotherUser.id)
-    user_store.setFollower(user_store.isFollower = !user_store.isFollower)
-    if (user_store.isFollower) {
-      user_store.anotherUser.follower_count = user_store.anotherUser.follower_count + 1
-    }
-    if (!user_store.isFollower) {
-      user_store.anotherUser.follower_count = user_store.anotherUser.follower_count - 1
-    }
-  }
-
-
   useEffect(() => {
     user_store.findUser(String(username))
     if (localStorage.getItem('token')) {
@@ -205,9 +193,9 @@ const ProfilePage: FC = () => {
 
           <div className="profile-banner-with-buttons">
             <div className="buttons-container">
-              {user_store.isFollower ? <button onClick={followController} className="profile-banner-button-unfollow">
+              {user_store.isFollower ? <button onClick={()=>  user_store.followController(String(username))} className="profile-banner-button-unfollow">
                 <FormattedMessage id="content.userprofile.unfollow" />
-              </button> : <button onClick={followController} className="profile-banner-button-follow"><FormattedMessage id="content.userprofile.follow" />
+              </button> : <button onClick={()=>  user_store.followController(String(username))}  className="profile-banner-button-follow"><FormattedMessage id="content.userprofile.follow" />
               </button>}
 
             </div>

@@ -1,8 +1,9 @@
 import datetime
 import uuid
 
-from sqlalchemy import  JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, MetaData, String, Table, Text
+from sqlalchemy import BINARY, JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary, MetaData, String, Table, Text
 from sqlalchemy.dialects.postgresql import ARRAY
+
 metadata = MetaData()
 
 user_table = Table(
@@ -50,7 +51,7 @@ list_table = Table(
     Column('owner_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
     Column('name', String, nullable=False),
     Column('slug', String, nullable=False),
-    Column('cover', String, nullable=True),
+    Column('cover', LargeBinary, nullable=True),
     Column('description', String, nullable=True),
     Column('is_private', Boolean, default=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
@@ -77,7 +78,7 @@ list_game_table = Table(
 follower_table = Table(
     'follower',
     metadata,
-    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('follower_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('date', DateTime, default=datetime.datetime.utcnow()),
 )
@@ -96,8 +97,8 @@ like_game_table = Table(
     'like_game',
     metadata,
     metadata,
-    Column('list_id', UUID, ForeignKey('like.id', ondelete='CASCADE'), primary_key=True,  unique=False),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('list_id', UUID, ForeignKey('like.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
@@ -113,8 +114,8 @@ wantplay_table = Table(
 wantplay_game_table = Table(
     'wantplay_game',
     metadata,
-    Column('list_id', UUID, ForeignKey('wantplay.id', ondelete='CASCADE'), primary_key=True,  unique=False),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('list_id', UUID, ForeignKey('wantplay.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
@@ -130,8 +131,8 @@ passed_table = Table(
 passed_game_table = Table(
     'passed_game',
     metadata,
-    Column('list_id', UUID, ForeignKey('passed.id', ondelete='CASCADE'), primary_key=True,  unique=False),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('list_id', UUID, ForeignKey('passed.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
@@ -150,10 +151,9 @@ review_table = Table(
 review_like_table = Table(
     'review_like',
     metadata,
-    Column('review_id', ForeignKey('review.id', ondelete='CASCADE'), primary_key=True,  unique=False),
-    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('review_id', ForeignKey('review.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
-
 )
 
 news_table = Table(
@@ -171,12 +171,11 @@ user_activity_table = Table(
     'user_activity',
     metadata,
     Column('id', UUID, primary_key=True, default=uuid.uuid4()),
-    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True,  unique=False),
-    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True,  unique=False),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('game_id', UUID, ForeignKey('game.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('title', String, nullable=False),
     Column('slug', String, nullable=False),
     Column('cover', String, nullable=True),
     Column('activity_type', String, nullable=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
-
 )

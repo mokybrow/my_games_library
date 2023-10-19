@@ -8,9 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.game_operations import get_game, get_game_review
-from games_library_api.integrations.review_operations import add_like_to_user_comment, create_review, delete_user_grade, get_user_grade
-from games_library_api.models import error_model, game_model
-from games_library_api.models import review_model
+from games_library_api.integrations.review_operations import (
+    add_like_to_user_comment,
+    create_review,
+    delete_user_grade,
+    get_user_grade,
+)
+from games_library_api.models import error_model, game_model, review_model
 from games_library_api.schemas.user import User
 
 router = APIRouter()
@@ -20,7 +24,7 @@ router = APIRouter()
 async def create_review_router(
     game_id: UUID4,
     grade: int,
-    comment: Optional[str]=None,
+    comment: Optional[str] = None,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
@@ -56,4 +60,4 @@ async def add_like_to_user_comment_router(
     user: User = Depends(current_active_user),
 ):
     print('То что мы получаем', review_id)
-    await add_like_to_user_comment(user_id=user.id, review_id=review_id,  db=db)
+    await add_like_to_user_comment(user_id=user.id, review_id=review_id, db=db)

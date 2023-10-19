@@ -5,9 +5,9 @@ from typing import Any, Optional
 
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
-from fastapi_users.authentication import AuthenticationBackend, CookieTransport, JWTStrategy
+from fastapi_users.authentication import AuthenticationBackend, BearerTransport, CookieTransport, JWTStrategy
 from fastapi_users.db import SQLAlchemyUserDatabase
-from fastapi_users.authentication import BearerTransport
+
 from games_library_api.database import get_user_db
 from games_library_api.email.send_mail import sending_mail
 from games_library_api.integrations.after_registration import create_default_lists
@@ -51,6 +51,7 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
 
 
 bearer_transport = BearerTransport(tokenUrl="auth/login")
+
 
 def get_jwt_strategy() -> JWTStrategy:
     return JWTStrategy(secret=settings.secret, lifetime_seconds=None)

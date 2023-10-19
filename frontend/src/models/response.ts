@@ -127,7 +127,8 @@ export interface GameReviews {
     created_at: Date,
     review_id: string,
     review_likes: number,
-    hasAuthorLike: number
+    hasAuthorLike: number,
+    detail?: string 
 }
 
 export interface GameAvgRate {
@@ -144,7 +145,7 @@ export interface UserListsResponse{
     owner_id: string,
     name: string,
     slug: string,
-    cover: string | null,
+    cover: string ,
     description: string | null,
     is_private: boolean,
     created_at: Date
@@ -154,7 +155,7 @@ export interface UserListsResponse{
 export interface ListsGameResponse{
     game_id: string,
     slug: string,
-    cover: string | null,
+    cover: any,
     title: string | null,
 }
 

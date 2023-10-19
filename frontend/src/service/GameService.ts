@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesCountResponse, GamesResponse, IUser, RegResponse, UserActivityResponse, userGrade } from "../models/response";
+import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesCountResponse, GamesResponse, IUser, ListsGameResponse, RegResponse, UserActivityResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
 
 
@@ -89,7 +89,6 @@ export default class GameService {
     }
 
     static async addReview(id: string, grade: number, comment: string | null): Promise<AxiosResponse> {
-        console.log(id, grade, comment)
         return $api.post(`game/add_review/`, null, {
             params: {
                 game_id: id,
@@ -184,5 +183,17 @@ export default class GameService {
                 },
             })
     }
+
+    // static async getUserWantedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {
+    //     return $api.get<ListsGameResponse[]>(`/user/wantplay/games`, { params: { user_id: user_id } })
+    // }
+
+    // static async getUserLikedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {
+    //     return $api.get<ListsGameResponse[]>(`/user/like/games`, { params: { user_id: user_id } })
+    // }
+
+    // static async getUserPassedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {
+    //     return axios.get<ListsGameResponse[]>(`/user/passed/games`, { params: { user_id: user_id } })
+    // }
 
 }

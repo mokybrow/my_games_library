@@ -8,8 +8,8 @@ from pydantic import UUID4, BaseModel
 
 class CreateListModel(BaseModel):
     name: str
-    description: Optional [str]
-    is_private: Optional [bool]
+    description: Optional[str]
+    is_private: Optional[bool]
 
 
 class AddListCoverModel(BaseModel):
@@ -21,13 +21,14 @@ class ListResponseModel(BaseModel):
     owner_id: UUID4
     name: str
     slug: str
-    cover: Optional[str]
+    cover:Optional[str]
     description: Optional[str]
     is_private: bool
     created_at: datetime.datetime
 
 
 class DefaultListResponseModel(BaseModel):
+    id: UUID4
     title: str
     slug: str
     cover: Optional[str]
