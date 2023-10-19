@@ -127,60 +127,57 @@ async def get_user_lists(
 
 
 @router.get(
-    '/{username}/want_to_play',
-    response_model=list_model.DefaultListResponseModel,
+    '/wantplay/games',
+    response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_wantplay_game(
-    username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_wantplay_game(db=db, username=username)
+    result = await get_wantplay_game(db=db, user_id=user.id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
         )
-    return result[0]
+    return result
 
 
 @router.get(
-    '/{username}/passed',
-    response_model=list_model.DefaultListResponseModel,
+    '/passed/games',
+    response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_passed_game(
-    username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_passed_game(db=db, username=username)
+    result = await get_passed_game(db=db, user_id=user.id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
         )
-    return result[0]
+    return result
 
 
 @router.get(
-    '/{username}/like',
-    response_model=list_model.DefaultListResponseModel,
+    '/like/games',
+    response_model=list[list_model.DefaultListResponseModel],
 )
 async def get_user_liked_game(
-    username: str,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_liked_game(db=db, username=username)
+    result = await get_liked_game(db=db, user_id=user.id)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no games')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
         )
-    return result[0]
+    return result
 
 
 

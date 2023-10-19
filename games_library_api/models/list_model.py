@@ -28,7 +28,6 @@ class ListResponseModel(BaseModel):
 
 
 class DefaultListResponseModel(BaseModel):
-    username: str
     title: str
     slug: str
     cover: Optional[str]

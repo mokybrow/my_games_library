@@ -1,0 +1,53 @@
+.modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 200ms linear;
+}
+
+.modal-content {
+    background-color: var(--background-card-color);
+    padding: 1em;
+    border-radius: 6px;
+    transform: scale(0.5);
+    width: 50vw;
+    transition: all 200ms linear;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: flex-start;
+    overflow-y: hidden;
+}
+
+.modal-content.active {
+    background-color: var(--background-card-color);
+    padding: 1em;
+    transform: scale(1);
+    border-radius: 6px;
+}
+
+.modal.active {
+    opacity: 1;
+    z-index: 3;
+    pointer-events: all;
+
+}
+
+@media (max-width: 800px) {
+    .modal-content.active {
+        background-color: var(--background-card-color);
+        padding: 1em;
+        transform: scale(1);
+        border-radius: 6px;
+        width: 80vw;
+    }
+
+}

@@ -621,34 +621,38 @@
 
 /* ВЫПАДАЮЩИЙ БЛОК ДОБАВЛЕНИЯ ИГРЫ В СВОЙ СПИСОК */
 
-.add-to-user-list-container {
-    display: none;
-    scale: 0;
-}
 
-.add-to-user-list-container.active {
-    width: 100%;
-    display: flex;
-    position: relative;
-    background-color: var(--background-card-color);
-    border-radius: 6px;
-    scale: 1;
-    transition: all 50ms;
-    align-items: center;
-    flex-direction: column;
-    padding: 0.5em;
-    gap: 0.5em;
-}
-
-.add-to-user-list-container button{
-    width: 100%;
-}
-
-.close-window-button {
+.window-button {
     border: none;
     padding: 0.5em;
     font-weight: 600;
     background-color: var(--buttons-color);
     color: var(--font-color-global);
     border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid var(--font-color-global);
+}
+.window-button:hover{
+    background-color: var(--button-hover);
+    color: var(--font-color-global);
+    transition: all 200ms linear;
+}
+.window-button-blocked{
+    pointer-events: none;
+    border: none;
+    padding: 0.5em;
+    font-weight: 600;
+    background-color: var(--buttons-color);
+    color: var(--font-color-global);
+    border-radius: 6px;
+    border: 1px solid var(--font-color-global);
+}
+
+.comment-area{
+    resize: none;
+    border-radius: 6px;
+    padding: 0.5em;
+    width: 100%;
+    background-color: var( --text-field-input-color);
+    transition: all 200ms linear;
 }

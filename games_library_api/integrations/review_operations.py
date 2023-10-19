@@ -14,31 +14,20 @@ async def create_review(db: AsyncSession, game_id: UUID4, user_id: UUID4, grade:
     query = select(review_table).where(review_table.c.game_id == game_id, review_table.c.user_id == user_id)
     result = await db.execute(query)
     check_on_review = result.all()
-    print(check_on_review)
+    print(comment)
+    if comment == None:
+        comment = None
     if check_on_review:
-        if comment == 'null':
             stmt = (
             update(review_table)
             .values(
                 grade=grade,
-                comment=None,
+                comment=comment,
             )
             .where(review_table.c.game_id == game_id, review_table.c.user_id == user_id))
             await db.execute(stmt)
             await db.commit()
             return None
-    if comment == 'null':
-        stmt = insert(review_table).values(
-            id=uuid.uuid4(),
-            user_id=user_id,
-            game_id=game_id,
-            grade=grade,
-            comment=None,
-            created_at=datetime.datetime.utcnow(),
-        )
-        await db.execute(stmt)
-        await db.commit()
-        return None
     stmt = insert(review_table).values(
             id=uuid.uuid4(),
             user_id=user_id,
@@ -50,6 +39,7 @@ async def create_review(db: AsyncSession, game_id: UUID4, user_id: UUID4, grade:
     await db.execute(stmt)
     await db.commit()
     return None
+
 
 
 async def get_user_grade(db: AsyncSession, game_id: UUID4, user_id: UUID4):

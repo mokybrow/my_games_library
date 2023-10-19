@@ -239,10 +239,10 @@ async def universal_game_liked(user_id: UUID4, game_id: UUID4, db: AsyncSession)
     return True
 
 
-async def get_wantplay_game(db: AsyncSession, username: str) -> Any:
+async def get_wantplay_game(db: AsyncSession, user_id: UUID4) -> Any:
     query = (
-        select(user_table.c.username, game_table.c.title, game_table.c.slug, game_table.c.cover)
-        .where(user_table.c.username == username)
+        select(game_table.c.title, game_table.c.slug, game_table.c.cover)
+        .where(user_table.c.id == user_id)
         .join(wantplay_table)
         .join(wantplay_game_table)
         .join(game_table)
@@ -251,10 +251,10 @@ async def get_wantplay_game(db: AsyncSession, username: str) -> Any:
     return result.all()
 
 
-async def get_passed_game(db: AsyncSession, username: str) -> Any:
+async def get_passed_game(db: AsyncSession, user_id: UUID4) -> Any:
     query = (
-        select(user_table.c.username, game_table.c.title, game_table.c.slug, game_table.c.cover)
-        .where(user_table.c.username == username)
+        select( game_table.c.title, game_table.c.slug, game_table.c.cover)
+        .where(user_table.c.id == user_id)
         .join(passed_table)
         .join(passed_game_table)
         .join(game_table)
@@ -263,10 +263,10 @@ async def get_passed_game(db: AsyncSession, username: str) -> Any:
     return result.all()
 
 
-async def get_liked_game(db: AsyncSession, username: str) -> Any:
+async def get_liked_game(db: AsyncSession, user_id: UUID4) -> Any:
     query = (
-        select(user_table.c.username, game_table.c.title, game_table.c.slug, game_table.c.cover)
-        .where(user_table.c.username == username)
+        select(game_table.c.title, game_table.c.slug, game_table.c.cover)
+        .where(user_table.c.id == user_id)
         .join(like_table)
         .join(like_game_table)
         .join(game_table)

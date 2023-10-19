@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { Context } from '..';
 import { FormattedDate, FormattedMessage, FormattedNumber } from 'react-intl';
 import ListService from '../service/ListService';
+import { ModalWindow } from '../components/ModalWindow';
 
 
 const GameProfile: FC = () => {
@@ -14,22 +15,28 @@ const GameProfile: FC = () => {
     const { auth_store } = useContext(Context);
     let navigate = useNavigate();
 
-
     useEffect(() => {
         games_store.getGameData(String(slug))
+
     }, [games_store, slug])
 
 
-    const [rating, setRating] = useState(0);
+    const [actvie, setModalActive] = useState(false);
+    const [rating, setRating] = useState<number>(0);
     const [hover, setHover] = useState(0);
+    const [comment, setComment] = useState<string>('');
     const [isOpen, setOpen] = useState(false);
 
-    const rateGame = (index: number, comment: string | null) => {
+    const [submitComment, seSubmitComment] = useState(false);
+
+
+    const rateGame = () => {
+        console.log(rating)
         try {
-            GameService.addReview(games_store.gameProfile.id, index, comment)
+            GameService.addReview(games_store.gameProfile.id, rating, comment)
 
         } catch (error) {
-            
+
         }
     }
 
@@ -38,11 +45,7 @@ const GameProfile: FC = () => {
         setRating(Number(games_store.userGrade?.grade))
         setHover(Number(games_store.userGrade?.grade))
     }
-    const closeGradeBanner = () => {
-        if (isOpen === true) {
-            setOpen(!isOpen)
-        }
-    }
+
 
     const deleteGrade = () => {
         console.log('delete')
@@ -60,21 +63,8 @@ const GameProfile: FC = () => {
     const addGameToWantPlay = async () => {
         await GameService.operationWithWanted(games_store.gameProfile.id);
     }
-    const addGameToUserList = async () => {
-        const addingToList = document.querySelector('.add-to-user-list-container')
-        if (addingToList) {
-            addingToList.classList.toggle('active')
 
-        }
-    }
-    const closeAddWindow = async () => {
-        const addingToList = document.querySelector('.add-to-user-list-container')
-        if (addingToList) {
-            addingToList.classList.remove('active')
-        }
-    }
-
-    const addGameToList = async (list_id: string)=>{
+    const addGameToList = async (list_id: string) => {
         console.log(list_id)
         await ListService.addGameToList(list_id, games_store.gameProfile.id)
     }
@@ -99,8 +89,11 @@ const GameProfile: FC = () => {
 
     return (
         <>
-
-            <section className='game-profile-section' onClick={() => { closeGradeBanner() }}>
+            <ModalWindow active={actvie} setActive={setModalActive}>
+                <h1>Добавить игру в свой список</h1>
+                {auth_store.list.map(list => <button className='window-button' key={list.id} onClick={() => addGameToList(list.id)}>{list.name}</button>)}
+            </ModalWindow>
+            <section className='game-profile-section'>
 
                 <div className="game-cover-grade-container">
                     <div className="game-profile-cover-container">
@@ -121,16 +114,13 @@ const GameProfile: FC = () => {
                                     <label htmlFor="color-3"></label>
                                 </div>
                                 <div className="checkbox">
-                                    <input onClick={addGameToUserList} className="custom-checkbox plus" type="checkbox" id="color-4" name="color-4" value="red" />
+                                    <input onClick={() => setModalActive(true)} className="custom-checkbox plus" type="checkbox" id="color-4" name="color-4" />
                                     <label htmlFor="color-4"></label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className='add-to-user-list-container'>
-                        <button onClick={closeAddWindow} className='close-window-button'>Закрыть</button>
-                        {auth_store.list.map(list => <button key={list.id} className='close-window-button' onClick={()=>addGameToList(list.id)}>{list.name}</button>)}
-                    </div>
+
 
                     {!auth_store.isAuth ? null :
                         <>
@@ -138,31 +128,62 @@ const GameProfile: FC = () => {
                                 <div onClick={() => { isOpenMove() }} className='game-profile-grade'>
                                     <span><FormattedMessage id="content.gameprofile.yourestimate" />&nbsp;{games_store.userGrade.grade}</span>
                                 </div> :
-                                <div onClick={() => { isOpenMove() }} className='game-profile-grade'>
+
+                                <div onClick={() => { { isOpenMove() } { setOpen(true) } }} className='game-profile-grade'>
                                     <span><FormattedMessage id="content.gameprofile.estimate" /></span>
                                 </div>}
+                            <ModalWindow active={isOpen} setActive={setOpen}>
+                                <div className={`grade-numbers ${isOpen ? 'active' : ''}`}>
+                                    {[...Array(10)].map((star, index) => {
+                                        index += 1;
+                                        return (
+                                            <span
+                                                id='rate-numbers'
+                                                key={index}
+                                                className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
+                                                onClick={() => { { setRating(index) } { seSubmitComment(true) } }}
+                                                onMouseEnter={() => setHover(index)}
+                                                onMouseLeave={() => setHover(rating)}
 
-                            <div className={`grade-numbers ${isOpen ? 'active' : ''}`}>
-                                {[...Array(10)].map((star, index) => {
-                                    index += 1;
-                                    return (
-                                        <span
-                                            id='rate-numbers'
-                                            key={index}
-                                            className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
-                                            onClick={() => { { rateGame(Number(index), null) } { setRating(index) } { setOpen(!isOpen) } { games_store.userGrade.grade = index } }}
-                                            onMouseEnter={() => setHover(index)}
-                                            onMouseLeave={() => setHover(rating)}
+                                            >{index}
+                                            </span>
+                                        );
+                                    })}
+                                </div>
+                                <textarea className='comment-area' id="story" name="story" 
+                                placeholder='Опишите ваш игровой опыт... (400 символов максимум)' 
+                                onChange={e => setComment(e.target.value)} cols={40} rows={10} maxLength={400}>
 
-                                        >{index}
-                                        </span>
-                                    );
-                                })}
-                            </div>
-                            {games_store?.userGrade?.grade > 0 ?
-                                <div onClick={() => { { deleteGrade() } { setOpen(!isOpen) } { setRating(0) } { games_store.userGrade.grade = 0 } }} className={`delete-grade ${isOpen ? 'active' : ''}`}>
+                                </textarea >
+                                {submitComment == false ? <button className='window-button-blocked'>Поставте оценку, прежде чем отправить отзыв</button> :
+                                    <button className='window-button' onClick={() => { { setOpen(!isOpen) } { rateGame() } }}>Оставить отзывы</button>}
+                                {games_store.userGrade.grade > 0 ? <div onClick={() => { { deleteGrade() } { setOpen(!isOpen) } { setRating(0) } { seSubmitComment(false) } { setComment('') } { games_store.userGrade.grade = 0 } }}
+                                    className={`window-button ${isOpen ? 'active' : ''}`}>
                                     <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
                                 </div> : null}
+                            </ModalWindow>
+                            {/* {games_store?.userGrade?.grade > 0 ?
+                                <ModalWindow active={isOpen} setActive={setModalActive}>
+                                    <div className={`grade-numbers ${isOpen ? 'active' : ''}`}>
+                                        {[...Array(10)].map((star, index) => {
+                                            index += 1;
+                                            return (
+                                                <span
+                                                    id='rate-numbers'
+                                                    key={index}
+                                                    className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
+                                                    onClick={() => { { rateGame(Number(index), null) } { setRating(index) } { games_store.userGrade.grade = index } }}
+                                                    onMouseEnter={() => setHover(index)}
+                                                    onMouseLeave={() => setHover(rating)}
+
+                                                >{index}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+
+                                </ModalWindow> 
+                                : null} */}
                         </>}
                 </div>
                 <div className="checkbox-card-body-mobile">

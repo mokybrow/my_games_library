@@ -16,11 +16,11 @@ from games_library_api.schemas.user import User
 router = APIRouter()
 
 
-@router.post("/game/add_review/game_id/{game_id}/grade/{grade}/comment/{comment}")
+@router.post("/game/add_review/")
 async def create_review_router(
     game_id: UUID4,
     grade: int,
-    comment: Optional[str],
+    comment: Optional[str]=None,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):

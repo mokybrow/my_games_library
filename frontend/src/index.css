@@ -23,7 +23,7 @@ html[data-theme='dark'] {
   --check-checkbox-background-image: url('./icons/check-white.png');
   --clock-checkbox-background-image: url('./icons/clock-white.png');
   --heart-checkbox-background-image: url('./icons/heart-white.png');
-
+  --text-field-input-color: #383838;
 }
 
 
@@ -47,5 +47,5 @@ html[data-theme='light'] {
   --check-checkbox-background-image: url('./icons/check-black.png');
   --clock-checkbox-background-image: url('./icons/clock-black.png');
   --heart-checkbox-background-image: url('./icons/heart-black.png');
-
+  --text-field-input-color: #FFFFFF;
 }

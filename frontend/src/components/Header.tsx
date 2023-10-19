@@ -107,12 +107,12 @@ const Header: FC = () => {
                                 <FormattedMessage id="header.menu.item4" />
                             </Link></li>
                             {auth_store.isAuth ? <><li className="user-icon-desktop menu-item menu-link">
-                                <Link to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
+                                <Link className="menu-link" to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
                             </li > </> : null}
                             {auth_store.isAuth ? <><li className="user-icon-desktop menu-item menu-link">
-                                <button onClick={() => auth_store.logout()}>
+                                <Link onClick={() => auth_store.logout()} to={'/'} className="menu-link" id="menu-item-transition">
                                     <FormattedMessage id="header.menu.logout" />
-                                </button>
+                                </Link>
                             </li></>
                                 :
                                 <> <li className="user-icon-desktop menu-item menu-link"><Link to={'/login'}>
@@ -127,7 +127,7 @@ const Header: FC = () => {
                                         <input type="checkbox" id="pill4" name="check" checked={checked} onChange={handleChange} />
                                         <label htmlFor="pill4"></label>
                                     </div>
-                                </div>
+                                </div><p><FormattedMessage id="header.menu.theme" /></p>
                             </li>
                         </ul>
                     </nav>
