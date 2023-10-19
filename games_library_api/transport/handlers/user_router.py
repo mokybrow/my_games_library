@@ -85,7 +85,7 @@ async def get_user_by_username_router(username: str, db: AsyncSession = Depends(
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_200_OK,
+            status_code=status.HTTP_404_NOT_FOUND,
         )
     return True
 
@@ -224,14 +224,15 @@ async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(g
     return result
 
 
-@router.get('/user/get/img')
+@router.get('/user/get/img', response_model=users_model.UserImg)
 async def get_user_img_router(id: UUID4, db: AsyncSession = Depends(get_async_session)):
     result = await get_user_img(id=id, db=db)
-    if result:
-        if result[0][0] != None:
-            with open(result[0][0], 'rb') as f:
-                base64image = base64.b64encode(f.read())
-            return base64image
+    return result[0]
+    # if result:
+    #     if result[0][0] != None:
+    #         with open(result[0][0], 'rb') as f:
+    #             base64image = base64.b64encode(f.read())
+    # return {'img': base64image}
 
 
 @router.post('/user/change/img')
@@ -239,7 +240,9 @@ async def update_user_img_router(
     img: UploadFile, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)
 ):
     if img:
-        dest = save_upload_cover(img)
+        img_bytes = img.file.read()
+        base64_string= base64.b64encode(img_bytes).decode('utf-8')
+
     if not img:
-        dest = None
-    await update_user_img(img=dest, user_id=user.id, db=db)
+        base64_string = None
+    await update_user_img(img=base64_string, user_id=user.id, db=db)

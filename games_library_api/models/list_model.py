@@ -21,7 +21,7 @@ class ListResponseModel(BaseModel):
     owner_id: UUID4
     name: str
     slug: str
-    cover:Optional[str]
+    cover: Optional[str]
     description: Optional[str]
     is_private: bool
     created_at: datetime.datetime

@@ -17,16 +17,16 @@ export default class ListService {
 
     static async addListCover(list_id:string ,img: any): Promise<AxiosResponse> {
         const formData = new FormData();
-        formData.set('cover', img);
+        formData.set('img', img);
         return $api.post('/list/add_cover/', formData,
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            params: {
-                list_id,
-            }
-        })
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                params: {
+                    list_id: list_id,
+                }
+            })
     }
 
     static async checkUniqListname(name: string, description: string, is_private: boolean): Promise<AxiosResponse<ListCreateResponse>> {

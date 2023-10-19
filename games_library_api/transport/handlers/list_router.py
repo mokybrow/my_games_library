@@ -1,7 +1,7 @@
 import base64
-from typing import Any, Optional
+from typing import Annotated, Any, Optional
 
-from fastapi import APIRouter, Body, Depends, Header, Request, Response, UploadFile, status
+from fastapi import APIRouter, Body, Depends, File, Header, Request, Response, UploadFile, status
 from fastapi.responses import JSONResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -64,21 +64,16 @@ async def check_list_route(
 @router.post('/list/add_cover/')
 async def add_cover_to_list_route(
     list_id: UUID4,
-    cover: UploadFile,
+    img: UploadFile, 
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    if cover:
-        dest = save_upload_cover(cover)
-        with open(dest , 'rb') as f:
-            base64image = base64.b64encode(f.read())
-            print(base64image)
+
+    img_bytes = img.file.read()
+    base64_string= base64.b64encode(img_bytes).decode('utf-8')
             
-    if not cover:
-        dest = None
-        
-    await add_cover_to_list(db=db, list_id=list_id, cover=base64image)
-    return {'List success updated': base64image}
+    await add_cover_to_list(db=db, list_id=list_id, cover=base64_string)
+    return {'List success updated': base64_string}
 
 
 @router.get('/lists/all/', response_model=list[list_model.GetListsResponseModel])

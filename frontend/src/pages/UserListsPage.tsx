@@ -43,7 +43,7 @@ const UserListsPage: FC = () => {
                         <Link key={list.id} to={'/list/' + list.slug} reloadDocument>
 
                             <div className="game-card-cover-container">
-                                {list.cover != null ? <img src={list.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                                {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                                 <div className="title-card-body">
                                     <div className="title-card">
                                         <span className="card-title">{list.name}</span>
@@ -60,7 +60,7 @@ const UserListsPage: FC = () => {
                         {user_store.addedList.map(addedList =>
                             <Link key={addedList.id} to={'/list/' + addedList.slug} reloadDocument>
                                 <div className="game-card-cover-container">
-                                    {addedList.cover != null ? <img src={addedList.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                                    {addedList.cover != null ? <img src={`data:image/jpeg;base64,${addedList.cover}`} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                                     <div className="title-card-body">
                                         <div className="title-card">
                                             <span className="card-title">{addedList.name}</span>
@@ -82,7 +82,7 @@ const UserListsPage: FC = () => {
                 {auth_store.list.length > 0 ? <>{auth_store.list.map(list =>
                     <Link key={list.id} to={'/list/' + list.slug} reloadDocument>
                         <div className="game-card-cover-container">
-                            {list.cover != null ? <img src={list.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                            {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                             <div className="title-card-body">
                                 <div className="title-card">
                                     <span className="card-title">{list.name}</span>
@@ -97,7 +97,7 @@ const UserListsPage: FC = () => {
                     {auth_store.addedList.map(addedList =>
                         <Link key={addedList.id} to={'/list/' + addedList.slug} reloadDocument>
                             <div className="game-card-cover-container">
-                                {addedList.cover != null ? <img src={addedList.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                                {addedList.cover != null ? <img src={`data:image/jpeg;base64,${addedList.cover}`}/> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                                 <div className="title-card-body">
 
                                     <div className="title-card">

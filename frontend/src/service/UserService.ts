@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse,  UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
+import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse,  UserImg,  UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -31,9 +31,9 @@ export default class UserService {
             })
     }
 
-    static async getUserImg(id: string): Promise<AxiosResponse> {
+    static async getUserImg(id: string): Promise<AxiosResponse<UserImg>> {
 
-        return $api.get(`/user/get/img`,
+        return $api.get<UserImg>(`/user/get/img`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',

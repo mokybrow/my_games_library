@@ -31,7 +31,7 @@ const HomePage: FC = () => {
   return (
     <>
       <section className='home-page-game-section'>
-        
+
         <div className='header-new-game'>
 
           <Link className='header-new-game' to='/games/new'>
@@ -44,7 +44,7 @@ const HomePage: FC = () => {
         {games_store.games.map(game =>
           <Link key={game.id} to={'game/' + game.slug} reloadDocument>
             <div className="game-card-cover-container">
-              {game.cover != null ? <img src={game.cover} alt='' width="200" height="200" /> : <img src={require('../icons/img-not-found.png')} alt='' width="200" height="200"/>}
+              {game.cover != null ? <img src={game.cover} alt='' width="200" height="200" /> : <img src={require('../icons/img-not-found.png')} alt='' width="200" height="200" />}
               <div className="title-card-body">
                 <div className="title-card">
                   <span className="card-title">{game.title}</span>
@@ -52,7 +52,6 @@ const HomePage: FC = () => {
               </div>
             </div>
           </Link>)}
-
 
       </section>
     </>

@@ -162,3 +162,7 @@ export interface ListsGameResponse{
 export interface checkAddedListsGameResponse{
     user_id: string,
 }
+
+export interface UserImg{
+    img: any
+}

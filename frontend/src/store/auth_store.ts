@@ -125,7 +125,7 @@ export default class AuthStore {
 
         } try {
             const img = await UserService.getUserImg(this.user.id)
-            this.setUserImg(img.data)
+            this.setUserImg(img.data.img)
 
         } catch (error) {
 

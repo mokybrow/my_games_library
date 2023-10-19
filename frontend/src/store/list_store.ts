@@ -6,7 +6,6 @@ import UserService from "../service/UserService";
 import GameService from "../service/GameService";
 import AuthStore from "./auth_store";
 import { getLocalToken } from "../utils/utils";
-import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import ListService from "../service/ListService";
 
 export default class ListStore {

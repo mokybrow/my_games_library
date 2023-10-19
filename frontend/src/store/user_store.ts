@@ -73,7 +73,7 @@ export default class UserStore {
             const err = error as AxiosError
         } try {
             const img = await UserService.getUserImg(this.anotherUser.id)
-            this.setAUserImg(img.data)
+            this.setAUserImg(img.data.img)
         } catch (error) {
 
         } try {
