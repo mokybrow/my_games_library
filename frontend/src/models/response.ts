@@ -137,13 +137,13 @@ export interface GameAvgRate {
 
 
 export interface ListCreateResponse {
-    list_created: string | boolean;
+    detail:  boolean;
 }
 
 export interface UserListsResponse{
     id: string,
     owner_id: string,
-    name: string,
+    title: string,
     slug: string,
     cover: string ,
     description: string | null,

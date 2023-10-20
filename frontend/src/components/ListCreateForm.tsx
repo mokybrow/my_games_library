@@ -30,7 +30,7 @@ const ListCreateForm: FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confPassword, setConfPassword] = useState<string>('');
-    const [name, setName] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
     const { auth_store } = useContext(Context);
     const {
         register,
@@ -55,7 +55,7 @@ const ListCreateForm: FC = () => {
 
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        list_store.CreateList(name, desctiption, isPrivate, acceptedFiles[0])
+        list_store.CreateList(title, desctiption, isPrivate, acceptedFiles[0])
         if (typeof acceptedFiles[0] === 'undefined') return;
     }
 
@@ -64,17 +64,16 @@ const ListCreateForm: FC = () => {
     }
 
 
-    const uniqListName = async (name: string) => {
+    const uniqListName = async (title: string) => {
         try {
-            const response = await ListService.checkUniqListname(name, desctiption, isPrivate);
-
-            if (response.data.list_created === true) {
-                console.log(response.data.list_created)
+            const response = await ListService.approveCreateList(title);
+            if (response.data.detail === true) {
                 return true
             }
-            return false
 
         } catch (error) {
+            return false
+
         }
     };
 
@@ -94,7 +93,7 @@ const ListCreateForm: FC = () => {
                             value: 2,
                             message: 'Название списка не может быть короче 2 символов'
                         }
-                    })} onChange={e => setName(e.target.value)} placeholder='Name' className='user-settings-text-field-input' />
+                    })} onChange={e => setTitle(e.target.value)} placeholder='Name' className='user-settings-text-field-input' />
                 {errors.name && <p className='error-alert' role="alert">{errors?.name?.message || "Вы уже создавали список с таким именем"}</p>}
 
             </div>

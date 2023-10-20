@@ -90,9 +90,9 @@ async def get_user_by_username_router(username: str, db: AsyncSession = Depends(
     return True
 
 
-@router.get('/{user_id}/lists', response_model=list[list_model.ListResponseModel])
-async def get_user_lists(
-    user_id: str,
+@router.get('/user/lists/all', response_model=list[list_model.ListResponseModel])
+async def get_user_lists_router(
+    user_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
     result = await get_user_list(db=db, user_id=user_id)
@@ -106,7 +106,7 @@ async def get_user_lists(
 
 
 @router.get('/{user_id}/added/lists', response_model=list[list_model.ListResponseModel])
-async def get_user_lists(
+async def get_user_added_lists(
     user_id: str,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
@@ -122,7 +122,7 @@ async def get_user_lists(
 
 @router.get(
     '/user/wantplay/games',
-    response_model=list[list_model.DefaultListResponseModel],
+    response_model=list[list_model.DefaultListGamesResponseModel],
 )
 async def get_user_wantplay_game(
     user_id: UUID4,
@@ -140,7 +140,7 @@ async def get_user_wantplay_game(
 
 @router.get(
     '/user/passed/games',
-    response_model=list[list_model.DefaultListResponseModel],
+    response_model=list[list_model.DefaultListGamesResponseModel],
 )
 async def get_user_passed_game(
     user_id: UUID4,
@@ -158,7 +158,7 @@ async def get_user_passed_game(
 
 @router.get(
     '/user/like/games',
-    response_model=list[list_model.DefaultListResponseModel],
+    response_model=list[list_model.DefaultListGamesResponseModel],
 )
 async def get_user_liked_game(
     user_id: UUID4,

@@ -26,52 +26,39 @@ from games_library_api.schemas.database import (
 from games_library_api.services.list_slug import making_slug
 
 
-async def create_list(db: AsyncSession, owner_id: UUID4, new_list: CreateListModel, username: str) -> bool:
-    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(username + '_' + new_list.name))
+async def create_list(db: AsyncSession, owner_id: UUID4,cover: str, username: str, title: str, description:str, is_private: bool) -> bool:
+    query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     if result.all():
         return False
     stmt = insert(list_table).values(
         id=uuid.uuid4(),
         owner_id=owner_id,
-        name=new_list.name,
-        slug=await making_slug(username + '_' + new_list.name),
-        description=new_list.description,
-        is_private=new_list.is_private,
+        title=title,
+        cover=cover,
+        slug=await making_slug(username + '_' + title),
+        description=description,
+        is_private=is_private,
     )
     await db.execute(stmt)
     await db.commit()
-    query = select(list_table.c.id).filter(list_table.c.slug == await making_slug(username + '_' + new_list.name))
+    query = select(list_table.c.id).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     list_id = result.all()
     return list_id[0][0]
 
 
-async def check_list(db: AsyncSession, new_list: CreateListModel, username: str) -> bool:
-    query = select(list_table.c.name).filter(list_table.c.slug == await making_slug(username + '_' + new_list.name))
+async def approve_create_list(db: AsyncSession,  username: str, title: str) -> bool:
+    query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
-    return result.all()
+    result = result.all()
+    if result:
+        return True
+    return False
 
 
-async def add_cover_to_list(
-    db: AsyncSession,
-    cover: str,
-    list_id: str,
-):
-    stmt = (
-        update(list_table)
-        .where(list_table.c.id == list_id)
-        .values(
-            cover=cover,
-        )
-    )
-    await db.execute(stmt)
-    await db.commit()
-    return True
-
-
-async def get_list(db: AsyncSession) -> Any:
-    query = select(list_table.c.name, list_table.c.cover).filter(list_table.c.is_private == False)
+async def get_all_list(db: AsyncSession) -> Any:
+    query = select(list_table.c.id, list_table.c.slug, list_table.c.title, list_table.c.cover).filter(list_table.c.is_private == False)
     result = await db.execute(query)
     result =  result.all()
     return result
@@ -81,9 +68,13 @@ async def get_user_list(db: AsyncSession, user_id: UUID4) -> Any:
     query = select(list_table).where(list_table.c.owner_id == user_id)
     result = await db.execute(query)
     result =  result.all()
-
     return result
 
+async def get_all_non_private_lists(db: AsyncSession, user_id: UUID4) -> Any:
+    query = select(list_table).where(list_table.c.owner_id == user_id).filter(list_table.c.is_private == False)
+    result = await db.execute(query)
+    result =  result.all()
+    return result
 
 async def get_user_added(db: AsyncSession, user_id: UUID4) -> Any:
     query = (
@@ -314,10 +305,13 @@ async def get_liked_game(db: AsyncSession, user_id: UUID4) -> Any:
     return result.all()
 
 
-async def delete_user_list(db: AsyncSession, list_id: UUID4) -> None:
-    stmt = delete(list_table).where(list_table.c.id == list_id)
-    await db.execute(stmt)
-    await db.commit()
+async def delete_user_list(db: AsyncSession, list_id: UUID4, user_id: UUID4) -> bool:
+    stmt = delete(list_table).where(list_table.c.id == list_id, list_table.c.owner_id == user_id)
+    result = await db.execute(stmt)
+    result = await db.commit()
+    if not result:
+        return False
+    return True
 
 
 async def update_list(
@@ -340,7 +334,7 @@ async def update_list(
         )
         .where(list_table.c.id == list_id)
     )
-    result = await db.execute(stmt)
+    await db.execute(stmt)
     await db.commit()
     return True
 
@@ -359,7 +353,12 @@ async def get_list_games(
             .where(list_game_table.c.list_id == list_id[0][0])
         )
         result = await db.execute(query)
-        return result.all()
+        result =  result.all()
+        if result:
+            return result
+        return False
+    
+    return False
 
 
 async def add_delete_list(
@@ -451,3 +450,16 @@ async def check_game_in_user_passed(game_id: UUID4, user_id: UUID4, db: AsyncSes
     if not game_id_result.all():
         return False
     return True
+
+
+
+async def get_list_info(
+    list_id: UUID4,
+    db: AsyncSession,
+):
+    get_list_data = select(list_table).where(list_table.c.id == list_id)
+    get_list_data = await db.execute(get_list_data)
+    get_list_data = get_list_data.all()
+    if not get_list_data:
+        return False
+    return get_list_data

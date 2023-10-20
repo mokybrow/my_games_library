@@ -71,7 +71,7 @@ const GameProfile: FC = () => {
         <>
             <ModalWindow active={actvie} setActive={setModalActive}>
                 <h1>Добавить игру в свой список</h1>
-                {auth_store.list.map(list => <button className='window-button' key={list.id} onClick={() => addGameToList(list.id)}>{list.name}</button>)}
+                {auth_store.list.map(list => <button className='window-button' key={list.id} onClick={() => addGameToList(list.id)}>{list.title}</button>)}
             </ModalWindow>
             <section className='game-profile-section'>
 
@@ -253,7 +253,7 @@ const GameProfile: FC = () => {
                                 <div className="inline-container">
                                     {x.img === null || x.img === '' ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :
 
-                                        <img className="user-in-comment-img" src={String(x.img)} />}
+                                        <img className="user-in-comment-img" src={`data:image/jpeg;base64,${x.img}`} width={100} height={100} />}
 
                                     <h3>{x.username}</h3>
                                     <div className="grade-container">

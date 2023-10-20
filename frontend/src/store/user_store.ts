@@ -11,8 +11,8 @@ import { decode as base64_decode, encode as base64_encode } from 'base-64';
 export default class UserStore {
     isAuth = false;
     isLoading = false;
-    anotherUser = {} as AUser;
-    anotherUserImg = '';
+    user = {} as AUser;
+    userImg = '';
     userActivity = [] as UserActivityResponse[];
     reviews = [] as UserLastReviews[];
     isFollower = false;
@@ -24,11 +24,11 @@ export default class UserStore {
     }
 
     setAUser(user: AUser) {
-        this.anotherUser = user;
+        this.user = user;
     }
 
     setAUserImg(user: string) {
-        this.anotherUserImg = user;
+        this.userImg = user;
     }
 
     setGames(games: UserActivityResponse[]) {
@@ -72,31 +72,34 @@ export default class UserStore {
         } catch (error) {
             const err = error as AxiosError
         } try {
-            const img = await UserService.getUserImg(this.anotherUser.id)
+
+            const img = await UserService.getUserImg(this.user.id)
             this.setAUserImg(img.data.img)
+
         } catch (error) {
 
         } try {
-            const lists = await UserService.getUserLists(this.anotherUser.id)
+
+            const lists = await UserService.getUserNoPrivateLists(this.user.id)
             this.setLists(lists.data)
 
         } catch (error) {
 
         } try {
 
-            const anotherLists = await UserService.getUserAddedLists(this.anotherUser.id)
+            const anotherLists = await UserService.getUserAddedLists(this.user.id)
             this.setAddedLists(anotherLists.data)
 
         } catch (error) {
 
         } try {
-            const game = await GameService.getUserGames(this.anotherUser.id)
+            const game = await GameService.getUserGames(this.user.id)
             this.setGames(game.data)
 
         } catch (error) {
 
         } try {
-            const reviews = await UserService.getUserReviews(this.anotherUser.id)
+            const reviews = await UserService.getUserReviews(this.user.id)
             this.setReviews(reviews.data)
         } catch (error) {
 

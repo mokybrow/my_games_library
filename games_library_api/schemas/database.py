@@ -49,7 +49,7 @@ list_table = Table(
     metadata,
     Column('id', UUID, primary_key=True, default=uuid.uuid4()),
     Column('owner_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
-    Column('name', String, nullable=False),
+    Column('title', String, nullable=False),
     Column('slug', String, nullable=False),
     Column('cover', String, nullable=True),
     Column('description', String, nullable=True),

@@ -9,18 +9,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.list_operations import (
-    add_cover_to_list,
     add_delete_list,
     add_game_to_user_list,
+    approve_create_list,
     check_game_in_user_liked,
     check_game_in_user_passed,
     check_game_in_user_wantplay,
-    check_list,
     create_list,
     delete_user_list,
-    get_list,
+    get_all_list,
+    get_all_non_private_lists,
     get_list_data,
     get_list_games,
+    get_list_info,
     universal_game_liked,
     universal_game_passed,
     universal_game_wanted,
@@ -35,50 +36,62 @@ router = APIRouter()
 
 @router.post('/list/create/')
 async def create_list_route(
-    new_list: list_model.CreateListModel,
+    title: str,
+    img: UploadFile, 
+    description: Optional[str],
+    is_private: Optional[bool],
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await create_list(db=db, owner_id=user.id, new_list=new_list, username=user.username)
+    img_bytes = img.file.read()
+    base64_string= base64.b64encode(img_bytes).decode('utf-8')
+    result = await create_list(db=db, owner_id=user.id,  username=user.username,cover=base64_string, title=title, description=description, is_private=is_private)
     if not result:
-        return False
-    return {'list_created': result}
-
-
-@router.post('/list/check/')
-async def check_list_route(
-    new_list: list_model.CreateListModel,
-    user: User = Depends(current_active_user),
-    db: AsyncSession = Depends(get_async_session),
-):
-    result = await check_list(db=db, new_list=new_list, username=user.username)
-    if not result:
-        error = error_model.ErrorResponseModel(details='User does not exist')
+        error = error_model.ErrorResponseModel(details='List with this name already exist')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    return True
+    return {'detail': True}
 
 
-@router.post('/list/add_cover/')
-async def add_cover_to_list_route(
-    list_id: UUID4,
-    img: UploadFile, 
-    user: User = Depends(current_active_user),
-    db: AsyncSession = Depends(get_async_session),
+@router.get('/list/approve/create')
+async def approve_create_list_router(title: str,user: User = Depends(current_active_user),
+                                     db: AsyncSession = Depends(get_async_session),
 ):
+    result = await approve_create_list(title=title, username=user.username, db=db)
+    if result:
+        error = error_model.ErrorResponseModel(details='List with this name already exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return {'detail': True}
 
-    img_bytes = img.file.read()
-    base64_string= base64.b64encode(img_bytes).decode('utf-8')
-            
-    await add_cover_to_list(db=db, list_id=list_id, cover=base64_string)
-    return {'List success updated': base64_string}
+
+@router.get('/lists/all/', response_model=list[list_model.AllListsResponseModel])
+async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_all_list(db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return result
 
 
-@router.get('/lists/all/', response_model=list[list_model.GetListsResponseModel])
-async def get_all_lists(db: AsyncSession = Depends(get_async_session)) -> Any:
-    result = await get_list(db=db)
+@router.get('/lists/user/all/', response_model=list[list_model.AllListsResponseModel])
+async def get_all_non_private_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_all_non_private_lists(db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
     return result
 
 
@@ -137,14 +150,18 @@ async def delete_user_list_router(
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-    result = await delete_user_list(db=db, list_id=list_id)
+    result = await delete_user_list(db=db, list_id=list_id, user_id=user.id)
     if not result:
-        return {'Game deleted': 'Error'}
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
 
-    return {'Game deleted': 'Success'}
+    return {'detail': True}
 
 
-@router.patch('/list/update_list/')
+@router.patch('/list/update')
 async def update_user_list_router(
     list_id: UUID4,
     new_list: list_model.CreateListModel,
@@ -159,11 +176,15 @@ async def update_user_list_router(
     )
 
     if not result:
-        return {'List name already': 'exist'}
-    return {'List updated': 'success'}
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return {'detail': True}
 
 
-@router.get('/list_games/{slug}/', response_model=list[list_model.ListGamesResponseModel | None])
+@router.get('/list/games', response_model=list[list_model.ListGamesResponseModel | None])
 async def ist_games_router(
     slug: str,
     db: AsyncSession = Depends(get_async_session),
@@ -253,3 +274,18 @@ async def check_game_in_wanted_lists(
 ):
     result = await check_game_in_user_wantplay(game_id=game_id, user_id=user.id, db=db)
     return result
+
+
+# @router.get('/list/data', response_model=list_model.ListResponseModel)
+# async def get_list_data_router(    
+#     list_id: UUID4,
+#     db: AsyncSession = Depends(get_async_session)):
+#     result = await get_list_info(list_id=list_id,db=db)
+
+#     if not result:
+#         error = error_model.ErrorResponseModel(details='Not in list')
+#         return JSONResponse(
+#             content=error.model_dump(),
+#             status_code=status.HTTP_200_OK,
+#         )
+#     return result[0]

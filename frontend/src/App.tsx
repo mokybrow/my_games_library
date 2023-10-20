@@ -27,7 +27,7 @@ import AdminUsers from './pages/AdminUsers';
 import UserSettings from './pages/UserSettings';
 import ListCreate from './pages/ListCreate';
 import UserListsPage from './pages/UserListsPage';
-import ListPage from './pages/ListPage';
+import GameInUserList from './pages/GameInUserList';
 import PlayedGamesPage from './pages/PlayedGamesPage';
 import LikedGamesPage from './pages/LikedGamesPage';
 import WantPlayGamePage from './pages/WantPlayGamePage';
@@ -57,7 +57,7 @@ function App() {
             <Route path='/news/' element={<NewsPage />} />
             <Route path='/reviews/' element={<ReviewsPage />} />
             <Route path='/game/:slug' element={<GameProfile />} />
-            <Route path='/list/:slug' element={<ListPage />} />
+            <Route path='/list/:slug' element={<GameInUserList />} />
             <Route path='/:username/settings' element={<UserSettings />} />
             <Route path='/:username/list/create' element={<ListCreate />} />
             <Route path='/:username/lists' element={<UserListsPage />} />

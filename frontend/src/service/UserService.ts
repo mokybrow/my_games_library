@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse,  UserImg,  UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
+import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse, UserImg, UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -9,7 +9,7 @@ export default class UserService {
         return axios.get<AUser>(`${API_URL}user/${username}`)
     }
 
-    static async followUnfollowOnUser(user_id: string){
+    static async followUnfollowOnUser(user_id: string) {
         return $api.post(`${API_URL}follow/unfollow/${user_id}`, {
         })
     }
@@ -27,7 +27,7 @@ export default class UserService {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-                
+
             })
     }
 
@@ -44,13 +44,28 @@ export default class UserService {
             })
     }
 
-    static async getUserLists(id: string): Promise<AxiosResponse<UserListsResponse[]>> {
+    static async getUserLists(user_id: string): Promise<AxiosResponse<UserListsResponse[]>> {
 
-        return $api.get<UserListsResponse[]>(`/${id}/lists   `,
+        return $api.get<UserListsResponse[]>(`/user/lists/all`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                params: {
+                    user_id: user_id,
+                }
+            })
+    }
+    static async getUserNoPrivateLists(user_id: string): Promise<AxiosResponse<UserListsResponse[]>> {
+
+        return $api.get<UserListsResponse[]>(`/user/lists/all`,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                params: {
+                    user_id: user_id,
+                }
 
             })
     }
@@ -65,5 +80,5 @@ export default class UserService {
             })
     }
 
-    
+
 }

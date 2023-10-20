@@ -38,15 +38,15 @@ const ProfilePage: FC = () => {
         <section className='profile-page-section'>
           <div className="profile-banner-with-cover">
             <div className="user-profile-cover-container">
-              {user_store.anotherUserImg == null || user_store.anotherUserImg == '' ? <img src={require('../icons/user.png')} width={100} height={100} /> : <img src={"data:image/jpeg;base64," + user_store.anotherUserImg} width={100} height={100} />}
+              {user_store.userImg == null || user_store.userImg == '' ? <img src={require('../icons/user.png')} width={100} height={100} /> : <img src={"data:image/jpeg;base64," + user_store.userImg} width={100} height={100} />}
             </div>
             <div className="user-name-container">
-              <h1 className="profile-banner-name">{user_store.anotherUser.name} {user_store?.anotherUser?.surname}</h1>
+              <h1 className="profile-banner-name">{user_store.user.name} {user_store?.user?.surname}</h1>
               <div className='user-follower-bolock'>
                 <span>
                   <FormattedMessage id="content.userprofile.followers" />
                 </span>&nbsp;
-                <span>{user_store.anotherUser.follower_count}</span>
+                <span>{user_store.user.follower_count}</span>
               </div>
             </div>
           </div>
@@ -54,13 +54,13 @@ const ProfilePage: FC = () => {
           <div className="profile-banner-with-statat">
             <div className="user-stat-container">
               <div className="user-metric-container">
-                <span className="user-metric-container-count">{user_store.anotherUser.passed_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.passed" /></span>
+                <span className="user-metric-container-count">{user_store.user.passed_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.passed" /></span>
               </div>
               <div className="user-metric-container">
-                <span className="user-metric-container-count">{user_store.anotherUser.wanted_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.wanted" /></span>
+                <span className="user-metric-container-count">{user_store.user.wanted_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.wanted" /></span>
               </div>
               <div className="user-metric-container">
-                <span className="user-metric-container-count">{user_store.anotherUser.list_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.lists" /></span>
+                <span className="user-metric-container-count">{user_store.user.list_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.lists" /></span>
               </div>
             </div>
           </div>
@@ -150,29 +150,29 @@ const ProfilePage: FC = () => {
     )
   }
   //Пользователь не существует
-  if (!user_store.anotherUser.username) {
+  if (!user_store.user.username) {
     return (
       <div>Пользователь не найден</div>
     )
   }
   //Пользователь залогинен, но он на чужой странице
-  if (auth_store.isAuth && auth_store.user.username !== user_store.anotherUser.username) {
+  if (auth_store.isAuth && auth_store.user.username !== user_store.user.username) {
     return (
       <>
         <section className='profile-page-section'>
           <div className="profile-banner-with-cover">
             <div className="user-profile-cover-container">
 
-              {user_store.anotherUserImg == null || user_store.anotherUserImg == '' ? <img src={require('../icons/user.png')} width={100} height={100} /> : <img src={"data:image/jpeg;base64," + user_store.anotherUserImg} width={100} height={100} />
+              {user_store.userImg == null || user_store.userImg == '' ? <img src={require('../icons/user.png')} width={100} height={100} /> : <img src={"data:image/jpeg;base64," + user_store.userImg} width={100} height={100} />
               }
             </div>
             <div className="user-name-container">
-              <h1 className="profile-banner-name">{user_store.anotherUser.name} {user_store?.anotherUser?.surname}</h1>
+              <h1 className="profile-banner-name">{user_store.user.name} {user_store?.user?.surname}</h1>
               <div className='user-follower-bolock'>
                 <span>
                   <FormattedMessage id="content.userprofile.followers" />
                 </span>&nbsp;
-                <span>{user_store.anotherUser.follower_count}</span>
+                <span>{user_store.user.follower_count}</span>
               </div>
             </div>
           </div>
@@ -180,13 +180,13 @@ const ProfilePage: FC = () => {
           <div className="profile-banner-with-statat">
             <div className="user-stat-container">
               <div className="user-metric-container">
-                <span className="user-metric-container-count">{user_store.anotherUser.passed_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.passed" /></span>
+                <span className="user-metric-container-count">{user_store.user.passed_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.passed" /></span>
               </div>
               <div className="user-metric-container">
-                <span className="user-metric-container-count">{user_store.anotherUser.wanted_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.wanted" /></span>
+                <span className="user-metric-container-count">{user_store.user.wanted_game_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.wanted" /></span>
               </div>
               <div className="user-metric-container">
-                <span className="user-metric-container-count">{user_store.anotherUser.list_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.lists" /></span>
+                <span className="user-metric-container-count">{user_store.user.list_count}</span><span className="other-banner-info"><FormattedMessage id="content.userprofile.lists" /></span>
               </div>
             </div>
           </div>

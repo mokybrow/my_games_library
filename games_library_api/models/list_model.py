@@ -7,7 +7,7 @@ from pydantic import UUID4, BaseModel
 
 
 class CreateListModel(BaseModel):
-    name: str
+    title: str
     description: Optional[str]
     is_private: Optional[bool]
 
@@ -19,7 +19,7 @@ class AddListCoverModel(BaseModel):
 class ListResponseModel(BaseModel):
     id: UUID4
     owner_id: UUID4
-    name: str
+    title: str
     slug: str
     cover: Optional[str]
     description: Optional[str]
@@ -27,15 +27,17 @@ class ListResponseModel(BaseModel):
     created_at: datetime.datetime
 
 
-class DefaultListResponseModel(BaseModel):
+class DefaultListGamesResponseModel(BaseModel):
     id: UUID4
     title: str
     slug: str
     cover: Optional[str]
 
 
-class GetListsResponseModel(BaseModel):
-    name: str
+class AllListsResponseModel(BaseModel):
+    id: UUID4
+    title: str
+    slug: str
     cover: Optional[str]
 
 

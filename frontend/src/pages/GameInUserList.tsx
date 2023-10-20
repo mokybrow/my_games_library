@@ -4,7 +4,7 @@ import { Context } from '..';
 import { observer } from 'mobx-react-lite';
 import ListService from '../service/ListService';
 
-const ListPage: FC = () => {
+const GameInUserList: FC = () => {
   const { auth_store } = useContext(Context);
 
   const { slug } = useParams<string>();
@@ -48,7 +48,7 @@ const ListPage: FC = () => {
       {list_store.ListsGames.length > 0 ? <>{list_store.ListsGames.map(list =>
         <Link key={list.game_id} to={'/game/' + list.slug} >
           <div className="game-card-cover-container">
-            {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+            {list.cover != null ? <img src={list.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
             <div className="title-card-body">
               <div className="title-card">
                 <span className="card-title">{list.title}</span>
@@ -66,4 +66,4 @@ const ListPage: FC = () => {
   )
 }
 
-export default observer(ListPage);
+export default observer(GameInUserList);

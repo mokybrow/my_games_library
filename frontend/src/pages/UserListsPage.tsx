@@ -32,21 +32,19 @@ const UserListsPage: FC = () => {
         )
     }
 
-    if (auth_store.user.username !== user_store.anotherUser.username) {
-        const nonPrivateLists = user_store.list.filter(
-            (person) => person.is_private === false
-        );
+    if (auth_store.user.username !== user_store.user.username) {
+
         return (
             <section className='other-page-section'>
                 <div className="card-with-games-lists">
-                    {nonPrivateLists.length > 0 ? <>    {nonPrivateLists.map(list =>
-                        <Link key={list.id} to={'/list/' + list.slug} reloadDocument>
+                    {user_store.list.length > 0 ? <>    {user_store.list.map(list =>
+                        <Link key={list.id} to={'/list/' + list.slug} >
 
                             <div className="game-card-cover-container">
                                 {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                                 <div className="title-card-body">
                                     <div className="title-card">
-                                        <span className="card-title">{list.name}</span>
+                                        <span className="card-title">{list.title}</span>
                                     </div>
                                 </div>
                             </div>
@@ -58,12 +56,12 @@ const UserListsPage: FC = () => {
                         </div>}
                     {user_store.addedList.length > 0 ? <>
                         {user_store.addedList.map(addedList =>
-                            <Link key={addedList.id} to={'/list/' + addedList.slug} reloadDocument>
+                            <Link key={addedList.id} to={'/list/' + addedList.slug} >
                                 <div className="game-card-cover-container">
                                     {addedList.cover != null ? <img src={`data:image/jpeg;base64,${addedList.cover}`} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                                     <div className="title-card-body">
                                         <div className="title-card">
-                                            <span className="card-title">{addedList.name}</span>
+                                            <span className="card-title">{addedList.title}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -80,12 +78,12 @@ const UserListsPage: FC = () => {
             <div className="card-with-games-lists">
 
                 {auth_store.list.length > 0 ? <>{auth_store.list.map(list =>
-                    <Link key={list.id} to={'/list/' + list.slug} reloadDocument>
+                    <Link key={list.id} to={'/list/'+list.slug} >
                         <div className="game-card-cover-container">
                             {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
                             <div className="title-card-body">
                                 <div className="title-card">
-                                    <span className="card-title">{list.name}</span>
+                                    <span className="card-title">{list.title}</span>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +99,7 @@ const UserListsPage: FC = () => {
                                 <div className="title-card-body">
 
                                     <div className="title-card">
-                                        <span className="card-title">{addedList.name}</span>
+                                        <span className="card-title">{addedList.title}</span>
                                     </div>
                                 </div>
                             </div>

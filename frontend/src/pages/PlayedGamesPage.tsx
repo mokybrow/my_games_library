@@ -52,7 +52,7 @@ const PlayedGamesPage: FC = () => {
         )
     }
     //Пользователь залогинен, но он на чужой странице
-    if (auth_store.isAuth && auth_store.user.username !== user_store.anotherUser.username) {
+    if (auth_store.isAuth && auth_store.user.username !== user_store.user.username) {
         return (
             <>
                 <section className='game-page-section'>
