@@ -37,9 +37,9 @@ router = APIRouter()
 @router.post('/list/create/')
 async def create_list_route(
     title: str,
-    img: UploadFile, 
     description: Optional[str],
     is_private: Optional[bool],
+    img: UploadFile = None, 
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
@@ -276,16 +276,16 @@ async def check_game_in_wanted_lists(
     return result
 
 
-# @router.get('/list/data', response_model=list_model.ListResponseModel)
-# async def get_list_data_router(    
-#     list_id: UUID4,
-#     db: AsyncSession = Depends(get_async_session)):
-#     result = await get_list_info(list_id=list_id,db=db)
+@router.get('/list/data', response_model=list_model.ListResponseModel)
+async def get_list_data_router(    
+    slug: str,
+    db: AsyncSession = Depends(get_async_session)):
+    result = await get_list_info(slug=slug,db=db)
 
-#     if not result:
-#         error = error_model.ErrorResponseModel(details='Not in list')
-#         return JSONResponse(
-#             content=error.model_dump(),
-#             status_code=status.HTTP_200_OK,
-#         )
-#     return result[0]
+    if not result:
+        error = error_model.ErrorResponseModel(details='Not in list')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_200_OK,
+        )
+    return result[0]

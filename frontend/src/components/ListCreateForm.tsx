@@ -55,12 +55,18 @@ const ListCreateForm: FC = () => {
 
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
-        list_store.CreateList(title, desctiption, isPrivate, acceptedFiles[0])
+        console.log(acceptedFiles[0])
+        if (!acceptedFiles[0]) {
+            list_store.CreateList(title, desctiption, isPrivate, null)
+        }else{
+            list_store.CreateList(title, desctiption, isPrivate, String(acceptedFiles[0]))
+
+        }
         if (typeof acceptedFiles[0] === 'undefined') return;
     }
 
     const error: SubmitErrorHandler<FormData> = (data) => {
-        
+
     }
 
 

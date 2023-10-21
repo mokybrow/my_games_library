@@ -59,14 +59,12 @@ export default class ListStore {
         }
     }
 
-    async getListPageGames(slug: string) {
+    async getListPageGames( slug: string) {
         this.setLoading(true);
         try {
-            const userData = await AuthService.getUserInfo();
-            const checkAdded = await ListService.checkAdded(slug, userData.data.id)
-            if (checkAdded.data.user_id) {
-                this.setAddedList(true)
-            }
+            const list = await ListService.getListData(slug)
+            this.setListData(list.data)
+
 
         } catch (error) {
             const err = error as AxiosError

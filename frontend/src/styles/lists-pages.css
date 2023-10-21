@@ -14,8 +14,7 @@
     background-color: var(--background-card-color);
     border-radius: 6px;
     padding: 1em;
-    display: flex;
-    flex-direction: row;
+
     align-items: center;
     gap: 1em;
 }

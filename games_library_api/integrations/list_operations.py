@@ -454,10 +454,10 @@ async def check_game_in_user_passed(game_id: UUID4, user_id: UUID4, db: AsyncSes
 
 
 async def get_list_info(
-    list_id: UUID4,
+    slug: str,
     db: AsyncSession,
 ):
-    get_list_data = select(list_table).where(list_table.c.id == list_id)
+    get_list_data = select(list_table).where(list_table.c.slug == slug)
     get_list_data = await db.execute(get_list_data)
     get_list_data = get_list_data.all()
     if not get_list_data:

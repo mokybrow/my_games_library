@@ -3,6 +3,7 @@ import React, { FC, useContext, useEffect } from 'react'
 import { Context } from '..';
 import { Link, useParams } from 'react-router-dom';
 import ListService from '../service/ListService';
+import { ImageCard } from '../components/ImageCard';
 
 const UserListsPage: FC = () => {
     const { auth_store } = useContext(Context);
@@ -18,7 +19,7 @@ const UserListsPage: FC = () => {
         }
     }, [])
 
-    if (list_store.isLoading === true) {
+    if (auth_store.isLoading === true || user_store.isLoading === true) {
         return (
             <section className='loader-section'>
                 <div className="lds-spinner"><div></div>
@@ -39,15 +40,8 @@ const UserListsPage: FC = () => {
                 <div className="card-with-games-lists">
                     {user_store.list.length > 0 ? <>    {user_store.list.map(list =>
                         <Link key={list.id} to={'/list/' + list.slug} >
+                            <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : '../icons/img-not-found.png'} title={String(list.title)} />
 
-                            <div className="game-card-cover-container">
-                                {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
-                                <div className="title-card-body">
-                                    <div className="title-card">
-                                        <span className="card-title">{list.title}</span>
-                                    </div>
-                                </div>
-                            </div>
 
                         </Link>)
                     }</> :
@@ -57,14 +51,8 @@ const UserListsPage: FC = () => {
                     {user_store.addedList.length > 0 ? <>
                         {user_store.addedList.map(addedList =>
                             <Link key={addedList.id} to={'/list/' + addedList.slug} >
-                                <div className="game-card-cover-container">
-                                    {addedList.cover != null ? <img src={`data:image/jpeg;base64,${addedList.cover}`} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
-                                    <div className="title-card-body">
-                                        <div className="title-card">
-                                            <span className="card-title">{addedList.title}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` : '../icons/img-not-found.png'} title={String(addedList.title)} />
+
                             </Link>)}</> :
                         null}
 
@@ -78,15 +66,10 @@ const UserListsPage: FC = () => {
             <div className="card-with-games-lists">
 
                 {auth_store.list.length > 0 ? <>{auth_store.list.map(list =>
-                    <Link key={list.id} to={'/list/'+list.slug} >
-                        <div className="game-card-cover-container">
-                            {list.cover != null ? <img src={`data:image/jpeg;base64,${list.cover}`} /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
-                            <div className="title-card-body">
-                                <div className="title-card">
-                                    <span className="card-title">{list.title}</span>
-                                </div>
-                            </div>
-                        </div>
+                    <Link key={list.id} to={'/list/' + list.slug} >
+
+                        <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : '../icons/img-not-found.png'} title={String(list.title)} />
+
                     </Link>)}</> :
                     <div className="error-card-container">
                         Пользователь не создал ни одного списка
@@ -94,15 +77,9 @@ const UserListsPage: FC = () => {
                 {auth_store.addedList.length > 0 ? <>
                     {auth_store.addedList.map(addedList =>
                         <Link key={addedList.id} to={'/list/' + addedList.slug} reloadDocument>
-                            <div className="game-card-cover-container">
-                                {addedList.cover != null ? <img src={`data:image/jpeg;base64,${addedList.cover}`}/> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
-                                <div className="title-card-body">
+                            <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` : '../icons/img-not-found.png'} title={String(addedList.title)} />
 
-                                    <div className="title-card">
-                                        <span className="card-title">{addedList.title}</span>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         </Link>)}
                 </> : null}

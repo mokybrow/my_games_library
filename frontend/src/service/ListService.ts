@@ -68,14 +68,14 @@ export default class ListService {
             },)
     }
 
-    static async getListData(list_id: string): Promise<AxiosResponse<UserListsResponse>> {
+    static async getListData(slug: string): Promise<AxiosResponse<UserListsResponse>> {
         return $api.get<UserListsResponse>(`/list/data`,
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
             params: {
-                list_id: list_id
+                slug: slug
             }
 
         },)
