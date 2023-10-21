@@ -8,7 +8,8 @@ import Header from './components/Header';
 import { PlaylistsPage } from './pages/PlaylistsPage';
 import { NewsPage } from './pages/NewsPage';
 import { ReviewsPage } from './pages/ReviewsPage';
-import './styles/form.css'
+import './styles/auth-forms.css'
+import './styles/data-forms.css'
 import './styles/home-page.css'
 import './styles/profile-page.css'
 import './styles/reg-page.css'

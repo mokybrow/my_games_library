@@ -13,17 +13,35 @@ const LoginPage = () => {
         if (localStorage.getItem('token')) {
             auth_store.checkAuth()
         }
+
     }, [])
 
     if (auth_store.isLoading) {
-        return <div>Loading...</div>
+        return (
+            <section className='loader-section'>
+                <div className="lds-spinner"><div></div>
+                    <div></div><div></div>
+                    <div></div><div></div><div>
+                    </div><div></div><div></div><div
+                    ></div><div></div><div></div>
+                    <div></div></div>
+            </section>
+
+        )
     }
     if (auth_store.isAuth) {
         navigate("/");
-    } else {
-        return (<LoginForm />)
     }
-    return <div></div>
+
+    return (
+        <section className='auth-section'>
+            <div className="form-container">
+                <LoginForm />
+            </div>
+        </section>
+    )
+
+
 }
 
 export default observer(LoginPage);

@@ -11,7 +11,8 @@ html[data-theme='dark'] {
   --menu-icon-color:#CFCFCF;
   --header-logo-color: #CFCFCF;
   --text-input-color: #242424;
-  --font-color-global: #CFCFCF;
+  --font-color-global: #cfcfcf;
+  --input-field-color: rgba(207, 207, 207, 0.5);
   --button-color: #1349C9;
   --button-hover: rgba(39, 41, 43, 0.5);
   --theme-controller: #595959;
@@ -36,6 +37,7 @@ html[data-theme='light'] {
   --header-logo-color: rgba(39, 41, 43, 1);
   --text-input-color: #FFFFFF;
   --font-color-global: rgba(39, 41, 43, 1);
+  --input-field-color: rgba(39, 41, 43, 0.5);
   --button-color: #1349C9;
   --button-hover: #FFFFFF;
   --theme-controller: #F1F1F1;

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse, UserImg, UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
+import { AUser, AuthResponse, IUser, RegEmailCheck, RegResponse, UserActivityResponse, UserImg, UserLastReviews, UserListsResponse, UserStat, detail } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -56,9 +56,9 @@ export default class UserService {
                 }
             })
     }
-    static async getUserNoPrivateLists(user_id: string): Promise<AxiosResponse<UserListsResponse[]>> {
+    static async getUserNotPrivateLists(user_id: string): Promise<AxiosResponse<UserListsResponse[]>> {
 
-        return $api.get<UserListsResponse[]>(`/user/lists/all`,
+        return $api.get<UserListsResponse[]>(`/user/lists/private/all`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -69,14 +69,28 @@ export default class UserService {
 
             })
     }
-    static async getUserAddedLists(id: string): Promise<AxiosResponse<UserListsResponse[]>> {
-
-        return $api.get<UserListsResponse[]>(`/${id}/added/lists   `,
+    static async getuserActivityGames(user_id: string): Promise<AxiosResponse<UserActivityResponse[]>> {
+        return $api.get<UserActivityResponse[]>(`/user/get/activity/`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                params: {
+                    user_id: user_id,
+                }
+            })
+    }
+    
+    static async getUserAddedLists(id: string): Promise<AxiosResponse<UserListsResponse[]>> {
 
+        return $api.get<UserListsResponse[]>(`/user/added/lists `,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                params: {
+                    user_id: id,
+                }
             })
     }
 

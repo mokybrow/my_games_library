@@ -36,16 +36,17 @@ const ListCreate: FC = () => {
     }
     return (
         <>
-            <section className='list-create-page'>
-                <div className='list-create-grid-container'>
-                    <div className="create-list-form-container">
+            <section className='list-create-section'>
+       
+                    <div className="data-form-container">
+                        
                         <h1>Создайте свой список</h1>
                         <ListCreateForm />
                         {/* <form action="#" onSubmit={imgHandler} className='list-create-form'>
                             
                         </form> */}
                     </div>
-                </div>
+
             </section>
         </>
     )

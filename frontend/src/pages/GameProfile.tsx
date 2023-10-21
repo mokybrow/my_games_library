@@ -17,7 +17,6 @@ const GameProfile: FC = () => {
 
     useEffect(() => {
         games_store.getGameData(String(slug))
-
     }, [games_store, slug])
 
 

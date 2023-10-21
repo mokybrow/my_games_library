@@ -21,7 +21,7 @@ from games_library_api.schemas.database import (
 )
 
 
-async def get_user(id: UUID4, db: AsyncSession) -> dict:
+async def get_user_profile(user_id: UUID4, db: AsyncSession) -> dict:
     query = (
         select(
             user_table,
@@ -37,7 +37,7 @@ async def get_user(id: UUID4, db: AsyncSession) -> dict:
         .join(wantplay_table, onclause=wantplay_table.c.user_id == user_table.c.id, isouter=True)
         .join(wantplay_game_table, onclause=wantplay_game_table.c.list_id == wantplay_table.c.id, isouter=True)
         .group_by(user_table)
-        .where(user_table.c.id == id)
+        .where(user_table.c.id == user_id)
     )
     result = await db.execute(query)
     return result.all()

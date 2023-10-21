@@ -18,7 +18,6 @@ from games_library_api.integrations.list_operations import (
     create_list,
     delete_user_list,
     get_all_list,
-    get_all_non_private_lists,
     get_list_data,
     get_list_games,
     get_list_info,
@@ -34,17 +33,20 @@ from games_library_api.services.cover_upload import save_upload_cover
 router = APIRouter()
 
 
-@router.post('/list/create/')
+@router.post('/list/create')
 async def create_list_route(
     title: str,
     description: Optional[str],
     is_private: Optional[bool],
-    img: UploadFile = None, 
+    img: Optional[UploadFile | str], 
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
-    img_bytes = img.file.read()
-    base64_string= base64.b64encode(img_bytes).decode('utf-8')
+    if img != 'null':
+        img_bytes = img.file.read()
+        base64_string= base64.b64encode(img_bytes).decode('utf-8')
+    if img == 'null':
+        base64_string=None
     result = await create_list(db=db, owner_id=user.id,  username=user.username,cover=base64_string, title=title, description=description, is_private=is_private)
     if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')
@@ -82,17 +84,6 @@ async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) ->
     return result
 
 
-@router.get('/lists/user/all/', response_model=list[list_model.AllListsResponseModel])
-async def get_all_non_private_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
-    result = await get_all_non_private_lists(db=db)
-    if not result:
-        error = error_model.ErrorResponseModel(details='No Data')
-        return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-
-    return result
 
 
 @router.post('/lists/add_game_to_user_list')

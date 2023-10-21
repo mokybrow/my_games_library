@@ -50,7 +50,7 @@ const RegForm: FC = () => {
         } catch (error) {
         }
     };
-    
+
     const uniqUsername = async (username: string) => {
         try {
             const response = await AuthService.getUserbyUsername(username)
@@ -77,78 +77,80 @@ const RegForm: FC = () => {
     };
 
     return (
-        <div className="form-container">
-            <form action="#" onSubmit={handleSubmit(onSubmit, error)}>
-                <input  {...register("email", {
-                    validate: uniqEmail,
-                    pattern: {
-                        value: /\S+@\S+\.\S+/,
-                        message: "Введите почту в формате user@example.com"
-                    },
-                    required: {
-                        value: true,
-                        message: 'Поле не может быть пустым'
-                    },
-                },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' />
+       
+            <div className="form-container">
+                <form action="#" onSubmit={handleSubmit(onSubmit, error)} className='form-style'>
+                    <input  {...register("email", {
+                        validate: uniqEmail,
+                        pattern: {
+                            value: /\S+@\S+\.\S+/,
+                            message: "Введите почту в формате user@example.com"
+                        },
+                        required: {
+                            value: true,
+                            message: 'Поле не может быть пустым'
+                        },
+                    },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' />
 
-                {errors.email && <p className='error-alert' role="alert">{errors?.email?.message || "Пользователь с такой почтой существует"}</p>}
-
-
-                <input  {...register("username", {
-                    validate: uniqUsername,
-                    required: {
-                        value: true,
-                        message: 'Поле не может быть пустым'
-                    },
-                    minLength: {
-                        value: 3,
-                        message: 'Имя пользователя не может быть короче 3 символов'
-                    }
-                },)} onChange={e => setUsername(e.target.value)} placeholder='Username' className='text-field-input' />
-                {errors.username && <p className='error-alert' role="alert">{errors?.username?.message || "Пользователь с таким именем существует"}</p>}
+                    {errors.email && <p className='error-alert' role="alert">{errors?.email?.message || "Пользователь с такой почтой существует"}</p>}
 
 
-                <input {...register("name", {
-                    required: {
-                        value: true,
-                        message: "Поле не может быть пустым"
-                    },
-                    minLength: {
-                        value: 2,
-                        message: 'Имя пользователя не может быть короче 2 символов'
-                    }
-                })} onChange={e => setName(e.target.value)} placeholder='Name' className='text-field-input' />
-                {errors.name && <p className='error-alert' role="alert">{errors?.name?.message}</p>}
-
-                <input type={passwordShown ? "text" : "password"} {...register("password", {
-                    required: {
-                        value: true,
-                        message: "Поле не может быть пустым"
-                    },
-                    minLength: {
-                        value: 8,
-                        message: 'Придумайте надёжный пароль'
-                    }
-                })} onChange={e => setPassword(e.target.value)} placeholder='Password' className='text-field-input' />
-                {errors.password && <p className='error-alert' role="alert">{errors?.password?.message || "Пароли не совпадают"}</p>}
+                    <input  {...register("username", {
+                        validate: uniqUsername,
+                        required: {
+                            value: true,
+                            message: 'Поле не может быть пустым'
+                        },
+                        minLength: {
+                            value: 3,
+                            message: 'Имя пользователя не может быть короче 3 символов'
+                        }
+                    },)} onChange={e => setUsername(e.target.value)} placeholder='Username' className='text-field-input' />
+                    {errors.username && <p className='error-alert' role="alert">{errors?.username?.message || "Пользователь с таким именем существует"}</p>}
 
 
-                <input type={passwordShown ? "text" : "password"} {...register("confPassword", {
-                    validate: confPasswordCheck,
-                    required: {
-                        value: true,
-                        message: "Поле не может быть пустым"
-                    },
-                })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' />
-                {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message || "Пароли не совпадают"}</p>}
+                    <input {...register("name", {
+                        required: {
+                            value: true,
+                            message: "Поле не может быть пустым"
+                        },
+                        minLength: {
+                            value: 2,
+                            message: 'Имя пользователя не может быть короче 2 символов'
+                        }
+                    })} onChange={e => setName(e.target.value)} placeholder='Name' className='text-field-input' />
+                    {errors.name && <p className='error-alert' role="alert">{errors?.name?.message}</p>}
 
-                <div className="show-password-container">
-                    <p>Показать пароль</p>
-                    <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
-                </div>
-                <button className='form-button' type='submit'>Зарегистрироваться</button>
-            </form>
-        </div>
+                    <input type={passwordShown ? "text" : "password"} {...register("password", {
+                        required: {
+                            value: true,
+                            message: "Поле не может быть пустым"
+                        },
+                        minLength: {
+                            value: 8,
+                            message: 'Придумайте надёжный пароль'
+                        }
+                    })} onChange={e => setPassword(e.target.value)} placeholder='Password' className='text-field-input' />
+                    {errors.password && <p className='error-alert' role="alert">{errors?.password?.message || "Пароли не совпадают"}</p>}
+
+
+                    <input type={passwordShown ? "text" : "password"} {...register("confPassword", {
+                        validate: confPasswordCheck,
+                        required: {
+                            value: true,
+                            message: "Поле не может быть пустым"
+                        },
+                    })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' />
+                    {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message || "Пароли не совпадают"}</p>}
+
+                    <div className="show-password-container">
+                        <p>Показать пароль</p>
+                        <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
+                    </div>
+                    <button className='form-button' type='submit'>Зарегистрироваться</button>
+                </form>
+            </div>
+
     )
 }
 

@@ -50,7 +50,7 @@ const ChangePersonalDataForm: FC = () => {
                     onChange={e => setName(e.target.value)}
                     placeholder={auth_store.user.name}
                     className='user-settings-text-field-input' />
-                {errors.Name && <p className='error-alert-settings' role="alert">{errors?.Name?.message || "Не верный текущий пароль"} </p>}
+                {errors.Name && <p className='error-alert-settings' role="alert">{errors?.Name?.message } </p>}
             </div>
 
             <div className="password-container">
@@ -61,7 +61,7 @@ const ChangePersonalDataForm: FC = () => {
                     onChange={e => setSurname(e.target.value)}
                     placeholder={auth_store.user.surname || "Surname"}
                     className='user-settings-text-field-input' />
-                {errors.Surname && <p className='error-alert-settings' role="alert">{errors?.Surname?.message || "Пароли не совпадают"}</p>}
+                {errors.Surname && <p className='error-alert-settings' role="alert">{errors?.Surname?.message}</p>}
             </div>
             <div className="password-container">
                 <select name="hero" onChange={e => setSex(e.target.value)} className="select-css" >

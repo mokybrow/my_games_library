@@ -54,14 +54,7 @@ export default class GameService {
             })
     }
 
-    static async getUserGames(user_id: string): Promise<AxiosResponse<UserActivityResponse[]>> {
-        return $api.get<UserActivityResponse[]>(`/last/game/${user_id}`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-    }
+
     static async getGamesReviewUnAuth(id: string): Promise<AxiosResponse<GameReviews[]>> {
         return $api.get<GameReviews[]>(`game/${id}/reviews/all`,
             {

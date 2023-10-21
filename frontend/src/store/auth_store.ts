@@ -14,7 +14,7 @@ export default class AuthStore {
     isLoading = false;
     reviews = [] as UserLastReviews[];
     loginError = false;
-    userImg = '';
+
     list = [] as UserListsResponse[]
     addedList = [] as UserListsResponse[]
 
@@ -28,9 +28,7 @@ export default class AuthStore {
     setReviews(reviews: UserLastReviews[]) {
         this.reviews = reviews;
     }
-    setUserImg(user: string) {
-        this.userImg = user;
-    }
+
     setAuth(bool: boolean) {
         this.isAuth = bool;
     }
@@ -74,7 +72,7 @@ export default class AuthStore {
             const response = await AuthService.login(username, password);
             saveLocalToken(response.data.access_token);
             this.setAuth(true);
-            const getMe = await AuthService.getUserInfo();
+            const getMe = await AuthService.getMyProfile();
             this.setUser(getMe.data);
             this.setLoginError(false);
         } catch (e) {
@@ -102,18 +100,38 @@ export default class AuthStore {
         } catch (e) {
         }
     }
-
     async checkAuth() {
         this.setLoading(true);
         try {
-
-            const response = await AuthService.getUserInfo();
+            const response = await AuthService.getMyProfile();
             this.setUser(response.data)
             this.setAuth(true);
 
         } catch (error) {
 
+        } finally {
+            this.setLoading(false);
+        }
+        return this.user.username
+    }
+    async getMyProfileFunc() {
+        this.setLoading(true);
+        try {
+            const game = await UserService.getuserActivityGames(this.user.id)
+            this.setGames(game.data)
+        } catch (error) {
+
         } try {
+            const reviews = await UserService.getUserReviews(this.user.id)
+            this.setReviews(reviews.data)
+        } catch (error) {
+
+        } finally {
+            this.setLoading(false);
+        }
+    }
+    async getUserLists(){
+        try {
             const lists = await UserService.getUserLists(this.user.id)
             this.setLists(lists.data)
         } catch (error) {
@@ -123,24 +141,6 @@ export default class AuthStore {
             this.setAddedLists(anotherLists.data)
         } catch (error) {
 
-        } try {
-            const img = await UserService.getUserImg(this.user.id)
-            this.setUserImg(img.data.img)
-
-        } catch (error) {
-
-        } try {
-            const game = await GameService.getUserGames(this.user.id)
-            this.setGames(game.data)
-        } catch (error) {
-
-        } try {
-            const reviews = await UserService.getUserReviews(this.user.id)
-            this.setReviews(reviews.data)
-        } catch (error) {
-
-        }  finally {
-            this.setLoading(false);
-        }
+        } 
     }
 }

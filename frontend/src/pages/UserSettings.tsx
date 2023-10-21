@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useState } from 'react'
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react'
 import { Context } from '..';
 import { FormattedMessage } from 'react-intl';
 import { useForm } from 'react-hook-form';
@@ -7,16 +7,29 @@ import { useDropzone } from 'react-dropzone';
 import AuthService from '../service/AuthService';
 import ChangePassForm from '../components/ChangePassForm';
 import ChangePersonalDataForm from '../components/ChangePersonalDataForm';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const UserSettings: FC = () => {
 
-    const [name, setName] = useState<string>('');
-    const [surname, setSurname] = useState<string>('');
-    const [confPassword, setConfPassword] = useState<string>('');
     const { auth_store } = useContext(Context);
-    const [passwordShown, setPasswordShown] = useState(false);
     const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+    const { username } = useParams<string>();
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        const checkUsername = async () => {
+            const response = await auth_store.checkAuth()
+
+            return response
+        }
+        checkUsername().then(function (value: any) {
+
+            auth_store.getMyProfileFunc()
+
+        })
+
+    }, [])
 
     const onDrop = useCallback((acceptedFiles: Array<File>) => {
         const file = new FileReader;
@@ -44,15 +57,19 @@ const UserSettings: FC = () => {
         if (typeof acceptedFiles[0] === 'undefined') return;
         window.location.reload();
     }
-    
+
     if (!auth_store.checkAuth) {
         return (
             <section className='list-create-page'>
                 <div className='list-create-grid-container'>
-                    Войдите, чтобы создавать свои списки
+                    Этот раздел доступен только авторизованным пользователям
                 </div>
             </section>
         )
+    }
+
+    if (auth_store.isAuth && auth_store.user.username !== username) {
+        navigate("/");
     }
 
     return (

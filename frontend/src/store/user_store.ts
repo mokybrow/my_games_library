@@ -12,7 +12,6 @@ export default class UserStore {
     isAuth = false;
     isLoading = false;
     user = {} as AUser;
-    userImg = '';
     userActivity = [] as UserActivityResponse[];
     reviews = [] as UserLastReviews[];
     isFollower = false;
@@ -27,9 +26,6 @@ export default class UserStore {
         this.user = user;
     }
 
-    setAUserImg(user: string) {
-        this.userImg = user;
-    }
 
     setGames(games: UserActivityResponse[]) {
         this.userActivity = games;
@@ -73,14 +69,7 @@ export default class UserStore {
             const err = error as AxiosError
         } try {
 
-            const img = await UserService.getUserImg(this.user.id)
-            this.setAUserImg(img.data.img)
-
-        } catch (error) {
-
-        } try {
-
-            const lists = await UserService.getUserNoPrivateLists(this.user.id)
+            const lists = await UserService.getUserNotPrivateLists(this.user.id)
             this.setLists(lists.data)
 
         } catch (error) {
@@ -93,7 +82,7 @@ export default class UserStore {
         } catch (error) {
 
         } try {
-            const game = await GameService.getUserGames(this.user.id)
+            const game = await UserService.getuserActivityGames(this.user.id)
             this.setGames(game.data)
 
         } catch (error) {

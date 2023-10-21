@@ -21,8 +21,8 @@ export default class AuthService {
         return $api.post<RegResponse>('/auth/register', { email: email, password: password, username: username, name: name })
     }
 
-    static async getUserInfo(): Promise<AxiosResponse<IUser>> {
-        return $api.get<IUser>(`${API_URL}username`)
+    static async getMyProfile(): Promise<AxiosResponse<IUser>> {
+        return $api.get<IUser>(`/user/my/profile`)
     }
 
     static async getUserProfile(username: string): Promise<AxiosResponse<AUser>> {
@@ -38,7 +38,15 @@ export default class AuthService {
     }
 
     static async changeUserData(password: string, name: string, surname: string, sex: string): Promise<AxiosResponse> {
-
+        console.log(password)
+        if (password == ' '){
+            return $api.patch(`${API_URL}users/me`,
+            {
+                name: name,
+                surname: surname,
+                gender: sex,
+            },)
+        }
         return $api.patch(`${API_URL}users/me`,
         {
             password: password,

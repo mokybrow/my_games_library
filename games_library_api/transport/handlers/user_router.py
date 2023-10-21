@@ -17,13 +17,14 @@ from games_library_api.integrations.list_operations import (
     get_passed_game,
     get_user_added,
     get_user_list,
+    get_user_not_private_list,
     get_wantplay_game,
 )
 from games_library_api.integrations.user_operations import (
     check_follow,
     follow_unfollow_on_user,
     get_another_user,
-    get_user,
+    get_user_profile,
     get_user_activity,
     get_user_by_email,
     get_user_by_username,
@@ -40,10 +41,9 @@ router = APIRouter()
 settings = get_settings()
 
 
-@router.get('/username', response_model=users_model.PrivateUserResponseModel)
+@router.get('/user/my/profile', response_model=users_model.PrivateUserResponseModel)
 async def user_profile(db: AsyncSession = Depends(get_async_session), user: User = Depends(current_active_user)) -> Any:
-    result = await get_user(id=user.id, db=db)
-
+    result = await get_user_profile(user_id=user.id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
@@ -105,7 +105,22 @@ async def get_user_lists_router(
     return result
 
 
-@router.get('/{user_id}/added/lists', response_model=list[list_model.ListResponseModel])
+@router.get('/user/lists/private/all', response_model=list[list_model.ListResponseModel])
+async def get_user_private_lists_router(
+    user_id: UUID4,
+    db: AsyncSession = Depends(get_async_session),
+) -> Any:
+    result = await get_user_not_private_list(db=db, user_id=user_id)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return result
+
+@router.get('/user/added/lists', response_model=list[list_model.ListResponseModel])
 async def get_user_added_lists(
     user_id: str,
     db: AsyncSession = Depends(get_async_session),
@@ -202,7 +217,7 @@ async def check_follow_route(
     )
 
 
-@router.get('/last/game/{user_id}', response_model=list[game_model.GetUserLastGameResponseModel])
+@router.get('/user/get/activity/', response_model=list[game_model.GetUserLastGameResponseModel])
 async def get_user_activity_router(
     user_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -222,17 +237,6 @@ async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(g
     result = await get_user_last_reviews(user_id=user_id, db=db)
 
     return result
-
-
-@router.get('/user/get/img', response_model=users_model.UserImg)
-async def get_user_img_router(id: UUID4, db: AsyncSession = Depends(get_async_session)):
-    result = await get_user_img(id=id, db=db)
-    return result[0]
-    # if result:
-    #     if result[0][0] != None:
-    #         with open(result[0][0], 'rb') as f:
-    #             base64image = base64.b64encode(f.read())
-    # return {'img': base64image}
 
 
 @router.post('/user/change/img')

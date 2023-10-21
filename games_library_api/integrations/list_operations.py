@@ -2,7 +2,7 @@ import base64
 import datetime
 import uuid
 
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import UUID4
 from sqlalchemy import delete, insert, select, update
@@ -26,7 +26,7 @@ from games_library_api.schemas.database import (
 from games_library_api.services.list_slug import making_slug
 
 
-async def create_list(db: AsyncSession, owner_id: UUID4,cover: str, username: str, title: str, description:str, is_private: bool) -> bool:
+async def create_list(db: AsyncSession, owner_id: UUID4,cover: Optional[str] , username: str, title: str, description:str, is_private: bool) -> bool:
     query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     if result.all():
@@ -70,11 +70,13 @@ async def get_user_list(db: AsyncSession, user_id: UUID4) -> Any:
     result =  result.all()
     return result
 
-async def get_all_non_private_lists(db: AsyncSession, user_id: UUID4) -> Any:
+
+async def get_user_not_private_list(db: AsyncSession, user_id: UUID4) -> Any:
     query = select(list_table).where(list_table.c.owner_id == user_id).filter(list_table.c.is_private == False)
     result = await db.execute(query)
     result =  result.all()
     return result
+
 
 async def get_user_added(db: AsyncSession, user_id: UUID4) -> Any:
     query = (

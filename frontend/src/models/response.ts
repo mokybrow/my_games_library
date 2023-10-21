@@ -136,9 +136,6 @@ export interface GameAvgRate {
 }
 
 
-export interface ListCreateResponse {
-    detail:  boolean;
-}
 
 export interface UserListsResponse{
     id: string,

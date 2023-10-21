@@ -21,7 +21,7 @@ const RegPage: FC = () => {
     navigate("/");
   } else {
     return (
-      <section className='reg-page-section'>
+      <section className='auth-section'>
         <RegForm />
       </section>)
   }

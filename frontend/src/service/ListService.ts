@@ -1,15 +1,20 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, ListCreateResponse, ListsGameResponse, RegEmailCheck, RegResponse, UserListsResponse, checkAddedListsGameResponse } from "../models/response";
+import { AUser, AuthResponse, IUser, ListsGameResponse, RegEmailCheck, RegResponse, UserListsResponse, checkAddedListsGameResponse } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
 export default class ListService {
 
-    static async createList(title: string, description: string, is_private: boolean, img: any): Promise<AxiosResponse<ListCreateResponse>> {
+    static async createList(title: string, description: string, is_private: boolean, img: any): Promise<AxiosResponse> {
         const formData = new FormData();
         formData.set('img', img);
-        return $api.post<ListCreateResponse>(`/list/create/`, formData,
+
+        return $api.post(`list/create`, formData,
             {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                },
                 params: {
                     title: title,
                     description: description,
@@ -19,7 +24,7 @@ export default class ListService {
     }
 
     static async approveCreateList(title: string,) {
-        return $api.get<ListCreateResponse>(`/list/approve/create`,
+        return $api.get(`/list/approve/create`,
             {
                 params: {
                     title: title,
@@ -27,30 +32,18 @@ export default class ListService {
             },)
     }
 
-    static async addListCover(list_id: string, img: any): Promise<AxiosResponse> {
-        const formData = new FormData();
-        formData.set('img', img);
-        return $api.post('/list/add_cover/', formData,
+
+    static async getUserLists(name: string, description: string, is_private: boolean): Promise<AxiosResponse> {
+        return $api.get(`/lists/user/all/`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
                 params: {
-                    list_id: list_id,
+                    name: name,
+                    description: description,
+                    is_private: is_private,
                 }
-            })
-    }
-
-
-    static async getUserLists(name: string, description: string, is_private: boolean): Promise<AxiosResponse<ListCreateResponse>> {
-        return $api.post<ListCreateResponse>(`/lists/user/all/`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                name: name,
-                description: description,
-                is_private: is_private,
             },)
     }
 
@@ -70,15 +63,15 @@ export default class ListService {
 
     static async getListData(slug: string): Promise<AxiosResponse<UserListsResponse>> {
         return $api.get<UserListsResponse>(`/list/data`,
-        {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            params: {
-                slug: slug
-            }
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                params: {
+                    slug: slug
+                }
 
-        },)
+            },)
     }
 
     static async checkAdded(slug: string, user_id: string): Promise<AxiosResponse<checkAddedListsGameResponse>> {

@@ -13,10 +13,21 @@ const UserListsPage: FC = () => {
     const { username } = useParams<string>();
 
     useEffect(() => {
-        user_store.findUser(String(username))
-        if (localStorage.getItem('token')) {
-            auth_store.checkAuth()
+        const checkUsername = async () => {
+            const response = await auth_store.checkAuth()
+
+            return response
         }
+        checkUsername().then(function (value: any) {
+            if (value !== String(username)) {
+                user_store.findUser(String(username))
+                console.log('Это не я')
+            }
+            else {
+                auth_store.getUserLists()
+            }
+        })
+
     }, [])
 
     if (auth_store.isLoading === true || user_store.isLoading === true) {
@@ -33,7 +44,7 @@ const UserListsPage: FC = () => {
         )
     }
 
-    if (auth_store.user.username !== user_store.user.username) {
+    if ((auth_store.isAuth && auth_store.user.username !== username) || (!auth_store.isAuth)) {
 
         return (
             <section className='other-page-section'>

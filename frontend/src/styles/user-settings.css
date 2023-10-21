@@ -76,36 +76,28 @@
     padding: 10px;
     border: none;
     width: 100%;
-    border: 1px solid var(--font-color-global);
-    /* 
-    -webkit-box-shadow: 1px 1px 16px -2px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 1px 1px 16px -2px rgba(0, 0, 0, 0.15);
-    box-shadow: 1px 1px 16px -2px rgba(0, 0, 0, 0.15); */
     border-radius: 50px;
-    background-color: var(--text-input-color);
+    background-color: var(--buttons-color);
     transition: background-color 200ms linear;
     color: var(--font-color-global)
 }
 
-
 .settings-form-button {
-    text-align: center;
-    align-items: center;
-    cursor: pointer;
-    width: 10em;
-    background-color: var(--button-color);
-    padding: 10px;
-    border: 1px solid var(--font-color-global);
-    color: #CFCFCF;
+    margin-left: auto;
+    padding: 0.6em;
+    background-color: var(--buttons-color);
+    color: var(--font-color-global);
     border-radius: 50px;
-    display: flex;
-    flex-direction: column;
-    transition: background-color 200ms linear;
+    border: none;
+    cursor: pointer;
+    transition: all 200ms linear;
+    font-weight: 600;
+    width: 100%;
 }
 
 .settings-form-button:hover {
-    background-color: var(--button-hover);
-    color: var(--font-color-global);
+    background-color: #1349C9;
+    color: #CFCFCF;
     transition: all 200ms linear;
 }
 
@@ -165,8 +157,8 @@
     .user-settings-grid-container {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-        margin-top: 140px;
-        margin-bottom: 140px;
+        margin-top: 80px;
+        margin-bottom: 80px;
         padding: 0 6vw;
         grid-gap: 20px 24px;
         width: 100%;

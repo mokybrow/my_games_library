@@ -1,48 +1,13 @@
-.list-create-page{
-    display: flex;
-    max-width: 100vw;
-    overflow-y: hidden;
-}
 
-.list-create-grid-container{
+.list-create-section{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    margin-top: 140px;
-    margin-bottom: 140px;
-    padding: 0 14vw;
     grid-gap: 20px 24px;
-    width: 100%;
-}
-
-.create-list-form-container{
-    background-color:var(--background-card-color);
-    grid-column: 1/7;
-    padding: 1em;
-    border-radius: 6px;
-}
-
-.upload-list-cover-filed-container {
-    display: flex;
-    border: 2px solid var(--font-color-global);
-    border-radius: 6px;
-    height: 50px;
-    padding: 1em;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    height: 4em;
-}
-
-.list-create-input-container{
-    margin: 1em 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-}
-
-.list-create-form{
-    margin: 1em 0;
+    align-items: stretch;
+    padding: 0 14vw;
+    padding-top: 140px;
+    padding-bottom: 80px;
+    min-height: 100vh;
 }
 
 .list-create-cover-container {
@@ -65,28 +30,4 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-.list-private-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    font-weight: 600;
-}
-
-.error-handler-message{
-    grid-column: 1/7;
-}
-
-@media (max-width: 800px) {
-    .list-create-grid-container{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-        margin-top: 140px;
-        margin-bottom: 140px;
-        padding: 0 6vw;
-        grid-gap: 20px 24px;
-        width: 100%;
-    }
 }

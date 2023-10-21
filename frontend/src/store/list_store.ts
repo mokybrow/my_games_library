@@ -88,7 +88,7 @@ export default class ListStore {
     async addDeleteList(slug: string) {
         this.setLoading(true);
         try {
-            const user_data = await AuthService.getUserInfo();
+            const user_data = await AuthService.getMyProfile();
             await ListService.AddDeleteListToMy(slug, user_data.data.id);
         } catch (error) {
             const err = error as AxiosError
