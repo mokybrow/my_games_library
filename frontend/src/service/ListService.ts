@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, IUser, ListsGameResponse, RegEmailCheck, RegResponse, UserListsResponse, checkAddedListsGameResponse } from "../models/response";
+import { AUser, AuthResponse, GamesCountResponse, IUser, ListsGameResponse, RegEmailCheck, RegResponse, UserListsResponse, checkAddedListsGameResponse } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
@@ -101,5 +101,14 @@ export default class ListService {
                 game_id
             }
         })
+    }
+
+    static async getAllLists(): Promise<AxiosResponse<UserListsResponse[]>> {
+        return $api.get<UserListsResponse[]>(`/lists/all`)
+    }
+
+    static async geListsCount(): Promise<AxiosResponse<GamesCountResponse>> {
+        return $api.get<GamesCountResponse>(` /lists/all/page/count`)
+       
     }
 }

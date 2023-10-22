@@ -5,7 +5,7 @@ import uuid
 from typing import Any, Optional
 
 from pydantic import UUID4
-from sqlalchemy import delete, insert, select, update
+from sqlalchemy import delete, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.models.list_model import CreateListModel
@@ -58,11 +58,17 @@ async def approve_create_list(db: AsyncSession,  username: str, title: str) -> b
 
 
 async def get_all_list(db: AsyncSession) -> Any:
-    query = select(list_table.c.id, list_table.c.slug, list_table.c.title, list_table.c.cover).filter(list_table.c.is_private == False)
+    query = select(list_table).filter(list_table.c.is_private == False)
     result = await db.execute(query)
     result =  result.all()
     return result
 
+async def get_all_list_count(db: AsyncSession) -> Any:
+    query = select(func.count("*")).select_from(list_table)
+    result = await db.execute(query)
+    result = result.all()
+    print(result)
+    return result
 
 async def get_user_list(db: AsyncSession, user_id: UUID4) -> Any:
     query = select(list_table).where(list_table.c.owner_id == user_id)

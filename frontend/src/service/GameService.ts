@@ -46,11 +46,14 @@ export default class GameService {
             })
     }
     static async getGameBySlug(slug: string): Promise<AxiosResponse<GameProfileResponse>> {
-        return $api.get<GameProfileResponse>(`/game/${slug}`,
+        return $api.get<GameProfileResponse>(`/game/get/profile`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                params: {
+                    slug: slug,
+                }
             })
     }
 
@@ -82,7 +85,7 @@ export default class GameService {
     }
 
     static async addReview(id: string, grade: number, comment: string | null): Promise<AxiosResponse> {
-        return $api.post(`game/add_review/`, null, {
+        return $api.post(`review/add`, null, {
             params: {
                 game_id: id,
                 grade: grade,
@@ -91,90 +94,102 @@ export default class GameService {
         })
     }
 
-    static async getUserGrade(id: string): Promise<AxiosResponse<userGrade>> {
-        return $api.get<userGrade>(`game/get_user_rate/game_id/${id}`,
+    static async getUserGrade(game_id: string): Promise<AxiosResponse<userGrade>> {
+        return $api.get<userGrade>(`review/game/user/grade`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'accept': 'application/json'
                 },
+                params: {
+                    game_id: game_id,
+                }
             })
     }
 
     static async checkInPassedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`check/game_in_passed_list/${game_id}`,
+        return $api.get(`/list/check/in_passed`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'accept': 'application/json'
                 },
-            })
-    }
-    static async checkInWantedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`check/game_in_wanted_list/${game_id}`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
+                params: {
+                    game_id: game_id,
+                }
             })
     }
     static async checkInLikedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`check/game_in_liked_list/${game_id}`,
+        return $api.get(`/list/check/in_liked`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'accept': 'application/json'
                 },
+                params: {
+                    game_id: game_id,
+                }
+            })
+    }
+    static async checkInWantedList(game_id: string): Promise<AxiosResponse> {
+        return $api.get(`/list/check/in_wishlish`,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'accept': 'application/json'
+                },
+                params: {
+                    game_id: game_id,
+                }
             })
     }
 
-    static async operationWithWanted(game_id: string): Promise<AxiosResponse> {
-        return $api.post(`lists/operation/wantplay/${game_id}`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-            })
-    }
     static async operationWithPassed(game_id: string): Promise<AxiosResponse> {
-        return $api.post(`lists/operation/passed/${game_id}`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-            })
+        return $api.post(`list/operation/passed`, null, {
+            params: {
+                game_id: game_id,
+
+            }
+        })
     }
     static async operationWithLiked(game_id: string): Promise<AxiosResponse> {
-        return $api.post(`lists/operation/liked/${game_id}`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-            })
+        return $api.post(`list/operation/liked`, null, {
+            params: {
+                game_id: game_id,
+
+            }
+        })
+    }
+    static async operationWithWanted(game_id: string): Promise<AxiosResponse> {
+        return $api.post(`list/operation/wishlish`, null, {
+            params: {
+                game_id: game_id,
+
+            }
+        })
     }
 
+
     static async deleteUserRate(game_id: string): Promise<AxiosResponse> {
-        return $api.delete(`game/delete/review/${game_id}`,
+        return $api.delete(`review/delete`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'accept': 'application/json'
                 },
+                params: {
+                    game_id: game_id,
+                }
             })
     }
 
     static async likeToUserComment(review_id: string): Promise<AxiosResponse> {
-        return $api.post(`game/like/user/review/${review_id}`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-            })
+        return $api.post(`review/like/user/review`, null, {
+            params: {
+                review_id: review_id,
+
+            }
+        })
     }
 
     // static async getUserWantedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {

@@ -17,7 +17,7 @@
     background-color: var(--background-card-color);
     padding: 1em;
     border-radius: 6px;
-    transform: scale(0.5);
+    transform: scale(1.2);
     width: 50vw;
     transition: all 200ms linear;
     display: flex;

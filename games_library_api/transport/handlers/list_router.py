@@ -18,6 +18,7 @@ from games_library_api.integrations.list_operations import (
     create_list,
     delete_user_list,
     get_all_list,
+    get_all_list_count,
     get_list_data,
     get_list_games,
     get_list_info,
@@ -71,7 +72,7 @@ async def approve_create_list_router(title: str,user: User = Depends(current_act
     return {'detail': True}
 
 
-@router.get('/lists/all/', response_model=list[list_model.AllListsResponseModel])
+@router.get('/lists/all/', response_model=list[list_model.ListResponseModel])
 async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_all_list(db=db)
     if not result:
@@ -83,7 +84,17 @@ async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) ->
 
     return result
 
+@router.get('/lists/all/page/count', response_model=game_model.GetGamesCountResponseModel)
+async def get_all_list_count_router(db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_all_list_count(db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
 
+    return result[0]
 
 
 @router.post('/lists/add_game_to_user_list')
@@ -96,7 +107,7 @@ async def add_game_to_user_list_router(
     await add_game_to_user_list(db=db, list_id=list_id, game_id=game_id)
 
 
-@router.post('/lists/operation/passed/{game_id}')
+@router.post('/list/operation/passed')
 async def universal_passed_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -109,7 +120,21 @@ async def universal_passed_router(
     return {'Game added': 'Success'}
 
 
-@router.post('/lists/operation/wantplay/{game_id}')
+
+@router.post('/list/operation/liked')
+async def universal_liked_router(
+    game_id: UUID4,
+    db: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_active_user),
+):
+    result = await universal_game_liked(db=db, user_id=user.id, game_id=game_id)
+    if not result:
+        return {'Game deleted': 'Success'}
+
+    return {'Game added': 'Success'}
+
+
+@router.post('/list/operation/wishlish')
 async def universal_wantplay_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -121,18 +146,6 @@ async def universal_wantplay_router(
 
     return {'Game added': 'Success'}
 
-
-@router.post('/lists/operation/liked/{game_id}')
-async def universal_liked_router(
-    game_id: UUID4,
-    db: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_active_user),
-):
-    result = await universal_game_liked(db=db, user_id=user.id, game_id=game_id)
-    if not result:
-        return {'Game deleted': 'Success'}
-
-    return {'Game added': 'Success'}
 
 
 @router.delete('/list/delete/')
@@ -186,10 +199,10 @@ async def ist_games_router(
         db=db,
     )
     if not result:
-        error = error_model.ErrorResponseModel(details='User have no activity')
+        error = error_model.ErrorResponseModel(details='No Data')
         return JSONResponse(
             content=error.model_dump(),
-            status_code=status.HTTP_200_OK,
+            status_code=status.HTTP_404_NOT_FOUND,
         )
     return result
 
@@ -237,35 +250,51 @@ async def list_data_router(
     return result[0]
 
 
-@router.get('/check/game_in_passed_list/{game_id}')
-async def check_game_in_passed_lists(
+@router.get('/list/check/in_passed')
+async def check_game_in_passed_list(
     game_id: UUID4,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
     result = await check_game_in_user_passed(game_id=game_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
     return result
 
-
-@router.get('/check/game_in_liked_list/{game_id}')
-async def check_game_in_liked_lists(
+@router.get('/list/check/in_liked')
+async def check_game_in_liked_list(
     game_id: UUID4,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
     result = await check_game_in_user_liked(game_id=game_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
     return result
 
 
-@router.get('/check/game_in_wanted_list/{game_id}')
-async def check_game_in_wanted_lists(
+@router.get('/list/check/in_wishlish')
+async def check_game_in_wishlish_list(
     game_id: UUID4,
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
     result = await check_game_in_user_wantplay(game_id=game_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
     return result
-
 
 @router.get('/list/data', response_model=list_model.ListResponseModel)
 async def get_list_data_router(    

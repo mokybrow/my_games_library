@@ -12,22 +12,25 @@ export default class ListStore {
     isAuth = false;
     isLoading = false;
     addedList = false;
-    anotherUser = {} as AUser;
+
     anotherUserImg = '';
     userActivity = [] as UserActivityResponse[];
     reviews = [] as UserLastReviews[];
     isFollower = false;
     ListsGames = [] as ListsGameResponse[];
-
+    pageCount = 0;
     listData = {} as UserListsResponse;
+
+    allLists = [] as UserListsResponse[];
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    setAUser(user: AUser) {
-        this.anotherUser = user;
+    setPageCount(count: number) {
+        this.pageCount = count
     }
+
 
     setLoading(bool: boolean) {
         this.isLoading = bool;
@@ -45,6 +48,10 @@ export default class ListStore {
         this.ListsGames = games
     }
 
+    setAllLists(allLists: UserListsResponse[]) {
+        this.allLists = allLists
+    }
+
 
     async CreateList(name: string, desctiption: string, isPrivate: boolean, img: any) {
         this.setLoading(true);
@@ -59,7 +66,7 @@ export default class ListStore {
         }
     }
 
-    async getListPageGames( slug: string) {
+    async getListPageGames(slug: string) {
         this.setLoading(true);
         try {
             const list = await ListService.getListData(slug)
@@ -96,5 +103,28 @@ export default class ListStore {
             this.setLoading(false);
         }
 
+    }
+    async getPageCount() {
+        this.setLoading(true);
+        try {
+            const response = await ListService.geListsCount();
+            this.setPageCount(response.data.count / 36)
+
+        } catch (error) {
+            //const err = error as AxiosError
+        } finally {
+            this.setLoading(false);
+        }
+    }
+    async getAllLists() {
+        this.setLoading(true);
+        try {
+            const allLists = await ListService.getAllLists();
+            this.setAllLists(allLists.data)
+        } catch (error) {
+            const err = error as AxiosError
+        } finally {
+            this.setLoading(false);
+        }
     }
 }

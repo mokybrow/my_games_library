@@ -10,7 +10,7 @@ from games_library_api.database import get_async_session
 from games_library_api.integrations.game_operations import (
     get_all_games,
     get_count_games,
-    get_game,
+    get_game_profile,
     get_game_avg_rate,
     get_game_review,
     get_game_review_for_all,
@@ -51,9 +51,9 @@ async def get_all_games_router(db: AsyncSession = Depends(get_async_session)):
     return result
 
 
-@router.get("/game/{slug}", response_model=game_model.GetGamesPageResponseModel)
-async def get_game_router(slug: str, db: AsyncSession = Depends(get_async_session)):
-    result = await get_game(slug=slug, db=db)
+@router.get("/game/get/profile", response_model=game_model.GetGamesPageResponseModel)
+async def get_game_router(slug: str,   db: AsyncSession = Depends(get_async_session)):
+    result = await get_game_profile(slug=slug,  db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='Game not Found')
         return JSONResponse(

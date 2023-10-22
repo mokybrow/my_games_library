@@ -126,7 +126,7 @@ const ListCreateForm: FC = () => {
 
                 {preview && (
 
-                    <div className="user-profile-cover-container">
+                    <div className="list-create-cover-container">
                         <img src={preview as string} alt="Upload preview" />
                     </div>
 

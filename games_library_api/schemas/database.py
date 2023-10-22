@@ -162,9 +162,18 @@ news_table = Table(
     Column('id', UUID, primary_key=True, default=uuid.uuid4()),
     Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
     Column('title', String, nullable=False),
+    Column('cover', String, nullable=True),
     Column('text', Text, nullable=False),
     Column('slug', String, nullable=False),
     Column('publishing', Boolean, default=False),
+)
+
+news_like_table = Table(
+    'news_like',
+    metadata,
+    Column('news_id', ForeignKey('news.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
 user_activity_table = Table(

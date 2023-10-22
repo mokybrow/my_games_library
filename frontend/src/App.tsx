@@ -5,7 +5,7 @@ import RegPage from './pages/RegPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 import Header from './components/Header';
-import { PlaylistsPage } from './pages/PlaylistsPage';
+
 import { NewsPage } from './pages/NewsPage';
 import { ReviewsPage } from './pages/ReviewsPage';
 import './styles/auth-forms.css'
@@ -21,6 +21,7 @@ import './styles/admin-page.css'
 import './styles/user-settings.css'
 import './styles/list-create.css'
 import './styles/lists-pages.css'
+import './styles/playlists.css'
 import GameProfile from './pages/GameProfile';
 import GamesPage from './pages/GamesPage';
 import AdminPage from './pages/AdminPage';
@@ -32,6 +33,7 @@ import GameInUserList from './pages/GameInUserList';
 import PlayedGamesPage from './pages/PlayedGamesPage';
 import LikedGamesPage from './pages/LikedGamesPage';
 import WantPlayGamePage from './pages/WantPlayGamePage';
+import PlaylistsPage from './pages/PlaylistsPage';
 
 
 

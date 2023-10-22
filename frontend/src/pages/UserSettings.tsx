@@ -32,7 +32,7 @@ const UserSettings: FC = () => {
     }, [])
 
     const onDrop = useCallback((acceptedFiles: Array<File>) => {
-        const file = new FileReader;
+        const file = new FileReader();
 
         file.onload = function () {
             setPreview(file.result);
@@ -109,7 +109,7 @@ const UserSettings: FC = () => {
 
                                     {preview && (
 
-                                        <div className="user-profile-cover-container">
+                                        <div className="user-profile-cover-container-settings">
                                             <img src={preview as string} alt="Upload preview" />
                                         </div>
 

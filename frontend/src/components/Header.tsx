@@ -97,7 +97,7 @@ const Header: FC = () => {
                                 <Link className="menu-link" to='/games?page=1'>
                                     <FormattedMessage id="header.menu.item1" />
                                 </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists'>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists?page=1'>
                                 <FormattedMessage id="header.menu.item2" />
                             </Link></li>
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/news'>

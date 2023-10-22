@@ -23,7 +23,7 @@ const GameProfile: FC = () => {
     const [actvie, setModalActive] = useState(false);
     const [rating, setRating] = useState<number>(0);
     const [hover, setHover] = useState(0);
-    const [comment, setComment] = useState<string>('');
+    const [comment, setComment] = useState<string | null>(null);
     const [isOpen, setOpen] = useState(false);
 
 
@@ -134,12 +134,13 @@ const GameProfile: FC = () => {
                                     onChange={e => setComment(e.target.value)} cols={40} rows={10} maxLength={400}>
 
                                 </textarea >
-                                <button className='window-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment('') } }}>Оставить отзывы</button>
+                                <button className='form-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment(null) } }}>Оставить отзывы</button>
 
-                                {games_store.userGrade?.grade > 0 || games_store.userGrade?.grade != null ? <div onClick={() => { { games_store.deleteReview(games_store.gameProfile.id, String(slug)) } { setComment('') } { setOpen(!isOpen) } { setRating(0) } }}
-                                    className={`window-button ${isOpen ? 'active' : ''}`}>
+                                {games_store.userGrade?.grade > 0 || games_store.userGrade?.grade != null ? 
+                                <button onClick={() => { { games_store.deleteReview(games_store.gameProfile.id, String(slug)) } { setComment(null) } { setOpen(!isOpen) } { setRating(0) } }}
+                                    className={`form-button ${isOpen ? 'active' : ''}`}>
                                     <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
-                                </div> : null}
+                                </button> : null}
                             </ModalWindow>
 
                         </>}
@@ -247,7 +248,7 @@ const GameProfile: FC = () => {
                     <hr className='drop-down-line-game-profile' />
                     <div className='reviews-comment-container'>
 
-                        {games_store.reviews?.map(x => <>{x.comment !== '' ?
+                        {games_store.reviews?.map(x => <>{x.comment !== null ?
                             <div className="comment-container" key={x.id}>
                                 <div className="inline-container">
                                     {x.img === null || x.img === '' ? <img className="user-in-comment-img" src={require('../icons/user.png')} /> :

@@ -1,26 +1,28 @@
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
-from games_library_api.integrations.game_operations import get_game, get_game_review
+
 from games_library_api.integrations.review_operations import (
     add_like_to_user_comment,
     create_review,
     delete_user_grade,
+
+    get_reviews,
     get_user_grade,
 )
-from games_library_api.models import error_model, game_model, review_model
+from games_library_api.models import error_model,  review_model
 from games_library_api.schemas.user import User
 
 router = APIRouter()
 
 
-@router.post("/game/add_review/")
+@router.post("/review/add")
 async def create_review_router(
     game_id: UUID4,
     grade: int,
@@ -32,7 +34,7 @@ async def create_review_router(
     return result
 
 
-@router.get('/game/get_user_rate/game_id/{game_id}', response_model=Optional[review_model.UserGameGradeResponseModel])
+@router.get('/review/game/user/grade', response_model=Optional[review_model.UserGameGradeResponseModel])
 async def get_user_grade_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -44,7 +46,7 @@ async def get_user_grade_router(
     return result[0]
 
 
-@router.delete('/game/delete/review/{game_id}')
+@router.delete('/review/delete')
 async def delete_user_grade_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -53,11 +55,29 @@ async def delete_user_grade_router(
     await delete_user_grade(user_id=user.id, game_id=game_id, db=db)
 
 
-@router.post('/game/like/user/review/{review_id}')
+@router.post('/review/like/user/review')
 async def add_like_to_user_comment_router(
     review_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_active_user),
 ):
-    print('То что мы получаем', review_id)
     await add_like_to_user_comment(user_id=user.id, review_id=review_id, db=db)
+
+
+
+@router.get('/review/get/', response_model=list[review_model.PopelarReviewCardResponseModel])
+async def get_all_reviews_router(
+    offset: int = None,
+    limit: int = None,
+    popular: bool = None,
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await get_reviews(limit=limit,offset=offset,popular=popular, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return result

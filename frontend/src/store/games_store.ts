@@ -87,22 +87,6 @@ export default class GamesStore {
             const avgRate = await GameService.getGamesAvgRate(response.data.id)
             this.setAvgRate(avgRate.data)
 
-            if (getLocalToken() !== null) {
-                const checkInPassed = await GameService.checkInPassedList(response.data.id)
-                if (checkInPassed.data === true) {
-                    this.setPassed(true)
-                }
-                const checkInWanted = await GameService.checkInWantedList(response.data.id)
-                if (checkInWanted.data === true) {
-                    this.setWanted(true)
-                }
-                const checkInLiked = await GameService.checkInLikedList(response.data.id)
-
-                if (checkInLiked.data === true) {
-                    this.setLiked(true)
-                }
-            }
-
             if (getLocalToken() === null) {
                 const reviews_unauth = await GameService.getGamesReviewUnAuth(response.data.id)
                 this.setGameReviews(reviews_unauth.data)
@@ -110,40 +94,65 @@ export default class GamesStore {
 
 
         } catch (error) {
-            //const err = error as AxiosError
-
             this.setGameReviews([])
-        } 
+        } try {
+            if (getLocalToken() !== null) {
+                const checkInPassed = await GameService.checkInPassedList(this.gameProfile.id)
+                if (checkInPassed.data === true) {
+                    this.setPassed(true)
+                }
+            }
+        } catch (error) {
+            this.setPassed(false)
+        } try {
+            if (getLocalToken() !== null) {
+                const checkInPassed = await GameService.checkInLikedList(this.gameProfile.id)
+                if (checkInPassed.data === true) {
+                    this.setLiked(true)
+                }
+            }
+        } catch (error) {
+            this.setLiked(false)
+        } try {
+            if (getLocalToken() !== null) {
+                const checkInPassed = await GameService.checkInWantedList(this.gameProfile.id)
+                if (checkInPassed.data === true) {
+                    this.setWanted(true)
+                }
+            }
+        } catch (error) {
+            this.setWanted(false)
+        }
         try {
             const response = await GameService.getGameBySlug(String(slug));
 
             const reviews = await GameService.getGamesReview(response.data.id)
-                this.setGameReviews(reviews.data)
+            this.setGameReviews(reviews.data)
 
-                const userGrade = await GameService.getUserGrade(response.data.id)
-                this.setUserGrade(userGrade.data)
+            const userGrade = await GameService.getUserGrade(response.data.id)
+            this.setUserGrade(userGrade.data)
 
-                if (userGrade.data === null) {
-                    this.setUserGrade({
-                        id: 'string',
-                        user_id: 'string',
-                        game_id: 'string',
-                        grade: 0,
-                        comment: 'string',
-                        created_at: response.data.release
-                    })
-                }
-            
-        } catch (error) 
-        {
-            
-        }finally {
+            if (userGrade.data === null) {
+                this.setUserGrade({
+                    id: 'string',
+                    user_id: 'string',
+                    game_id: 'string',
+                    grade: 0,
+                    comment: 'string',
+                    created_at: response.data.release
+                })
+            }
+
+        } catch (error) {
+
+        } finally {
 
             this.setLoading(false);
 
         }
 
     }
+
     async getGameByPage(id: number, sort: string | null, decade: string | null, genre: string | null) {
         this.setLoading(true);
         try {
@@ -216,7 +225,7 @@ export default class GamesStore {
 
         } catch (error) {
             // const err = error as AxiosError
-        } 
+        }
         try {
             const response = await GameService.getGameBySlug(String(slug));
             const userGrade = await GameService.getUserGrade(response.data.id)
@@ -231,7 +240,7 @@ export default class GamesStore {
             this.setGameReviews(reviews.data)
         } catch (error) {
             this.setGameReviews([] as GameReviews[])
-        }finally {
+        } finally {
             this.setLoading(false);
         }
     }
@@ -248,7 +257,7 @@ export default class GamesStore {
         } catch (error) {
             // const err = error as AxiosError
             this.setAvgRate({} as GameAvgRate)
-        } 
+        }
         try {
             const response = await GameService.getGameBySlug(String(slug));
             const reviews = await GameService.getGamesReview(response.data.id)
@@ -263,7 +272,7 @@ export default class GamesStore {
             this.setUserGrade(userGrade.data)
         } catch (error) {
             this.setUserGrade({} as userGrade)
-        }finally {
+        } finally {
             this.setLoading(false);
         }
     }

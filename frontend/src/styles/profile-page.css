@@ -165,7 +165,7 @@
     cursor: pointer;
     transition: all 0.3s ease 0s;
     height: 200px;
-    margin: 1em;
+
 }
 
 .list-card:hover {
@@ -184,6 +184,9 @@
     transition: all 200ms linear;
 }
 
+.last-game-container a{
+    margin: 1em;
+}
 
 .games-card-placeholder {
     border-radius: 10px;
@@ -212,9 +215,11 @@
     align-items: flex-start;
     color: var(--font-color-global);
     transition: all 200ms linear;
-
 }
 
+.last-reviews-container a{
+    margin: 1em;
+}
 
 /* Краточки в профиле */
 
@@ -259,7 +264,6 @@
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease 0s;
-    margin: 1em;
     transition: all 200ms linear;
     background-color: var(--buttons-color);
 }

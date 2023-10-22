@@ -18,8 +18,8 @@
     border-radius: 50%;
     position: relative;
     margin: 1em 1em;
-    inline-size: 114px;
-    block-size: 114px;
+    inline-size: 200px;
+    block-size: 200px;
 }
 
 .list-create-cover-container img {
