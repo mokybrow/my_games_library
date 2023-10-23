@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px 24px;
-    align-items: stretch;
+    align-items: flex-start;
     padding: 0 14vw;
     padding-top: 140px;
     padding-bottom: 80px;
@@ -84,7 +84,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 20px 24px;
-        align-items: stretch;
+        align-items: flex-start;
         padding: 0 6vw;
         padding-top: 140px;
         padding-bottom: 80px;

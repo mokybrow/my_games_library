@@ -16,7 +16,6 @@ export interface ArticleCardProps {
     created_at: Date,
     like_count: number,
     article_id: string,
-    authorLike: number | null,
     offset: number,
     limit: number,
     popular: boolean | null,
@@ -25,7 +24,7 @@ export interface ArticleCardProps {
 }
 
 
-export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, columnSpan, created_at, like_count, article_id, authorLike, offset, limit, popular, date }) => {
+export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, columnSpan, created_at, like_count, article_id, offset, limit, popular, date }) => {
     var parse = require('html-react-parser');
     const [active, setModalActive] = useState(false);
     const { auth_store } = useContext(Context);
@@ -35,7 +34,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
     if (active) {
         body.classList.toggle('lock')
     }
-    if (!active){
+    if (!active) {
         body.classList.remove('lock')
 
     }
@@ -43,25 +42,26 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
     return (
         <>
             <div className="article-card-container" style={{ gridColumnEnd: `span ${columnSpan}` }}>
-                <div className="article-img-container">
-                    <img src={src} alt='' width="150" height="150" />
-                </div>
+                {src == '' ? null :
+                    <div className="article-img-container">
+                        <img src={src} alt='' width="150" height="150" />
+                    </div>}
                 <div className="article-text-container">
                     <div className="article-text-container-header" >
                         {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
                             <img className="user-mini-img" src={img} width={100} height={100} />}
                         <Link to={'/' + username}><h3>{username}</h3></Link>
-                        <div className="user-grade-container">
-                            {like_count !== null ? <span className='grade-number-container'>
-                                <FormattedNumber
-                                    value={like_count} /></span> : <span className='grade-number-container'>
-                                <FormattedMessage id="content.gameprofile.nodata" /></span>}
+                        <div className="grade-container">
+                            {like_count <= 5 ? <span className='rate-star' style={{ color: "#FF0000" }}>&#9733;</span> : like_count >= 6 && like_count <= 8 ? <span className='rate-star' style={{ color: "#00A000" }}>&#9733;</span> : like_count >= 8 ? <span className='rate-star' style={{ color: "#1349C9" }}>&#9733;</span> : null}
+                            <span className='grade-border'>{like_count}</span>
                         </div>
+
 
                     </div>
                     <div className="article-text-container-body">
-                        <h4>{title}</h4>
+                        <Link to={'/game/' + slug}><h4>{title}</h4></Link>
+
                         <div className='article-text-container-body-not-modal' onClick={() => setModalActive(true)} >{parse(comment)}</div>
                     </div>
 
@@ -72,9 +72,10 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                 <div className="article-text-container-body">
 
                     <div className="article-text-container-header" >
-                        {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
+                        {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
                             <img className="user-mini-img" src={img} width={100} height={100} />}
+
                         <Link to={'/' + username}><h3>{username}</h3></Link>
                         <span className='game-profile-release'>
                             <FormattedDate
@@ -86,23 +87,14 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                         </span>
 
                     </div>
+                    {src == '' ? null :
                     <div className="article-img-container-modal">
                         <img src={src} alt='' width="150" height="150" />
-                    </div>
+                    </div>}
                     <div className="article-text-container-body">
-                        <h1>{title}</h1>
+                        <Link to={'/game/' + slug}><h1>{title}</h1></Link>
                         <div className='article-text-container-body-modal'>{parse(comment)}</div>
-                        <div className="like-count-container">
-                            <span>{like_count}</span>
-                            {auth_store.isAuth ? <>
-                                <input onClick={() => { artilce_store.likeArticle(article_id, offset, limit, popular, date) }} className="custom-checkbox-comment like" type='checkbox' id={article_id} name={article_id} value="red" defaultChecked={authorLike === 1 ? true : false} />
-                                <label htmlFor={article_id}></label></> :
-                                <>
-                                    <input className="custom-checkbox-comment like" type="checkbox" id='unauthorize' name='unauthorize' value="red" onClick={() => navigate('/login')} />
-                                    <label htmlFor='unauthorize'></label>
-                                </>}
 
-                        </div>
                     </div>
 
                 </div>

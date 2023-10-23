@@ -66,12 +66,15 @@ export default class GameService {
                 },
             })
     }
-    static async getGamesReview(id: string): Promise<AxiosResponse<GameReviews[]>> {
-        return $api.get<GameReviews[]>(`game/${id}/reviews/`,
+    static async getGamesReview(game_id: string): Promise<AxiosResponse<GameReviews[]>> {
+        return $api.get<GameReviews[]>(`game/get/reviews/`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                params: {
+                    game_id: game_id,
+                }
             })
     }
 
@@ -191,17 +194,4 @@ export default class GameService {
             }
         })
     }
-
-    // static async getUserWantedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {
-    //     return $api.get<ListsGameResponse[]>(`/user/wantplay/games`, { params: { user_id: user_id } })
-    // }
-
-    // static async getUserLikedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {
-    //     return $api.get<ListsGameResponse[]>(`/user/like/games`, { params: { user_id: user_id } })
-    // }
-
-    // static async getUserPassedGames(user_id: string): Promise<AxiosResponse<ListsGameResponse[]>> {
-    //     return axios.get<ListsGameResponse[]>(`/user/passed/games`, { params: { user_id: user_id } })
-    // }
-
 }

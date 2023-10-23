@@ -2,6 +2,7 @@ import datetime
 import uuid
 
 from operator import or_
+from typing import Any
 
 from pydantic import UUID4, Json
 from sqlalchemy import JSON, Text, case, cast, desc, distinct, func, insert, select
@@ -241,7 +242,7 @@ async def get_game_profile(slug: str, db: AsyncSession):
     result = result.all()
     if not result:
         return False
-    return True
+    return result
 
 
 async def get_game_review(game_id: UUID4, user_id: UUID4, db: AsyncSession):
@@ -261,7 +262,7 @@ async def get_game_review(game_id: UUID4, user_id: UUID4, db: AsyncSession):
         .select_from(user_table)
         .join(review_table, onclause=review_table.c.user_id == user_table.c.id, isouter=True)
         .join(review_like_table, onclause=review_like_table.c.review_id == review_table.c.id, isouter=True)
-        .where(review_table.c.game_id == game_id)
+        .where(review_table.c.game_id == game_id, review_table.c.cooment != None)
         .group_by(user_table.c.id, review_table.c.id)
         .limit(10)
     )
@@ -298,3 +299,13 @@ async def get_game_avg_rate(id: UUID4, db: AsyncSession):
     query = select(func.round(func.avg(review_table.c.grade), 1).label('avg_rate')).where(review_table.c.game_id == id)
     result = await db.execute(query)
     return result.all()
+
+
+async def game_search(title: Any, db: AsyncSession):
+    search_game = select(game_table).filter(func.lower(game_table.c.title).like(f"%{title.lower()}%"))
+    search_game = await db.execute(search_game)
+    search_game = search_game.all()
+
+    if not search_game:
+        return False
+    return search_game

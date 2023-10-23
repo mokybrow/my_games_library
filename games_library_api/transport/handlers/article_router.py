@@ -5,12 +5,17 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, UploadFile, status
 from fastapi.responses import JSONResponse
-from pydantic import Json
+from pydantic import UUID4, Json
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
-from games_library_api.integrations.articles_operations import create_article, get_all_article, get_all_article_count
+from games_library_api.integrations.articles_operations import (
+    create_article,
+    get_all_article,
+    get_all_article_count,
+    like_article,
+)
 from games_library_api.models import articles_model, error_model
 from games_library_api.schemas.user import User
 
@@ -41,7 +46,7 @@ async def create_article_router(
             content=error.model_dump(),
             status_code=status.HTTP_400_BAD_REQUEST,
         )
-    return {"detail":True}
+    return {"detail": True}
 
 
 @router.get('/article/get/all', response_model=list[articles_model.ArticleResponseModel])
@@ -50,9 +55,10 @@ async def get_all_article_router(
     limit: int = None,
     popular: bool = None,
     date: bool = None,
+    user_id: UUID4 = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_all_article(offset=offset, limit=limit, popular=popular, date=date, db=db )
+    result = await get_all_article(offset=offset, limit=limit, popular=popular, date=date, user_id=user_id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')
         return JSONResponse(
@@ -75,3 +81,19 @@ async def get_all_reviews_count_router(
         )
 
     return result[0]
+
+
+@router.post('/article/like')
+async def like_article_router(
+    article_id: str,
+    db: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_active_user),
+):
+    result = await like_article(article_id=article_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='List with this name already exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+    return {"detail": True}

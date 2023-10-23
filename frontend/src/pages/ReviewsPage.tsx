@@ -3,8 +3,10 @@ import React, { FC, useContext, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom';
 import { Context } from '..';
 import { Pagination } from '../components/Pagination';
-import { MediumImageCard } from '../components/MediumImageCard';
+
 import '../styles/reviews.css'
+import { ArticleCard } from '../components/ArticleCard';
+import { ReviewCard } from '../components/ReviewCard';
 
 const ReviewsPage: FC = () => {
   const { review_store } = useContext(Context);
@@ -41,21 +43,35 @@ const ReviewsPage: FC = () => {
   return (
     <section className='reviews-section'>
       <div className='reviews-grid-container'>
-        {review_store.reviews.length > 0 ? <>{review_store.reviews.map(review =>
-          <>
-            <MediumImageCard key={review.id} src={review.cover}  title={review.title} username={review.username} comment={review.comment} img={review.img} grade={review.grade} slug={review.slug} columnSpan={2} created_at={review.created_at}/>
 
-          </>
-        )}</> :
+        {<>{review_store.reviews.map(review =>
+          <div key={review.id} className="review-page-artilce-card-container" >
+            <ReviewCard
 
-          <div className="error-card-container">
-            Пользователи не создали ни одного списка
-          </div>}
+              src={review.cover}
+              title={review.title}
+              username={review.username}
+              comment={review.comment}
+              img={`data:image/jpeg;base64,${review.img}`}
+              like_count={review.grade}
+              slug={review.slug}
+              columnSpan={2}
+              created_at={review.created_at}
+              article_id={review.id}
+              offset={0}
+              limit={4}
+              popular={null}
+              date={true} />
+          </div>
+
+        )}</>}
+
+
+        <Pagination initialPage={currentPage - 1}
+          pageCount={Math.ceil(review_store.pageCount)}
+          onChange={handlePageClick} />
       </div>
 
-      <Pagination initialPage={currentPage - 1}
-        pageCount={Math.ceil(review_store.pageCount)}
-        onChange={handlePageClick} />
     </section>
   )
 }

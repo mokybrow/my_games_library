@@ -112,7 +112,12 @@ async def check_follow(follower_id: UUID4, user_id: UUID4, db: AsyncSession) -> 
     return True
 
 
-async def get_user_last_reviews(user_id: UUID4, db: AsyncSession) -> None:
+async def get_user_last_reviews(
+    user_id: UUID4,
+    db: AsyncSession,
+    offset: int = None,
+    limit: int = None,
+) -> None:
     query = (
         select(
             review_table.c.game_id,
@@ -124,39 +129,27 @@ async def get_user_last_reviews(user_id: UUID4, db: AsyncSession) -> None:
         )
         .where(review_table.c.user_id == user_id)
         .join(game_table, onclause=game_table.c.id == review_table.c.game_id)
-        .limit(6)
         .order_by(review_table.c.created_at.desc())
+        .limit(limit)
+        .offset(offset)
     )
 
     result = await db.execute(query)
     return result.all()
 
 
-async def get_user_last_game(user_id: UUID4, db: AsyncSession) -> None:
-    query = (
-        select(
-            game_table.c.id,
-            game_table.c.title,
-            game_table.c.cover,
-            game_table.c.slug,
-            game_table.c.release,
-            passed_game_table.c.created_at,
-        )
-        .where(passed_table.c.user_id == user_id)
-        .join(passed_game_table, onclause=passed_table.c.id == passed_game_table.c.list_id)
-        .join(game_table, onclause=passed_game_table.c.game_id == game_table.c.id)
-        .limit(6)
-        .order_by(passed_game_table.c.created_at.desc())
-    )
-    result = await db.execute(query)
-    return result.all()
-
-
-async def get_user_activity(user_id: UUID4, db: AsyncSession) -> Any:
+async def get_user_activity(
+    user_id: UUID4,
+    db: AsyncSession,
+    offset: int = None,
+    limit: int = None,
+) -> Any:
     query = (
         select(user_activity_table)
         .where(user_activity_table.c.user_id == user_id)
         .order_by(user_activity_table.c.created_at.desc())
+        .limit(limit)
+        .offset(offset)
     )
     result = await db.execute(query)
     return result.all()

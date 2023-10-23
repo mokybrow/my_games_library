@@ -20,13 +20,18 @@ export default class UserService {
         })
     }
 
-    static async getUserReviews(user_id: string): Promise<AxiosResponse<UserLastReviews[]>> {
+    static async getUserReviews(user_id: string, offset: number | null, limit: number | null): Promise<AxiosResponse<UserLastReviews[]>> {
 
-        return $api.get<UserLastReviews[]>(`/last/reviews/${user_id}`,
+        return $api.get<UserLastReviews[]>(`/user/last/reviews`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+                params: {
+                    user_id: user_id,
+                    offset: offset,
+                    limit: limit,
+                }
 
             })
     }
@@ -69,7 +74,7 @@ export default class UserService {
 
             })
     }
-    static async getuserActivityGames(user_id: string): Promise<AxiosResponse<UserActivityResponse[]>> {
+    static async getuserActivityGames(user_id: string, offset: number | null, limit: number | null): Promise<AxiosResponse<UserActivityResponse[]>> {
         return $api.get<UserActivityResponse[]>(`/user/get/activity/`,
             {
                 headers: {
@@ -77,6 +82,8 @@ export default class UserService {
                 },
                 params: {
                     user_id: user_id,
+                    offset: offset,
+                    limit: limit,
                 }
             })
     }

@@ -2,10 +2,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px 24px;
-    align-items: stretch;
+    align-items: flex-start;
     padding: 0 14vw;
     padding-top: 120px;
     margin-bottom: 80px;
+    min-height: 100vh;
 }
 
 .plalist-grid-container {
@@ -15,6 +16,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px 24px;
     width: 100%;
+    height: auto;
 }
 
 @media (max-width: 1300px) {
@@ -22,7 +24,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 20px 24px;
-        align-items: stretch;
+        align-items: flex-start;
         padding: 0 6vw;
         padding-top: 80px;
         margin-bottom: 80px;
@@ -44,7 +46,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px 24px;
-        align-items: stretch;
+        align-items: flex-start;
         padding: 0 6vw;
         padding-top: 80px;
         margin-bottom: 80px;

@@ -3,9 +3,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 0 2em;
-    align-items: stretch;
     padding: 0 14vw;
     padding-top: 140px;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 
@@ -400,6 +401,7 @@
 
 .reviews-comment-container {
     margin-top: 24px;
+    margin-bottom: 80px;
 }
 
 .reviews-title {
@@ -446,6 +448,11 @@
     flex-direction: row;
     gap: 1em;
 }
+.column-info-block{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
 
 .like-count-container {
     align-items: center;
@@ -458,6 +465,11 @@
 }
 
 @media (max-width: 1300px) {
+    .column-info-block{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
     .game-profile-section {
         padding: 0 7vw;
         padding-top: 120px;
@@ -469,7 +481,7 @@
     }
 
     .inline-info-block {
-        flex-direction: column;
+        flex-direction: row;
         align-items: flex-start;
     }
 
@@ -491,6 +503,7 @@
         gap: 1em;
     }
 
+    
     .game-title-container-mobile {
         display: flex;
         align-items: center;

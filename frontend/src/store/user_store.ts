@@ -17,7 +17,7 @@ export default class UserStore {
     isFollower = false;
     list = [] as UserListsResponse[]
     addedList = [] as UserListsResponse[]
-
+    pageCount = 0;
     constructor() {
         makeAutoObservable(this);
     }
@@ -51,7 +51,7 @@ export default class UserStore {
         this.addedList = addedList;
     }
 
-    async findUser(username: string) {
+    async findUser(username: string, offset: number | null, limit: number | null) {
         this.setLoading(true);
         try {
             const user = await UserService.getUserProfile(username);
@@ -82,13 +82,13 @@ export default class UserStore {
         } catch (error) {
 
         } try {
-            const game = await UserService.getuserActivityGames(this.user.id)
+            const game = await UserService.getuserActivityGames(this.user.id, offset, limit)
             this.setGames(game.data)
 
         } catch (error) {
 
         } try {
-            const reviews = await UserService.getUserReviews(this.user.id)
+            const reviews = await UserService.getUserReviews(this.user.id, offset, limit)
             this.setReviews(reviews.data)
         } catch (error) {
 

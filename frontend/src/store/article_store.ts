@@ -50,18 +50,46 @@ export default class ArticleStore {
     async getAllArticleFunc(offset: number | null, limit: number | null, popular: boolean | null, date: boolean | null) {
         this.setLoading(true);
         try {
-            const response = await ArticleService.getAllArticles(offset, limit, popular, date);
-            this.setArticles(response.data)
+            if (getLocalToken()) {
+                const user = await AuthService.getMyProfile();
+                const response = await ArticleService.getAllArticles(offset, limit, popular, date, String(user.data.id));
+                this.setArticles(response.data)
+            } else {
+                const response = await ArticleService.getAllArticles(offset, limit, popular, date, null);
+                this.setArticles(response.data)
+            }
 
         } catch (error) {
             const err = error as AxiosError
-        }try {
+        } try {
             if (popular != true) {
                 const response = await ArticleService.getArticleCount();
                 this.setPageCount(response.data.count / 36)
             }
         } catch (error) {
 
+        } finally {
+            this.setLoading(false);
+        }
+    }
+
+    async likeArticle(article_id: string, offset: number | null, limit: number | null, popular: boolean | null, date: boolean | null) {
+        this.setLoading(true);
+        try {
+
+            await ArticleService.likeArticle(article_id)
+            if (getLocalToken()) {
+                const user = await AuthService.getMyProfile();
+                const response = await ArticleService.getAllArticles(offset, limit, popular, date, user.data.id);
+                this.setArticles(response.data)
+            } else {
+                const response = await ArticleService.getAllArticles(offset, limit, popular, date, null);
+                this.setArticles(response.data)
+            }
+
+
+        } catch (error) {
+            // const err = error as AxiosError
         } finally {
             this.setLoading(false);
         }

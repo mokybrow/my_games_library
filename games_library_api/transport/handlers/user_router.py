@@ -221,9 +221,11 @@ async def check_follow_route(
 @router.get('/user/get/activity/', response_model=list[game_model.GetUserLastGameResponseModel])
 async def get_user_activity_router(
     user_id: UUID4,
+    offset: int = None,
+    limit: int = None,
     db: AsyncSession = Depends(get_async_session),
 ) -> Any:
-    result = await get_user_activity(user_id=user_id, db=db)
+    result = await get_user_activity(user_id=user_id, offset=offset, limit=limit, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='User have no activity')
         return JSONResponse(
@@ -233,9 +235,14 @@ async def get_user_activity_router(
     return result
 
 
-@router.get('/last/reviews/{user_id}', response_model=list[review_model.GetLastReviewsResponseModel])
-async def get_user_last_game_router(user_id: UUID4, db: AsyncSession = Depends(get_async_session)) -> None:
-    result = await get_user_last_reviews(user_id=user_id, db=db)
+@router.get('/user/last/reviews', response_model=list[review_model.GetLastReviewsResponseModel])
+async def get_user_last_game_router(
+    user_id: UUID4,
+    db: AsyncSession = Depends(get_async_session),
+    offset: int = None,
+    limit: int = None,
+) -> None:
+    result = await get_user_last_reviews(user_id=user_id, offset=offset, limit=limit, db=db)
 
     return result
 

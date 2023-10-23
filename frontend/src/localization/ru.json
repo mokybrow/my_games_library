@@ -2,7 +2,7 @@
     "app.header": "Отредактируйте файлы и сохраните, чтобы перезагрузить",
     "app.content": "Изучите React",
     "app.channel.plug": "Учебник предоставлен вам Medium",
-    "header.menu.logo": "Культ Медведя",
+    "header.menu.logo": "Медведь",
     "header.menu.item1": "Игры",
     "header.menu.item2": "Плейлисты",
     "header.menu.item3": "Статьи",
@@ -24,6 +24,8 @@
 
 
     "content.headers.newsgames": "Новинки",
+    "content.headers.newarticles": "Свежие Статьи",
+    "content.headers.popularreviews": "Отзывы Недели",
 
     "content.gameprofile.genre": "Жанр",
     "content.gameprofile.genre.plural": "Жанры",

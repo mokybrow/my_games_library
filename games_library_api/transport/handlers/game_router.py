@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.game_operations import (
+    game_search,
     get_all_games,
     get_count_games,
     get_game_avg_rate,
@@ -69,7 +70,7 @@ async def get_game_router(slug: str, db: AsyncSession = Depends(get_async_sessio
 
 
 @router.get(
-    "/game/{game_id}/reviews/",
+    "/game/get/reviews/",
     response_model=list[game_model.GetGameReviewsResponseModel | error_model.ErrorResponseModel],
 )
 async def get_game_review_router(
@@ -162,8 +163,19 @@ async def check_game_in_wishlish_list(
     return result
 
 
-# @router.get("/games/{genre}/")
-# async def user_profile():
+@router.get("/game/search", response_model=list[game_model.GetGamesResponseModel])
+async def game_search_router(
+    title: Any,
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await game_search(title=title, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result
 
 
 # @router.get("/games/best/")

@@ -24,6 +24,11 @@ const ChangePersonalDataForm: FC = () => {
         formState: { errors },
     } = useForm<FormData>({ mode: 'onSubmit' })
 
+    useEffect(() => {
+        auth_store.checkAuth()
+
+
+    }, [auth_store])
 
     const personalDataHandle = handleSubmit(async () => {
 
@@ -47,10 +52,10 @@ const ChangePersonalDataForm: FC = () => {
                             message: "Поле не может быть пустым"
                         }
                     })}
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => { { setName(e.target.value) } }}
                     placeholder={auth_store.user.name}
                     className='user-settings-text-field-input' />
-                {errors.Name && <p className='error-alert-settings' role="alert">{errors?.Name?.message } </p>}
+                {errors.Name && <p className='error-alert-settings' role="alert">{errors?.Name?.message} </p>}
             </div>
 
             <div className="password-container">
@@ -64,10 +69,10 @@ const ChangePersonalDataForm: FC = () => {
                 {errors.Surname && <p className='error-alert-settings' role="alert">{errors?.Surname?.message}</p>}
             </div>
             <div className="password-container">
-                <select name="hero" onChange={e => setSex(e.target.value)} className="select-css" >
+                <select name="gender" onChange={e => setSex(e.target.value)} className="select-css" defaultValue={auth_store.user.gender}>
                     <option>Пол</option>
-                    <option selected={auth_store.user.gender == 'male' ? true : false} value="male">Мужской</option>
-                    <option selected={auth_store.user.gender == 'female' ? true : false} value="female">Женский</option>
+                    <option value='male'>Мужской</option>
+                    <option value='female'>Женский</option>
                 </select>
             </div>
             <div className="password-container">

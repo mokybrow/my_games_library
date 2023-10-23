@@ -11,8 +11,8 @@ from games_library_api.integrations.review_operations import (
     add_like_to_user_comment,
     create_review,
     delete_user_grade,
-    get_all_reviews_count,
     get_all_reviews,
+    get_all_reviews_count,
     get_user_grade,
 )
 from games_library_api.models import error_model, review_model
@@ -68,9 +68,10 @@ async def get_all_reviews_router(
     offset: int = None,
     limit: int = None,
     popular: bool = None,
+    date: bool = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_all_reviews(limit=limit, offset=offset, popular=popular, db=db)
+    result = await get_all_reviews(limit=limit, offset=offset, popular=popular, date=date, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')
         return JSONResponse(

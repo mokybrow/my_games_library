@@ -17,11 +17,12 @@ export default class AuthStore {
 
     list = [] as UserListsResponse[]
     addedList = [] as UserListsResponse[]
-
+    pageCount = 0;
     wantedGames = [] as ListsGameResponse[];
     likedGames = [] as ListsGameResponse[];
     passedGames = [] as ListsGameResponse[];
-
+    name = '';
+    surname = '';
     constructor() {
         makeAutoObservable(this);
     }
@@ -67,6 +68,13 @@ export default class AuthStore {
         this.loginError = bool;
     }
 
+    setName(name: string) {
+        this.name = name
+    }
+    setSurname(surname: string | null) {
+        this.surname = String(surname)
+    }
+
     async login(username: string, password: string) {
         try {
             const response = await AuthService.login(username, password);
@@ -106,7 +114,9 @@ export default class AuthStore {
             const response = await AuthService.getMyProfile();
             this.setUser(response.data)
             this.setAuth(true);
-
+            console.log(response.data.gender)
+            this.setName(response.data.name)
+            this.setSurname(response.data.surname)
         } catch (error) {
 
         } finally {
@@ -114,15 +124,15 @@ export default class AuthStore {
         }
         return this.user.username
     }
-    async getMyProfileFunc() {
+    async getMyProfileFunc(offset: number | null, limit: number | null) {
         this.setLoading(true);
         try {
-            const game = await UserService.getuserActivityGames(this.user.id)
+            const game = await UserService.getuserActivityGames(this.user.id, offset, limit)
             this.setGames(game.data)
         } catch (error) {
 
         } try {
-            const reviews = await UserService.getUserReviews(this.user.id)
+            const reviews = await UserService.getUserReviews(this.user.id, offset, limit)
             this.setReviews(reviews.data)
         } catch (error) {
 
@@ -130,7 +140,7 @@ export default class AuthStore {
             this.setLoading(false);
         }
     }
-    async getUserListsFunc(){
+    async getUserListsFunc() {
         try {
             const lists = await UserService.getUserLists(this.user.id)
             this.setLists(lists.data)
@@ -141,6 +151,6 @@ export default class AuthStore {
             this.setAddedLists(anotherLists.data)
         } catch (error) {
 
-        } 
+        }
     }
 }

@@ -2,7 +2,7 @@
     "app.header": "Edit the files and save to reload",
     "app.content": "Learn React",
     "app.channel.plug": "Tutorial brought to you by Medium",
-    "header.menu.logo": "Cult of Bear",
+    "header.menu.logo": "Bear",
     "header.menu.item1": "Games",
     "header.menu.item2": "Playlists",
     "header.menu.item3": "Articles",
@@ -23,6 +23,8 @@
     "header.menu.settings": "Settings",
 
     "content.headers.newsgames": "New games",
+    "content.headers.newarticles": "New Articles",
+    "content.headers.popularreviews": "Reviews of the Week",
 
     "content.gameprofile.genre": "Genre",
     "content.gameprofile.genre.plural": "Genres",

@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext, useEffect } from 'react'
-import { Context } from '..';
+import { Context } from '../..';
 import { Link, useParams } from 'react-router-dom';
-import ListService from '../service/ListService';
-import { ImageCard } from '../components/ImageCard';
+import ListService from '../../service/ListService';
+import { ImageCard } from '../../components/ImageCard';
 
 const UserListsPage: FC = () => {
     const { auth_store } = useContext(Context);
@@ -20,7 +20,7 @@ const UserListsPage: FC = () => {
         }
         checkUsername().then(function (value: any) {
             if (value !== String(username)) {
-                user_store.findUser(String(username))
+                user_store.findUser(String(username), 0, 36)
 
             }
             else {
@@ -51,7 +51,7 @@ const UserListsPage: FC = () => {
                 <div className="card-with-games-lists">
                     {user_store.list.length > 0 ? <>    {user_store.list.map(list =>
                         <Link key={list.id} to={'/list/' + list.slug} >
-                            <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : require("../icons/img-not-found.png")} title={String(list.title)} />
+                            <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : require("../../icons/img-not-found.png")} title={String(list.title)} />
 
 
                         </Link>)
@@ -62,7 +62,7 @@ const UserListsPage: FC = () => {
                     {user_store.addedList.length > 0 ? <>
                         {user_store.addedList.map(addedList =>
                             <Link key={addedList.id} to={'/list/' + addedList.slug} >
-                                <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` : require("../icons/img-not-found.png")} title={String(addedList.title)} />
+                                <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` : require("../../icons/img-not-found.png")} title={String(addedList.title)} />
 
                             </Link>)}</> :
                         null}
@@ -79,7 +79,7 @@ const UserListsPage: FC = () => {
                 {auth_store.list.length > 0 ? <>{auth_store.list.map(list =>
                     <Link key={list.id} to={'/list/' + list.slug} >
 
-                        <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : require("../icons/img-not-found.png")} title={String(list.title)} />
+                        <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : require("../../icons/img-not-found.png")} title={String(list.title)} />
                     </Link>)}</> :
                     <div className="error-card-container">
                         Пользователь не создал ни одного списка
@@ -88,7 +88,7 @@ const UserListsPage: FC = () => {
                     {auth_store.addedList.map(addedList =>
                         <Link key={addedList.id} to={'/list/' + addedList.slug} reloadDocument>
 
-                            <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` :require("../icons/img-not-found.png")} title={String(addedList.title)} />
+                            <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` :require("../../icons/img-not-found.png")} title={String(addedList.title)} />
 
                         </Link>)}
                 </> : null}

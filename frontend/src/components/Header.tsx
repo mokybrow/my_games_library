@@ -2,14 +2,21 @@ import React, { FC, useContext, useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
-import '../styles/header.css'
+import './styles/header.css'
+import './styles/search.css'
 import { useTheme } from '../hooks/useTheme';
 import { FormattedMessage } from 'react-intl';
+import { ModalWindow } from './ModalWindow';
+import { GamesResponse } from '../models/response';
 
 
 const Header: FC = () => {
     const { auth_store } = useContext(Context);
     const { theme, setTheme } = useTheme()
+    const [active, setModalActive] = useState(false);
+    const { search_store } = useContext(Context);
+    const [searchInput, setSearchInput] = useState('');
+    const body = document.body;
     //чекбоксик
     const [checked, setChecked] = useState(false);
 
@@ -22,7 +29,13 @@ const Header: FC = () => {
             setTheme('dark')
         }
     }
+    if (active) {
+        body.classList.toggle('lock')
+    }
+    if (!active) {
+        body.classList.remove('lock')
 
+    }
     useEffect(() => {
         if (localStorage.getItem('token')) {
             auth_store.checkAuth()
@@ -32,6 +45,10 @@ const Header: FC = () => {
         }
     }, [auth_store])
 
+    const searchHandler = (title: any) => {
+        setSearchInput(title)
+        search_store.searchGameFunc(searchInput)
+    }
 
     const buttonFunc = () => {
 
@@ -94,18 +111,22 @@ const Header: FC = () => {
                     <nav className="menu-body">
                         <ul className="menu-list">
                             <li className="menu-item" id="menu-item-transition">
-                                <Link className="menu-link" to='/games?page=1'>
+                                <Link className="menu-link" to='/games?page=1' reloadDocument>
                                     <FormattedMessage id="header.menu.item1" />
                                 </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists?page=1'>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists?page=1' reloadDocument>
                                 <FormattedMessage id="header.menu.item2" />
                             </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/articles?page=1'>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/articles?page=1' reloadDocument>
                                 <FormattedMessage id="header.menu.item3" />
                             </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews?page=1'>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews?page=1' reloadDocument>
                                 <FormattedMessage id="header.menu.item4" />
                             </Link></li>
+                            <li className="menu-item" id="search-item-transition" onClick={() => { { setModalActive(true) } { search_store.setGames([] as GamesResponse[]) } { setSearchInput('') } }} >Поиск
+                                <img className='dropdown-img' src={require('../icons/search.png')} />
+                            </li>
+
                             {auth_store.isAuth ? <><li className="user-icon-desktop menu-item menu-link">
                                 <Link className="menu-link" to={'/' + auth_store.user.username} reloadDocument>{auth_store.user.username}</Link>
                             </li > </> : null}
@@ -115,12 +136,18 @@ const Header: FC = () => {
                                 </Link>
                             </li></>
                                 :
-                                <> <li className="user-icon-desktop menu-item menu-link"><Link to={'/login'}>
-                                    <FormattedMessage id="header.menu.login" />
-
-                                </Link>/<Link to={'/signup'}>
-                                        <FormattedMessage id="header.menu.signin" />
-                                    </Link></li></>}
+                                <>
+                                    <li className="user-icon-desktop menu-item menu-link">
+                                        <Link className="menu-link" to={'/login'}>
+                                            <FormattedMessage id="header.menu.login" />
+                                        </Link>
+                                    </li>
+                                    <li className="user-icon-desktop menu-item menu-link">
+                                        <Link className="menu-link" to={'/signup'}>
+                                            <FormattedMessage id="header.menu.signin" />
+                                        </Link>
+                                    </li>
+                                </>}
                             <li className="user-icon-desktop menu-item menu-link">
                                 <div className="theme-controller-mobile">
                                     <div className="toggle-pill-dark">
@@ -132,7 +159,25 @@ const Header: FC = () => {
                         </ul>
                     </nav>
                 </div>
-
+                <ModalWindow active={active} setActive={setModalActive}>
+                    <div className='search-input-container'>
+                        <input type="text" className='game-search-input' placeholder='Поиск' onChange={(e) => searchHandler(e.target.value)} value={searchInput} />
+                        <button className='form-button' onClick={() => { { setSearchInput('') } { search_store.setGames([] as GamesResponse[]) } }}>Очистить</button>
+                    </div>
+                    <div className='search-grid-container'>
+                        {search_store.games.map(game =>
+                            <Link key={game.id} to={'game/' + game.slug} reloadDocument>
+                                <div className="game-card-cover-container">
+                                    {game.cover != null ? <img src={game.cover} alt='' width="200" height="200" /> : <img src={require('../icons/img-not-found.png')} alt='' width="200" height="200" />}
+                                    <div className="title-card-body">
+                                        <div className="title-card">
+                                            <span className="card-title">{game.title}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>)}
+                    </div>
+                </ModalWindow>
                 <div className="dropdown">
                     {!auth_store.isAuth ? <>
                         <button className="dropbtn">
@@ -174,16 +219,16 @@ const Header: FC = () => {
                                 <Link to={`/${auth_store.user.username}`} reloadDocument>
                                     <FormattedMessage id="header.menu.profile" />
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/played`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/played?page=1`} reloadDocument>
                                     <FormattedMessage id="header.menu.passed" />
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/wants-to-play`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/wants-to-play?page=1`} reloadDocument>
                                     <FormattedMessage id="header.menu.wanttoplay" />
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/liked`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/liked?page=1`} reloadDocument>
                                     <FormattedMessage id="header.menu.liked" />
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/lists`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/lists?page=1`} reloadDocument>
                                     <FormattedMessage id="header.menu.lists" />
                                 </Link>
                                 {auth_store.user.reporter ?

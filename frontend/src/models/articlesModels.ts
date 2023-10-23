@@ -11,4 +11,5 @@ export interface ArticleResponseModel {
     img: string
     like_count: number
     created_at: Date
+    hasAuthorLike: number | null
 }

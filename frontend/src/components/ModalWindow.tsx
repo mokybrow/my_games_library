@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import '../styles/modal.css'
+import './styles/modal.css'
 
 export interface ModalProps {
     active: boolean,

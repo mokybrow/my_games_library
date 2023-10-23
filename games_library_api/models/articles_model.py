@@ -1,5 +1,7 @@
 import datetime
-from typing import Optional
+
+from typing import Any, Optional
+
 from pydantic import UUID4, BaseModel
 
 
@@ -17,6 +19,8 @@ class ArticleResponseModel(BaseModel):
     img: str
     like_count: int
     created_at: Optional[datetime.datetime]
+    hasAuthorLike: Optional[int] = None
+
 
 class GetArticleCountResponseModel(BaseModel):
     count: int

@@ -35,6 +35,11 @@ async def create_list(
     description: str,
     is_private: bool,
 ) -> bool:
+    query = select(func.count("*")).select_from(list_table).where(list_table.c.owner_id == owner_id)
+    list_count = await db.execute(query)
+    list_count = list_count.all()
+    if list_count[0][0] == 10:
+        return False
     query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     if result.all():
@@ -56,10 +61,15 @@ async def create_list(
     return list_id[0][0]
 
 
-async def approve_create_list(db: AsyncSession, username: str, title: str) -> bool:
+async def approve_create_list(db: AsyncSession, username: str, title: str, user_id: UUID4) -> bool:
     query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     result = result.all()
+    query = select(func.count("*")).select_from(list_table).where(list_table.c.owner_id == user_id)
+    list_count = await db.execute(query)
+    list_count = list_count.all()
+    if list_count[0][0] == 10:
+        return True
     if result:
         return True
     return False

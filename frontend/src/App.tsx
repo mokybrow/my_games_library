@@ -28,15 +28,16 @@ import AdminPage from './pages/AdminPage';
 import AdminUsers from './pages/AdminUsers';
 import UserSettings from './pages/UserSettings';
 import ListCreate from './pages/ListCreate';
-import UserListsPage from './pages/UserListsPage';
+import UserListsPage from './pages/userLists/UserListsPage';
 import GameInUserList from './pages/GameInUserList';
-import PlayedGamesPage from './pages/PlayedGamesPage';
-import LikedGamesPage from './pages/LikedGamesPage';
-import WantPlayGamePage from './pages/WantPlayGamePage';
+import PlayedGamesPage from './pages/userLists/PlayedGamesPage';
+import LikedGamesPage from './pages/userLists/LikedGamesPage';
+import WantPlayGamePage from './pages/userLists/WantPlayGamePage';
 import PlaylistsPage from './pages/PlaylistsPage';
 import ReviewsPage from './pages/ReviewsPage';
 import CreateArticlePage from './pages/CreateArticlePage';
 import ArticlesPage from './pages/ArticlesPage';
+import Footer from './components/Footer';
 
 
 
@@ -74,6 +75,7 @@ function App() {
             <Route path='/admin/users' element={<AdminUsers />} />
             <Route path='/create/articles' element={<CreateArticlePage />} />
           </Routes>
+          <Footer/>
         </Router>
       </>
     );

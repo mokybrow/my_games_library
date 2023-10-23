@@ -1,15 +1,15 @@
-.reviews-section {
+.articles-section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 20px 24px;
     align-items: flex-start;
+    min-height: 100vh;
     padding: 0 14vw;
     padding-top: 120px;
     margin-bottom: 80px;
-    min-height: 100vh;
 }
 
-.reviews-grid-container {
+.articles-grid-container {
     grid-row: 1/2;
     grid-column: 1/7;
     display: grid;
@@ -18,15 +18,41 @@
     width: 100%;
 }
 
-.review-page-artilce-card-container{
-    grid-column: span 2;
+
+.medium-card-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    background-color: var(--background-card-color);
+    border-radius: 6px;
+    align-items: center;
+    padding: 1em;
+    gap: 0.5em;
+    transition: all 200ms linear;
 }
 
+.text-container-body-modal {
+    pointer-events: none;
+    -webkit-line-clamp: none;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+}
+
+.text-container-body-modal p {
+    pointer-events: none;
+    -webkit-line-clamp: none;
+    overflow: visible;
+    display: flex;
+    text-align: justify;
+}
 
 @media (max-width: 1300px) {
-    .reviews-section {
+    .articles-section {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr ;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-gap: 20px 24px;
         align-items: flex-start;
         padding: 0 6vw;
@@ -34,7 +60,7 @@
         margin-bottom: 80px;
     }
 
-    .reviews-grid-container {
+    .articles-grid-container {
         grid-row: 1/2;
         grid-column: 1/5;
         display: grid;
@@ -42,11 +68,19 @@
         grid-gap: 16px 18px;
         width: 100%;
     }
+
+    .medium-card-container {
+        grid-column: span 2;
+    }
+
+    .pagination-container {
+        grid-column: 1/5;
+    }
 }
 
 @media (max-width: 768px) {
 
-    .reviews-section {
+    .articles-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px 24px;
@@ -56,12 +90,16 @@
         margin-bottom: 80px;
     }
 
-    .reviews-grid-container {
+    .articles-grid-container {
         grid-row: 1/2;
         grid-column: 1/3;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 10px 12px;
         width: 100%;
+    }
+
+    .pagination-container {
+        grid-column: 1/3;
     }
 }

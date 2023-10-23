@@ -45,6 +45,16 @@
     display: none;
 }
 
+#search-item-transition{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: regular;
+    text-transform: uppercase;
+    gap: 0.4em;
+    cursor: pointer;
+}
+
 /* #menu-item-transition {
     opacity: 0.8;
 }
@@ -121,6 +131,17 @@
     .user-icon-desktop {
         display: flex;
     }
+
+    #search-item-transition {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        gap: 0.4em;
+        cursor: pointer;
+        padding: 1em 0;
+    }
 }
 
 
@@ -194,11 +215,8 @@
     color: var(--menu-link-color);
     transition: color 200ms linear;
     text-decoration: none;
-    transition: 0.5s;
-    font-weight: regular;
     text-transform: uppercase;
 }
-
 
 
 @media (max-width: 1023px) {

@@ -25,7 +25,7 @@ const UserSettings: FC = () => {
         }
         checkUsername().then(function (value: any) {
 
-            auth_store.getMyProfileFunc()
+            auth_store.getMyProfileFunc(0, 6)
 
         })
 

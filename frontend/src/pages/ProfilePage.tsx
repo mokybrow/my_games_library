@@ -18,10 +18,10 @@ const ProfilePage: FC = () => {
     }
     checkUsername().then(function (value: any) {
       if (value !== String(username)) {
-        user_store.findUser(String(username))
+        user_store.findUser(String(username),0, 6)
 
       } else {
-        auth_store.getMyProfileFunc()
+        auth_store.getMyProfileFunc(0, 6)
       }
     })
 
@@ -215,18 +215,18 @@ const ProfilePage: FC = () => {
           </div>
         </div>
         <div className="main-lists-container">
-          <Link to='played'>
+          <Link to='played?page=1'>
             <div className="main-profile-card-cover-container">
               <img src={require('../icons/passed-cover.png')} />
             </div>
           </Link>
 
-          <Link to='liked'>
+          <Link to='liked?page=1'>
             <div className="main-profile-card-cover-container">
               <img src={require('../icons/like-cover.png')} />
             </div>
           </Link>
-          <Link to='wants-to-play'>
+          <Link to='wants-to-play?page=1'>
             <div className="main-profile-card-cover-container">
               <img src={require('../icons/want-cover.png')} />
             </div>

@@ -43,7 +43,7 @@ const LoginForm: FC = () => {
                     value: true,
                     message: 'Поле не может быть пустым'
                 },
-            },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' />
+            },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' id='email'/>
             {errors.email && <p className='error-alert' role="alert">{errors.email.message}</p>}
 
 
@@ -52,7 +52,7 @@ const LoginForm: FC = () => {
                     value: true,
                     message: 'Поле не может быть пустым'
                 },
-            })} name="password" placeholder='Password' type={passwordShown ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} className='text-field-input' />
+            })} name="password" id='password' placeholder='Password' type={passwordShown ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} className='text-field-input' />
             {errors.password && <p className='error-alert' role="alert">{errors.password.message}</p>}
 
 

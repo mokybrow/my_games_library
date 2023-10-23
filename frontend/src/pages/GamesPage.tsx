@@ -9,10 +9,19 @@ import { Pagination } from '../components/Pagination';
 const GamesPage: FC = () => {
   const { games_store } = useContext(Context);
   const [searchParams, setSearchParams] = useSearchParams();
-  const myParam = searchParams.get('page');
-  const [currentPage, setCurrentPage] = useState<number>(Number(myParam));
+  const pageParam = searchParams.get('page');
+  const [currentPage, setCurrentPage] = useState<number>(Number(pageParam));
+
+  const sortParam = searchParams.get('sort');
+  const [currentSort, setCurrentSort] = useState<string>(String(sortParam));
+
+  const sortGenre = searchParams.get('genre');
+  const [currentGenre, setCurrentGenre] = useState<string>(String(sortGenre));
 
   useEffect(() => {
+    games_store.getGameByPage(currentPage, sortParam, null, null)
+    games_store.setSort(String(sortParam))
+    games_store.setGenre(String(sortGenre))
     if (games_store.genre !== "null") {
       games_store.getPageCount(null, null, games_store.genre)
     }

@@ -90,7 +90,13 @@ async def add_like_to_user_comment(db: AsyncSession, review_id: UUID4, user_id: 
     return True
 
 
-async def get_all_reviews(limit: int | None, offset: int | None, popular: bool | None, db: AsyncSession):
+async def get_all_reviews(
+    db: AsyncSession,
+    offset: int = None,
+    limit: int = None,
+    popular: bool = None,
+    date: bool = None,
+):
     if limit == None:
         limit = 4
 

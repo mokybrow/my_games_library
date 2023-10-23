@@ -182,7 +182,6 @@ article_table = Table(
     Column('publishing', Boolean, default=False),
     Column('tags', ARRAY(String), nullable=True, unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
-
 )
 
 article_like_table = Table(

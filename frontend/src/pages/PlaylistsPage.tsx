@@ -50,12 +50,12 @@ const PlaylistsPage: FC = () => {
             Пользователи не создали ни одного списка
           </div>}
 
-
-      </div>
-
-      <Pagination initialPage={currentPage - 1}
+          <Pagination initialPage={currentPage - 1}
           pageCount={Math.ceil(list_store.pageCount)}
           onChange={handlePageClick} />
+      </div>
+
+
     </section>
   )
 }

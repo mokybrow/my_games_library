@@ -90,7 +90,7 @@ const RegForm: FC = () => {
                             value: true,
                             message: 'Поле не может быть пустым'
                         },
-                    },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' />
+                    },)} onChange={e => setEmail(e.target.value)} placeholder='Email' className='text-field-input' id='email' />
 
                     {errors.email && <p className='error-alert' role="alert">{errors?.email?.message || "Пользователь с такой почтой существует"}</p>}
 
@@ -105,7 +105,7 @@ const RegForm: FC = () => {
                             value: 3,
                             message: 'Имя пользователя не может быть короче 3 символов'
                         }
-                    },)} onChange={e => setUsername(e.target.value)} placeholder='Username' className='text-field-input' />
+                    },)} onChange={e => setUsername(e.target.value)} placeholder='Username' className='text-field-input' id='username'/>
                     {errors.username && <p className='error-alert' role="alert">{errors?.username?.message || "Пользователь с таким именем существует"}</p>}
 
 
@@ -118,7 +118,7 @@ const RegForm: FC = () => {
                             value: 2,
                             message: 'Имя пользователя не может быть короче 2 символов'
                         }
-                    })} onChange={e => setName(e.target.value)} placeholder='Name' className='text-field-input' />
+                    })} onChange={e => setName(e.target.value)} placeholder='Name' className='text-field-input' id='name'/>
                     {errors.name && <p className='error-alert' role="alert">{errors?.name?.message}</p>}
 
                     <input type={passwordShown ? "text" : "password"} {...register("password", {
@@ -130,7 +130,7 @@ const RegForm: FC = () => {
                             value: 8,
                             message: 'Придумайте надёжный пароль'
                         }
-                    })} onChange={e => setPassword(e.target.value)} placeholder='Password' className='text-field-input' />
+                    })} onChange={e => setPassword(e.target.value)} placeholder='Password' className='text-field-input' id='password'/>
                     {errors.password && <p className='error-alert' role="alert">{errors?.password?.message || "Пароли не совпадают"}</p>}
 
 
@@ -140,7 +140,7 @@ const RegForm: FC = () => {
                             value: true,
                             message: "Поле не может быть пустым"
                         },
-                    })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' />
+                    })} onChange={e => setConfPassword(e.target.value)} placeholder='Confirm Password' className='text-field-input' id='confirm_password'/>
                     {errors.confPassword && <p className='error-alert' role="alert">{errors?.confPassword?.message || "Пароли не совпадают"}</p>}
 
                     <div className="show-password-container">
