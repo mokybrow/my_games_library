@@ -108,7 +108,7 @@ export default class GameService {
     }
 
     static async checkInPassedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/list/check/in_passed`,
+        return $api.get(`/game/check/in_passed`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -120,7 +120,7 @@ export default class GameService {
             })
     }
     static async checkInLikedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/list/check/in_liked`,
+        return $api.get(`/game/check/in_liked`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -132,7 +132,7 @@ export default class GameService {
             })
     }
     static async checkInWantedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/list/check/in_wishlish`,
+        return $api.get(`/game/check/in_wishlish`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',

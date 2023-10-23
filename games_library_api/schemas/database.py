@@ -1,7 +1,21 @@
 import datetime
 import uuid
 
-from sqlalchemy import BINARY, JSON, UUID, Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary, MetaData, String, Table, Text
+from sqlalchemy import (
+    BINARY,
+    JSON,
+    UUID,
+    Boolean,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    MetaData,
+    String,
+    Table,
+    Text,
+)
 from sqlalchemy.dialects.postgresql import ARRAY
 
 metadata = MetaData()
@@ -156,8 +170,8 @@ review_like_table = Table(
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )
 
-news_table = Table(
-    'news',
+article_table = Table(
+    'article',
     metadata,
     Column('id', UUID, primary_key=True, default=uuid.uuid4()),
     Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE')),
@@ -166,12 +180,15 @@ news_table = Table(
     Column('text', Text, nullable=False),
     Column('slug', String, nullable=False),
     Column('publishing', Boolean, default=False),
+    Column('tags', ARRAY(String), nullable=True, unique=False),
+    Column('created_at', DateTime, default=datetime.datetime.utcnow()),
+
 )
 
-news_like_table = Table(
-    'news_like',
+article_like_table = Table(
+    'article_like',
     metadata,
-    Column('news_id', ForeignKey('news.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    Column('article_id', ForeignKey('article.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('user_id', UUID, ForeignKey('user.id', ondelete='CASCADE'), primary_key=True, unique=False),
     Column('created_at', DateTime, default=datetime.datetime.utcnow()),
 )

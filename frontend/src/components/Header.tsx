@@ -81,7 +81,7 @@ const Header: FC = () => {
                     <Link className="header-logo" to='/'>
                         <FormattedMessage
                             id="header.menu.logo"
-                            
+
                         />
                     </Link>
                 </div>
@@ -100,10 +100,10 @@ const Header: FC = () => {
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/playlists?page=1'>
                                 <FormattedMessage id="header.menu.item2" />
                             </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/news'>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/articles?page=1'>
                                 <FormattedMessage id="header.menu.item3" />
                             </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews'>
+                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews?page=1'>
                                 <FormattedMessage id="header.menu.item4" />
                             </Link></li>
                             {auth_store.isAuth ? <><li className="user-icon-desktop menu-item menu-link">
@@ -164,9 +164,9 @@ const Header: FC = () => {
                         <>
                             <button className="dropbtn">
 
-                                {auth_store.user.img == null || auth_store.user.img== '' ? 
-                                <img className='dropdown-img' src={require('../icons/user.png')} /> : 
-                                <img className='dropdown-img' src={`data:image/jpeg;base64,${auth_store.user.img}`} width={20} height={20}/>}
+                                {auth_store.user.img == null || auth_store.user.img == '' ?
+                                    <img className='dropdown-img' src={require('../icons/user.png')} /> :
+                                    <img className='dropdown-img' src={`data:image/jpeg;base64,${auth_store.user.img}`} width={20} height={20} />}
                                 {auth_store.user.username}</button>
 
                             <div className="dropdown-content">
@@ -186,6 +186,17 @@ const Header: FC = () => {
                                 <Link to={`/${auth_store.user.username}/lists`} reloadDocument>
                                     <FormattedMessage id="header.menu.lists" />
                                 </Link>
+                                {auth_store.user.reporter ?
+                                    <Link to={`/create/articles`} reloadDocument>
+                                        <FormattedMessage id="header.menu.articles" />
+                                    </Link>
+                                    : null}
+                                {auth_store.user.is_superuser ?
+                                    <Link to={`/admin`} reloadDocument>
+                                        <FormattedMessage id="header.menu.admin" />
+                                    </Link>
+                                    : null}
+
                                 <hr className='drop-down-line' />
                                 <Link to={`/${auth_store.user.username}/settings`} reloadDocument>
                                     <FormattedMessage id="header.menu.settings" />

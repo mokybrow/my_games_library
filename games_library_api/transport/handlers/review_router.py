@@ -7,16 +7,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
-
 from games_library_api.integrations.review_operations import (
     add_like_to_user_comment,
     create_review,
     delete_user_grade,
-
-    get_reviews,
+    get_all_reviews_count,
+    get_all_reviews,
     get_user_grade,
 )
-from games_library_api.models import error_model,  review_model
+from games_library_api.models import error_model, review_model
 from games_library_api.schemas.user import User
 
 router = APIRouter()
@@ -64,15 +63,14 @@ async def add_like_to_user_comment_router(
     await add_like_to_user_comment(user_id=user.id, review_id=review_id, db=db)
 
 
-
-@router.get('/review/get/', response_model=list[review_model.PopelarReviewCardResponseModel])
+@router.get('/review/all', response_model=list[review_model.PopelarReviewCardResponseModel])
 async def get_all_reviews_router(
     offset: int = None,
     limit: int = None,
     popular: bool = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_reviews(limit=limit,offset=offset,popular=popular, db=db)
+    result = await get_all_reviews(limit=limit, offset=offset, popular=popular, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')
         return JSONResponse(
@@ -81,3 +79,18 @@ async def get_all_reviews_router(
         )
 
     return result
+
+
+@router.get('/review/all/count', response_model=review_model.GetReviewCountResponseModel)
+async def get_all_reviews_count_router(
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await get_all_reviews_count(db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+
+    return result[0]

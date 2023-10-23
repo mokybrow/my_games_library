@@ -48,3 +48,7 @@ class PopelarReviewCardResponseModel(BaseModel):
     cover: Optional[str]
     slug: str
     like_count: int
+
+
+class GetReviewCountResponseModel(BaseModel):
+    count: int

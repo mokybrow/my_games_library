@@ -6,8 +6,7 @@ import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 import Header from './components/Header';
 
-import { NewsPage } from './pages/NewsPage';
-import { ReviewsPage } from './pages/ReviewsPage';
+
 import './styles/auth-forms.css'
 import './styles/data-forms.css'
 import './styles/home-page.css'
@@ -22,6 +21,7 @@ import './styles/user-settings.css'
 import './styles/list-create.css'
 import './styles/lists-pages.css'
 import './styles/playlists.css'
+import './styles/create-article.css'
 import GameProfile from './pages/GameProfile';
 import GamesPage from './pages/GamesPage';
 import AdminPage from './pages/AdminPage';
@@ -34,6 +34,9 @@ import PlayedGamesPage from './pages/PlayedGamesPage';
 import LikedGamesPage from './pages/LikedGamesPage';
 import WantPlayGamePage from './pages/WantPlayGamePage';
 import PlaylistsPage from './pages/PlaylistsPage';
+import ReviewsPage from './pages/ReviewsPage';
+import CreateArticlePage from './pages/CreateArticlePage';
+import ArticlesPage from './pages/ArticlesPage';
 
 
 
@@ -56,8 +59,8 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/:username' element={<ProfilePage />} />
             <Route path='/games' element={<GamesPage />} />
-            <Route path='/playlists/' element={<PlaylistsPage />} />
-            <Route path='/news/' element={<NewsPage />} />
+            <Route path='/playlists' element={<PlaylistsPage />} />
+            <Route path='/articles' element={<ArticlesPage />} />
             <Route path='/reviews/' element={<ReviewsPage />} />
             <Route path='/game/:slug' element={<GameProfile />} />
             <Route path='/list/:slug' element={<GameInUserList />} />
@@ -67,8 +70,9 @@ function App() {
             <Route path='/:username/played' element={<PlayedGamesPage />} />
             <Route path='/:username/liked' element={<LikedGamesPage />} />
             <Route path='/:username/wants-to-play' element={<WantPlayGamePage />} />
-            <Route path='/dash/admin' element={<AdminPage />} />
-            <Route path='/dash/admin/users' element={<AdminUsers />} />
+            <Route path='/admin' element={<AdminPage />} />
+            <Route path='/admin/users' element={<AdminUsers />} />
+            <Route path='/create/articles' element={<CreateArticlePage />} />
           </Routes>
         </Router>
       </>

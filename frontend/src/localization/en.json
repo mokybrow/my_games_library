@@ -5,7 +5,7 @@
     "header.menu.logo": "Cult of Bear",
     "header.menu.item1": "Games",
     "header.menu.item2": "Playlists",
-    "header.menu.item3": "News",
+    "header.menu.item3": "Articles",
     "header.menu.item4": "Reviews",
 
     "header.menu.login": "Log in",
@@ -18,6 +18,8 @@
     "header.menu.wanttoplay": "I'll pass",
     "header.menu.liked": "Liked",
     "header.menu.lists": "Lists",
+    "header.menu.articles": "Create Articles",
+    "header.menu.admin": "Admin Dashboard",
     "header.menu.settings": "Settings",
 
     "content.headers.newsgames": "New games",

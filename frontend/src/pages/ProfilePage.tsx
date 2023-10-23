@@ -28,7 +28,6 @@ const ProfilePage: FC = () => {
   }, [])
 
 
-
   if (user_store.isLoading === true || auth_store.isLoading == true) {
     return (
       <section className='loader-section'>

@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import UUID4
 from sqlalchemy import delete, distinct, func, insert, select, update
@@ -90,27 +90,82 @@ async def add_like_to_user_comment(db: AsyncSession, review_id: UUID4, user_id: 
     return True
 
 
-
-
-async def get_reviews(limit: int| None, offset: int | None, popular: bool | None, db: AsyncSession):
+async def get_all_reviews(limit: int | None, offset: int | None, popular: bool | None, db: AsyncSession):
     if limit == None:
         limit = 4
-    
-    date2 = datetime.datetime.utcnow() + datetime.timedelta(days=-7)
-    print(popular)
+
     if popular == True:
-        query = select(review_table.c.id, review_table.c.grade, review_table.c.comment, review_table.c.created_at,
-                    user_table.c.id.label('user_id'), user_table.c.username, user_table.c.img, 
-                    game_table.c.id.label('game_id'), game_table.c.title, game_table.c.cover, game_table.c.slug, 
-                    func.count(review_like_table.c.user_id).label('like_count')).limit(limit).offset(offset).where(review_table.c.comment != None, review_table.c.created_at <=datetime.datetime.utcnow(), review_table.c.created_at >=(datetime.datetime.utcnow() - datetime.timedelta(days=7))).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id).join(user_table, onclause=review_table.c.user_id==user_table.c.id).join(game_table, onclause=review_table.c.game_id==game_table.c.id).group_by(review_table.c.id, user_table.c.id,game_table.c.id).order_by(func.count(distinct(review_like_table.c.user_id), ).desc())
+        query = (
+            select(
+                review_table.c.id,
+                review_table.c.grade,
+                review_table.c.comment,
+                review_table.c.created_at,
+                user_table.c.id.label('user_id'),
+                user_table.c.username,
+                user_table.c.img,
+                game_table.c.id.label('game_id'),
+                game_table.c.title,
+                game_table.c.cover,
+                game_table.c.slug,
+                func.count(review_like_table.c.user_id).label('like_count'),
+            )
+            .limit(limit)
+            .offset(offset)
+            .where(
+                review_table.c.comment != None,
+                review_table.c.created_at <= datetime.datetime.utcnow(),
+                review_table.c.created_at >= (datetime.datetime.utcnow() - datetime.timedelta(days=7)),
+            )
+            .join(review_like_table, onclause=review_like_table.c.review_id == review_table.c.id, isouter=True)
+            .join(user_table, onclause=review_table.c.user_id == user_table.c.id, isouter=True)
+            .join(game_table, onclause=review_table.c.game_id == game_table.c.id, isouter=True)
+            .group_by(review_table.c.id, user_table.c.id, game_table.c.id)
+            .order_by(
+                func.count(
+                    distinct(review_like_table.c.user_id),
+                ).desc()
+            )
+        )
         result = await db.execute(query)
         result = result.all()
         return result
-    
-    query = select(review_table.c.id, review_table.c.grade, review_table.c.comment, review_table.c.created_at,
-                    user_table.c.id.label('user_id'), user_table.c.username, user_table.c.img, 
-                    game_table.c.id.label('game_id'), game_table.c.title, game_table.c.cover, game_table.c.slug, 
-                    func.count(review_like_table.c.user_id).label('like_count')).limit(limit).offset(offset).where(review_table.c.comment != None).join(review_like_table, onclause=review_like_table.c.review_id==review_table.c.id).join(user_table, onclause=review_table.c.user_id==user_table.c.id).join(game_table, onclause=review_table.c.game_id==game_table.c.id).group_by(review_table.c.id, user_table.c.id,game_table.c.id).order_by(func.count(distinct(review_like_table.c.user_id), ))
+
+    query = (
+        select(
+            review_table.c.id,
+            review_table.c.grade,
+            review_table.c.comment,
+            review_table.c.created_at,
+            user_table.c.id.label('user_id'),
+            user_table.c.username,
+            user_table.c.img,
+            game_table.c.id.label('game_id'),
+            game_table.c.title,
+            game_table.c.cover,
+            game_table.c.slug,
+            func.count(review_like_table.c.user_id).label('like_count'),
+        )
+        .limit(limit)
+        .offset(offset)
+        .where(review_table.c.comment != None)
+        .join(review_like_table, onclause=review_like_table.c.review_id == review_table.c.id)
+        .join(user_table, onclause=review_table.c.user_id == user_table.c.id)
+        .join(game_table, onclause=review_table.c.game_id == game_table.c.id)
+        .group_by(review_table.c.id, user_table.c.id, game_table.c.id)
+        .order_by(
+            func.count(
+                distinct(review_like_table.c.user_id),
+            )
+        )
+    )
+    result = await db.execute(query)
+    result = result.all()
+    return result
+
+
+async def get_all_reviews_count(db: AsyncSession) -> Any:
+    query = select(func.count("*")).select_from(review_table)
     result = await db.execute(query)
     result = result.all()
     return result

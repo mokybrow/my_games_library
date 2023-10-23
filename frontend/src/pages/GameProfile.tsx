@@ -6,6 +6,7 @@ import { Context } from '..';
 import { FormattedDate, FormattedMessage, FormattedNumber } from 'react-intl';
 import ListService from '../service/ListService';
 import { ModalWindow } from '../components/ModalWindow';
+import { getLocalToken } from '../utils/utils';
 
 
 const GameProfile: FC = () => {
@@ -17,7 +18,18 @@ const GameProfile: FC = () => {
 
     useEffect(() => {
         games_store.getGameData(String(slug))
-    }, [games_store, slug])
+        if (getLocalToken()) {
+            const getUserLists = async () => {
+                const response = await auth_store.checkAuth()
+
+                return response
+            }
+            getUserLists().then(function () {
+                auth_store.getUserListsFunc()
+            }
+            )
+        }
+    }, [games_store, slug, auth_store])
 
 
     const [actvie, setModalActive] = useState(false);
@@ -48,7 +60,6 @@ const GameProfile: FC = () => {
     }
 
     const addGameToList = async (list_id: string) => {
-        console.log(list_id)
         await ListService.addGameToList(list_id, games_store.gameProfile.id)
     }
 
@@ -136,11 +147,11 @@ const GameProfile: FC = () => {
                                 </textarea >
                                 <button className='form-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment(null) } }}>Оставить отзывы</button>
 
-                                {games_store.userGrade?.grade > 0 || games_store.userGrade?.grade != null ? 
-                                <button onClick={() => { { games_store.deleteReview(games_store.gameProfile.id, String(slug)) } { setComment(null) } { setOpen(!isOpen) } { setRating(0) } }}
-                                    className={`form-button ${isOpen ? 'active' : ''}`}>
-                                    <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
-                                </button> : null}
+                                {games_store.userGrade?.grade > 0 || games_store.userGrade?.grade != null ?
+                                    <button onClick={() => { { games_store.deleteReview(games_store.gameProfile.id, String(slug)) } { setComment(null) } { setOpen(!isOpen) } { setRating(0) } }}
+                                        className={`form-button ${isOpen ? 'active' : ''}`}>
+                                        <span><FormattedMessage id="content.gameprofile.deleteestimate" /></span>
+                                    </button> : null}
                             </ModalWindow>
 
                         </>}

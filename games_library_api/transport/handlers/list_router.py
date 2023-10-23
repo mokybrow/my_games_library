@@ -1,4 +1,5 @@
 import base64
+
 from typing import Annotated, Any, Optional
 
 from fastapi import APIRouter, Body, Depends, File, Header, Request, Response, UploadFile, status
@@ -39,16 +40,24 @@ async def create_list_route(
     title: str,
     description: Optional[str],
     is_private: Optional[bool],
-    img: Optional[UploadFile | str], 
+    img: Optional[UploadFile | str],
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),
 ):
     if img != 'null':
         img_bytes = img.file.read()
-        base64_string= base64.b64encode(img_bytes).decode('utf-8')
+        base64_string = base64.b64encode(img_bytes).decode('utf-8')
     if img == 'null':
-        base64_string=None
-    result = await create_list(db=db, owner_id=user.id,  username=user.username,cover=base64_string, title=title, description=description, is_private=is_private)
+        base64_string = None
+    result = await create_list(
+        db=db,
+        owner_id=user.id,
+        username=user.username,
+        cover=base64_string,
+        title=title,
+        description=description,
+        is_private=is_private,
+    )
     if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')
         return JSONResponse(
@@ -59,8 +68,10 @@ async def create_list_route(
 
 
 @router.get('/list/approve/create')
-async def approve_create_list_router(title: str,user: User = Depends(current_active_user),
-                                     db: AsyncSession = Depends(get_async_session),
+async def approve_create_list_router(
+    title: str,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
 ):
     result = await approve_create_list(title=title, username=user.username, db=db)
     if result:
@@ -72,7 +83,7 @@ async def approve_create_list_router(title: str,user: User = Depends(current_act
     return {'detail': True}
 
 
-@router.get('/lists/all/', response_model=list[list_model.ListResponseModel])
+@router.get('/list/all/', response_model=list[list_model.ListResponseModel])
 async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_all_list(db=db)
     if not result:
@@ -84,7 +95,8 @@ async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) ->
 
     return result
 
-@router.get('/lists/all/page/count', response_model=game_model.GetGamesCountResponseModel)
+
+@router.get('/list/all/count', response_model=list_model.GetListCountResponseModel)
 async def get_all_list_count_router(db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_all_list_count(db=db)
     if not result:
@@ -97,7 +109,7 @@ async def get_all_list_count_router(db: AsyncSession = Depends(get_async_session
     return result[0]
 
 
-@router.post('/lists/add_game_to_user_list')
+@router.post('/list/add/game/to/user/list')
 async def add_game_to_user_list_router(
     list_id: UUID4,
     game_id: UUID4,
@@ -118,7 +130,6 @@ async def universal_passed_router(
         return {'Game deleted': 'Success'}
 
     return {'Game added': 'Success'}
-
 
 
 @router.post('/list/operation/liked')
@@ -145,7 +156,6 @@ async def universal_wantplay_router(
         return {'Game deleted': 'Success'}
 
     return {'Game added': 'Success'}
-
 
 
 @router.delete('/list/delete/')
@@ -207,7 +217,7 @@ async def ist_games_router(
     return result
 
 
-@router.post('/add/delete/lists/{slug}/user/{user_id}')
+@router.post('/list/add/delete')
 async def ist_games_router(
     slug: str,
     user_id: UUID4,
@@ -228,7 +238,7 @@ async def ist_games_router(
     return result
 
 
-@router.get('/list/{slug}/check/added/{user_id}', response_model=list_model.ListDataResponseModel)
+@router.get('/list/check/added', response_model=list_model.ListDataResponseModel)
 async def list_data_router(
     slug: str,
     user_id: UUID4,
@@ -246,61 +256,12 @@ async def list_data_router(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
         )
-    print(result[0])
     return result[0]
 
 
-@router.get('/list/check/in_passed')
-async def check_game_in_passed_list(
-    game_id: UUID4,
-    user: User = Depends(current_active_user),
-    db: AsyncSession = Depends(get_async_session),
-):
-    result = await check_game_in_user_passed(game_id=game_id, user_id=user.id, db=db)
-    if not result:
-        error = error_model.ErrorResponseModel(details='No Data')
-        return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-    return result
-
-@router.get('/list/check/in_liked')
-async def check_game_in_liked_list(
-    game_id: UUID4,
-    user: User = Depends(current_active_user),
-    db: AsyncSession = Depends(get_async_session),
-):
-    result = await check_game_in_user_liked(game_id=game_id, user_id=user.id, db=db)
-    if not result:
-        error = error_model.ErrorResponseModel(details='No Data')
-        return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-    return result
-
-
-@router.get('/list/check/in_wishlish')
-async def check_game_in_wishlish_list(
-    game_id: UUID4,
-    user: User = Depends(current_active_user),
-    db: AsyncSession = Depends(get_async_session),
-):
-    result = await check_game_in_user_wantplay(game_id=game_id, user_id=user.id, db=db)
-    if not result:
-        error = error_model.ErrorResponseModel(details='No Data')
-        return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-    return result
-
 @router.get('/list/data', response_model=list_model.ListResponseModel)
-async def get_list_data_router(    
-    slug: str,
-    db: AsyncSession = Depends(get_async_session)):
-    result = await get_list_info(slug=slug,db=db)
+async def get_list_data_router(slug: str, db: AsyncSession = Depends(get_async_session)):
+    result = await get_list_info(slug=slug, db=db)
 
     if not result:
         error = error_model.ErrorResponseModel(details='Not in list')

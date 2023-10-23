@@ -45,14 +45,14 @@
     display: none;
 }
 
-#menu-item-transition {
+/* #menu-item-transition {
     opacity: 0.8;
 }
 
 #menu-item-transition:hover {
     transition: all 0.4s;
     opacity: 1;
-}
+} */
 
 @media (max-width: 1023px) {
     .header {

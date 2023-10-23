@@ -130,7 +130,7 @@ export default class AuthStore {
             this.setLoading(false);
         }
     }
-    async getUserLists(){
+    async getUserListsFunc(){
         try {
             const lists = await UserService.getUserLists(this.user.id)
             this.setLists(lists.data)

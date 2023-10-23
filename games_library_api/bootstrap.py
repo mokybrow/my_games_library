@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .settings import get_settings
 from .transport.handlers.admin_router import router as admin_router
+from .transport.handlers.article_router import router as article_router
 from .transport.handlers.auth_router import router as auth_router
 from .transport.handlers.game_router import router as game_router
 from .transport.handlers.list_router import router as list_router
@@ -21,6 +22,7 @@ def _setup_api_routers(
     api.include_router(list_router, tags=['lists'])
     api.include_router(admin_router, tags=['admin dashboard'])
     api.include_router(review_router, tags=['review'])
+    api.include_router(article_router, tags=['article'])
 
 
 @lru_cache

@@ -24,12 +24,12 @@ from games_library_api.integrations.user_operations import (
     check_follow,
     follow_unfollow_on_user,
     get_another_user,
-    get_user_profile,
     get_user_activity,
     get_user_by_email,
     get_user_by_username,
     get_user_img,
     get_user_last_reviews,
+    get_user_profile,
     update_user_img,
 )
 from games_library_api.models import error_model, game_model, list_model, review_model, users_model
@@ -119,6 +119,7 @@ async def get_user_private_lists_router(
         )
 
     return result
+
 
 @router.get('/user/added/lists', response_model=list[list_model.ListResponseModel])
 async def get_user_added_lists(
@@ -245,7 +246,7 @@ async def update_user_img_router(
 ):
     if img:
         img_bytes = img.file.read()
-        base64_string= base64.b64encode(img_bytes).decode('utf-8')
+        base64_string = base64.b64encode(img_bytes).decode('utf-8')
 
     if not img:
         base64_string = None

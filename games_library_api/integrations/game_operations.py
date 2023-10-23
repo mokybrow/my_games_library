@@ -238,10 +238,10 @@ async def get_new_games(db: AsyncSession):
 async def get_game_profile(slug: str, db: AsyncSession):
     query = select(game_table).where(game_table.c.slug == slug)
     result = await db.execute(query)
-    a = result.all()
-    result = await db.execute(query)
-
-    return result.all()
+    result = result.all()
+    if not result:
+        return False
+    return True
 
 
 async def get_game_review(game_id: UUID4, user_id: UUID4, db: AsyncSession):

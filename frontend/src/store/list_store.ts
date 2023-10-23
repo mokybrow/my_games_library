@@ -104,18 +104,7 @@ export default class ListStore {
         }
 
     }
-    async getPageCount() {
-        this.setLoading(true);
-        try {
-            const response = await ListService.geListsCount();
-            this.setPageCount(response.data.count / 36)
 
-        } catch (error) {
-            //const err = error as AxiosError
-        } finally {
-            this.setLoading(false);
-        }
-    }
     async getAllLists() {
         this.setLoading(true);
         try {
@@ -123,6 +112,12 @@ export default class ListStore {
             this.setAllLists(allLists.data)
         } catch (error) {
             const err = error as AxiosError
+        } try {
+            const response = await ListService.geListsCount();
+            this.setPageCount(response.data.count / 36)
+
+        } catch (error) {
+            //const err = error as AxiosError
         } finally {
             this.setLoading(false);
         }

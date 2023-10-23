@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { AUser, AuthResponse, GamesCountResponse, IUser, ListsGameResponse, RegEmailCheck, RegResponse, UserListsResponse, checkAddedListsGameResponse } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
+import { PageCountResponseModel } from "../models/generalModels";
 
 export default class ListService {
 
@@ -75,27 +76,31 @@ export default class ListService {
     }
 
     static async checkAdded(slug: string, user_id: string): Promise<AxiosResponse<checkAddedListsGameResponse>> {
-        return $api.get<checkAddedListsGameResponse>(`/list/${slug}/check/added/${user_id}`,
+        return $api.get<checkAddedListsGameResponse>(`/list/check/added`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-
+                params: {
+                    slug: slug,
+                    user_id: user_id
+                }
             },)
     }
 
     static async AddDeleteListToMy(slug: string, user_id: string): Promise<AxiosResponse> {
-        return $api.post(`/add/delete/lists/${slug}/user/${user_id}`,
+        return $api.post(`/list/add/delete}`, null,
             {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                params: {
+                    slug: slug,
+                    user_id: user_id,
+                }
 
             },)
     }
 
     static async addGameToList(list_id: string, game_id: string): Promise<AxiosResponse> {
-        return $api.post(`/lists/add_game_to_user_list`, null, {
+        return $api.post(`/list/add/game/to/user/list`, null, {
             params: {
                 list_id,
                 game_id
@@ -104,11 +109,10 @@ export default class ListService {
     }
 
     static async getAllLists(): Promise<AxiosResponse<UserListsResponse[]>> {
-        return $api.get<UserListsResponse[]>(`/lists/all`)
+        return $api.get<UserListsResponse[]>(`/list/all`)
     }
 
-    static async geListsCount(): Promise<AxiosResponse<GamesCountResponse>> {
-        return $api.get<GamesCountResponse>(` /lists/all/page/count`)
-       
+    static async geListsCount(): Promise<AxiosResponse<PageCountResponseModel>> {
+        return axios.get<PageCountResponseModel>(` ${API_URL}list/all/count`)
     }
 }

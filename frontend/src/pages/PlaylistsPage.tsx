@@ -7,6 +7,7 @@ import { Pagination } from '../components/Pagination';
 
 const PlaylistsPage: FC = () => {
   const { list_store } = useContext(Context);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const myParam = searchParams.get('page');
   const [currentPage, setCurrentPage] = useState<number>(Number(myParam));
@@ -20,8 +21,6 @@ const PlaylistsPage: FC = () => {
   const handlePageClick = async (event: { selected: number; }) => {
     setCurrentPage(currentPage)
     setSearchParams({ page: String(event.selected + 1) });
-
-
     setCurrentPage(event.selected + 1)
   };
 

@@ -5,7 +5,7 @@
     "header.menu.logo": "Культ Медведя",
     "header.menu.item1": "Игры",
     "header.menu.item2": "Плейлисты",
-    "header.menu.item3": "Новости",
+    "header.menu.item3": "Статьи",
     "header.menu.item4": "Рецензии",
 
     "header.menu.login": "Вход",
@@ -18,6 +18,8 @@
     "header.menu.wanttoplay": "Пройду",
     "header.menu.liked": "Понравившиеся",
     "header.menu.lists": "Списки",
+    "header.menu.articles": "Написать Статью",
+    "header.menu.admin": "Админ Панель",
     "header.menu.settings": "Настройки",
 
 

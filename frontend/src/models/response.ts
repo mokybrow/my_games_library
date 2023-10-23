@@ -24,6 +24,8 @@ export interface IUser {
     is_active: boolean,
     is_superuser: boolean,
     is_verified: boolean,
+    reporter: boolean,
+    subscriber: boolean,
     username: string,
     name: string,
     surname: string,
@@ -128,7 +130,7 @@ export interface GameReviews {
     review_id: string,
     review_likes: number,
     hasAuthorLike: number,
-    detail?: string 
+    detail?: string
 }
 
 export interface GameAvgRate {
@@ -137,29 +139,29 @@ export interface GameAvgRate {
 
 
 
-export interface UserListsResponse{
+export interface UserListsResponse {
     id: string,
     owner_id: string,
     title: string,
     slug: string,
-    cover: string ,
+    cover: string,
     description: string | null,
     is_private: boolean,
     created_at: Date
 }
 
 
-export interface ListsGameResponse{
+export interface ListsGameResponse {
     game_id: string,
     slug: string,
     cover: any,
     title: string | null,
 }
 
-export interface checkAddedListsGameResponse{
+export interface checkAddedListsGameResponse {
     user_id: string,
 }
 
-export interface UserImg{
+export interface UserImg {
     img: any
 }

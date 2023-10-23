@@ -26,7 +26,15 @@ from games_library_api.schemas.database import (
 from games_library_api.services.list_slug import making_slug
 
 
-async def create_list(db: AsyncSession, owner_id: UUID4,cover: Optional[str] , username: str, title: str, description:str, is_private: bool) -> bool:
+async def create_list(
+    db: AsyncSession,
+    owner_id: UUID4,
+    cover: Optional[str],
+    username: str,
+    title: str,
+    description: str,
+    is_private: bool,
+) -> bool:
     query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     if result.all():
@@ -48,7 +56,7 @@ async def create_list(db: AsyncSession, owner_id: UUID4,cover: Optional[str] , u
     return list_id[0][0]
 
 
-async def approve_create_list(db: AsyncSession,  username: str, title: str) -> bool:
+async def approve_create_list(db: AsyncSession, username: str, title: str) -> bool:
     query = select(list_table.c.title).filter(list_table.c.slug == await making_slug(username + '_' + title))
     result = await db.execute(query)
     result = result.all()
@@ -60,27 +68,28 @@ async def approve_create_list(db: AsyncSession,  username: str, title: str) -> b
 async def get_all_list(db: AsyncSession) -> Any:
     query = select(list_table).filter(list_table.c.is_private == False)
     result = await db.execute(query)
-    result =  result.all()
+    result = result.all()
     return result
+
 
 async def get_all_list_count(db: AsyncSession) -> Any:
     query = select(func.count("*")).select_from(list_table)
     result = await db.execute(query)
     result = result.all()
-    print(result)
     return result
+
 
 async def get_user_list(db: AsyncSession, user_id: UUID4) -> Any:
     query = select(list_table).where(list_table.c.owner_id == user_id)
     result = await db.execute(query)
-    result =  result.all()
+    result = result.all()
     return result
 
 
 async def get_user_not_private_list(db: AsyncSession, user_id: UUID4) -> Any:
     query = select(list_table).where(list_table.c.owner_id == user_id).filter(list_table.c.is_private == False)
     result = await db.execute(query)
-    result =  result.all()
+    result = result.all()
     return result
 
 
@@ -361,11 +370,11 @@ async def get_list_games(
             .where(list_game_table.c.list_id == list_id[0][0])
         )
         result = await db.execute(query)
-        result =  result.all()
+        result = result.all()
         if result:
             return result
         return False
-    
+
     return False
 
 
@@ -458,7 +467,6 @@ async def check_game_in_user_passed(game_id: UUID4, user_id: UUID4, db: AsyncSes
     if not game_id_result.all():
         return False
     return True
-
 
 
 async def get_list_info(

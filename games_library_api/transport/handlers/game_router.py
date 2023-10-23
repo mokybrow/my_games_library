@@ -10,11 +10,16 @@ from games_library_api.database import get_async_session
 from games_library_api.integrations.game_operations import (
     get_all_games,
     get_count_games,
-    get_game_profile,
     get_game_avg_rate,
+    get_game_profile,
     get_game_review,
     get_game_review_for_all,
     get_new_games,
+)
+from games_library_api.integrations.list_operations import (
+    check_game_in_user_liked,
+    check_game_in_user_passed,
+    check_game_in_user_wantplay,
 )
 from games_library_api.models import error_model, game_model
 from games_library_api.schemas.user import User
@@ -52,8 +57,8 @@ async def get_all_games_router(db: AsyncSession = Depends(get_async_session)):
 
 
 @router.get("/game/get/profile", response_model=game_model.GetGamesPageResponseModel)
-async def get_game_router(slug: str,   db: AsyncSession = Depends(get_async_session)):
-    result = await get_game_profile(slug=slug,  db=db)
+async def get_game_router(slug: str, db: AsyncSession = Depends(get_async_session)):
+    result = await get_game_profile(slug=slug, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='Game not Found')
         return JSONResponse(
@@ -107,6 +112,54 @@ async def get_game_avg_rate_router(id: UUID4, db: AsyncSession = Depends(get_asy
             status_code=status.HTTP_404_NOT_FOUND,
         )
     return result[0]
+
+
+@router.get('/game/check/in_passed')
+async def check_game_in_passed_list(
+    game_id: UUID4,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_game_in_user_passed(game_id=game_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result
+
+
+@router.get('/game/check/in_liked')
+async def check_game_in_liked_list(
+    game_id: UUID4,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_game_in_user_liked(game_id=game_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result
+
+
+@router.get('/game/check/in_wishlish')
+async def check_game_in_wishlish_list(
+    game_id: UUID4,
+    user: User = Depends(current_active_user),
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await check_game_in_user_wantplay(game_id=game_id, user_id=user.id, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return result
 
 
 # @router.get("/games/{genre}/")

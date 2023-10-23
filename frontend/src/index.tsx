@@ -9,6 +9,8 @@ import { IntlProvider } from 'react-intl';
 import Russian from './localization/ru.json';
 import English from './localization/en.json';
 import ListStore from './store/list_store';
+import ReviewStore from './store/review_store';
+import ArticleStore from './store/article_store';
 
 
 interface State {
@@ -16,18 +18,24 @@ interface State {
   user_store: UserStore
   games_store: GamesStore
   list_store: ListStore
+  review_store: ReviewStore
+  artilce_store: ArticleStore
 }
 
 const auth_store = new AuthStore();
 const user_store = new UserStore();
 const games_store = new GamesStore();
 const list_store = new ListStore();
+const review_store = new ReviewStore();
+const artilce_store = new ArticleStore();
 
 export const Context = createContext<State>({
   auth_store: auth_store,
   user_store: user_store,
   games_store: games_store,
   list_store: list_store,
+  review_store: review_store,
+  artilce_store: artilce_store
 })
 
 const locale = navigator.language;
@@ -44,7 +52,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <Context.Provider value={{ auth_store: auth_store, user_store: user_store, games_store: games_store, list_store: list_store }}>
+  <Context.Provider value={{ auth_store: auth_store, user_store: user_store, games_store: games_store, list_store: list_store, review_store: review_store, artilce_store: artilce_store }}>
     <IntlProvider locale={locale} messages={lang}>
       <App />
     </IntlProvider>

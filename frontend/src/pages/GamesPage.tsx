@@ -132,7 +132,6 @@ const GamesPage: FC = () => {
     }
 
     if (games_store.sort !== 'null') {
-      console.log('срабатываю я')
       const response = await GameService.getGamesPages(1, String(games_store.sort), null, genre)
       setCurrentPage(1)
       games_store.setGamesPage(response.data)
@@ -142,7 +141,6 @@ const GamesPage: FC = () => {
   }
 
   if (games_store.isLoading === true) {
-    console.log('true')
     return (
       <section className='loader-section'>
         <div className="lds-spinner"><div></div>

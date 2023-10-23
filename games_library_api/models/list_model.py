@@ -50,3 +50,7 @@ class ListGamesResponseModel(BaseModel):
 
 class ListDataResponseModel(BaseModel):
     user_id: UUID4
+
+
+class GetListCountResponseModel(BaseModel):
+    count: int

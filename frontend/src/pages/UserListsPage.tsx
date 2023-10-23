@@ -21,10 +21,10 @@ const UserListsPage: FC = () => {
         checkUsername().then(function (value: any) {
             if (value !== String(username)) {
                 user_store.findUser(String(username))
-                console.log('Это не я')
+
             }
             else {
-                auth_store.getUserLists()
+                auth_store.getUserListsFunc()
             }
         })
 
@@ -70,7 +70,6 @@ const UserListsPage: FC = () => {
                 </div>
             </section>)
     }
-    auth_store.list.map(list =>console.log(list.cover))
 
     return (
         <section className='other-page-section'>

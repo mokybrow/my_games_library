@@ -5,7 +5,7 @@ from typing import Optional
 
 from fastapi_users import schemas
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from sqlalchemy import Column, Date, String
+from sqlalchemy import Boolean, Column, Date, String
 from sqlalchemy.orm import DeclarativeBase
 
 
@@ -19,6 +19,8 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     surname = Column(String, nullable=True)
     birthdate = Column(Date, nullable=True, default=None)
     gender = Column(String, nullable=True)
+    reporter = Column(Boolean, default=False)
+    subscriber = Column(Boolean, default=False)
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
