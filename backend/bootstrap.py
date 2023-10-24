@@ -34,13 +34,7 @@ def make_app() -> FastAPI:
     _setup_api_routers(app.router)
 
     origins = [
-        'http://localhost',
-        'http://localhost:8000',
         'http://localhost:3000',
-        'http://localhost:3000/login',
-        'http://localhost:3000/sign_up',
-        'http://localhost:8000/auth/login',
-        'http://localhost:3000/games/page/',
     ]
 
     app.add_middleware(

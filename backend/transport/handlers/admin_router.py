@@ -6,13 +6,13 @@ from fastapi import APIRouter, Depends, UploadFile
 from pydantic import Json
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import current_superuser, fastapi_users
-from games_library_api.database import get_async_session
-from games_library_api.integrations.admin_operations import game_parser, get_all_users
-from games_library_api.integrations.game_operations import add_game
-from games_library_api.models import users_model
-from games_library_api.schemas.user import User, UserRead, UserUpdate
-from games_library_api.services.cover_upload import save_upload_cover
+from backend.auth.utils import current_superuser, fastapi_users
+from backend.database import get_async_session
+from backend.integrations.admin_operations import game_parser, get_all_users
+from backend.integrations.game_operations import add_game
+from backend.models import users_model
+from backend.schemas.user import User, UserRead, UserUpdate
+from backend.services.cover_upload import save_upload_cover
 
 router = APIRouter()
 

@@ -8,8 +8,8 @@ from pydantic import UUID4
 from sqlalchemy import delete, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.models.list_model import CreateListModel
-from games_library_api.schemas.database import (
+from backend.models.list_model import CreateListModel
+from backend.schemas.database import (
     game_table,
     like_game_table,
     like_table,
@@ -23,7 +23,7 @@ from games_library_api.schemas.database import (
     wantplay_game_table,
     wantplay_table,
 )
-from games_library_api.services.list_slug import making_slug
+from backend.services.list_slug import making_slug
 
 
 async def create_list(

@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "gamers society"
 authors = ["Mikhail Panin <mokybrow@gmail.com>"]
 readme = "README.md"
-packages = [{include = "my_games_library"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -26,6 +25,8 @@ requests = "^2.31.0"
 pyjwt = "^2.8.0"
 pytest = "^7.4.2"
 pytest-asyncio = "^0.21.1"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+gunicorn = "^21.2.0"
 
 
 [build-system]

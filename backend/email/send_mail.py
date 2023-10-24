@@ -7,7 +7,7 @@ from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
 from pydantic import BaseModel, EmailStr
 from starlette.responses import JSONResponse
 
-from games_library_api.settings import get_settings
+from backend.settings import get_settings
 
 settings = get_settings()
 
@@ -23,7 +23,6 @@ conf = ConnectionConfig(
     MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True,
-    TEMPLATE_FOLDER='./templates',
 )
 
 

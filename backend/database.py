@@ -5,8 +5,8 @@ from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
-from games_library_api.schemas.user import User
-from games_library_api.settings import get_settings
+from backend.schemas.user import User
+from backend.settings import get_settings
 
 settings = get_settings()
 

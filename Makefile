@@ -1,4 +1,4 @@
-SOURCE_DIR_API=games_library_api
+SOURCE_DIR_API=backend
 TESTS_DIR=tests
 
 

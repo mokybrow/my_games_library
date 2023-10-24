@@ -7,7 +7,7 @@ from pydantic import UUID4
 from sqlalchemy import delete, distinct, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import game_table, review_like_table, review_table, user_table
+from backend.schemas.database import game_table, review_like_table, review_table, user_table
 
 
 async def create_review(db: AsyncSession, game_id: UUID4, user_id: UUID4, grade: int, comment: Optional[str]):

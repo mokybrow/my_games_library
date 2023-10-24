@@ -10,9 +10,9 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import current_active_user
-from games_library_api.database import get_async_session
-from games_library_api.integrations.list_operations import (
+from backend.auth.utils import current_active_user
+from backend.database import get_async_session
+from backend.integrations.list_operations import (
     get_liked_game,
     get_passed_game,
     get_user_added,
@@ -20,7 +20,7 @@ from games_library_api.integrations.list_operations import (
     get_user_not_private_list,
     get_wantplay_game,
 )
-from games_library_api.integrations.user_operations import (
+from backend.integrations.user_operations import (
     check_follow,
     follow_unfollow_on_user,
     get_another_user,
@@ -32,10 +32,10 @@ from games_library_api.integrations.user_operations import (
     get_user_profile,
     update_user_img,
 )
-from games_library_api.models import error_model, game_model, list_model, review_model, users_model
-from games_library_api.schemas.user import User
-from games_library_api.services.cover_upload import save_upload_cover
-from games_library_api.settings import get_settings
+from backend.models import error_model, game_model, list_model, review_model, users_model
+from backend.schemas.user import User
+from backend.services.cover_upload import save_upload_cover
+from backend.settings import get_settings
 
 router = APIRouter()
 settings = get_settings()

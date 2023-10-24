@@ -6,7 +6,7 @@ from pydantic import UUID4
 from sqlalchemy import delete, distinct, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import (
+from backend.schemas.database import (
     follower_table,
     game_table,
     list_game_table,

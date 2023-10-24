@@ -5,9 +5,9 @@ from fastapi.responses import JSONResponse
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.auth.utils import current_active_user
-from games_library_api.database import get_async_session
-from games_library_api.integrations.review_operations import (
+from backend.auth.utils import current_active_user
+from backend.database import get_async_session
+from backend.integrations.review_operations import (
     add_like_to_user_comment,
     create_review,
     delete_user_grade,
@@ -15,8 +15,8 @@ from games_library_api.integrations.review_operations import (
     get_all_reviews_count,
     get_user_grade,
 )
-from games_library_api.models import error_model, review_model
-from games_library_api.schemas.user import User
+from backend.models import error_model, review_model
+from backend.schemas.user import User
 
 router = APIRouter()
 

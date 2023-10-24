@@ -8,7 +8,7 @@ import requests
 from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import game_table, user_table
+from backend.schemas.database import game_table, user_table
 
 
 async def get_all_users(page: int, db: AsyncSession) -> Any:

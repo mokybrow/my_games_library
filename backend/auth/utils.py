@@ -8,11 +8,11 @@ from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import AuthenticationBackend, BearerTransport, CookieTransport, JWTStrategy
 from fastapi_users.db import SQLAlchemyUserDatabase
 
-from games_library_api.database import get_user_db
-from games_library_api.email.send_mail import sending_mail
-from games_library_api.integrations.after_registration import create_default_lists
-from games_library_api.schemas.user import User
-from games_library_api.settings import get_settings
+from backend.database import get_user_db
+from backend.email.send_mail import sending_mail
+from backend.integrations.after_registration import create_default_lists
+from backend.schemas.user import User
+from backend.settings import get_settings
 
 settings = get_settings()
 

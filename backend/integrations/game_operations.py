@@ -8,7 +8,7 @@ from pydantic import UUID4, Json
 from sqlalchemy import JSON, Text, case, cast, desc, distinct, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import game_table, review_like_table, review_table, user_table
+from backend.schemas.database import game_table, review_like_table, review_table, user_table
 
 
 async def add_game(

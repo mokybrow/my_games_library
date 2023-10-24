@@ -1,15 +1,20 @@
 FROM python:3.11
 
-
-WORKDIR /fastapi
+WORKDIR  /fastapi
 
 COPY /pyproject.toml /fastapi
 
-RUN pip3 install poetry
+RUN pip3 install poetry==1.6.1
 RUN poetry config virtualenvs.create false
 RUN poetry install
-# RUN poetry add gunicorn
 
-COPY . .
+COPY alembic.ini /fastapi
+COPY .env-prod /fastapi
 
-CMD gunicorn api.main:make_app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000
+WORKDIR  /fastapi/backend
+
+COPY . /fastapi/backend/
+
+WORKDIR  /fastapi
+
+CMD gunicorn backend.main:make_app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000

@@ -9,8 +9,8 @@ from pydantic import UUID4, Json
 from sqlalchemy import JSON, Text, case, cast, delete, desc, distinct, func, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from games_library_api.schemas.database import article_like_table, article_table, user_table
-from games_library_api.services.list_slug import making_slug
+from backend.schemas.database import article_like_table, article_table, user_table
+from backend.services.list_slug import making_slug
 
 
 async def create_article(db: AsyncSession, title: str, cover: Optional[str], text: str, tags: str, user_id: UUID4):

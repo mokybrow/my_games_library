@@ -23,7 +23,7 @@ class Settings(
 
     class Config:
         env_prefix = 'GAMIFICATION_'
-        env_file = '.env'
+        env_file = ".env-prod"
 
 
 @lru_cache
