@@ -1,14 +1,21 @@
-FROM node:lts-alpine as build-step
+# pull official base image
+FROM node:latest as build
+# set working directory
 WORKDIR /app
+# add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json  ./
-COPY ./src ./src
-COPY ./public ./public
-RUN npm install
-RUN npm run build
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+# Silent clean install of npm
+RUN npm ci --silent
+RUN npm install react-scripts@5.0.1 -g --silent
+# add app
+COPY . /app/
 
-# Build step #2: build an Caddy container
-FROM caddy:alpine
-EXPOSE 80
-EXPOSE 443
-COPY --from=build-step /app/build /usr/share/caddy
+# Build production
+RUN npm run build
+RUN npm install -g serve
+
+## Start the app on port 3006
+CMD serve -s build -l 3006

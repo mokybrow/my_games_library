@@ -2,25 +2,33 @@ version: "3.7"
 services:
   db:
     image: postgres:15
-    container_name: db
+    container_name: quick_support_db
     ports:
       - "5433:5432"
     env_file:
-      - .env-prod
+      - .env
   app:
     build:
-      context: games_library_api/
+      context: backend/
     env_file:
-      - .env-prod
-    container_name: games_library_api
+      - .env
+    container_name: backend
+    image: backend
     ports:
       - "8000:8000"
-    command: bash -c "alembic revision --autogenerate && alembic upgrade head && gunicorn -w 4 -k uvicorn.workers.UvicornWorker games_library_api.main:make_app --bind 0.0.0.0:8000"
+    command: bash -c "alembic upgrade head && gunicorn -w 4 -k uvicorn.workers.UvicornWorker backend.main:make_app --bind 0.0.0.0:8000"
     depends_on:
       - db
-  frontend:
-    build: frontend/
-    container_name: frontend
-    depends_on:
-      - app
-    network_mode: host
+
+  # frontend:
+  #   build:
+  #     context: ./frontend/
+  #     dockerfile: ./Dockerfile
+  #   restart: always
+  #   container_name: frontend
+  #   ports:
+  #     - "127.0.0.1:3006:3006"
+  #   expose:
+  #     - 3006
+  #   depends_on:
+  #     - backend
