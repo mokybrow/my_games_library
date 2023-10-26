@@ -39,15 +39,14 @@ const HomePage: FC = () => {
   return (
     <>
       <section className='home-page-game-section'>
-
+      {games_store.games.length > 0 ?
         <div className='header-new-game'>
-
           <Link className='header-new-game' to='/games?page=1&sort=releasedesc' >
             <h1>
               <FormattedMessage id="content.headers.newsgames" />
             </h1>
           </Link>
-        </div>
+        </div> : null}
 
         {games_store.games.map(game =>
           <Link key={game.id} to={'game/' + game.slug} reloadDocument>
@@ -61,13 +60,15 @@ const HomePage: FC = () => {
             </div>
           </Link>)}
 
-        <div className='header-new-game'>
-          <Link className='header-new-game' to='/articles?page=1' >
-            <h1>
-              <FormattedMessage id="content.headers.newarticles" />
-            </h1>
-          </Link>
-        </div>
+        {artilce_store.articles.length > 0 ?
+          <div className='header-new-game'>
+            <Link className='header-new-game' to='/articles?page=1' >
+              <h1>
+                <FormattedMessage id="content.headers.newarticles" />
+              </h1>
+            </Link>
+          </div> : null}
+
 
         {<>{artilce_store.articles.map(article =>
           <div key={article.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
@@ -93,14 +94,14 @@ const HomePage: FC = () => {
         )}</>}
 
 
-
+      {review_store.reviews.length > 0 ?
         <div className='header-new-game'>
           <Link className='header-new-game' to='/reviews?page=1' >
             <h1>
               <FormattedMessage id="content.headers.popularreviews" />
             </h1>
           </Link>
-        </div>
+        </div> : null}
 
         {<>{review_store.reviews.map(review =>
           <div key={review.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>

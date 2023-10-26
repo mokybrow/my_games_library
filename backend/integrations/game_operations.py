@@ -262,7 +262,7 @@ async def get_game_review(game_id: UUID4, user_id: UUID4, db: AsyncSession):
         .select_from(user_table)
         .join(review_table, onclause=review_table.c.user_id == user_table.c.id, isouter=True)
         .join(review_like_table, onclause=review_like_table.c.review_id == review_table.c.id, isouter=True)
-        .where(review_table.c.game_id == game_id, review_table.c.cooment != None)
+        .where(review_table.c.game_id == game_id, review_table.c.comment != None)
         .group_by(user_table.c.id, review_table.c.id)
         .limit(10)
     )

@@ -18,4 +18,4 @@ RUN npm run build
 RUN npm install -g serve
 
 ## Start the app on port 3006
-CMD serve -s build -l 3006
+CMD serve -s build -l 3000

@@ -111,7 +111,7 @@ const CreateArticleForm: FC = () => {
                     },
                     minLength: {
                         value: 200,
-                        message: 'Описание должно быть длиннее 20 симоволов'
+                        message: 'Описание должно быть длиннее 200 симоволов'
                     }
                 })}
                 onChange={e => setText(e.target.value)}>

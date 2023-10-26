@@ -17,7 +17,7 @@ const CreateArticlePage: FC = () => {
         return (
             <section className='create-article-section'>
                 <div className="create-article-grid-container">
-                    Пошёл нахуй
+                    Доступ запрещён
                 </div>
             </section>
         )
