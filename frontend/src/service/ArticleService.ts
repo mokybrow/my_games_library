@@ -37,6 +37,7 @@ export default class ArticleService {
                 }
             },)
     }
+    
     static async getArticleCount(): Promise<AxiosResponse<PageCountResponseModel>> {
 
         return axios.get<PageCountResponseModel>(`${API_URL}article/all/count`,)

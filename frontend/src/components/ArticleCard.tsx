@@ -25,7 +25,10 @@ export interface ArticleCardProps {
 }
 
 
-export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, columnSpan, created_at, like_count, article_id, authorLike, offset, limit, popular, date }) => {
+export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, 
+    slug, columnSpan, created_at, like_count, 
+    article_id, authorLike, offset, limit, popular, date }) => {
+
     var parse = require('html-react-parser');
     const [active, setModalActive] = useState(false);
     const { auth_store } = useContext(Context);
@@ -35,14 +38,14 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
     if (active) {
         body.classList.toggle('lock')
     }
-    if (!active){
+    if (!active) {
         body.classList.remove('lock')
 
     }
     let navigate = useNavigate();
     return (
         <>
-            <div className="article-card-container" style={{ gridColumnEnd: `span ${columnSpan}` }}>
+            <div className="article-card-container">
                 <div className="article-img-container">
                     <img src={src} alt='' width="150" height="150" />
                 </div>
@@ -51,7 +54,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                         {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
                             <img className="user-mini-img" src={img} width={100} height={100} />}
-                        <Link to={'/' + username}><h3>{username}</h3></Link>
+                        <Link to={'/' + username}><h5>{username}</h5></Link>
                         <div className="user-grade-container">
                             {like_count !== null ? <span className='grade-number-container'>
                                 <FormattedNumber
@@ -75,7 +78,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                         {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
                             <img className="user-mini-img" src={img} width={100} height={100} />}
-                        <Link to={'/' + username}><h3>{username}</h3></Link>
+                        <Link to={'/' + username}><h5>{username}</h5></Link>
                         <span className='game-profile-release'>
                             <FormattedDate
                                 value={created_at}
@@ -106,8 +109,6 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                     </div>
 
                 </div>
-
-
             </ModalWindow>
         </>
     )

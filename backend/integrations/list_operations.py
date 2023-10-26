@@ -86,6 +86,8 @@ async def get_all_list_count(db: AsyncSession) -> Any:
     query = select(func.count("*")).select_from(list_table)
     result = await db.execute(query)
     result = result.all()
+    if not result:
+        return False
     return result
 
 

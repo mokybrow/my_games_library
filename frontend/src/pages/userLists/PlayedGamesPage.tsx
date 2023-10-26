@@ -40,8 +40,8 @@ const PlayedGamesPage: FC = () => {
     if ((auth_store.isAuth && auth_store.user.username !== username) || (!auth_store.isAuth)) {
         return (
             <>
-                <section className='game-page-section'>
-                    <div className='plalist-grid-container'>
+            <section className='page-section'>
+                <div className="grid-container">
                         {user_store.userActivity.length > 0 ?
                             <>
                                 {user_store.userActivity.map((game) => <>{game.activity_type == 'passed' ?
@@ -77,8 +77,8 @@ const PlayedGamesPage: FC = () => {
     }
     return (
         <>
-            <section className='game-page-section'>
-                <div className='plalist-grid-container'>
+            <section className='page-section'>
+                <div className="grid-container">
                     {auth_store.userActivity.length > 0 ?
                         <>
                             {auth_store.userActivity.map((game) => <>{game.activity_type == 'passed' ?

@@ -47,8 +47,8 @@ const UserListsPage: FC = () => {
     if ((auth_store.isAuth && auth_store.user.username !== username) || (!auth_store.isAuth)) {
 
         return (
-            <section className='other-page-section'>
-                <div className="card-with-games-lists">
+            <section className='page-section'>
+                <div className="grid-container">
                     {user_store.list.length > 0 ? <>    {user_store.list.map(list =>
                         <Link key={list.id} to={'/list/' + list.slug} >
                             <ImageCard src={list.cover != null ? `data:image/jpeg;base64,${list.cover}` : require("../../icons/img-not-found.png")} title={String(list.title)} />
@@ -72,9 +72,8 @@ const UserListsPage: FC = () => {
     }
 
     return (
-        <section className='other-page-section'>
-
-            <div className="card-with-games-lists">
+        <section className='page-section'>
+        <div className="grid-container">
 
                 {auth_store.list.length > 0 ? <>{auth_store.list.map(list =>
                     <Link key={list.id} to={'/list/' + list.slug} >
@@ -88,7 +87,7 @@ const UserListsPage: FC = () => {
                     {auth_store.addedList.map(addedList =>
                         <Link key={addedList.id} to={'/list/' + addedList.slug} reloadDocument>
 
-                            <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` :require("../../icons/img-not-found.png")} title={String(addedList.title)} />
+                            <ImageCard src={addedList.cover != null ? `data:image/jpeg;base64,${addedList.cover}` : require("../../icons/img-not-found.png")} title={String(addedList.title)} />
 
                         </Link>)}
                 </> : null}

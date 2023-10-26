@@ -39,8 +39,8 @@ const ArticlesPage: FC = () => {
 
   return (
     <>
-      <section className='articles-section'>
-        <div className='articles-grid-container'>
+      <section className='page-section'>
+        <div className="grid-container">
 
 
           {<>{artilce_store.articles.map(article =>

@@ -41,7 +41,7 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
     let navigate = useNavigate();
     return (
         <>
-            <div className="article-card-container" style={{ gridColumnEnd: `span ${columnSpan}` }}>
+            <div className="article-card-container">
                 {src == '' ? null :
                     <div className="article-img-container">
                         <img src={src} alt='' width="150" height="150" />

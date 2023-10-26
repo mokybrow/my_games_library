@@ -1,11 +1,11 @@
 .pagination-container {
-    justify-content: center;
-    list-style-type: none;
-    display: -webkit-box;
-    display: -ms-flexbox;
+    grid-column: 1 / -1;
+    border-radius: 6px;
+    padding: 1em;
     display: flex;
-    font-size: 20px;
-    gap: 0.5em;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
 }
 
 

@@ -41,8 +41,8 @@ const ReviewsPage: FC = () => {
   }
 
   return (
-    <section className='reviews-section'>
-      <div className='reviews-grid-container'>
+    <section className='page-section'>
+      <div className="grid-container">
 
         {<>{review_store.reviews.map(review =>
           <div key={review.id} className="review-page-artilce-card-container" >

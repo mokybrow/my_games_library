@@ -34,21 +34,6 @@ export default class ListService {
     }
 
 
-    static async getUserLists(name: string, description: string, is_private: boolean): Promise<AxiosResponse> {
-        return $api.get(`/lists/user/all/`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                params: {
-                    name: name,
-                    description: description,
-                    is_private: is_private,
-                }
-            },)
-    }
-
-
     static async getListGames(slug: string): Promise<AxiosResponse<ListsGameResponse[]>> {
         return $api.get<ListsGameResponse[]>(`/list/games`,
             {

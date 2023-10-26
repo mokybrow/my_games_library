@@ -18,6 +18,7 @@ from backend.integrations.list_operations import (
     create_list,
     delete_user_list,
     get_all_list,
+    get_all_list_count,
     get_list_data,
     get_list_games,
     get_list_info,
@@ -68,7 +69,7 @@ async def approve_create_list_router(title: str,user: User = Depends(current_act
     return {'detail': True}
 
 
-@router.get('/lists/all/', response_model=list[list_model.AllListsResponseModel])
+@router.get('/list/all/', response_model=list[list_model.AllListsResponseModel])
 async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_all_list(db=db)
     if not result:
@@ -81,20 +82,20 @@ async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) ->
     return result
 
 
-@router.get('/lists/user/all/', response_model=list[list_model.AllListsResponseModel])
-async def get_all_non_private_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
-    result = await get_all_non_private_lists(db=db)
+@router.get('/list/all/count', response_model=list_model.GetListCountResponseModel)
+async def get_all_lists_count_router(db: AsyncSession = Depends(get_async_session)) -> Any:
+    result = await get_all_list_count(db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
+    print(result[0][0])
+    return result[0]
 
-    return result
 
-
-@router.post('/lists/add_game_to_user_list')
+@router.post('/list/add/game/to/user/list')
 async def add_game_to_user_list_router(
     list_id: UUID4,
     game_id: UUID4,
