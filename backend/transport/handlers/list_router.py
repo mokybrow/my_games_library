@@ -105,7 +105,7 @@ async def add_game_to_user_list_router(
     await add_game_to_user_list(db=db, list_id=list_id, game_id=game_id)
 
 
-@router.post('/lists/operation/passed/{game_id}')
+@router.post('/list/operation/passed')
 async def universal_passed_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -118,7 +118,7 @@ async def universal_passed_router(
     return {'Game added': 'Success'}
 
 
-@router.post('/lists/operation/wantplay/{game_id}')
+@router.post('/list/operation/wishlist')
 async def universal_wantplay_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -131,7 +131,7 @@ async def universal_wantplay_router(
     return {'Game added': 'Success'}
 
 
-@router.post('/lists/operation/liked/{game_id}')
+@router.post('/list/operation/liked')
 async def universal_liked_router(
     game_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -203,8 +203,8 @@ async def ist_games_router(
     return result
 
 
-@router.post('/add/delete/lists/{slug}/user/{user_id}')
-async def ist_games_router(
+@router.post('/list/add/delete')
+async def list_games_router(
     slug: str,
     user_id: UUID4,
     db: AsyncSession = Depends(get_async_session),
@@ -216,12 +216,12 @@ async def ist_games_router(
         db=db,
     )
     if not result:
-        error = error_model.ErrorResponseModel(details='User have no activity')
+        error = error_model.ErrorResponseModel(details='Deleted')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
         )
-    return result
+    return {'detail': 'Added'}
 
 
 @router.get('/list/{slug}/check/added/{user_id}', response_model=list_model.ListDataResponseModel)

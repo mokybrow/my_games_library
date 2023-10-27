@@ -11,7 +11,6 @@ from backend.integrations.game_operations import (
     game_search,
     get_all_games,
     get_count_games,
-    get_game_avg_rate,
     get_game_profile,
     get_game_review,
     get_game_review_for_all,
@@ -57,7 +56,7 @@ async def get_all_games_router(db: AsyncSession = Depends(get_async_session)):
     return result
 
 
-@router.get("/game/get/profile", response_model=game_model.GetGamesPageResponseModel)
+@router.get("/game/get/profile", response_model=game_model.GetGameProfileResponseModel)
 async def get_game_router(slug: str, db: AsyncSession = Depends(get_async_session)):
     result = await get_game_profile(slug=slug, db=db)
     if not result:
@@ -103,16 +102,6 @@ async def get_game_review_for_all_router(game_id: UUID4, db: AsyncSession = Depe
     return result
 
 
-@router.get("/game/{id}/avg_rate/", response_model=game_model.GetGameAvgRateResponseModel)
-async def get_game_avg_rate_router(id: UUID4, db: AsyncSession = Depends(get_async_session)) -> Any:
-    result = await get_game_avg_rate(id=id, db=db)
-    if not result:
-        error = error_model.ErrorResponseModel(details='This Game Have No Reviews')
-        return JSONResponse(
-            content=error.model_dump(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
-    return result[0]
 
 
 @router.get('/game/check/in_passed')
@@ -147,7 +136,7 @@ async def check_game_in_liked_list(
     return result
 
 
-@router.get('/game/check/in_wishlish')
+@router.get('/game/check/in_wishlist')
 async def check_game_in_wishlish_list(
     game_id: UUID4,
     user: User = Depends(current_active_user),

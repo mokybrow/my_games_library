@@ -1,9 +1,13 @@
 import { makeAutoObservable } from "mobx";
-import { GameAvgRate, GameProfileResponse, GameReviews, GamesResponse, userGrade } from "../models/response";
+import { GameAvgRate, GameReviews, GamesResponse, userGrade } from "../models/response";
 //import { AxiosError } from "axios";
 
 import GameService from "../service/GameService";
 import { getLocalToken } from "../utils/utils";
+import { GameProfileResponse } from "../models/gamesModels";
+import AuthService from "../service/AuthService";
+import ReviewService from "../service/ReviewService";
+import { ReviewCardModel } from "../models/reviewModels";
 
 
 
@@ -12,9 +16,8 @@ export default class GamesStore {
 
     games = [] as GamesResponse[];
     gamesPage = [] as GamesResponse[];
-    reviews = [] as GameReviews[];
+
     gameProfile = {} as GameProfileResponse;
-    gameAvgRate = {} as GameAvgRate;
     userGrade = {} as userGrade;
     pageCount = 0;
     currentPage = 0;
@@ -24,8 +27,14 @@ export default class GamesStore {
     sort = 'null';
     genre = 'null';
 
+    reviews = [] as ReviewCardModel[];
+
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setReviews(review: ReviewCardModel[]) {
+        this.reviews = review;
     }
 
     setSort(sort: string) {
@@ -43,13 +52,7 @@ export default class GamesStore {
     setGamesPage(games: GamesResponse[]) {
         this.gamesPage = games;
     }
-    setAvgRate(gameAvgRate: GameAvgRate) {
-        this.gameAvgRate = gameAvgRate;
-    }
 
-    setGameReviews(reviews: GameReviews[]) {
-        this.reviews = reviews;
-    }
 
     setGameProfile(gameProfile: GameProfileResponse) {
         this.gameProfile = gameProfile;
@@ -77,6 +80,36 @@ export default class GamesStore {
         this.isWanted = bool;
     }
 
+    async getReviewsFunc(offset: number | null, limit: number | null, popular: boolean | null, slug: string | null) {
+        this.setLoading(true);
+        try {
+            if (getLocalToken()) {
+                const user = await AuthService.getMyProfile();
+                const response = await ReviewService.getReviews(offset, limit, popular, String(user.data.id), slug);
+                this.setReviews(response.data)
+            }else{
+                const response = await ReviewService.getReviews(offset, limit, popular, null, slug);
+                this.setReviews(response.data)
+            }
+        } catch (error) {
+
+        } try {
+            const response = await GameService.getGameBySlug(String(slug));
+            const userGrade = await GameService.getUserGrade(response.data.id)
+            this.setUserGrade(userGrade.data)
+        } catch (error) {
+            this.setUserGrade({} as userGrade)
+        } try {
+            if (popular != true) {
+                const response = await ReviewService.getReviewsCount();
+                this.setPageCount(response.data.count / 36)
+            }
+        } catch (error) {
+
+        } finally {
+            this.setLoading(false);
+        }
+    }
 
     async getGameData(slug: string) {
         this.setLoading(true);
@@ -84,17 +117,7 @@ export default class GamesStore {
             const response = await GameService.getGameBySlug(String(slug));
             this.setGameProfile(response.data)
 
-            const avgRate = await GameService.getGamesAvgRate(response.data.id)
-            this.setAvgRate(avgRate.data)
-
-            if (getLocalToken() === null) {
-                const reviews_unauth = await GameService.getGamesReviewUnAuth(response.data.id)
-                this.setGameReviews(reviews_unauth.data)
-            }
-
-
         } catch (error) {
-            this.setGameReviews([])
         } try {
             if (getLocalToken() !== null) {
                 const checkInPassed = await GameService.checkInPassedList(this.gameProfile.id)
@@ -124,12 +147,8 @@ export default class GamesStore {
             this.setWanted(false)
         }
         try {
-            const response = await GameService.getGameBySlug(String(slug));
 
-            const reviews = await GameService.getGamesReview(response.data.id)
-            this.setGameReviews(reviews.data)
-
-            const userGrade = await GameService.getUserGrade(response.data.id)
+            const userGrade = await GameService.getUserGrade(this.gameProfile.id)
             this.setUserGrade(userGrade.data)
 
             if (userGrade.data === null) {
@@ -139,7 +158,7 @@ export default class GamesStore {
                     game_id: 'string',
                     grade: 0,
                     comment: 'string',
-                    created_at: response.data.release
+                    created_at: this.gameProfile.release
                 })
             }
 
@@ -165,6 +184,7 @@ export default class GamesStore {
             this.setLoading(false);
         }
     }
+
     async getPageCount(sort: string | null, decade: string | null, genre: string | null) {
         this.setLoading(true);
         try {
@@ -190,41 +210,24 @@ export default class GamesStore {
         }
     }
 
-    async likeReview(review_id: string, slug: string) {
-        this.setLoading(true);
-        try {
-            await GameService.likeToUserComment(String(review_id))
-            const response = await GameService.getGameBySlug(String(slug));
-            this.setGameProfile(response.data)
-
-            const avgRate = await GameService.getGamesAvgRate(response.data.id)
-            this.setAvgRate(avgRate.data)
-
-            const reviews = await GameService.getGamesReview(response.data.id)
-            this.setGameReviews(reviews.data)
-
-
-        } catch (error) {
-            // const err = error as AxiosError
-        } finally {
-            this.setLoading(false);
-        }
-    }
-
     async addReview(id: string, grade: number, comment: string | null, slug: string) {
-        this.setLoading(true);
         try {
-
             await GameService.addReview(id, grade, comment)
 
+        } catch (error) {
+            // const err = error as AxiosError
+        } try {
             const response = await GameService.getGameBySlug(String(slug));
             this.setGameProfile(response.data)
 
-            const avgRate = await GameService.getGamesAvgRate(response.data.id)
-            this.setAvgRate(avgRate.data)
-
         } catch (error) {
-            // const err = error as AxiosError
+            this.setUserGrade({} as userGrade)
+        }
+        try {
+            const reviews = await ReviewService.getReviews(0, 6, false, null, slug);
+            this.setReviews(reviews.data)
+        } catch (error) {
+
         }
         try {
             const response = await GameService.getGameBySlug(String(slug));
@@ -232,48 +235,79 @@ export default class GamesStore {
             this.setUserGrade(userGrade.data)
         } catch (error) {
             this.setUserGrade({} as userGrade)
-
         }
         try {
             const response = await GameService.getGameBySlug(String(slug));
-            const reviews = await GameService.getGamesReview(response.data.id)
-            this.setGameReviews(reviews.data)
+            // const reviews = await GameService.getGamesReview(response.data.id)
+            // this.setGameReviews(reviews.data)
         } catch (error) {
-            this.setGameReviews([] as GameReviews[])
-        } finally {
-            this.setLoading(false);
+            this.setReviews([] as ReviewCardModel[])
         }
     }
 
     async deleteReview(id: string, slug: string) {
-        this.setLoading(true);
         try {
             await GameService.deleteUserRate(id)
-            const response = await GameService.getGameBySlug(String(slug));
-            this.setGameProfile(response.data)
-            const avgRate = await GameService.getGamesAvgRate(response.data.id)
-            this.setAvgRate(avgRate.data)
-
         } catch (error) {
             // const err = error as AxiosError
-            this.setAvgRate({} as GameAvgRate)
+
         }
         try {
+            const reviews = await ReviewService.getReviews(0, 6, false, null, slug);
+            this.setReviews(reviews.data)
+        } catch (error) {
+            this.setReviews([] as ReviewCardModel[])
+        }
+
+        try {
             const response = await GameService.getGameBySlug(String(slug));
-            const reviews = await GameService.getGamesReview(response.data.id)
-            this.setGameReviews(reviews.data)
+            this.setGameProfile(response.data)
 
         } catch (error) {
-            this.setGameReviews([] as GameReviews[])
+            this.setUserGrade({} as userGrade)
+        } try {
+            const userGrade = await GameService.getUserGrade(this.gameProfile.id)
+            this.setUserGrade(userGrade.data)
+
+        } catch (error) {
+
         }
         try {
-            const response = await GameService.getGameBySlug(String(slug));
-            const userGrade = await GameService.getUserGrade(response.data.id)
+            const userGrade = await GameService.getUserGrade(this.gameProfile.id)
             this.setUserGrade(userGrade.data)
         } catch (error) {
             this.setUserGrade({} as userGrade)
-        } finally {
-            this.setLoading(false);
+        }
+    }
+    async likeReview(offset: number | null, limit: number | null, popular: boolean | null, review_id: string, slug: string | null) {
+
+        try {
+            await ReviewService.likeToUserComment(String(review_id))
+            if (getLocalToken()) {
+                if (slug !== null) {
+                    const user = await AuthService.getMyProfile();
+                    const response = await ReviewService.getReviews(offset, limit, popular, String(user.data.id), slug);
+                    this.setReviews(response.data)
+                }
+                else {
+                    const user = await AuthService.getMyProfile();
+                    const response = await ReviewService.getReviews(offset, limit, popular, String(user.data.id), null);
+                    this.setReviews(response.data)
+                }
+
+            } else {
+                if (slug !== null) {
+                    const response = await ReviewService.getReviews(offset, limit, popular, null, slug);
+                    this.setReviews(response.data)
+                }
+                else {
+                    const response = await ReviewService.getReviews(offset, limit, popular, null, null);
+                    this.setReviews(response.data)
+                }
+            }
+
+        } catch (error) {
+            // const err = error as AxiosError
         }
     }
 }

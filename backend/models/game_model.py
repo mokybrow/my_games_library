@@ -37,7 +37,7 @@ class GetUserLastGameResponseModel(BaseModel):
     created_at: datetime.datetime
 
 
-class GetGamesPageResponseModel(BaseModel):
+class GetGameProfileResponseModel(BaseModel):
     id: UUID4
     title: str
     cover: Optional[str]
@@ -48,7 +48,7 @@ class GetGamesPageResponseModel(BaseModel):
     platform_name: Optional[list]
     genre: Optional[list]
     esrb_rating: Optional[str]
-
+    avg_rate: Optional[float]
 
 class GetGameReviewsResponseModel(BaseModel):
     id: UUID4
@@ -74,6 +74,3 @@ class GetGameReviewsPublicResponseModel(BaseModel):
     review_id: UUID4
     review_likes: Optional[int]
 
-
-class GetGameAvgRateResponseModel(BaseModel):
-    avg_rate: Optional[float]

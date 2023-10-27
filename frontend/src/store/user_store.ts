@@ -99,12 +99,11 @@ export default class UserStore {
     }
 
     async followController(username: string) {
-        this.setLoading(true);
+
         try {
             const user = await UserService.getUserProfile(username);
             const follow = await UserService.followUnfollowOnUser(user.data.id)
-            const newUserData = await UserService.getUserProfile(username);
-            this.setAUser(newUserData.data)
+
             if (follow.data == false) {
                 this.setFollower(false)
 
@@ -114,8 +113,11 @@ export default class UserStore {
             }
         } catch (error) {
 
-        } finally {
-            this.setLoading(false);
+        } try {
+            const newUserData = await UserService.getUserProfile(username);
+            this.setAUser(newUserData.data)
+        } catch (error) {
+            
         }
     }
 

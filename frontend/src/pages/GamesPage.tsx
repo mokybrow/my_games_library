@@ -200,7 +200,7 @@ const GamesPage: FC = () => {
               </div>
             </div>
           </div>
-          <div className="card-with-games-container">
+   
 
             {games_store.gamesPage.map(game =>
               <Link key={game.id} to={'/game/' + game.slug} >
@@ -213,7 +213,7 @@ const GamesPage: FC = () => {
                   </div>
                 </div>
               </Link>)}
-          </div>
+ 
 
 
           <Pagination initialPage={currentPage - 1}

@@ -237,7 +237,8 @@ async def get_new_games(db: AsyncSession):
 
 
 async def get_game_profile(slug: str, db: AsyncSession):
-    query = select(game_table).where(game_table.c.slug == slug)
+    query = select(game_table,
+                   func.round(func.avg(review_table.c.grade), 1).label('avg_rate')).join(review_table, onclause=review_table.c.game_id==game_table.c.id, isouter=True).where(game_table.c.slug == slug).group_by(game_table.c.id)
     result = await db.execute(query)
     result = result.all()
     if not result:
@@ -295,10 +296,6 @@ async def get_game_review_for_all(game_id: UUID4, db: AsyncSession):
     return result.all()
 
 
-async def get_game_avg_rate(id: UUID4, db: AsyncSession):
-    query = select(func.round(func.avg(review_table.c.grade), 1).label('avg_rate')).where(review_table.c.game_id == id)
-    result = await db.execute(query)
-    return result.all()
 
 
 async def game_search(title: Any, db: AsyncSession):

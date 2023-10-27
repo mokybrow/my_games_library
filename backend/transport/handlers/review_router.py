@@ -41,7 +41,11 @@ async def get_user_grade_router(
 ):
     result = await get_user_grade(user_id=user.id, game_id=game_id, db=db)
     if not result:
-        return None
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
     return result[0]
 
 
@@ -69,9 +73,11 @@ async def get_all_reviews_router(
     limit: int = None,
     popular: bool = None,
     date: bool = None,
+    user_id: UUID4 = None,
+    slug: str = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_all_reviews(limit=limit, offset=offset, popular=popular, date=date, db=db)
+    result = await get_all_reviews(limit=limit, offset=offset, popular=popular, date=date, user_id=user_id, slug=slug, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')
         return JSONResponse(

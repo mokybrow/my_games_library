@@ -15,20 +15,20 @@ export interface ArticleCardProps {
     columnSpan: number,
     created_at: Date,
     like_count: number,
-    article_id: string,
+    review_id: string,
     offset: number,
     limit: number,
     popular: boolean | null,
     date: boolean | null,
-
+    authorLike: number | null,
 }
 
 
-export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, columnSpan, created_at, like_count, article_id, offset, limit, popular, date }) => {
+export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, columnSpan, created_at, like_count, review_id, authorLike, offset, limit, popular, date }) => {
     var parse = require('html-react-parser');
     const [active, setModalActive] = useState(false);
     const { auth_store } = useContext(Context);
-    const { artilce_store } = useContext(Context);
+    const { review_store } = useContext(Context);
     const body = document.body;
 
     if (active) {
@@ -53,7 +53,6 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
                             <img className="user-mini-img" src={img} width={100} height={100} />}
                         <Link to={'/' + username}><h3>{username}</h3></Link>
                         <div className="grade-container">
-                            {like_count <= 5 ? <span className='rate-star' style={{ color: "#FF0000" }}>&#9733;</span> : like_count >= 6 && like_count <= 8 ? <span className='rate-star' style={{ color: "#00A000" }}>&#9733;</span> : like_count >= 8 ? <span className='rate-star' style={{ color: "#1349C9" }}>&#9733;</span> : null}
                             <span className='grade-border'>{like_count}</span>
                         </div>
 
@@ -88,18 +87,26 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
 
                     </div>
                     {src == '' ? null :
-                    <div className="article-img-container-modal">
-                        <img src={src} alt='' width="150" height="150" />
-                    </div>}
+                        <div className="article-img-container-modal">
+                            <img src={src} alt='' width="150" height="150" />
+                        </div>}
                     <div className="article-text-container-body">
                         <Link to={'/game/' + slug}><h1>{title}</h1></Link>
                         <div className='article-text-container-body-modal'>{parse(comment)}</div>
 
                     </div>
+                    <div className="like-count-container">
+                        <span>{like_count}</span>
+                        {auth_store.isAuth ? <>
+                            <input  onClick={() => { review_store.likeReview(offset, limit, popular, review_id, null) }} className="custom-checkbox-comment like" type='checkbox' id={review_id} name={review_id} value="red" defaultChecked={authorLike === 1 ? true : false} />
+                            <label htmlFor={review_id}></label></> :
+                            <>
+                                <input className="custom-checkbox-comment like" type="checkbox" id='unauthorize' name='unauthorize' value="red" onClick={() => navigate('/login')} />
+                                <label htmlFor='unauthorize'></label>
+                            </>}
 
+                    </div>
                 </div>
-
-
             </ModalWindow>
         </>
     )

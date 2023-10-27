@@ -10,5 +10,6 @@ export interface ReviewCardModel {
     title: string,
     cover: string,
     slug: string,
-    like_count: number
+    like_count: number,
+    hasAuthorLike: number | null
 }

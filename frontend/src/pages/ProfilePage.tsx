@@ -102,23 +102,23 @@ const ProfilePage: FC = () => {
           </div>
 
           <div className="main-lists-container">
-            <Link to='played'>
+            <Link to='played?page=1'>
               <div className="main-profile-card-cover-container">
                 <img src={require('../icons/passed-cover.png')} />
               </div>
             </Link>
 
-            <Link to='liked'>
+            <Link to='liked?page=1'>
               <div className="main-profile-card-cover-container">
                 <img src={require('../icons/like-cover.png')} />
               </div>
             </Link>
-            <Link to='wants-to-play'>
+            <Link to='wants-to-play?page=1'>
               <div className="main-profile-card-cover-container">
                 <img src={require('../icons/want-cover.png')} />
               </div>
             </Link>
-            <Link to='lists'>
+            <Link to='lists?page=1'>
               <div className="main-profile-card-cover-container">
                 <img src={require('../icons/user.png')} />
 

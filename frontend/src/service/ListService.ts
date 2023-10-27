@@ -74,7 +74,7 @@ export default class ListService {
     }
 
     static async AddDeleteListToMy(slug: string, user_id: string): Promise<AxiosResponse> {
-        return $api.post(`/list/add/delete}`, null,
+        return $api.post(`/list/add/delete`, null,
             {
                 params: {
                     slug: slug,

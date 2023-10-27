@@ -405,13 +405,12 @@ async def add_delete_list(
         result = await db.execute(query)
         result = result.all()
         if result:
-            print('удаляем')
             delete_list = delete(list_user_table).where(
                 list_user_table.c.list_id == list_id[0][0], list_user_table.c.user_id == user_id
             )
             result = await db.execute(delete_list)
             await db.commit()
-            return None
+            return False
 
         add_list = insert(list_user_table).values(
             list_id=list_id[0][0],
@@ -420,6 +419,7 @@ async def add_delete_list(
         )
         result = await db.execute(add_list)
         await db.commit()
+        return True
 
 
 async def get_list_data(

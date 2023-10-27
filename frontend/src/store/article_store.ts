@@ -74,7 +74,7 @@ export default class ArticleStore {
     }
 
     async likeArticle(article_id: string, offset: number | null, limit: number | null, popular: boolean | null, date: boolean | null) {
-        this.setLoading(true);
+
         try {
 
             await ArticleService.likeArticle(article_id)
@@ -90,9 +90,7 @@ export default class ArticleStore {
 
         } catch (error) {
             // const err = error as AxiosError
-        } finally {
-            this.setLoading(false);
-        }
+        } 
     }
 
 }

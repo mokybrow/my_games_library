@@ -1,12 +1,8 @@
-.game-page-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 20px 24px;
-    align-items: flex-start;
-    padding: 0 14vw;
-    padding-top: 80px;
-    margin-bottom: 80px;
+.page-section{
+    display: flex;
     min-height: 100vh;
+    padding: 120px 14vw;
+    align-items: flex-start;
 }
 
 .card-with-games-container {
@@ -195,7 +191,6 @@
 
     .card-with-games-container {
         grid-row: 2/3;
-        grid-column: 1/4;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr ;
         grid-gap: 16px 18px;

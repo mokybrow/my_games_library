@@ -120,9 +120,9 @@ const Header: FC = () => {
                             <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/articles?page=1' reloadDocument>
                                 <FormattedMessage id="header.menu.item3" />
                             </Link></li>
-                            <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews?page=1' reloadDocument>
+                            {/* <li className="menu-item" id="menu-item-transition"><Link className="menu-link" to='/reviews?page=1' reloadDocument>
                                 <FormattedMessage id="header.menu.item4" />
-                            </Link></li>
+                            </Link></li> */}
                             <li className="menu-item" id="search-item-transition" onClick={() => { { setModalActive(true) } { search_store.setGames([] as GamesResponse[]) } { setSearchInput('') } }} >Поиск
                                 <img className='dropdown-img' src={require('../icons/search.png')} />
                             </li>

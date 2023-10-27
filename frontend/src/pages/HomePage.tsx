@@ -15,10 +15,12 @@ const HomePage: FC = () => {
   const { artilce_store } = useContext(Context);
   const { review_store } = useContext(Context);
 
+
+
   useEffect(() => {
     games_store.getNewstGame()
     artilce_store.getAllArticleFunc(0, 4, null, true)
-    review_store.getReviewsFunc(0, 4, true)
+    review_store.getReviewsFunc(0, 4, true, null)
 
   }, [games_store, artilce_store])
 
@@ -39,14 +41,14 @@ const HomePage: FC = () => {
   return (
     <>
       <section className='home-page-game-section'>
-      {games_store.games.length > 0 ?
-        <div className='header-new-game'>
-          <Link className='header-new-game' to='/games?page=1&sort=releasedesc' >
-            <h1>
-              <FormattedMessage id="content.headers.newsgames" />
-            </h1>
-          </Link>
-        </div> : null}
+        {games_store.games.length > 0 ?
+          <div className='header-new-game'>
+            <Link className='header-new-game' to='/games?page=1&sort=releasedesc' >
+              <h1>
+                <FormattedMessage id="content.headers.newsgames" />
+              </h1>
+            </Link>
+          </div> : null}
 
         {games_store.games.map(game =>
           <Link key={game.id} to={'game/' + game.slug} reloadDocument>
@@ -94,14 +96,14 @@ const HomePage: FC = () => {
         )}</>}
 
 
-      {review_store.reviews.length > 0 ?
-        <div className='header-new-game'>
-          <Link className='header-new-game' to='/reviews?page=1' >
-            <h1>
-              <FormattedMessage id="content.headers.popularreviews" />
-            </h1>
-          </Link>
-        </div> : null}
+        {review_store.reviews.length > 0 ?
+          <div className='header-new-game'>
+            <Link className='header-new-game' to='/reviews?page=1' >
+              <h1>
+                <FormattedMessage id="content.headers.popularreviews" />
+              </h1>
+            </Link>
+          </div> : null}
 
         {<>{review_store.reviews.map(review =>
           <div key={review.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
@@ -116,11 +118,12 @@ const HomePage: FC = () => {
               slug={review.slug}
               columnSpan={3}
               created_at={review.created_at}
-              article_id={review.id}
+              review_id={review.id}
               offset={0}
               limit={4}
-              popular={null}
-              date={true} />
+              popular={true}
+              date={true}
+              authorLike={review.hasAuthorLike} />
           </div>
 
         )}</>}

@@ -16,7 +16,7 @@ const ReviewsPage: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(Number(myParam));
   useEffect(() => {
 
-    review_store.getReviewsFunc(currentPage - 1, 36, false)
+    review_store.getReviewsFunc(currentPage - 1, 36, false, null)
 
   }, [])
 
@@ -46,7 +46,7 @@ const ReviewsPage: FC = () => {
 
         {<>{review_store.reviews.map(review =>
           <div key={review.id} className="review-page-artilce-card-container" >
-            <ReviewCard
+            {/* <ReviewCard
 
               src={review.cover}
               title={review.title}
@@ -57,11 +57,12 @@ const ReviewsPage: FC = () => {
               slug={review.slug}
               columnSpan={2}
               created_at={review.created_at}
-              article_id={review.id}
+              review_id={review.id}
               offset={0}
               limit={4}
               popular={null}
-              date={true} />
+              date={true} 
+              authorLike={null} /> */}
           </div>
 
         )}</>}

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, GameAvgRate, GameProfileResponse, GameReviews, GamesCountResponse, GamesResponse, IUser, ListsGameResponse, RegResponse, UserActivityResponse, userGrade } from "../models/response";
+import { AUser, AuthResponse, GameAvgRate,  GameReviews, GamesCountResponse, GamesResponse, IUser, ListsGameResponse, RegResponse, UserActivityResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
+import { GameProfileResponse } from "../models/gamesModels";
 
 
 
@@ -58,34 +59,6 @@ export default class GameService {
     }
 
 
-    static async getGamesReviewUnAuth(id: string): Promise<AxiosResponse<GameReviews[]>> {
-        return $api.get<GameReviews[]>(`game/${id}/reviews/all`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-    }
-    static async getGamesReview(game_id: string): Promise<AxiosResponse<GameReviews[]>> {
-        return $api.get<GameReviews[]>(`game/get/reviews/`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                params: {
-                    game_id: game_id,
-                }
-            })
-    }
-
-    static async getGamesAvgRate(id: string): Promise<AxiosResponse<GameAvgRate>> {
-        return $api.get<GameAvgRate>(`game/${id}/avg_rate/`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-    }
 
     static async addReview(id: string, grade: number, comment: string | null): Promise<AxiosResponse> {
         return $api.post(`review/add`, null, {
@@ -135,7 +108,7 @@ export default class GameService {
             })
     }
     static async checkInWantedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/game/check/in_wishlish`,
+        return $api.get(`/game/check/in_wishlist`,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -164,7 +137,7 @@ export default class GameService {
         })
     }
     static async operationWithWanted(game_id: string): Promise<AxiosResponse> {
-        return $api.post(`list/operation/wishlish`, null, {
+        return $api.post(`list/operation/wishlist`, null, {
             params: {
                 game_id: game_id,
 
@@ -186,12 +159,5 @@ export default class GameService {
             })
     }
 
-    static async likeToUserComment(review_id: string): Promise<AxiosResponse> {
-        return $api.post(`review/like/user/review`, null, {
-            params: {
-                review_id: review_id,
 
-            }
-        })
-    }
 }

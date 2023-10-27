@@ -38,6 +38,30 @@
     gap: 0.4em;
 }
 
+.other-info-block {
+    display: flex;
+    align-items: flex-start;
+}
+
+.other-info-block-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5em;
+
+}
+
+.other-info-header {
+    grid-column: 1 / -1;
+}
+.info-header{
+    margin-bottom: 0.5em;
+    text-decoration: underline;
+}
+.other-info-data {
+    display: flex;
+    flex-direction: column;
+}
+
 .game-cover-grade-container {
     display: flex;
     flex-direction: column;
@@ -371,20 +395,20 @@
 
 .game-profile-platforms {
     display: flex;
-    gap: 4px;
-    padding: 8px 16px;
     background-color: #E05535;
     border-radius: 6px;
-    font-weight: 600;
+    font-size: 0.8em;
+    align-items: center;
+    padding: 0.2em;
 }
 
-.game-profile-platforms.genre {
+.game-profile-genre {
     display: flex;
-    gap: 4px;
-    padding: 8px 16px;
+    font-size: 0.8em;
     background-color: #4C75D7;
     border-radius: 6px;
-    font-weight: 600;
+    align-items: center;
+    padding: 0.2em;
 }
 
 .game-profile-release {
@@ -429,7 +453,7 @@
     align-items: center;
     margin-bottom: 12px;
     transition: all 200ms linear;
-
+    align-items: flex-start;
 }
 
 .comment-text {
@@ -447,11 +471,14 @@
     display: flex;
     flex-direction: row;
     gap: 1em;
+    align-items: flex-start;
 }
-.column-info-block{
+
+.column-info-block {
     display: flex;
     flex-direction: row;
     gap: 1em;
+    align-items: flex-start;
 }
 
 .like-count-container {
@@ -465,11 +492,12 @@
 }
 
 @media (max-width: 1300px) {
-    .column-info-block{
+    .column-info-block {
         display: flex;
         flex-direction: column;
         gap: 1em;
     }
+
     .game-profile-section {
         padding: 0 7vw;
         padding-top: 120px;
@@ -503,7 +531,7 @@
         gap: 1em;
     }
 
-    
+
     .game-title-container-mobile {
         display: flex;
         align-items: center;
@@ -645,12 +673,14 @@
     cursor: pointer;
     border: 1px solid var(--font-color-global);
 }
-.window-button:hover{
+
+.window-button:hover {
     background-color: var(--button-hover);
     color: var(--font-color-global);
     transition: all 200ms linear;
 }
-.window-button-blocked{
+
+.window-button-blocked {
     pointer-events: none;
     border: none;
     padding: 0.5em;
@@ -663,12 +693,15 @@
 
 }
 
-.comment-area{
+.comment-area {
     resize: none;
     border-radius: 6px;
     padding: 0.5em;
     width: 100%;
-    background-color: var( --text-field-input-color);
+    background-color: var(--text-field-input-color);
     transition: all 200ms linear;
     color: var(--font-color-global);
+    font-family: Montserrat;
+    font-size: 1em;
+    font-weight: 600;
 }

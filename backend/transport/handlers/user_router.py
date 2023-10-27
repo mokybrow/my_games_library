@@ -190,7 +190,7 @@ async def get_user_liked_game(
     return result
 
 
-@router.post('/follow/unfollow/{user_id}')
+@router.post('/user/follow/unfollow')
 async def follow_to_rout(
     user_id: UUID4, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)
 ):
@@ -200,7 +200,7 @@ async def follow_to_rout(
     return True
 
 
-@router.get('/follow_check/{user_id}')
+@router.get('/user/follow/check')
 async def check_follow_route(
     user_id: UUID4, user: User = Depends(current_active_user), db: AsyncSession = Depends(get_async_session)
 ) -> None:
@@ -218,7 +218,7 @@ async def check_follow_route(
     )
 
 
-@router.get('/user/get/activity/', response_model=list[game_model.GetUserLastGameResponseModel])
+@router.get('/user/get/activity', response_model=list[game_model.GetUserLastGameResponseModel])
 async def get_user_activity_router(
     user_id: UUID4,
     offset: int = None,
