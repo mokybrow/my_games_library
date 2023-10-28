@@ -42,6 +42,7 @@ def make_app() -> FastAPI:
         'https://cultofbear.ru',
         'http://localhost:8000',
         'http://localhost:80',
+        'http://194.67.68.6:8000/',
     ]
 
     app.add_middleware(
