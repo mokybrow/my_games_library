@@ -3,6 +3,7 @@ import { AUser, AuthResponse, GamesCountResponse, IUser, ListsGameResponse, RegE
 import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 import { PageCountResponseModel } from "../models/generalModels";
+import { CheckGameInDefaultListsResponseModel, CheckGameInUserListsResponseModel } from "../models/listsModels";
 
 export default class ListService {
 
@@ -99,5 +100,32 @@ export default class ListService {
 
     static async geListsCount(): Promise<AxiosResponse<PageCountResponseModel>> {
         return axios.get<PageCountResponseModel>(` ${API_URL}list/all/count`)
+    }
+
+
+    static async GameInDefaultListsCheck(game_id: string): Promise<AxiosResponse<CheckGameInDefaultListsResponseModel>> {
+        return $api.get<CheckGameInDefaultListsResponseModel>(`/list/check/game/default/lists`,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'accept': 'application/json'
+                },
+                params: {
+                    game_id: game_id,
+                }
+            })
+    }
+
+    static async GameInUserListsCheck(game_id: string): Promise<AxiosResponse<CheckGameInUserListsResponseModel[]>> {
+        return $api.get<CheckGameInUserListsResponseModel[]>(`/list/check/game/user/lists`,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'accept': 'application/json'
+                },
+                params: {
+                    game_id: game_id,
+                }
+            })
     }
 }

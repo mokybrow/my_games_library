@@ -22,7 +22,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     verification_token_secret = settings.secret
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
-        # await sending_mail(email=user.email, subject='Спасибо за регистрацию в GAMIFICATION', body=settings.reg_body)
+        await sending_mail(email=user.email, subject='Добро пожаловать в "Культ Медведя"', body=settings.reg_body)
         await create_default_lists(user_id=user.id)
         print(f"User {user.id} has registered.")
 

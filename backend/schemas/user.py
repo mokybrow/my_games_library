@@ -21,7 +21,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     gender = Column(String, nullable=True)
     reporter = Column(Boolean, default=False)
     subscriber = Column(Boolean, default=False)
-
+    
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     name: str

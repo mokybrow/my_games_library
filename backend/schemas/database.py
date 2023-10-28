@@ -15,6 +15,7 @@ from sqlalchemy import (
     String,
     Table,
     Text,
+    func,
 )
 from sqlalchemy.dialects.postgresql import ARRAY
 
@@ -33,7 +34,7 @@ user_table = Table(
     Column('name', String, nullable=False),
     Column('surname', String, nullable=True),
     Column('birthdate', DateTime, nullable=True, default=None),
-    Column('registr_at', DateTime, nullable=True, default=datetime.datetime.utcnow()),
+    Column('registr_at', DateTime, default=datetime.datetime.utcnow),
     Column('gender', String, nullable=True),
     Column('img', String, nullable=True),
     Column('reporter', Boolean, default=False),

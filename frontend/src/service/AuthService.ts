@@ -18,7 +18,7 @@ export default class AuthService {
     }
 
     static async registration(email: string, password: string, username: string, name: string): Promise<AxiosResponse<RegResponse>> {
-        return $api.post<RegResponse>('/auth/register', { email: email, password: password, username: username, name: name })
+        return $api.post<RegResponse>('/auth/register', { email: email, password: password, username: username, name: name})
     }
 
     static async getMyProfile(): Promise<AxiosResponse<IUser>> {
@@ -30,11 +30,11 @@ export default class AuthService {
     }
 
     static async getUserbyUsername(username: string): Promise<AxiosResponse<AUser>> {
-        return axios.post<AUser>(`${API_URL}user/get_by_username/${username}`,)
+        return axios.post<AUser>(`${API_URL}user/get/by/username/${username}`,)
     }
 
     static async getUserbyEmail(email: string): Promise<AxiosResponse<RegEmailCheck>> {
-        return axios.post<RegEmailCheck>(`${API_URL}user/get_by_email/${email}`,)
+        return axios.post<RegEmailCheck>(`${API_URL}user/get/by/email/${email}`,)
     }
 
     static async changeUserData(password: string, name: string, surname: string, sex: string): Promise<AxiosResponse> {

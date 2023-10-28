@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite';
 import { FC, useContext, useEffect, useState } from 'react';
 import { Context } from '..';
 import { Link, useParams } from 'react-router-dom';
-import UserService from '../service/UserService';
 import { FormattedMessage } from 'react-intl';
 
 const ProfilePage: FC = () => {
@@ -217,23 +216,23 @@ const ProfilePage: FC = () => {
         <div className="main-lists-container">
           <Link to='played?page=1'>
             <div className="main-profile-card-cover-container">
-              <img src={require('../icons/passed-cover.png')} />
+              <img src={require('../assets/passed-cover.png')} />
             </div>
           </Link>
 
           <Link to='liked?page=1'>
             <div className="main-profile-card-cover-container">
-              <img src={require('../icons/like-cover.png')} />
+              <img src={require('../assets/liked-cover.png')} />
             </div>
           </Link>
           <Link to='wants-to-play?page=1'>
             <div className="main-profile-card-cover-container">
-              <img src={require('../icons/want-cover.png')} />
+              <img src={require('../assets/wishlist-cover.png')} />
             </div>
           </Link>
           <Link to='lists'>
             <div className="main-profile-card-cover-container">
-              <img src={require('../icons/user.png')} />
+              <img src={require('../assets/userlists-cover.png')} />
 
             </div>
           </Link>

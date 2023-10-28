@@ -54,3 +54,15 @@ class ListDataResponseModel(BaseModel):
 
 class GetListCountResponseModel(BaseModel):
     count: int
+
+
+class CheckGameInDefaultListsResponseModel(BaseModel):
+    passed: int
+    liked: int
+    wishilst: int
+
+
+class CheckGameInUserListsResponseModel(BaseModel):
+    list_id: UUID4
+    title: str
+    in_list: int

@@ -55,7 +55,7 @@ const ListCreateForm: FC = () => {
 
         if (!acceptedFiles[0]) {
             console.log('фотки нет')
-            list_store.CreateList(title, desctiption, isPrivate, null)
+            list_store.CreateList(title, desctiption, isPrivate, '')
         } else {
             list_store.CreateList(title, desctiption, isPrivate, acceptedFiles[0])
 

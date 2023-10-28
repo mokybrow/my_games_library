@@ -1,6 +1,6 @@
 import os
 
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import BackgroundTasks
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
@@ -26,8 +26,9 @@ conf = ConnectionConfig(
 )
 
 
-async def sending_mail(email: str, subject: str, body: str) -> JSONResponse:
-    html = f"""<p>{body}</p> """
+async def sending_mail(email: str, subject: str, body: str, link: Optional[str]) -> JSONResponse:
+    html = f"""<p>{body}</p> 
+    <a src={link}>Подтвердите регистрацию</a>"""
 
     message = MessageSchema(subject=subject, recipients=[email], body=html, subtype=MessageType.html)
 

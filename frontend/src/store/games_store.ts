@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { GameAvgRate, GameReviews, GamesResponse, userGrade } from "../models/response";
+import { GamesResponse, userGrade } from "../models/response";
 //import { AxiosError } from "axios";
 
 import GameService from "../service/GameService";
@@ -8,6 +8,8 @@ import { GameProfileResponse } from "../models/gamesModels";
 import AuthService from "../service/AuthService";
 import ReviewService from "../service/ReviewService";
 import { ReviewCardModel } from "../models/reviewModels";
+import ListService from "../service/ListService";
+import { CheckGameInDefaultListsResponseModel, CheckGameInUserListsResponseModel } from "../models/listsModels";
 
 
 
@@ -21,13 +23,13 @@ export default class GamesStore {
     userGrade = {} as userGrade;
     pageCount = 0;
     currentPage = 0;
-    isWanted = false;
-    isPassed = false;
-    isLiked = false;
+
     sort = 'null';
     genre = 'null';
 
     reviews = [] as ReviewCardModel[];
+    userLists = [] as CheckGameInUserListsResponseModel[];
+    gameInLists = {} as CheckGameInDefaultListsResponseModel;
 
     constructor() {
         makeAutoObservable(this);
@@ -36,7 +38,9 @@ export default class GamesStore {
     setReviews(review: ReviewCardModel[]) {
         this.reviews = review;
     }
-
+    setGameInLists(lists: CheckGameInDefaultListsResponseModel) {
+        this.gameInLists = lists
+    }
     setSort(sort: string) {
         this.sort = sort
     }
@@ -53,6 +57,9 @@ export default class GamesStore {
         this.gamesPage = games;
     }
 
+    setUserLists(lists: CheckGameInUserListsResponseModel[]) {
+        this.userLists = lists;
+    }
 
     setGameProfile(gameProfile: GameProfileResponse) {
         this.gameProfile = gameProfile;
@@ -67,18 +74,6 @@ export default class GamesStore {
     }
 
 
-    setPassed(bool: boolean) {
-        this.isPassed = bool;
-    }
-
-
-    setLiked(bool: boolean) {
-        this.isLiked = bool;
-    }
-
-    setWanted(bool: boolean) {
-        this.isWanted = bool;
-    }
 
     async getReviewsFunc(offset: number | null, limit: number | null, popular: boolean | null, slug: string | null) {
         this.setLoading(true);
@@ -87,7 +82,7 @@ export default class GamesStore {
                 const user = await AuthService.getMyProfile();
                 const response = await ReviewService.getReviews(offset, limit, popular, String(user.data.id), slug);
                 this.setReviews(response.data)
-            }else{
+            } else {
                 const response = await ReviewService.getReviews(offset, limit, popular, null, slug);
                 this.setReviews(response.data)
             }
@@ -120,31 +115,16 @@ export default class GamesStore {
         } catch (error) {
         } try {
             if (getLocalToken() !== null) {
-                const checkInPassed = await GameService.checkInPassedList(this.gameProfile.id)
-                if (checkInPassed.data === true) {
-                    this.setPassed(true)
-                }
+                const checkInDefaultLists = await ListService.GameInDefaultListsCheck(this.gameProfile.id)
+                this.setGameInLists(checkInDefaultLists.data)
             }
         } catch (error) {
-            this.setPassed(false)
+
         } try {
-            if (getLocalToken() !== null) {
-                const checkInPassed = await GameService.checkInLikedList(this.gameProfile.id)
-                if (checkInPassed.data === true) {
-                    this.setLiked(true)
-                }
-            }
+            const checkInUserLists = await ListService.GameInUserListsCheck(this.gameProfile.id)
+            this.setUserLists(checkInUserLists.data)
         } catch (error) {
-            this.setLiked(false)
-        } try {
-            if (getLocalToken() !== null) {
-                const checkInPassed = await GameService.checkInWantedList(this.gameProfile.id)
-                if (checkInPassed.data === true) {
-                    this.setWanted(true)
-                }
-            }
-        } catch (error) {
-            this.setWanted(false)
+
         }
         try {
 
@@ -169,7 +149,15 @@ export default class GamesStore {
             this.setLoading(false);
 
         }
+    }
 
+    async updateGameInUserList(){
+        try {
+            const checkInUserLists = await ListService.GameInUserListsCheck(this.gameProfile.id)
+            this.setUserLists(checkInUserLists.data)
+        } catch (error) {
+            
+        }
     }
 
     async getGameByPage(id: number, sort: string | null, decade: string | null, genre: string | null) {

@@ -5,7 +5,7 @@ import uuid
 from typing import Any, Optional
 
 from pydantic import UUID4
-from sqlalchemy import delete, func, insert, select, update
+from sqlalchemy import case, delete, distinct, func, insert, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.models.list_model import CreateListModel
@@ -121,7 +121,6 @@ async def add_game_to_user_list(list_id: UUID4, game_id: UUID4, db: AsyncSession
     result = await db.execute(query)
     result = result.all()
     if result:
-        print(result)
         stmt = delete(list_game_table).where(list_game_table.c.list_id == list_id, list_game_table.c.game_id == game_id)
         await db.execute(stmt)
         await db.commit()
@@ -441,44 +440,49 @@ async def get_list_data(
         return result.all()
 
 
-async def check_game_in_user_wantplay(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> dict:
+async def check_game_in_default_lists(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> Any:
     query = (
-        select(wantplay_game_table.c.game_id, wantplay_game_table.c.list_id, wantplay_table.c.user_id)
-        .select_from(wantplay_game_table)
-        .join(wantplay_table, onclause=wantplay_game_table.c.list_id == wantplay_table.c.id, isouter=True)
-        .where(wantplay_table.c.user_id == user_id, wantplay_game_table.c.game_id == game_id)
+        select(game_table.c.id, 
+                func.sum(distinct(case((passed_game_table.c.game_id == game_id, 1), else_=0))).label('passed'),
+                func.sum(distinct(case((like_game_table.c.game_id  == game_id, 1), else_=0))).label('liked'),
+                func.sum(distinct(case((wantplay_game_table.c.game_id == game_id, 1), else_=0))).label('wishilst'),
+               )
+               .join(wantplay_table, onclause=wantplay_table.c.user_id == user_id, isouter=True)
+               .join(wantplay_game_table, onclause=wantplay_game_table.c.list_id == wantplay_table.c.id, isouter=True)
+               
+                              .join(passed_table, onclause=passed_table.c.user_id == user_id, isouter=True)
+               .join(passed_game_table, onclause=passed_game_table.c.list_id == passed_table.c.id,  isouter=True)
+
+                              .join(like_table, onclause=like_table.c.user_id == user_id, isouter=True)
+               .join(like_game_table,  onclause=like_game_table.c.list_id == like_table.c.id,  isouter=True)
+               .select_from(game_table)
+        .where(game_table.c.id == game_id).group_by(game_table.c.id)
     )
     result = await db.execute(query)
-    list_a_game = result.all()
-    if not list_a_game:
+    result = result.all()
+    if not result:
         return False
-    return True
+    return result
 
 
-async def check_game_in_user_liked(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> dict:
+async def check_game_in_user_lists(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> Any:
     query = (
-        select(like_game_table.c.game_id, like_game_table.c.list_id, like_table.c.user_id)
-        .select_from(like_game_table)
-        .join(like_table, onclause=like_game_table.c.list_id == like_table.c.id, isouter=True)
-        .where(like_table.c.user_id == user_id, like_game_table.c.game_id == game_id)
+        select(game_table.c.id, list_table.c.id.label('list_id'), list_table.c.title,
+                func.sum(distinct(case((list_game_table.c.game_id == game_id, 1), else_=0))).label('in_list'),
+
+               )
+               .join(list_table, onclause=list_table.c.owner_id == user_id, isouter=True)
+               .join(list_game_table, onclause=list_game_table.c.list_id == list_table.c.id, isouter=True)
+               
+               .select_from(game_table)
+        .where(game_table.c.id == game_id).group_by(game_table.c.id, list_table.c.id,  list_table.c.title)
     )
     result = await db.execute(query)
-    list_a_game = result.all()
-    if not list_a_game:
+    result = result.all()
+    if not result:
         return False
-    return True
+    return result
 
-
-async def check_game_in_user_passed(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> dict:
-    wantplay_list_id = select(passed_table.c.id).where(passed_table.c.user_id == user_id)
-    list_id_result = await db.execute(wantplay_list_id)
-    game_id = select(
-        passed_game_table.c.list_id,
-    ).where(passed_game_table.c.list_id == list_id_result.all()[0][0], passed_game_table.c.game_id == game_id)
-    game_id_result = await db.execute(game_id)
-    if not game_id_result.all():
-        return False
-    return True
 
 
 async def get_list_info(

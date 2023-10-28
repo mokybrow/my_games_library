@@ -21,6 +21,8 @@ class Settings(
     fog_pass: str
     res_pass: str
 
+    reg_link: str
+
     class Config:
         env_prefix = 'GAMIFICATION_'
         env_file = ".env"

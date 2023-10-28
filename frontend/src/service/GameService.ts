@@ -83,42 +83,6 @@ export default class GameService {
             })
     }
 
-    static async checkInPassedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/game/check/in_passed`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-                params: {
-                    game_id: game_id,
-                }
-            })
-    }
-    static async checkInLikedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/game/check/in_liked`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-                params: {
-                    game_id: game_id,
-                }
-            })
-    }
-    static async checkInWantedList(game_id: string): Promise<AxiosResponse> {
-        return $api.get(`/game/check/in_wishlist`,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'accept': 'application/json'
-                },
-                params: {
-                    game_id: game_id,
-                }
-            })
-    }
 
     static async operationWithPassed(game_id: string): Promise<AxiosResponse> {
         return $api.post(`list/operation/passed`, null, {

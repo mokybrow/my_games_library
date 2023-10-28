@@ -65,7 +65,7 @@ async def another_user_profile(username: str, db: AsyncSession = Depends(get_asy
     return result[0]
 
 
-@router.post('/user/get_by_email/{email}', tags=['reg_validation'])
+@router.post('/user/get/by/email/{email}', tags=['reg_validation'])
 async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_email(email=email, db=db)
     print(result)
@@ -78,7 +78,7 @@ async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_as
     return True
 
 
-@router.post('/user/get_by_username/{username}', tags=['reg_validation'])
+@router.post('/user/get/by/username/{username}', tags=['reg_validation'])
 async def get_user_by_username_router(username: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_username(username=username, db=db)
     if not result:

@@ -1,18 +1,21 @@
-.game-profile-section {
-    font-family: 'Inter', sans-serif;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 0 2em;
-    padding: 0 14vw;
-    padding-top: 140px;
-    align-items: flex-start;
+.page-section {
+    display: flex;
     min-height: 100vh;
+    padding: 120px 14vw;
+    align-items: flex-start;
 }
 
+.game-profile-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+    gap: 2em;
+    align-items: flex-start;
+}
 
 .game-profile-cover-container {
     width: 14em;
-    height: 18em;
+    height: 100%;
     border-radius: 6px;
     object-fit: cover;
     grid-column: 1/2;
@@ -53,10 +56,12 @@
 .other-info-header {
     grid-column: 1 / -1;
 }
-.info-header{
+
+.info-header {
     margin-bottom: 0.5em;
     text-decoration: underline;
 }
+
 .other-info-data {
     display: flex;
     flex-direction: column;
@@ -84,9 +89,8 @@
 }
 
 .reviews-container {
-    grid-row: 2/3;
+    grid-row: 2 ;
     grid-column: 2/7;
-    margin-top: 1em;
 }
 
 .game-title-container {
@@ -154,6 +158,7 @@
     justify-content: center;
     font-weight: 600;
     font-size: 1.2em;
+    grid-row: 2/3;
 }
 
 .game-profile-grade:hover {
@@ -305,6 +310,7 @@
     background-color: #4C75D7;
 }
 
+
 .custom-checkbox.check:checked+label::before {
     background-image: url('../icons/check-white.png');
 }
@@ -320,9 +326,6 @@
 .custom-checkbox.plus:checked+label::before {
     background-image: url('../icons/plus-white.png');
 }
-
-/* Чекбоксы на картинке */
-
 
 
 /* Чекбокс под комментариями */
@@ -536,15 +539,15 @@
         display: flex;
         align-items: center;
         grid-row: 1/2;
-        grid-column: 1/7;
+        grid-column: 1 / -1;
         justify-content: space-between;
     }
 
     .description-container-mobile {
         display: flex;
         flex-direction: column;
-        grid-row: 3/4;
-        grid-column: 1/7;
+        grid-row: 4;
+        grid-column: 1 / -1;
         gap: 1em;
     }
 
@@ -554,15 +557,17 @@
     }
 
     .game-cover-grade-container {
-        grid-row: 2/3;
+        grid-row: 2;
         grid-column: 1/7;
     }
 
     .game-profile-cover-container {
         width: 100%;
+        height: 18em;
         border-radius: 6px;
         object-fit: cover;
-        grid-column: 1/2;
+        grid-column: 1 / -1;
+        grid-row: 2;
         display: flex;
         border-radius: 10px;
         overflow: hidden;
@@ -580,9 +585,15 @@
     }
 
     .reviews-container {
-        grid-row: 4/5;
-        grid-column: 1/7;
+        grid-row: 5;
+        grid-column: 1 / -1;
     }
+
+    .game-profile-grade {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+
 
     .game-profile-grade:hover {
         transform: scale(1.0);
@@ -601,7 +612,10 @@
         align-items: center;
         justify-content: center;
     }
-
+    .other-info-block{
+        display: flex;
+        align-items: center;
+    }
 }
 
 @media (max-width: 500px) {
@@ -618,13 +632,29 @@
     }
 
     .checkbox-card-body-mobile {
-        grid-row: 3/4;
-        grid-column: 1/7;
+        grid-row: 3;
+        grid-column: 1 / -1;
         display: flex;
         flex-direction: column;
         position: relative;
         justify-content: center;
         align-items: center;
+    }
+    .reviews-container {
+        grid-row: 6;
+        grid-column: 1 / -1;
+    }
+    .description-container-mobile {
+        display: flex;
+        flex-direction: column;
+        grid-row: 5;
+        grid-column: 1 / -1;
+        gap: 1em;
+    }
+
+    .game-profile-grade {
+        grid-column: 1 / -1;
+        grid-row: 4;
     }
 
     .check-box-panel {
@@ -654,9 +684,6 @@
         transition: all 100ms linear;
     }
 
-    .reviews-container {
-        grid-row: 5/6;
-    }
 }
 
 

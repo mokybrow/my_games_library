@@ -40,93 +40,95 @@ const HomePage: FC = () => {
   }
   return (
     <>
-      <section className='home-page-game-section'>
-        {games_store.games.length > 0 ?
-          <div className='header-new-game'>
-            <Link className='header-new-game' to='/games?page=1&sort=releasedesc' >
-              <h1>
-                <FormattedMessage id="content.headers.newsgames" />
-              </h1>
-            </Link>
-          </div> : null}
+      <section className='page-section'>
+        <div className="grid-container">
+          {games_store.games.length > 0 ?
+            <div className='header-new-game'>
+              <Link className='header-new-game' to='/games?page=1&sort=releasedesc' >
+                <h1>
+                  <FormattedMessage id="content.headers.newsgames" />
+                </h1>
+              </Link>
+            </div> : null}
 
-        {games_store.games.map(game =>
-          <Link key={game.id} to={'game/' + game.slug} reloadDocument>
-            <div className="game-card-cover-container">
-              {game.cover != null ? <img src={game.cover} alt='' width="200" height="200" /> : <img src={require('../icons/img-not-found.png')} alt='' width="200" height="200" />}
-              <div className="title-card-body">
-                <div className="title-card">
-                  <span className="card-title">{game.title}</span>
+          {games_store.games.map(game =>
+            <Link key={game.id} to={'game/' + game.slug} reloadDocument>
+              <div className="game-card-cover-container">
+                {game.cover != null ? <img src={game.cover} alt='' width="200" height="200" /> : <img src={require('../icons/img-not-found.png')} alt='' width="200" height="200" />}
+                <div className="title-card-body">
+                  <div className="title-card">
+                    <span className="card-title">{game.title}</span>
+                  </div>
                 </div>
               </div>
+            </Link>)}
+
+          {artilce_store.articles.length > 0 ?
+            <div className='header-new-game'>
+              <Link className='header-new-game' to='/articles?page=1' >
+                <h1>
+                  <FormattedMessage id="content.headers.newarticles" />
+                </h1>
+              </Link>
+            </div> : null}
+
+
+          {<>{artilce_store.articles.map(article =>
+            <div key={article.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
+              <ArticleCard
+
+                src={`data:image/jpeg;base64,${article.cover}`}
+                title={article.title}
+                username={article.username}
+                comment={article.text}
+                img={`data:image/jpeg;base64,${article.img}`}
+                like_count={article.like_count}
+                slug={article.slug}
+                columnSpan={3}
+                created_at={article.created_at}
+                article_id={article.id}
+                authorLike={article.hasAuthorLike}
+                offset={0}
+                limit={4}
+                popular={null}
+                date={true} />
             </div>
-          </Link>)}
 
-        {artilce_store.articles.length > 0 ?
-          <div className='header-new-game'>
-            <Link className='header-new-game' to='/articles?page=1' >
-              <h1>
-                <FormattedMessage id="content.headers.newarticles" />
-              </h1>
-            </Link>
-          </div> : null}
+          )}</>}
 
 
-        {<>{artilce_store.articles.map(article =>
-          <div key={article.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
-            <ArticleCard
+          {review_store.reviews.length > 0 ?
+            <div className='header-new-game'>
+              <Link className='header-new-game' to='/reviews?page=1' >
+                <h1>
+                  <FormattedMessage id="content.headers.popularreviews" />
+                </h1>
+              </Link>
+            </div> : null}
 
-              src={`data:image/jpeg;base64,${article.cover}`}
-              title={article.title}
-              username={article.username}
-              comment={article.text}
-              img={`data:image/jpeg;base64,${article.img}`}
-              like_count={article.like_count}
-              slug={article.slug}
-              columnSpan={3}
-              created_at={article.created_at}
-              article_id={article.id}
-              authorLike={article.hasAuthorLike}
-              offset={0}
-              limit={4}
-              popular={null}
-              date={true} />
-          </div>
+          {<>{review_store.reviews.map(review =>
+            <div key={review.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
+              <ReviewCard
 
-        )}</>}
+                src={review.cover}
+                title={review.title}
+                username={review.username}
+                comment={review.comment}
+                img={`data:image/jpeg;base64,${review.img}`}
+                like_count={review.like_count}
+                slug={review.slug}
+                columnSpan={3}
+                created_at={review.created_at}
+                review_id={review.id}
+                offset={0}
+                limit={4}
+                popular={true}
+                date={true}
+                authorLike={review.hasAuthorLike} />
+            </div>
 
-
-        {review_store.reviews.length > 0 ?
-          <div className='header-new-game'>
-            <Link className='header-new-game' to='/reviews?page=1' >
-              <h1>
-                <FormattedMessage id="content.headers.popularreviews" />
-              </h1>
-            </Link>
-          </div> : null}
-
-        {<>{review_store.reviews.map(review =>
-          <div key={review.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
-            <ReviewCard
-
-              src={review.cover}
-              title={review.title}
-              username={review.username}
-              comment={review.comment}
-              img={`data:image/jpeg;base64,${review.img}`}
-              like_count={review.like_count}
-              slug={review.slug}
-              columnSpan={3}
-              created_at={review.created_at}
-              review_id={review.id}
-              offset={0}
-              limit={4}
-              popular={true}
-              date={true}
-              authorLike={review.hasAuthorLike} />
-          </div>
-
-        )}</>}
+          )}</>}
+        </div>
       </section>
     </>
   )

@@ -71,13 +71,13 @@ async def get_another_user(username: str, db: AsyncSession) -> dict:
 
 
 async def get_user_by_email(email: str, db: AsyncSession) -> dict:
-    query = select(user_table).where(user_table.c.email == email.lower())
+    query = select(user_table).where(func.lower(user_table.c.email) == email.lower())
     result = await db.execute(query)
     return result.all()
 
 
 async def get_user_by_username(username: str, db: AsyncSession) -> dict:
-    query = select(user_table).where(user_table.c.username == username)
+    query = select(user_table).where(func.lower(user_table.c.username) == username.lower())
     result = await db.execute(query)
     return result.all()
 
