@@ -26,3 +26,13 @@
 .search-input-container .form-button{
     width: auto;
 }
+
+@media (max-width:768px) {
+    .search-grid-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        gap: 1em;
+    }
+    
+}
