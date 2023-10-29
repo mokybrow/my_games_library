@@ -63,7 +63,7 @@ async def get_another_user(username: str, db: AsyncSession) -> dict:
         .join(wantplay_table, onclause=wantplay_table.c.user_id == user_table.c.id, isouter=True)
         .join(wantplay_game_table, onclause=wantplay_game_table.c.list_id == wantplay_table.c.id, isouter=True)
         .group_by(user_table)
-        .where(user_table.c.username == username)
+        .where(func.lower(user_table.c.username) == username.lower())
     )
 
     result = await db.execute(query)

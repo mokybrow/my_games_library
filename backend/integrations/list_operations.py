@@ -466,6 +466,11 @@ async def check_game_in_default_lists(game_id: UUID4, user_id: UUID4, db: AsyncS
 
 
 async def check_game_in_user_lists(game_id: UUID4, user_id: UUID4, db: AsyncSession) -> Any:
+    having_list = (select(func.count("*")).select_from(list_table).where(list_table.c.owner_id == user_id))
+    having_list_1 = await db.execute(having_list)
+    having_list_1= having_list_1.all()
+    if having_list_1[0][0] == 0:
+        return False
     query = (
         select(game_table.c.id, list_table.c.id.label('list_id'), list_table.c.title,
                 func.sum(distinct(case((list_game_table.c.game_id == game_id, 1), else_=0))).label('in_list'),

@@ -10,7 +10,7 @@ class GamesResponseModel(BaseModel):
     cover: str | None
     description: str
     slug: str
-    release: datetime.date
+    release: Optional[datetime.date]
     platform: list
 
 
@@ -19,7 +19,7 @@ class GetGamesResponseModel(BaseModel):
     title: str
     cover: Optional[str]
     slug: str
-    release: datetime.date
+    release: Optional[datetime.date]
 
 
 class GetGamesCountResponseModel(BaseModel):
@@ -34,7 +34,7 @@ class GetUserLastGameResponseModel(BaseModel):
     cover: Optional[str]
     slug: str
     activity_type: str
-    created_at: datetime.datetime
+    created_at: Optional[datetime.datetime]
 
 
 class GetGameProfileResponseModel(BaseModel):
@@ -43,7 +43,7 @@ class GetGameProfileResponseModel(BaseModel):
     cover: Optional[str]
     description: Optional[str]
     slug: str
-    release: datetime.date
+    release: Optional[datetime.date]
     platform: Optional[list]
     platform_name: Optional[list]
     genre: Optional[list]
@@ -57,7 +57,7 @@ class GetGameReviewsResponseModel(BaseModel):
     user_id: UUID4
     grade: int
     comment: Optional[str]
-    created_at: datetime.datetime
+    created_at: Optional[datetime.datetime]
     review_id: UUID4
     review_likes: Optional[int]
     hasAuthorLike: Optional[int]
