@@ -51,7 +51,7 @@ services:
       - .env
     container_name: frontend
     ports:
-      - "127.0.0.1:3000:3000"
+      - "0.0.0.0:3000:3000"
     expose:
       - 3000
     depends_on:
