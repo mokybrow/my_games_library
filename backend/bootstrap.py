@@ -39,6 +39,7 @@ def make_app() -> FastAPI:
         'http://localhost:8000',
         'http://194.67.68.6:3000/',
         'http://194.67.68.6:8000/',
+        'http://194.67.68.6:90/',
     ]
 
     app.add_middleware(
