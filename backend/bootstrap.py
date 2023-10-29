@@ -36,14 +36,7 @@ def make_app() -> FastAPI:
     origins = [
         'http://localhost:3000',
         'http://127.0.0.1:3000',
-        'http://0.0.0.0:3000',
-        'http://frontend:3000',
-        'cultofbear.ru',
-        'http://cultofbear.ru',
-        'https://cultofbear.ru',
-        'http://localhost:8000',
-        'http://localhost:80',
-        'http://194.67.68.6:8000/',
+        'http://localhost:8000'
     ]
 
     app.add_middleware(
