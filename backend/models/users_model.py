@@ -49,4 +49,4 @@ class UserStatsModel(BaseModel):
 
 
 class UserImg(BaseModel):
-    img: str
+    img: Optional[str]

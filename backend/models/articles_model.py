@@ -10,13 +10,13 @@ class ArticleResponseModel(BaseModel):
     user_id: UUID4
     user_id: UUID4
     title: str
-    cover: str
+    cover: Optional[str]
     text: str
     slug: str
     publishing: bool
     tags: Optional[list]
     username: str
-    img: str
+    img: Optional[str]
     like_count: int
     created_at: Optional[datetime.datetime]
     hasAuthorLike: Optional[int] = None
