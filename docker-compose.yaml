@@ -9,6 +9,7 @@ services:
     depends_on:
       - app
       - frontend
+ 
   db:
     image: postgres:15.4
     container_name: database
