@@ -43,6 +43,7 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
 
     }
     let navigate = useNavigate();
+
     return (
         <>
             <div className="article-card-container">
@@ -51,9 +52,10 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                 </div>
                 <div className="article-text-container">
                     <div className="article-text-container-header" >
-                        {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+                        {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
                             <img className="user-mini-img" src={img} width={100} height={100} />}
+                            
                         <Link to={'/' + username}><h5>{username}</h5></Link>
                         <div className="user-grade-container">
                             {like_count !== null ? <span className='grade-number-container'>

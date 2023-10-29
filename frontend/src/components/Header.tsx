@@ -16,6 +16,7 @@ const Header: FC = () => {
     const [active, setModalActive] = useState(false);
     const { search_store } = useContext(Context);
     const [searchInput, setSearchInput] = useState('');
+
     const body = document.body;
     //чекбоксик
     const [checked, setChecked] = useState(false);
@@ -161,8 +162,10 @@ const Header: FC = () => {
                 </div>
                 <ModalWindow active={active} setActive={setModalActive}>
                     <div className='search-input-container'>
-                        <input type="text" className='game-search-input' placeholder='Поиск' onChange={(e) => searchHandler(e.target.value)} value={searchInput} />
+                        <input type="text" className='game-search-input' placeholder='Поиск' onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
+                        <button className='form-button' onClick={() => { { searchHandler(searchInput) } { search_store.setGames([] as GamesResponse[]) } }}>Поиск</button>
                         <button className='form-button' onClick={() => { { setSearchInput('') } { search_store.setGames([] as GamesResponse[]) } }}>Очистить</button>
+
                     </div>
                     <div className='search-grid-container'>
                         {search_store.games.map(game =>

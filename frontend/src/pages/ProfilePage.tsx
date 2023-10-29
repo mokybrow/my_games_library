@@ -101,28 +101,28 @@ const ProfilePage: FC = () => {
           </div>
 
           <div className="main-lists-container">
-            <Link to='played?page=1'>
-              <div className="main-profile-card-cover-container">
-                <img src={require('../icons/passed-cover.png')} />
-              </div>
-            </Link>
+          <Link to='played?page=1'>
+            <div className="main-profile-card-cover-container">
+              <img src={require('../assets/passed-cover.png')} />
+            </div>
+          </Link>
 
-            <Link to='liked?page=1'>
-              <div className="main-profile-card-cover-container">
-                <img src={require('../icons/like-cover.png')} />
-              </div>
-            </Link>
-            <Link to='wants-to-play?page=1'>
-              <div className="main-profile-card-cover-container">
-                <img src={require('../icons/want-cover.png')} />
-              </div>
-            </Link>
-            <Link to='lists?page=1'>
-              <div className="main-profile-card-cover-container">
-                <img src={require('../icons/user.png')} />
+          <Link to='liked?page=1'>
+            <div className="main-profile-card-cover-container">
+              <img src={require('../assets/liked-cover.png')} />
+            </div>
+          </Link>
+          <Link to='wants-to-play?page=1'>
+            <div className="main-profile-card-cover-container">
+              <img src={require('../assets/wishlist-cover.png')} />
+            </div>
+          </Link>
+          <Link to='lists'>
+            <div className="main-profile-card-cover-container">
+              <img src={require('../assets/userlists-cover.png')} />
 
-              </div>
-            </Link>
+            </div>
+          </Link>
 
           </div>
           <div className="last-game-container">
