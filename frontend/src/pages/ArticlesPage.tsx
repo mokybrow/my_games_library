@@ -40,21 +40,21 @@ const ArticlesPage: FC = () => {
   return (
     <>
       <section className='page-section'>
-        <div className="grid-container">
+      <div className="home-page-grid-container">
 
 
-          {<>{artilce_store.articles.map(article =>
-            <div key={article.id} className="article-page-artilce-card-container" style={{ gridColumnEnd: `span 2` }}>
+        {<>{artilce_store.articles.map(article =>
+            <div key={article.id} className="article-card-container">
               <ArticleCard
-
+                
                 src={`data:image/jpeg;base64,${article.cover}`}
                 title={article.title}
                 username={article.username}
                 comment={article.text}
-                img={`data:image/jpeg;base64,${article.img}`}
+                img={article.img}
                 like_count={article.like_count}
                 slug={article.slug}
-                columnSpan={3}
+                columnSpan={0}
                 created_at={article.created_at}
                 article_id={article.id}
                 authorLike={article.hasAuthorLike}
@@ -63,7 +63,6 @@ const ArticlesPage: FC = () => {
                 popular={null}
                 date={true} />
             </div>
-
           )}</>}
           <Pagination initialPage={currentPage - 1}
             pageCount={Math.ceil(artilce_store.pageCount)}

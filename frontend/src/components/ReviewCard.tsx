@@ -44,8 +44,9 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
             <div className="article-card-container">
                 {src == '' ? null :
                     <div className="article-img-container">
-                        <img src={src} alt='' width="150" height="150" />
-                    </div>}
+                        {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+
+                            <img className="user-mini-img" src={img} width={100} height={100} />}                    </div>}
                 <div className="article-text-container">
                     <div className="article-text-container-header" >
                         {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
@@ -88,7 +89,9 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
                     </div>
                     {src == '' ? null :
                         <div className="article-img-container-modal">
-                            <img src={src} alt='' width="150" height="150" />
+                            {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+
+                                <img className="user-mini-img" src={img} width={100} height={100} />}
                         </div>}
                     <div className="article-text-container-body">
                         <Link to={'/game/' + slug}><h1>{title}</h1></Link>
@@ -98,7 +101,7 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
                     <div className="like-count-container">
                         <span>{like_count}</span>
                         {auth_store.isAuth ? <>
-                            <input  onClick={() => { review_store.likeReview(offset, limit, popular, review_id, null) }} className="custom-checkbox-comment like" type='checkbox' id={review_id} name={review_id} value="red" defaultChecked={authorLike === 1 ? true : false} />
+                            <input onClick={() => { review_store.likeReview(offset, limit, popular, review_id, null) }} className="custom-checkbox-comment like" type='checkbox' id={review_id} name={review_id} value="red" defaultChecked={authorLike === 1 ? true : false} />
                             <label htmlFor={review_id}></label></> :
                             <>
                                 <input className="custom-checkbox-comment like" type="checkbox" id='unauthorize' name='unauthorize' value="red" onClick={() => navigate('/login')} />

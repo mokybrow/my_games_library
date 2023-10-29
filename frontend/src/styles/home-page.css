@@ -1,12 +1,8 @@
 .home-page-game-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 20px 24px;
-    align-items: stretch;
-    padding: 0 14vw;
-    padding-top: 96px;
-    margin-bottom: 80px;
+    display: flex;
     min-height: 100vh;
+    padding: 120px 14vw;
+    align-items: flex-start;
 }
 
 .header-new-game {
@@ -19,6 +15,13 @@
     align-items: flex-start;
 }
 
+.home-page-grid-container{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+    gap: 1em;
+    align-items: flex-start;
+}
 
 .game-card-cover-container {
     height: 200px;
@@ -66,20 +69,22 @@
     margin-bottom: 1em;
 }
 
+.article-card-container{
+    grid-column: span 3;
+}
+
 
 @media (max-width: 1300px) {
-    .header-new-game {
-        margin-left: 5px;
-        text-decoration: underline;
-        color: var(--font-color-global);
-        display: flex;
+
+
+
+    .home-page-grid-container{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        gap: 1em;
         align-items: flex-start;
     }
-
-    .home-page-game-section {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
     
 }
 
@@ -89,19 +94,15 @@
 
     }
 
-    .header-new-game {
-        margin-left: 5px;
-        text-decoration: underline;
-        color: var(--font-color-global);
-        display: flex;
+    .home-page-grid-container{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        width: 100%;
+        gap: 1em;
         align-items: flex-start;
     }
-
-    .home-page-game-section {
-        grid-template-columns: 1fr 1fr;
-    }
     
-    /* .home-page-artilce-card-container {
-        grid-column: span 2;
-    } */
+    .article-card-container{
+        grid-column: span 1;
+    }
 }

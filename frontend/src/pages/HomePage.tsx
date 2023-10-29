@@ -41,7 +41,7 @@ const HomePage: FC = () => {
   return (
     <>
       <section className='page-section'>
-        <div className="grid-container">
+        <div className="home-page-grid-container">
           {games_store.games.length > 0 ?
             <div className='header-new-game'>
               <Link className='header-new-game' to='/games?page=1&sort=releasedesc' >
@@ -63,6 +63,7 @@ const HomePage: FC = () => {
               </div>
             </Link>)}
 
+
           {artilce_store.articles.length > 0 ?
             <div className='header-new-game'>
               <Link className='header-new-game' to='/articles?page=1' >
@@ -74,17 +75,17 @@ const HomePage: FC = () => {
 
 
           {<>{artilce_store.articles.map(article =>
-            <div key={article.id} className="home-page-artilce-card-container" style={{ gridColumnEnd: `span 3` }}>
+            <div key={article.id} className="article-card-container">
               <ArticleCard
-
+                
                 src={`data:image/jpeg;base64,${article.cover}`}
                 title={article.title}
                 username={article.username}
                 comment={article.text}
-                img={`data:image/jpeg;base64,${article.img}`}
+                img={article.img}
                 like_count={article.like_count}
                 slug={article.slug}
-                columnSpan={3}
+                columnSpan={0}
                 created_at={article.created_at}
                 article_id={article.id}
                 authorLike={article.hasAuthorLike}
@@ -93,9 +94,7 @@ const HomePage: FC = () => {
                 popular={null}
                 date={true} />
             </div>
-
           )}</>}
-
 
           {review_store.reviews.length > 0 ?
             <div className='header-new-game'>
@@ -114,7 +113,7 @@ const HomePage: FC = () => {
                 title={review.title}
                 username={review.username}
                 comment={review.comment}
-                img={`data:image/jpeg;base64,${review.img}`}
+                img={review.img}
                 like_count={review.like_count}
                 slug={review.slug}
                 columnSpan={3}
@@ -129,7 +128,7 @@ const HomePage: FC = () => {
 
           )}</>}
         </div>
-      </section>
+      </section >
     </>
   )
 }
