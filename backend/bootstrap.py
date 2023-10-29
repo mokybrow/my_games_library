@@ -16,13 +16,13 @@ from .transport.handlers.user_router import router as user_router
 def _setup_api_routers(
     api: APIRouter,
 ) -> None:
-    api.include_router(user_router, tags=['user profile'])
-    api.include_router(auth_router)
-    api.include_router(game_router, tags=['game router'])
-    api.include_router(list_router, tags=['lists'])
-    api.include_router(admin_router, tags=['admin dashboard'])
-    api.include_router(review_router, tags=['review'])
-    api.include_router(article_router, tags=['article'])
+    api.include_router(user_router, tags=['user profile'], prefix='/api')
+    api.include_router(auth_router, prefix='/api')
+    api.include_router(game_router, tags=['game router'], prefix='/api')
+    api.include_router(list_router, tags=['lists'], prefix='/api')
+    api.include_router(admin_router, tags=['admin dashboard'], prefix='/api')
+    api.include_router(review_router, tags=['review'], prefix='/api')
+    api.include_router(article_router, tags=['article'], prefix='/api')
 
 
 @lru_cache
@@ -37,9 +37,7 @@ def make_app() -> FastAPI:
         'http://localhost:3000',
         'http://127.0.0.1:3000',
         'http://localhost:8000',
-        'http://194.67.68.6:3000/',
-        'http://194.67.68.6:8000/',
-        'http://194.67.68.6:90/',
+        'http://localhost',
     ]
 
     app.add_middleware(

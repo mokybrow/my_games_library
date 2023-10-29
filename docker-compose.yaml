@@ -6,7 +6,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - 8000:90
+      - 80:90
     depends_on:
       - backend
       - frontend
@@ -37,8 +37,7 @@ services:
       - .env-prod
     container_name: backend
     image: backend
-    ports:
-      - "8888:8888"
+
     command: bash -c "gunicorn -w 4 -k uvicorn.workers.UvicornWorker backend.main:make_app --bind 0.0.0.0:8888"
     depends_on:
       - db
@@ -52,10 +51,7 @@ services:
     env_file:
       - .env-prod
     container_name: frontend
-    ports:
-      - "3000:3000"
-    expose:
-      - 3000
+
     depends_on:
       - backend
 
