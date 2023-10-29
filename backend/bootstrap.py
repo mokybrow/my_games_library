@@ -34,10 +34,11 @@ def make_app() -> FastAPI:
     _setup_api_routers(app.router)
 
     origins = [
-        'http://localhost:3000/',
-        'http://127.0.0.1:3000/',
-        'http://localhost:8000/',
-        'http://194.67.68.6:8000/'
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'http://localhost:8000',
+        'http://194.67.68.6:3000/',
+        'http://194.67.68.6:8000/',
     ]
 
     app.add_middleware(
