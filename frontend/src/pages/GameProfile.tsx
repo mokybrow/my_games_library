@@ -187,20 +187,20 @@ const GameProfile: FC = () => {
                     <div className="checkbox-card-body-mobile">
                         <div className="check-box-panel">
                             <div className="checkbox">
-                                <input onClick={addGameToPassed} className="custom-checkbox check" type="checkbox" id="color-1" name="color-1" value="indigo" defaultChecked={games_store.gameInLists.passed == 1 ? true : false} />
-                                <label htmlFor="color-1"></label>
+                                <input onClick={addGameToPassed} className="custom-checkbox check" type="checkbox" id="color-5" name="color-5" value="indigo" defaultChecked={games_store.gameInLists.passed == 1 ? true : false} />
+                                <label htmlFor="color-5"></label>
                             </div>
                             <div className="checkbox">
-                                <input onClick={addGameToLiked} className="custom-checkbox heart" type="checkbox" id="color-2" name="color-2" value="red" defaultChecked={games_store.gameInLists.liked == 1 ? true : false} />
-                                <label htmlFor="color-2"></label>
+                                <input onClick={addGameToLiked} className="custom-checkbox heart" type="checkbox" id="color-6" name="color-6" value="red" defaultChecked={games_store.gameInLists.liked == 1 ? true : false} />
+                                <label htmlFor="color-6"></label>
                             </div>
                             <div className="checkbox">
-                                <input onClick={addGameToWantPlay} className="custom-checkbox clock" type="checkbox" id="color-3" name="color-3" value="red" defaultChecked={games_store.gameInLists.wishilst == 1 ? true : false} />
-                                <label htmlFor="color-3"></label>
+                                <input onClick={addGameToWantPlay} className="custom-checkbox clock" type="checkbox" id="color-7" name="color-7" value="red" defaultChecked={games_store.gameInLists.wishilst == 1 ? true : false} />
+                                <label htmlFor="color-7"></label>
                             </div>
                             <div className="checkbox">
-                                <input onClick={() => setModalActive(true)} className="custom-checkbox plus" type="button" id="color-4" name="color-4" />
-                                <label htmlFor="color-4"></label>
+                                <input onClick={() => setModalActive(true)} className="custom-checkbox plus" type="button" id="color-8" name="color-8" />
+                                <label htmlFor="color-8"></label>
                             </div>
                         </div>
                     </div>
