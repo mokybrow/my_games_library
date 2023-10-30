@@ -87,7 +87,7 @@ export default class GamesStore {
                 this.setReviews(response.data)
             }
         } catch (error) {
-
+                this.setReviews([] as ReviewCardModel[])
         } try {
             const response = await GameService.getGameBySlug(String(slug));
             const userGrade = await GameService.getUserGrade(response.data.id)
@@ -138,7 +138,7 @@ export default class GamesStore {
                     game_id: 'string',
                     grade: 0,
                     comment: 'string',
-                    created_at: this.gameProfile.release
+                    created_at: null
                 })
             }
 
@@ -160,10 +160,10 @@ export default class GamesStore {
         }
     }
 
-    async getGameByPage(id: number, sort: string | null, decade: string | null, genre: string | null) {
+    async getGameByPage(id: number, limit: number | null,  sort: string | null, decade: string | null, genre: string | null) {
         this.setLoading(true);
         try {
-            const response = await GameService.getGamesPages(Number(id), sort, decade, genre);
+            const response = await GameService.getGamesPages(Number(id), limit, sort, decade, genre);
             this.setGamesPage(response.data)
 
         } catch (error) {
@@ -173,11 +173,11 @@ export default class GamesStore {
         }
     }
 
-    async getPageCount(sort: string | null, decade: string | null, genre: string | null) {
+    async getPageCount(limit: number, genre: string | null) {
         this.setLoading(true);
         try {
-            const response = await GameService.getGamesCount(sort, decade, genre);
-            this.setPageCount(response.data.count / 36)
+            const response = await GameService.getGamesCount(limit,  genre);
+            this.setPageCount(response.data.count)
 
         } catch (error) {
             //const err = error as AxiosError

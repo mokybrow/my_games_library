@@ -51,14 +51,15 @@ async def create_article_router(
 
 @router.get('/article/get/all', response_model=list[articles_model.ArticleResponseModel])
 async def get_all_article_router(
-    offset: int = None,
+    page: int = None,
     limit: int = None,
     popular: bool = None,
     date: bool = None,
     user_id: UUID4 = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_all_article(offset=offset, limit=limit, popular=popular, date=date, user_id=user_id, db=db)
+    print(page, limit)
+    result = await get_all_article(page=page, limit=limit, popular=popular, date=date, user_id=user_id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')
         return JSONResponse(
@@ -70,6 +71,7 @@ async def get_all_article_router(
 
 @router.get('/article/all/count', response_model=articles_model.GetArticleCountResponseModel)
 async def get_all_reviews_count_router(
+    limit: int = None,
     db: AsyncSession = Depends(get_async_session),
 ):
     result = await get_all_article_count(db=db)
@@ -80,7 +82,7 @@ async def get_all_reviews_count_router(
             status_code=status.HTTP_404_NOT_FOUND,
         )
 
-    return result[0]
+    return {"count" : result[0][0]/limit}
 
 
 @router.post('/article/like')

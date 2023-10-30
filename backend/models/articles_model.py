@@ -23,4 +23,4 @@ class ArticleResponseModel(BaseModel):
 
 
 class GetArticleCountResponseModel(BaseModel):
-    count: int
+    count: int | float

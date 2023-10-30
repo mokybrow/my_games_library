@@ -24,7 +24,7 @@ export interface ArticleCardProps {
 }
 
 
-export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, columnSpan, created_at, like_count, review_id, authorLike, offset, limit, popular, date }) => {
+export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, slug, created_at, like_count, review_id, authorLike, offset, limit, popular, date }) => {
     var parse = require('html-react-parser');
     const [active, setModalActive] = useState(false);
     const { auth_store } = useContext(Context);
@@ -44,14 +44,14 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
             <div className="article-card-container">
                 {src == '' ? null :
                     <div className="article-img-container">
-                        {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+                        <img className="article-img-container" src={src} width={100} height={100} />
+                    </div>}
 
-                            <img className="user-mini-img" src={img} width={100} height={100} />}                    </div>}
                 <div className="article-text-container">
                     <div className="article-text-container-header" >
-                        {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+                        {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
-                            <img className="user-mini-img" src={img} width={100} height={100} />}
+                            <img className="user-mini-img" src={`data:image/jpeg;base64,${img}`} width={100} height={100} />}
                         <Link to={'/' + username}><h3>{username}</h3></Link>
                         <div className="grade-container">
                             <span className='grade-border'>{like_count}</span>
@@ -61,7 +61,6 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
                     </div>
                     <div className="article-text-container-body">
                         <Link to={'/game/' + slug}><h4>{title}</h4></Link>
-
                         <div className='article-text-container-body-not-modal' onClick={() => setModalActive(true)} >{parse(comment)}</div>
                     </div>
 
@@ -72,9 +71,9 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
                 <div className="article-text-container-body">
 
                     <div className="article-text-container-header" >
+                        {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
-                        {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
-                            <img className="user-mini-img" src={img} width={100} height={100} />}
+                            <img className="user-mini-img" src={`data:image/jpeg;base64,${img}`} width={100} height={100} />}
 
                         <Link to={'/' + username}><h3>{username}</h3></Link>
                         <span className='game-profile-release'>
@@ -89,9 +88,8 @@ export const ReviewCard: FC<ArticleCardProps> = ({ src, title, username, comment
                     </div>
                     {src == '' ? null :
                         <div className="article-img-container-modal">
-                            {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+                            <img className="article-img-container" src={src} width={100} height={100} />
 
-                                <img className="user-mini-img" src={img} width={100} height={100} />}
                         </div>}
                     <div className="article-text-container-body">
                         <Link to={'/game/' + slug}><h1>{title}</h1></Link>

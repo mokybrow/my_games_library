@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { AUser, AuthResponse, GameAvgRate,  GameReviews, GamesCountResponse, GamesResponse, IUser, ListsGameResponse, RegResponse, UserActivityResponse, userGrade } from "../models/response";
+import { AUser, AuthResponse, GameAvgRate, GameReviews, GamesCountResponse, GamesResponse, IUser, ListsGameResponse, RegResponse, UserActivityResponse, userGrade } from "../models/response";
 import $api, { API_URL } from "../api/api";
 import { GameProfileResponse } from "../models/gamesModels";
 
@@ -7,7 +7,7 @@ import { GameProfileResponse } from "../models/gamesModels";
 
 export default class GameService {
 
-    static async getGamesPages(page: number, sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesResponse[]>> {
+    static async getGamesPages(page: number, limit: number | null, sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesResponse[]>> {
 
         return $api.get<GamesResponse[]>(`/games/all`,
 
@@ -16,14 +16,15 @@ export default class GameService {
                     'Content-Type': 'multipart/form-data',
                 },
                 params: {
-                    page,
-                    sort,
-                    decade,
-                    genre
+                    page: page,
+                    limit: limit,
+                    sort: sort,
+                    decade: decade,
+                    genre: genre
                 }
             })
     }
-    static async getGamesCount(sort: string | null, decade: string | null, genre: string | null): Promise<AxiosResponse<GamesCountResponse>> {
+    static async getGamesCount(limit: number,  genre: string | null): Promise<AxiosResponse<GamesCountResponse>> {
 
         return $api.get<GamesCountResponse>(`/games/count`,
             {
@@ -31,9 +32,8 @@ export default class GameService {
                     'Content-Type': 'multipart/form-data',
                 },
                 params: {
-                    sort,
-                    decade,
-                    genre
+                    limit: limit,
+                    genre: genre
                 }
             })
     }

@@ -61,15 +61,18 @@ export default class ArticleStore {
 
         } catch (error) {
             const err = error as AxiosError
-        } try {
-            if (popular != true) {
-                const response = await ArticleService.getArticleCount();
-                this.setPageCount(response.data.count / 36)
-            }
-        } catch (error) {
-
         } finally {
             this.setLoading(false);
+        }
+    }
+    async getAllArticlePageCountFunc(limit: number) {
+
+        try {
+            const response = await ArticleService.getArticleCount(limit);
+            this.setPageCount(response.data.count)
+
+        } catch (error) {
+            const err = error as AxiosError
         }
     }
 
@@ -90,7 +93,7 @@ export default class ArticleStore {
 
         } catch (error) {
             // const err = error as AxiosError
-        } 
+        }
     }
 
 }

@@ -58,6 +58,7 @@ export default class ReviewStore {
                 }
             }
         } catch (error) {
+            this.setReviews([] as ReviewCardModel[])
 
         } try {
             const response = await GameService.getGameBySlug(String(slug));

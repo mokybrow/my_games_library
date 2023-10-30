@@ -104,7 +104,7 @@ export interface userGrade {
     game_id: string,
     grade: number,
     comment: string | null,
-    created_at: Date
+    created_at: Date | null
 }
 
 

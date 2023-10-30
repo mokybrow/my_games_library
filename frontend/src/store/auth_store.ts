@@ -114,7 +114,6 @@ export default class AuthStore {
             const response = await AuthService.getMyProfile();
             this.setUser(response.data)
             this.setAuth(true);
-            console.log(response.data.gender)
             this.setName(response.data.name)
             this.setSurname(response.data.surname)
         } catch (error) {

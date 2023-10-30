@@ -38,12 +38,16 @@ async def create_article(db: AsyncSession, title: str, cover: Optional[str], tex
 
 async def get_all_article(
     db: AsyncSession,
-    offset: int = None,
+    page: int = None,
     limit: int = None,
     popular: bool = None,
     date: bool = None,
     user_id: UUID4 = None,
 ):
+    if page == 1:
+        page_offset = 0
+    else:
+        page_offset = (page - 1) * limit
     if limit == None:
         limit = 4
     if popular == True:
@@ -57,7 +61,7 @@ async def get_all_article(
                     func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
-                .offset(offset)
+                .offset(page_offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
@@ -79,7 +83,7 @@ async def get_all_article(
                 func.count(article_like_table.c.user_id).label('like_count'),
             )
             .limit(limit)
-            .offset(offset)
+            .offset(page_offset)
             .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
             .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
             .group_by(article_table.c.id, user_table.c.id)
@@ -103,7 +107,7 @@ async def get_all_article(
                     func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
-                .offset(offset)
+                .offset(page_offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
@@ -121,7 +125,7 @@ async def get_all_article(
                 func.count(article_like_table.c.user_id).label('like_count'),
             )
             .limit(limit)
-            .offset(offset)
+            .offset(page_offset)
             .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
             .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
             .group_by(article_table.c.id, user_table.c.id)
@@ -145,7 +149,7 @@ async def get_all_article(
                     func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
-                .offset(offset)
+                .offset(page_offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
@@ -163,7 +167,7 @@ async def get_all_article(
                 func.count(article_like_table.c.user_id).label('like_count'),
             )
             .limit(limit)
-            .offset(offset)
+            .offset(page_offset)
             .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
             .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
             .group_by(article_table.c.id, user_table.c.id)
@@ -183,7 +187,7 @@ async def get_all_article(
                     func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
-                .offset(offset)
+                .offset(page_offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
@@ -201,7 +205,7 @@ async def get_all_article(
                 func.count(article_like_table.c.user_id).label('like_count'),
             )
             .limit(limit)
-            .offset(offset)
+            .offset(page_offset)
             .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
             .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
             .group_by(article_table.c.id, user_table.c.id)
@@ -220,7 +224,7 @@ async def get_all_article(
                 func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)),
             )
             .limit(limit)
-            .offset(offset)
+            .offset(page_offset)
             .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
             .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
             .group_by(article_table.c.id, user_table.c.id)
@@ -237,7 +241,7 @@ async def get_all_article(
             func.count(article_like_table.c.user_id).label('like_count'),
         )
         .limit(limit)
-        .offset(offset)
+        .offset(page_offset)
         .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
         .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
         .group_by(article_table.c.id, user_table.c.id)

@@ -26,28 +26,34 @@ router = APIRouter()
 @router.get("/games/all", response_model=list[game_model.GetGamesResponseModel])
 async def get_all_games_router(
     page: int,
+    limit: int = None,
     sort: Optional[str] = None,
     decade: Optional[str] = None,
     genre: Optional[str] = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_all_games(db=db, page=page, sort=sort, decade=decade, genre=genre)
+    result = await get_all_games(db=db, page=page, limit=limit,sort=sort, decade=decade, genre=genre)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
     return result
 
 
 @router.get("/games/count", response_model=game_model.GetGamesCountResponseModel)
-async def get_all_games_router(
-    sort: Optional[str] = None,
-    decade: Optional[str] = None,
+async def get_games_count_router(
+    limit: int = None,
     genre: Optional[str] = None,
     db: AsyncSession = Depends(get_async_session),
 ):
-    result = await get_count_games(db=db, sort=sort, decade=decade, genre=genre)
-    return result[0]
+    result = await get_count_games(db=db, genre=genre)
+    return {"count": result[0][0]/limit}
 
 
 @router.get("/games/new/", response_model=list[game_model.GetGamesResponseModel])
-async def get_all_games_router(db: AsyncSession = Depends(get_async_session)):
+async def get_new_games_router(db: AsyncSession = Depends(get_async_session)):
     result = await get_new_games(db=db)
     return result
 

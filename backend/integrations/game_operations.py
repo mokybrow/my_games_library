@@ -36,11 +36,11 @@ async def add_game(
     pass
 
 
-async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: str = None, genre: str = None):
+async def get_all_games(db: AsyncSession, page: int, limit: int = None, sort: str = None, decade: str = None, genre: str = None):
     if page == 1:
         page_offset = 0
     else:
-        page_offset = (page - 1) * 36
+        page_offset = (page - 1) * limit
     if sort == 'alphabetic':
         if genre == None:
             query = (
@@ -121,7 +121,7 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
                 .offset(page_offset)
                 .limit(36)
                 .order_by(game_table.c.release)
-                .filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+                .filter(game_table.c.title >= 'A', game_table.c.title <= 'Z', game_table.c.release != None)
             )
             result = await db.execute(query)
             return result.all()
@@ -137,7 +137,7 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
                 .offset(page_offset)
                 .limit(36)
                 .order_by(game_table.c.release)
-                .where(game_table.c.genre.any(genre))
+                .where(game_table.c.genre.any(genre), game_table.c.release != None)
             )
             result = await db.execute(query)
             return result.all()
@@ -154,7 +154,7 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
                 .offset(page_offset)
                 .limit(36)
                 .order_by(desc(game_table.c.release))
-                .filter(game_table.c.title >= 'A', game_table.c.title <= 'Z')
+                .filter(game_table.c.title >= 'A', game_table.c.title <= 'Z', game_table.c.release != None)
             )
             result = await db.execute(query)
             return result.all()
@@ -170,7 +170,7 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
                 .offset(page_offset)
                 .limit(36)
                 .order_by(desc(game_table.c.release))
-                .where(game_table.c.genre.any(genre))
+                .where(game_table.c.genre.any(genre), game_table.c.release != None)
             )
             result = await db.execute(query)
             return result.all()
@@ -207,7 +207,7 @@ async def get_all_games(db: AsyncSession, page: int, sort: str = None, decade: s
     return result.all()
 
 
-async def get_count_games(db: AsyncSession, sort: str = None, decade: str = None, genre: str = None):
+async def get_count_games(db: AsyncSession,  genre: str = None):
     if genre != None:
         query = select(func.count("*")).where(game_table.c.genre.any(genre))
         result = await db.execute(query)

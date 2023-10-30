@@ -24,23 +24,29 @@ export default class ArticleService {
                 }
             },)
     }
-    static async getAllArticles(offset: number | null, limit: number | null, popular: boolean | null, date: boolean | null, user_id: string | null): Promise<AxiosResponse<ArticleResponseModel[]>> {
+    static async getAllArticles(page: number | null, limit: number | null, popular: boolean | null, date: boolean | null, user_id: string | null): Promise<AxiosResponse<ArticleResponseModel[]>> {
 
         return axios.get<ArticleResponseModel[]>(`${API_URL}article/get/all`,
             {
                 params: {
-                    offset: offset,
+                    page: page,
                     limit: limit,
                     popular: popular,
                     date: date,
                     user_id: user_id
                 }
-            },)
+            },
+            )
     }
     
-    static async getArticleCount(): Promise<AxiosResponse<PageCountResponseModel>> {
+    static async getArticleCount(limit: number): Promise<AxiosResponse<PageCountResponseModel>> {
 
-        return axios.get<PageCountResponseModel>(`${API_URL}article/all/count`,)
+        return axios.get<PageCountResponseModel>(`${API_URL}article/all/count`,
+        {
+            params: {
+                limit: limit,
+            }
+        },)
     }
 
     static async likeArticle(article_id: string): Promise<AxiosResponse<ArticleResponseModel[]>> {

@@ -12,7 +12,6 @@ export interface ArticleCardProps {
     comment: string,
     img: string,
     slug: string,
-    columnSpan: number,
     created_at: Date,
     like_count: number,
     article_id: string,
@@ -25,8 +24,8 @@ export interface ArticleCardProps {
 }
 
 
-export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, comment, img, 
-    slug, columnSpan, created_at, like_count, 
+export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, comment, img,
+    slug, created_at, like_count,
     article_id, authorLike, offset, limit, popular, date }) => {
 
     var parse = require('html-react-parser');
@@ -54,8 +53,8 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                     <div className="article-text-container-header" >
                         {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
-                            <img className="user-mini-img" src={img} width={100} height={100} />}
-                            
+                            <img className="user-mini-img" src={`data:image/jpeg;base64,${img}`} width={100} height={100} />}
+
                         <Link to={'/' + username}><h5>{username}</h5></Link>
                         <div className="user-grade-container">
                             {like_count !== null ? <span className='grade-number-container'>
@@ -77,9 +76,9 @@ export const ArticleCard: FC<ArticleCardProps> = ({ src, title, username, commen
                 <div className="article-text-container-body">
 
                     <div className="article-text-container-header" >
-                        {img === null || img === '' ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
+                        {img === null || img === '' || img === undefined ? <img className="user-mini-img" src={require('../icons/user.png')} /> :
 
-                            <img className="user-mini-img" src={img} width={100} height={100} />}
+                            <img className="user-mini-img" src={`data:image/jpeg;base64,${img}`} width={100} height={100} />}
                         <Link to={'/' + username}><h5>{username}</h5></Link>
                         <span className='game-profile-release'>
                             <FormattedDate

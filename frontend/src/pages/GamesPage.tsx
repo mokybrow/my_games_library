@@ -17,16 +17,16 @@ const GamesPage: FC = () => {
 
   const sortGenre = searchParams.get('genre');
   const [currentGenre, setCurrentGenre] = useState<string>(String(sortGenre));
-
+  const pageLimitElement = 36
   useEffect(() => {
-    games_store.getGameByPage(currentPage, sortParam, null, null)
+    // games_store.getGameByPage(currentPage, sortParam, null, null)
     games_store.setSort(String(sortParam))
     games_store.setGenre(String(sortGenre))
     if (games_store.genre !== "null") {
-      games_store.getPageCount(null, null, games_store.genre)
+      games_store.getPageCount(pageLimitElement, games_store.genre)
     }
     else {
-      games_store.getPageCount(null, null, null)
+      games_store.getPageCount(pageLimitElement, null)
     }
 
   }, [])
@@ -37,12 +37,12 @@ const GamesPage: FC = () => {
     if (games_store.sort !== "null") {
       if (games_store.genre === "null") {
         setSearchParams({ page: String(event.selected + 1), sort: games_store.sort });
-        const response = await GameService.getGamesPages(event.selected + 1, games_store.sort, null, null)
+        const response = await GameService.getGamesPages(event.selected + 1, pageLimitElement, games_store.sort, null, null)
         games_store.setGamesPage(response.data)
       }
       if (games_store.genre !== "null") {
         setSearchParams({ page: String(currentPage), sort: games_store.sort, genre: games_store.genre });
-        const response = await GameService.getGamesPages(event.selected + 1, games_store.sort, null, games_store.genre)
+        const response = await GameService.getGamesPages(event.selected + 1, pageLimitElement, games_store.sort, null, games_store.genre)
         games_store.setGamesPage(response.data)
       }
     }
@@ -50,12 +50,12 @@ const GamesPage: FC = () => {
     if (games_store.sort === "null") {
       if (games_store.genre === "null") {
         setSearchParams({ page: String(currentPage) });
-        const response = await GameService.getGamesPages(event.selected + 1, null, null, null)
+        const response = await GameService.getGamesPages(event.selected + 1, pageLimitElement, null, null, null)
         games_store.setGamesPage(response.data)
       }
       if (games_store.genre !== "null") {
         setSearchParams({ page: String(currentPage), genre: games_store.genre });
-        const response = await GameService.getGamesPages(event.selected + 1, null, null, games_store.genre)
+        const response = await GameService.getGamesPages(event.selected + 1, pageLimitElement, null, null, games_store.genre)
         games_store.setGamesPage(response.data)
       }
     }
@@ -69,13 +69,13 @@ const GamesPage: FC = () => {
     if (sort === 'alphabetic') {
       games_store.setSort(sort)
       if (games_store.genre === "null") {
-        const response = await GameService.getGamesPages(1, sort, null, null)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, null)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "alphabetic" });
       }
       if (games_store.genre !== "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, games_store.genre)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, games_store.genre)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "alphabetic", genre: games_store.genre });
       }
@@ -84,13 +84,13 @@ const GamesPage: FC = () => {
     if (sort === 'alphabeticdesc') {
       if (games_store.genre === "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, null)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, null)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "alphabeticdesc" });
       }
       if (games_store.genre !== "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, games_store.genre)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, games_store.genre)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "alphabeticdesc", genre: games_store.genre });
       }
@@ -99,13 +99,13 @@ const GamesPage: FC = () => {
     if (sort === 'release') {
       if (games_store.genre === "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, null)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, null)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "release" });
       }
       if (games_store.genre !== "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, games_store.genre)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, games_store.genre)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "release", genre: games_store.genre });
       }
@@ -114,14 +114,14 @@ const GamesPage: FC = () => {
     if (sort === 'releasedesc') {
       if (games_store.genre === "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, null)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, null)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "releasedesc" });
       }
 
       if (games_store.genre !== "null") {
         games_store.setSort(sort)
-        const response = await GameService.getGamesPages(1, sort, null, games_store.genre)
+        const response = await GameService.getGamesPages(1, pageLimitElement, sort, null, games_store.genre)
         games_store.setGamesPage(response.data)
         setSearchParams({ page: String(currentPage), sort: "releasedesc", genre: games_store.genre });
       }
@@ -134,17 +134,17 @@ const GamesPage: FC = () => {
 
     if (games_store.sort === 'null') {
       setSearchParams({ page: String(1), genre: genre });
-      games_store.getPageCount(null, null, games_store.genre)
-      const response = await GameService.getGamesPages(1, games_store.sort, null, genre)
+      games_store.getPageCount(pageLimitElement, games_store.genre)
+      const response = await GameService.getGamesPages(1, pageLimitElement, games_store.sort, null, genre)
       setCurrentPage(1)
       games_store.setGamesPage(response.data)
     }
 
     if (games_store.sort !== 'null') {
-      const response = await GameService.getGamesPages(1, String(games_store.sort), null, genre)
+      const response = await GameService.getGamesPages(1, pageLimitElement, String(games_store.sort), null, genre)
       setCurrentPage(1)
       games_store.setGamesPage(response.data)
-      games_store.getPageCount(null, null, games_store.genre)
+      games_store.getPageCount(pageLimitElement, games_store.genre)
       setSearchParams({ page: String(1), sort: games_store.sort, genre: genre });
     }
   }
@@ -200,20 +200,20 @@ const GamesPage: FC = () => {
               </div>
             </div>
           </div>
-   
 
-            {games_store.gamesPage.map(game =>
-              <Link key={game.id} to={'/game/' + game.slug} >
-                <div className="game-card-cover-container">
-                  {game.cover != null ? <img src={game.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
-                  <div className="title-card-body">
-                    <div className="title-card">
-                      <span className="card-title">{game.title}</span>
-                    </div>
+
+          {games_store.gamesPage.map(game =>
+            <Link key={game.id} to={'/game/' + game.slug} >
+              <div className="game-card-cover-container">
+                {game.cover != null ? <img src={game.cover} alt='' width="50" height="50" /> : <img src={require('../icons/img-not-found.png')} alt='' width="150" height="150" />}
+                <div className="title-card-body">
+                  <div className="title-card">
+                    <span className="card-title">{game.title}</span>
                   </div>
                 </div>
-              </Link>)}
- 
+              </div>
+            </Link>)}
+
 
 
           <Pagination initialPage={currentPage - 1}

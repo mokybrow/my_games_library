@@ -216,13 +216,16 @@ const GameProfile: FC = () => {
                         </div>
                     </div>
                     <div className="description-container-mobile">
-                        <span className='game-profile-release'><FormattedMessage id="content.gameprofile.releasedate" />&nbsp;
-                            <FormattedDate
-                                value={games_store.gameProfile?.release}
-                                year='numeric'
-                                month='long'
-                                day='numeric'
-                            />
+                        <span className='game-profile-release'>
+
+                            <FormattedMessage id="content.gameprofile.releasedate" />&nbsp;
+                            {games_store.gameProfile.release === null || games_store.gameProfile.release === undefined ? 'Н/Д' :
+                                <FormattedDate
+                                    value={games_store.gameProfile?.release}
+                                    year='numeric'
+                                    month='long'
+                                    day='numeric'
+                                />}
                         </span>
                         <h2>Описание</h2>
                         {games_store.gameProfile?.description != null ?
@@ -261,12 +264,13 @@ const GameProfile: FC = () => {
                         </div>
                         <div className="description-container">
                             <span className='game-profile-release'><FormattedMessage id="content.gameprofile.releasedate" />&nbsp;
-                                <FormattedDate
-                                    value={games_store.gameProfile?.release}
-                                    year='numeric'
-                                    month='long'
-                                    day='numeric'
-                                />
+                                {games_store.gameProfile.release === null || games_store.gameProfile.release === undefined ? 'Н/Д' :
+                                    <FormattedDate
+                                        value={games_store.gameProfile?.release}
+                                        year='numeric'
+                                        month='long'
+                                        day='numeric'
+                                    />}
                             </span>
                             <div className='description-block'>
                                 <h2>Описание</h2>

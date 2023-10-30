@@ -23,7 +23,7 @@ class GetGamesResponseModel(BaseModel):
 
 
 class GetGamesCountResponseModel(BaseModel):
-    count: int
+    count: int | float
 
 
 class GetUserLastGameResponseModel(BaseModel):
