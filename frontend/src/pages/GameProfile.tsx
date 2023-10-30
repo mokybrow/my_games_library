@@ -191,15 +191,15 @@ const GameProfile: FC = () => {
                                 <label htmlFor="color-1"></label>
                             </div>
                             <div className="checkbox">
-                                <input onClick={addGameToLiked} className="custom-checkbox heart" type="checkbox" id="color-2" name="color-2" value="red" defaultChecked={games_store.gameInLists.passed == 1 ? true : false} />
+                                <input onClick={addGameToLiked} className="custom-checkbox heart" type="checkbox" id="color-2" name="color-2" value="red" defaultChecked={games_store.gameInLists.liked == 1 ? true : false} />
                                 <label htmlFor="color-2"></label>
                             </div>
                             <div className="checkbox">
-                                <input onClick={addGameToWantPlay} className="custom-checkbox clock" type="checkbox" id="color-3" name="color-3" value="red" defaultChecked={games_store.gameInLists.passed == 1 ? true : false} />
+                                <input onClick={addGameToWantPlay} className="custom-checkbox clock" type="checkbox" id="color-3" name="color-3" value="red" defaultChecked={games_store.gameInLists.wishilst == 1 ? true : false} />
                                 <label htmlFor="color-3"></label>
                             </div>
                             <div className="checkbox">
-                                <input className="custom-checkbox plus" type="checkbox" id="color-4" name="color-4" value="red" />
+                                <input onClick={() => setModalActive(true)} className="custom-checkbox plus" type="button" id="color-4" name="color-4" />
                                 <label htmlFor="color-4"></label>
                             </div>
                         </div>
