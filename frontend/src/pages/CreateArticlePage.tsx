@@ -13,7 +13,7 @@ const CreateArticlePage: FC = () => {
         }
 
     }, [auth_store])
-    if (!auth_store.user.is_superuser) {
+    if (!auth_store.user.reporter) {
         return (
             <section className='create-article-section'>
                 <div className="create-article-grid-container">
