@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import AuthStore from './store/auth-store';
+
+
+interface State {
+  auth_store: AuthStore
+}
+
+const auth_store = new AuthStore();
+
+export const Context = createContext<State>({
+  auth_store: auth_store,
+})
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Context.Provider value={{ auth_store: auth_store }}>
+      <App />
+  </Context.Provider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

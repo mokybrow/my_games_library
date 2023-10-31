@@ -1,0 +1,32 @@
+.dropdown-button {
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    font-size: 20px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px 6px 6px 6px;
+    cursor: pointer;
+    background: none;
+    transition: all 200ms linear;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    text-decoration: none;
+    gap: 5px;
+    min-width: 160px;
+    max-width: 100%;
+    color: var(--font-color);
+}
+
+.dropdown-menu:hover .dropdown-button {
+    background-color: var(--button-color);
+    border-radius: 6px 6px 0px 0px;
+    transition: all 100ms linear;
+}
+
+.dropdown-img{
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 50px;
+}

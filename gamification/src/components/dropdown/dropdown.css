@@ -1,0 +1,34 @@
+.dropdown-content {
+    font-family: 'Roboto', sans-serif;
+    color: var( --font-color);
+    text-transform: uppercase;
+    display: none;
+    position: absolute;
+    background-color: var(--button-color);
+    min-width: 160px;
+    width: 100%;
+    z-index: 1;
+    border-radius: 0 0 6px 6px;
+    transition: all 200ms linear;
+    padding-bottom: 10px;
+}
+
+.dropdown-content a {
+    color: var( --font-color);
+    text-decoration: none;
+    display: block;
+    transition: all 200ms linear;
+    text-transform: none;
+    font-size: 14px;
+    max-width: 100%;
+    padding: 4px 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: gray;
+    color: var( --font-color);
+}
+
+.dropdown-menu:hover .dropdown-content {
+    display: block;
+}
