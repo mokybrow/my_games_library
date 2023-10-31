@@ -35,7 +35,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend/
+      context: gamification/
       dockerfile: ./Dockerfile
     restart: always
     env_file:
