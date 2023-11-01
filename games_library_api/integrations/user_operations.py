@@ -51,6 +51,7 @@ async def get_another_user(username: str, db: AsyncSession) -> dict:
             user_table.c.surname,
             user_table.c.img,
             user_table.c.username,
+            user_table.c.registr_at,
             func.count(distinct(list_table.c.id)).label('list_count'),
             func.count(distinct(follower_table.c.follower_id)).label('follower_count'),
             func.count(distinct(passed_game_table.c.game_id)).label('passed_game_count'),

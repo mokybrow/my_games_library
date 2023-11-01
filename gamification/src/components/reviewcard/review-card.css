@@ -1,0 +1,39 @@
+.profile-card-cover-container {
+    height: 200px;
+    border-radius: 6px;
+    grid-column: 1/2;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    transition: all 200ms linear;
+    background-color: var(--background-title-color);
+}
+
+.profile-card-cover-container img {
+    object-fit:cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-card-cover-container:hover {
+    transform: scale(1.04);
+
+}
+
+.title-card-body-rate {
+    font-size: 16px;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: var(--font-color);
+    bottom: 0;
+    margin-bottom: 1em;
+}

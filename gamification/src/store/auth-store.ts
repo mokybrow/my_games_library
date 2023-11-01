@@ -54,9 +54,12 @@ export default class AuthStore {
             removeLocalToken();
             this.setAuth(false);
             this.setUser({} as IUserModel);
-            window.location.reload();
+           
         } catch (e) {
 
+        }
+        finally{
+            window.location.reload();
         }
     }
 
@@ -72,5 +75,6 @@ export default class AuthStore {
         } finally {
             this.setLoading(false);
         }
+        return this.user.username
     }
 }

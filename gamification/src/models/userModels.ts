@@ -15,7 +15,8 @@ export interface IUserModel {
     list_count: number,
     follower_count: number,
     passed_game_count: number,
-    wanted_game_count: number
+    wanted_game_count: number,
+    registr_at: Date | null,
 }
 
 export interface UserResponseModel {
@@ -28,4 +29,39 @@ export interface UserResponseModel {
     follower_count: number,
     passed_game_count: number,
     wanted_game_count: number
+    registr_at: Date | null,
+}
+
+export interface UserActivityResponse {
+    id: string
+    user_id: string
+    game_id: string
+    title: string
+    cover: string
+    activity_type: string
+    slug: string
+    created_at: Date
+}
+
+export interface UserLastReviews {
+    game_id: string,
+    user_id: string,
+    grade: number,
+    cover: string,
+    slug: string
+}
+
+export interface UserListsResponse {
+    id: string,
+    owner_id: string,
+    title: string,
+    slug: string,
+    cover: string,
+    description: string | null,
+    is_private: boolean,
+    created_at: Date
+}
+
+export interface  CheckFollowResponse{
+    result: boolean
 }

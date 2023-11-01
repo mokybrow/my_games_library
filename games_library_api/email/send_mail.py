@@ -26,9 +26,8 @@ conf = ConnectionConfig(
 )
 
 
-async def sending_mail(email: str, subject: str, body: str, link: Optional[str]) -> JSONResponse:
-    html = f"""<p>{body}</p> 
-    <a src={link}>Подтвердите регистрацию</a>"""
+async def sending_mail(email: str, subject: str, body: str) -> JSONResponse:
+    html = f"""<p>{body}</p>"""
 
     message = MessageSchema(subject=subject, recipients=[email], body=html, subtype=MessageType.html)
 

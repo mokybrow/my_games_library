@@ -22,6 +22,7 @@ class PublicUserResponseModel(BaseModel):
     follower_count: int
     passed_game_count: int
     wanted_game_count: int
+    registr_at: Optional[datetime.date]
 
 
 class PrivateUserResponseModel(BaseModel):
@@ -42,6 +43,7 @@ class PrivateUserResponseModel(BaseModel):
     follower_count: int
     passed_game_count: int
     wanted_game_count: int
+    registr_at: Optional[datetime.date]
 
 
 class UserStatsModel(BaseModel):

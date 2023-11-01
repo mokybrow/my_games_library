@@ -1,23 +1,43 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
 
-body{
+body {
   background-color: var(--background-color);
   color: var(--font-color);
 }
 
+body.lock {
+  overflow: hidden;
+}
+
 html[data-theme='dark'] {
-  --font-color: #cfcfcf;
-  --header-color: #333333;
+  --font-color: rgba(255, 255, 255, .9);
+  --header-color: rgba(0, 0, 0, .4);
   --background-color: #1A1A1A;
   --button-color: #383838;
+  --navbar-color: #383838;
+
+  --action-button-font: : rgba(0, 0, 0, 1);
+  --action-button-background: rgba(0, 0, 0, 0.6);
+
+  --background-title-color: rgba(0, 0, 0, .8);
+  --background-banner-color: rgba(0, 0, 0, .8);
+
 }
 
 html[data-theme='light'] {
-  --font-color: rgba(39, 41, 43, 1);
-  --header-color: #FFFFFF;
-  --background-color: #F1F1F1;
+  --font-color: #1d1d1f;
+  --header-color: rgba(255, 255, 255, .2);
+  --background-color: #fafafa;
   --button-color: #D9D9D9;
+  --navbar-color: rgba(255, 255, 255, 1);
+
+  --action-button-background: rgba(0, 0, 0, 0.6);
+  --action-button-font: rgba(255, 255, 255, 1);
+
+  --background-title-color: rgba(255, 255, 255, .8);
+
+  --background-banner-color: rgba(0, 0, 0, .05);
 }

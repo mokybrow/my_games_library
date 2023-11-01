@@ -16,7 +16,7 @@ const Header: FC = () => {
         const menu = document.querySelector('.menu-body')
         const menuBtn = document.querySelector('.menu-icon')
         const body = document.body;
-        const mediaQuery = window.matchMedia('(min-width: 1023px)')
+        const mediaQuery = window.matchMedia('(min-width: 800px)')
         if (menu && menuBtn) {
             menu.classList.toggle('active')
             menuBtn.classList.toggle('active')
@@ -70,31 +70,113 @@ const Header: FC = () => {
                             <Link to='/news' className="menu-link"><li className="menu-item" >Новости</li></Link>
                             <Link to='/reviews' className="menu-link"><li className="menu-item" >Обзоры</li></Link>
                             <div className="nav-grid-wrap">
-                                <div>fd,l;,f;sld,</div>
-                                <div>fd,l;,f;sld,</div>
-                                <div>fd,l;,f;sld,</div>
-                                <div>fd,l;,f;sld,</div>
+                                {auth_store.isAuth ?
+                                    <>
+                                        <Link to={`/${auth_store.user.username}`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Профиль</span>
+                                            </div>
+                                        </Link>
+                                        <Link to={`/${auth_store.user.username}/settings`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Настройки</span>
+                                            </div>
+                                        </Link>
+                                        <Link to={`/${auth_store.user.username}/create_list`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Создать список</span>
+                                            </div>
+                                        </Link>
+                                        <Link to={`/${auth_store.user.username}/favorite`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Понравились</span>
+                                            </div>
+                                        </Link>
+                                        <Link to={`/${auth_store.user.username}/wishlist`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Пройду</span>
+                                            </div>
+                                        </Link>
+                                        <Link to={`/${auth_store.user.username}/completed`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Пройденные</span>
+                                            </div>
+                                        </Link>
+                                        <Link to={`/${auth_store.user.username}/lists`} className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Мои списки</span>
+                                            </div>
+                                        </Link>
+                                    </> :
+                                    <>
+                                        <Link to='/login' className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Вход</span>
+                                            </div>
+                                        </Link>
+                                        <Link to='/registration' className="menu-link">
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Регистрация</span>
+                                            </div>
+                                        </Link>
+                                    </>
+
+                                }
                             </div>
                         </ul>
 
                     </nav>
                 </div>
                 <div className="dropdown-menu">
-                    <>
-                        <DropdownButtonContent userImg={auth_store.user.img} username={auth_store.user.username} />
-                        <DropdownContent>
-                            <hr className='dropdown-line' />
-                            <Link to={`/${auth_store.user.username}`} reloadDocument>
-                                Элемент
-                            </Link>
-                            <Link to={`/${auth_store.user.username}/played?page=1`} reloadDocument>
-                                Элемент
-                            </Link>
-                            <Link to={`/${auth_store.user.username}/wants-to-play?page=1`} reloadDocument>
-                                Элемент
-                            </Link>
-                        </DropdownContent >
-                    </>
+                    {auth_store.isAuth ?
+                        <>
+                            <DropdownButtonContent userImg={auth_store.user.img} username={auth_store.user.username} />
+                            <DropdownContent>
+                                <hr className='dropdown-line' />
+                                <Link to={`/${auth_store.user.username}`} reloadDocument>
+                                    Профиль
+                                </Link>
+                                <Link to={`/${auth_store.user.username}/favorite`} reloadDocument>
+                                    Любимые
+                                </Link>
+                                <Link to={`/${auth_store.user.username}/wishlist`} reloadDocument>
+                                    Пройду
+                                </Link>
+                                <Link to={`/${auth_store.user.username}/completed`} reloadDocument>
+                                    Пройденные
+                                </Link>
+
+                                <Link to={`/${auth_store.user.username}/lists`} reloadDocument>
+                                    Списки
+                                </Link>
+                                <hr className='dropdown-line' />
+                                <Link to={`/${auth_store.user.username}/settings`} reloadDocument>
+                                    Настройки
+                                </Link>
+                                <Link to='/' onClick={auth_store.logout}>
+                                    Выход
+                                </Link>
+                            </DropdownContent >
+                        </> : <>
+                            <DropdownButtonContent userImg={auth_store.user.img} username={auth_store.user.username} />
+                            <DropdownContent>
+                                <Link to='/login' reloadDocument>
+                                    Войти
+                                </Link>
+                                <Link to='/registration' reloadDocument>
+                                    Зарегистрироваться
+                                </Link>
+                            </DropdownContent>
+                        </>}
                 </div>
 
             </header>

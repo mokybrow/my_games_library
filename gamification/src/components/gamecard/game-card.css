@@ -1,0 +1,61 @@
+.profile-card-cover-container {
+    height: 200px;
+    width: 100%;
+    border-radius: 24px;
+    display: flex;
+    align-items: flex-start;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    transition: all 200ms linear;
+    background-color: var( --background-title-color);
+    grid-column: 1 span;
+}
+
+.profile-card-cover-container img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-card-cover-container:hover {
+    transform: scale(1.01);
+
+}
+
+.title-card-body-profile {
+    font-size: 16px;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: var(--font-color);
+    bottom: 0;
+    margin-bottom: 1em;
+}
+
+.title-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-title-color);
+    border-radius: 6px;
+    margin: 0.4em;
+    padding: 0.4em;
+    transition: all 200ms linear;
+}
+
+.title-card-activity {
+    background-color: var(--background-title-color);
+    border-radius: 6px;
+    margin: 0.4em;
+    padding: 0.4em;
+    transition: all 200ms linear;
+}

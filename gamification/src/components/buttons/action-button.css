@@ -1,0 +1,25 @@
+.action-button{
+    border: none;
+    padding: 6px;
+    background-color: var(--action-button-background);
+    border-radius: 24px;
+    color: var(--action-button-font);
+    backdrop-filter: saturate(180%) blur(20px);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-size: .8em;
+}
+
+.action-button:hover{
+    opacity: .8;
+}
+
+@media (max-width: 800px) {
+    .action-button{
+        width: 80%;
+    }
+    .action-button:hover{
+        opacity: 1;
+    }
+}

@@ -68,14 +68,13 @@ async def another_user_profile(username: str, db: AsyncSession = Depends(get_asy
 @router.post('/user/get/by/email/{email}', tags=['reg_validation'])
 async def get_user_by_email_router(email: str, db: AsyncSession = Depends(get_async_session)) -> Any:
     result = await get_user_by_email(email=email, db=db)
-    print(result)
     if not result:
         error = error_model.ErrorResponseModel(details='User does not exist')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    return True
+    return {"result":True}
 
 
 @router.post('/user/get/by/username/{username}', tags=['reg_validation'])
@@ -87,7 +86,7 @@ async def get_user_by_username_router(username: str, db: AsyncSession = Depends(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    return True
+    return {"result":True}
 
 
 @router.get('/user/lists/all', response_model=list[list_model.ListResponseModel])
