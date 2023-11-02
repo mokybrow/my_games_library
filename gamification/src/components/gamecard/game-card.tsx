@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import './game-card.css'
 import { Link } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
 
 export interface GameCard {
     gameId: string
@@ -10,26 +11,31 @@ export interface GameCard {
     activityType: string
 }
 
-export const GameCard: FC<GameCard> = ({ gameId, gameSlug, gameCover, gameTitle, activityType }) => {
+const GameCard: FC<GameCard> = ({ gameId, gameSlug, gameCover, gameTitle, activityType }) => {
     return (
         <Link key={gameId} to={'/game/' + gameSlug}>
-            <div className="profile-card-cover-container">
-                <img src={gameCover} />
+            <div className="game-card-cover-container">
+                <img src={gameCover} width={40} height={40}/>
                 <div className="title-card-body-profile">
                     <div className="title-card">
                         <span className="card-title">{gameTitle}</span>
                     </div>
-                    <div className="title-card-activity">
+                    {activityType !== '' ?
+                        <div className="title-card-activity">
 
-                        <span className="card-title-activity">
-                            {activityType == 'passed' ? 'Пройденно' :
-                                activityType == 'liked' ? 'Понравилась' :
-                                    'Пройдёт'}
-                        </span>
-                    </div>
+                            <span className="card-title-activity">
+                                {activityType == 'passed' ? 'Пройденно' :
+                                    activityType == 'liked' ? 'Понравилась' :
+                                        'Пройдёт'}
+                            </span>
+
+                        </div>
+                        : null}
                 </div>
             </div>
 
         </Link>
     )
 }
+
+export default observer(GameCard);

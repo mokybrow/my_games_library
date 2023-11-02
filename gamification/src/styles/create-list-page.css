@@ -15,10 +15,28 @@
     width: 100%;
     gap: 1em;
 }
+.list-create-banner{
+    background-color: var(--background-banner-color);
+    display: grid;
+    align-items: flex-start;
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    min-height: 200px;
+}
+
+.list-create-banner.list-count{
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    min-height: 20px;
+}
 
 @media (max-width: 500px) {
     .create-list-page{
         padding-left: 2vw;
         padding-right: 2vw;
+        padding-top: 88px;
+        min-height: calc(100vh - 88px);
     }
 }

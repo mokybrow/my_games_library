@@ -19,7 +19,6 @@ export const UploadImgForm: FC = () => {
         file.onload = function () {
             setPreview(file.result);
         }
-
         file.readAsDataURL(acceptedFiles[0])
     }, [])
     const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Context } from '../..';
 import { Link, useParams } from 'react-router-dom';
-import { GameCard } from '../../components/gamecard/game-card';
+import GameCard from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 

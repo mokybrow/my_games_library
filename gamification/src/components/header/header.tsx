@@ -114,6 +114,12 @@ const Header: FC = () => {
                                                 <span className='menu-icon-title'>Мои списки</span>
                                             </div>
                                         </Link>
+                                        <Link  to='/'  className="menu-link"onClick={auth_store.logout}>
+                                            <div className='menu-item-icon'>
+                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <span className='menu-icon-title'>Выход</span>
+                                            </div>
+                                        </Link>
                                     </> :
                                     <>
                                         <Link to='/login' className="menu-link">

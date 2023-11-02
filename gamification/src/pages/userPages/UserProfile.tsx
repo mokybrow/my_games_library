@@ -5,9 +5,9 @@ import '../../styles/user-profile.css'
 import { ActionButton } from '../../components/buttons/action-button';
 import { ListCard } from '../../components/listcard/list-card';
 import { useParams } from 'react-router-dom';
-import { GameCard } from '../../components/gamecard/game-card';
 import { ReviewCard } from '../../components/reviewcard/review-card';
 import { UnactiveUser } from '../../components/unactiveuser/unactive-user';
+import GameCard from '../../components/gamecard/game-card';
 
 const UserProfile = () => {
 

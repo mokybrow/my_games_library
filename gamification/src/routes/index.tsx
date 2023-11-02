@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { MainPage } from '../pages/MainPage';
 import Header from '../components/header/header';
 import GamesPage from '../pages/GamesPage';
 import NewsPage from '../pages/NewsPage';
@@ -13,9 +12,11 @@ import WishlistPage from '../pages/listsPages/WishlistPage';
 import CompletedPage from '../pages/listsPages/CompletedPage';
 import UserSettings from '../pages/userPages/UserSettings';
 import CreateListPage from '../pages/listsPages/CreateListPage';
+import { observer } from 'mobx-react-lite';
+import MainPage from '../pages/MainPage';
 
 
-export const AppRoutes = () => {
+const AppRoutes = () => {
 
   return (
     <BrowserRouter>
@@ -42,3 +43,5 @@ export const AppRoutes = () => {
     </BrowserRouter>
   );
 }
+
+export default AppRoutes;

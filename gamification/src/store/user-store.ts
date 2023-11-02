@@ -13,7 +13,7 @@ export default class UserStore {
     list = [] as UserListsResponse[]
     addedList = [] as UserListsResponse[]
     reviews = [] as UserLastReviews[];
-    
+
     constructor() {
         makeAutoObservable(this);
     }
@@ -51,6 +51,16 @@ export default class UserStore {
                 this.setFollower(true)
             }
 
+        } catch (error) {
+
+        } try {
+            const lists = await UserService.getUserLists(this.user.id)
+            this.setLists(lists.data)
+        } catch (error) {
+
+        } try {
+            const anotherLists = await UserService.getUserAddedLists(this.user.id)
+            this.setAddedLists(anotherLists.data)
         } catch (error) {
 
         } try {
@@ -124,14 +134,15 @@ export default class UserStore {
         }
     }
 
-    async getUserListsFunc() {
+    async getUserListsFunc(user_id: string) {
         try {
-            const lists = await UserService.getUserLists(this.user.id)
+            const lists = await UserService.getUserLists(user_id)
             this.setLists(lists.data)
+            console.log(lists)
         } catch (error) {
 
         } try {
-            const anotherLists = await UserService.getUserAddedLists(this.user.id)
+            const anotherLists = await UserService.getUserAddedLists(user_id)
             this.setAddedLists(anotherLists.data)
         } catch (error) {
 

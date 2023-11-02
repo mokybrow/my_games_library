@@ -1,16 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import { Context } from '../..';
-import { GameCard } from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
+import GameCard from '../../components/gamecard/game-card';
 
 const CompletedPage = () => {
     const { auth_store } = useContext(Context);
     const { user_store } = useContext(Context);
     const { username } = useParams<string>();
     // const { username } = useParams<{username?: string}>();
-    console.log(username)
     useEffect(() => {
         const checkUsername = async () => {
             const response = await auth_store.checkAuth()

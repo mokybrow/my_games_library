@@ -1,4 +1,4 @@
-.game-card-cover-container {
+.profile-card-cover-container {
     height: 200px;
     width: 100%;
     border-radius: 24px;
@@ -13,7 +13,7 @@
     grid-column: 1 span;
 }
 
-.game-card-cover-container img {
+.profile-card-cover-container img {
     object-fit: cover;
     height: 100%;
     width: 100%;
@@ -23,7 +23,7 @@
     transform: translate(-50%, -50%);
 }
 
-.game-card-cover-container:hover {
+.profile-card-cover-container:hover {
     transform: scale(1.01);
 
 }

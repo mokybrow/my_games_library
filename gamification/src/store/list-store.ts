@@ -60,6 +60,7 @@ export default class ListStore {
             const err = error as AxiosError
         } finally {
             this.setLoading(false);
+            window.location.reload();
         }
     }
 

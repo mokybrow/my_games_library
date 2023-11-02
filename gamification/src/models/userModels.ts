@@ -65,3 +65,12 @@ export interface UserListsResponse {
 export interface  CheckFollowResponse{
     result: boolean
 }
+
+export interface userGrade {
+    id: string,
+    user_id: string,
+    game_id: string,
+    grade: number,
+    comment: string | null,
+    created_at: Date | null
+}

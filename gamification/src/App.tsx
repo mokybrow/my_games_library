@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { AppRoutes } from './routes';
 import { Context } from '.';
 import { getLocalToken } from './utils/utils';
 import { useTheme } from './hooks/useTheme';
+import { observer } from 'mobx-react-lite';
+import AppRoutes from './routes/index'
 
 function App() {
-
   const { auth_store } = useContext(Context);
   const { theme, setTheme } = useTheme()
   
@@ -18,9 +18,9 @@ function App() {
   return (
     <>
       <AppRoutes />
-      <div>{auth_store.user.email}</div>
     </>
   );
 }
 
-export default App;
+export default observer(App);
+

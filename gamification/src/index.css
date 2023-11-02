@@ -25,6 +25,7 @@ html[data-theme='dark'] {
   --background-title-color: rgba(0, 0, 0, .8);
   --background-banner-color: rgba(0, 0, 0, .8);
 
+  --input-color: rgba(0, 0, 0, .2);
 }
 
 html[data-theme='light'] {
@@ -39,5 +40,7 @@ html[data-theme='light'] {
 
   --background-title-color: rgba(255, 255, 255, .8);
 
-  --background-banner-color: rgba(0, 0, 0, .05);
+  --background-banner-color: rgba(0, 0, 0, .1);
+
+  --input-color: rgba(0, 0, 0, .2);
 }
