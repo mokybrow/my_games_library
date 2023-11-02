@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import AuthService from '../../services/auth-service'
 import { Context } from '../..'
 import { useNavigate } from 'react-router-dom'
+import { SubmitButton } from '../buttons/submit-button'
 
 
 interface IFormInput {
@@ -77,7 +78,6 @@ export const RegistrationForm: FC = () => {
                     value: true,
                     message: "Поле не может быть пустым"
                 },
-
                 pattern: {
                     value: /^[a-zA-Zа-яА-Я]+$/,
                     message: "Вы ввели недопустимые символы"
@@ -152,7 +152,9 @@ export const RegistrationForm: FC = () => {
                 <p>Показать пароль</p>
                 <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
             </div>
-            <button type="submit">Зарегистрироваться</button>
+            <SubmitButton type={'submit'} onClick={undefined}>
+                Зарегистрироваться
+            </SubmitButton>
         </form>
     )
 }

@@ -99,6 +99,24 @@ export default class UserService {
                 }
             })
     }
+    static async changeUserData(password?: string, name?: string, surname?: string, sex?: string): Promise<AxiosResponse> {
 
-
+        return $api.patch(`${API_URL}users/me`,
+            {
+                password: password,
+                name: name,
+                surname: surname,
+                gender: sex,
+            },)
+    }
+    static async uploadImg(img: any): Promise<AxiosResponse> {
+        const formData = new FormData();
+        formData.set('img', img);
+        return $api.post('/user/change/img', formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+    }
 }

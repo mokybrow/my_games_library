@@ -1,19 +1,25 @@
-.form-container {
+.user-settings-form-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    width: 240px;
+    max-width: 100%;
     gap: 6px;
 }
 
-.form-container input {
+.user-settings-form-container input {
     border: none;
     border-radius: 6px;
     padding: 6px;
 }
 
-.show-password-container {
+.user-settings-form-container select {
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.show-password-container{
     display: flex;
     gap: 6px;
     align-items: center;

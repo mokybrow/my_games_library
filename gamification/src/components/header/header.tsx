@@ -84,7 +84,7 @@ const Header: FC = () => {
                                                 <span className='menu-icon-title'>Настройки</span>
                                             </div>
                                         </Link>
-                                        <Link to={`/${auth_store.user.username}/create_list`} className="menu-link">
+                                        <Link to={`/${auth_store.user.username}/lists/create`} className="menu-link">
                                             <div className='menu-item-icon'>
                                                 <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Создать список</span>
@@ -157,6 +157,9 @@ const Header: FC = () => {
 
                                 <Link to={`/${auth_store.user.username}/lists`} reloadDocument>
                                     Списки
+                                </Link>
+                                <Link to={`/${auth_store.user.username}/lists/create`} reloadDocument>
+                                    Создать список
                                 </Link>
                                 <hr className='dropdown-line' />
                                 <Link to={`/${auth_store.user.username}/settings`} reloadDocument>

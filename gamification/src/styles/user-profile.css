@@ -184,6 +184,10 @@
 }
 
 @media (max-width: 500px) {
+    .user-profile-page {
+        padding-left: 6vw;
+        padding-right: 6vw;
+    }
     .user-banner.info {
         grid-column: span 6;
     }

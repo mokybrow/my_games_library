@@ -1,0 +1,28 @@
+.user-settings-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 1em;
+}
+
+.user-settings-banner{
+    background-color: var(--background-banner-color);
+    display: grid;
+    align-items: flex-start;
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    min-height: 200px;
+}
+
+.user-settings-banner.upload{
+    grid-row: 1/3;
+}
+
+@media (max-width: 600px) {
+    .user-settings-grid-container{
+        grid-template-columns: repeat(1, 1fr);
+
+    }
+    
+}

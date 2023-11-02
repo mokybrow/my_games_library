@@ -3,7 +3,8 @@ import './auth-form.css'
 import { useForm, SubmitHandler } from "react-hook-form"
 import AuthService from '../../services/auth-service'
 import { Context } from '../..'
-import {  useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { SubmitButton } from '../buttons/submit-button'
 
 
 interface IFormInput {
@@ -86,7 +87,10 @@ export const LoginForm: FC = () => {
                 <p>Показать пароль</p>
                 <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
             </div>
-            <button type="submit">Вход</button>
+            <SubmitButton type={'submit'} onClick={undefined}>
+                Вход
+            </SubmitButton>
+
         </form>
     )
 }

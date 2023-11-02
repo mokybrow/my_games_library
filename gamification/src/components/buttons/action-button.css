@@ -16,9 +16,6 @@
 }
 
 @media (max-width: 800px) {
-    .action-button{
-        width: 80%;
-    }
     .action-button:hover{
         opacity: 1;
     }

@@ -1,0 +1,43 @@
+.upload-field-container-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-filed-container {
+    display: flex;
+    border: 2px solid var(--font-color);
+    border-radius: 6px;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+}
+
+.user-profile-cover-container-settings {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    margin: 12px 12px;
+    width: 144px;
+    height: 144px;
+}
+
+.user-profile-cover-container-settings img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.buttons-container{
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}

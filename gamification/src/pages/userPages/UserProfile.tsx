@@ -1,13 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react'
-import { Context } from '..';
-import '../styles/user-profile.css'
-import { ActionButton } from '../components/buttons/action-button';
-import { ListCard } from '../components/listcard/list-card';
+import { Context } from '../..';
+import '../../styles/user-profile.css'
+import { ActionButton } from '../../components/buttons/action-button';
+import { ListCard } from '../../components/listcard/list-card';
 import { useParams } from 'react-router-dom';
-import { GameCard } from '../components/gamecard/game-card';
-import { ReviewCard } from '../components/reviewcard/review-card';
-import { UnactiveUser } from '../components/unactiveuser/unactive-user';
+import { GameCard } from '../../components/gamecard/game-card';
+import { ReviewCard } from '../../components/reviewcard/review-card';
+import { UnactiveUser } from '../../components/unactiveuser/unactive-user';
 
 const UserProfile = () => {
 
@@ -41,7 +41,7 @@ const UserProfile = () => {
                 <div className="user-banner info" >
                     <div className="user-profile-cover-container">
                         {auth_store.user.img == null ?
-                            <img src={require('../assets/icons/icon.png')} width={100} height={100} />
+                            <img src={require('../../assets/icons/icon.png')} width={100} height={100} />
                             :
                             <img src={"data:image/jpeg;base64," + auth_store.user.img} width={100} height={100} />
                         }
@@ -83,7 +83,7 @@ const UserProfile = () => {
                                 <ActionButton onClick={`settings`}>
                                     Настройки
                                 </ActionButton>
-                                <ActionButton onClick={'create_list'}>
+                                <ActionButton onClick={'lists/create'}>
                                     Новый список
                                 </ActionButton>
                             </> :

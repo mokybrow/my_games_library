@@ -1,0 +1,86 @@
+.upload-field-container-form.list {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    justify-content: left;
+    gap: 12px;
+}
+
+.upload-filed-container {
+    display: flex;
+    border: 2px solid var(--font-color);
+    border-radius: 6px;
+    height: 120px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 12px;
+    max-width: 100%;
+}
+
+.list-cover-container {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    width: 144px;
+    height: 144px;
+}
+
+.list-cover-container img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.buttons-container {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+.list-create-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    gap: 6px;
+}
+
+.list-create-form-container input {
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    max-width: 100%;
+}
+
+.list-create-form-container textarea {
+    font-family: Roboto;
+    resize: none;
+    height: 150px;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+@media (max-width: 500px) {
+    .upload-field-container-form.list {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+    }
+    .upload-filed-container {
+        max-width:100%;
+        max-height: 60px;
+    }
+    .list-cover-container {
+
+        width:100%;
+    }
+
+}
