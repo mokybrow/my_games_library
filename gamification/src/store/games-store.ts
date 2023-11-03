@@ -84,7 +84,7 @@ export default class GamesStore {
                 this.setReviews(response.data)
             }
         } catch (error) {
-                this.setReviews([] as ReviewCardModel[])
+            this.setReviews([] as ReviewCardModel[])
         } try {
             const response = await GameService.getGameBySlug(String(slug));
             const userGrade = await GameService.getUserGrade(response.data.id)
@@ -142,22 +142,32 @@ export default class GamesStore {
         } catch (error) {
 
         } finally {
-
             this.setLoading(false);
-
         }
     }
-
-    async updateGameInUserList(){
+    async addGameToUserList(list_id: string) {
+        this.setLoading(true);
         try {
+            await ListService.addGameToList(list_id, this.gameProfile.id)
+
             const checkInUserLists = await ListService.GameInUserListsCheck(this.gameProfile.id)
             this.setUserLists(checkInUserLists.data)
         } catch (error) {
-            
+
+        } finally {
+            this.setLoading(false);
         }
     }
+    // async updateGameInUserList(){
+    //     try {
+    //         const checkInUserLists = await ListService.GameInUserListsCheck(this.gameProfile.id)
+    //         this.setUserLists(checkInUserLists.data)
+    //     } catch (error) {
 
-    async getGameByPage(page: number, limit: number | null,  sort: string | null, decade: string | null, genre: string | null) {
+    //     }
+    // }
+
+    async getGameByPage(page: number, limit: number | null, sort: string | null, decade: string | null, genre: string | null) {
         this.setLoading(true);
         try {
             const response = await GameService.getGamesPages(Number(page), limit, sort, decade, genre);
@@ -166,11 +176,11 @@ export default class GamesStore {
         } catch (error) {
             this.setGamesPage([] as GamesResponse[])
             //const err = error as AxiosError
-        }try {
-            const response = await GameService.getGamesCount(limit,  genre);
+        } try {
+            const response = await GameService.getGamesCount(limit, genre);
             this.setPageCount(response.data.count)
         } catch (error) {
-            
+
         } finally {
             this.setLoading(false);
         }

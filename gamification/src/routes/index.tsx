@@ -12,9 +12,9 @@ import WishlistPage from '../pages/listsPages/WishlistPage';
 import CompletedPage from '../pages/listsPages/CompletedPage';
 import UserSettings from '../pages/userPages/UserSettings';
 import CreateListPage from '../pages/listsPages/CreateListPage';
-import { observer } from 'mobx-react-lite';
 import MainPage from '../pages/MainPage';
 import AllListsPage from '../pages/AllListsPage';
+import GamePage from '../pages/GamePage';
 
 
 const AppRoutes = () => {
@@ -35,7 +35,9 @@ const AppRoutes = () => {
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
+
             <Route path="/games" element={<GamesPage />} />
+            <Route path="/game/:slug" element={<GamePage />} />
             <Route path="/lists" element={<AllListsPage />} />
             <Route path="/news" element={<NewsPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />

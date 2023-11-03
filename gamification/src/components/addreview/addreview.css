@@ -1,0 +1,79 @@
+.game-profile-grade {
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+    gap: 4px;
+    padding: 8px 16px;
+    background-color: var(--button-color);
+    border-radius: 12px;
+    transition: all 200ms linear;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    grid-row: 2/3;
+}
+
+.game-profile-grade:hover {
+    transform: scale(1.05);
+    transition: all 100ms ease;
+}
+.grade-numbers {
+    position: absolute;
+    transform: scale(0, 0);
+}
+
+.grade-numbers.active {
+    position: relative;
+    transform: scale(1, 1);
+    cursor: pointer;
+    width: auto;
+    max-width: 100%;
+    background-color: var(--buttons-color);
+    border-radius: 6px;
+    transition: all 100ms linear;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2em;
+}
+#rate-numbers {
+    font-size: 1.0em;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.2em 0.2em;
+}
+
+#rate-numbers:hover {
+    transform: scale(1.1);
+    transition: all 100ms ease;
+}
+
+.red-rate {
+    color: #ff4800;
+}
+
+.gray-rate {
+    color: gray;
+}
+
+.green-rate {
+    color: green;
+}
+
+.off {
+    color: var(--font-color-global);
+}
+
+.comment-area {
+    font-family: Roboto;
+    resize: none;
+    height: 150px;
+    width: calc(100% - 12px);
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    background-color: var(--input-color);
+}

@@ -138,7 +138,6 @@ export default class UserStore {
         try {
             const lists = await UserService.getUserLists(user_id)
             this.setLists(lists.data)
-            console.log(lists)
         } catch (error) {
 
         } try {
