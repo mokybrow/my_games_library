@@ -25,7 +25,7 @@ export default class GameService {
                 }
             })
     }
-    static async getGamesCount(limit: number,  genre: string | null): Promise<AxiosResponse<PageCountResponseModel>> {
+    static async getGamesCount(limit: number | null,  genre: string | null): Promise<AxiosResponse<PageCountResponseModel>> {
 
         return $api.get<PageCountResponseModel>(`/games/count`,
             {

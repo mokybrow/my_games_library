@@ -36,8 +36,8 @@ router = APIRouter()
 @router.post('/list/create/')
 async def create_list_route(
     title: str,
-    description: Optional[str],
     is_private: Optional[bool],
+    description: Optional[str] = None,
     img: UploadFile = None, 
     user: User = Depends(current_active_user),
     db: AsyncSession = Depends(get_async_session),

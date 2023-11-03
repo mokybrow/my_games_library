@@ -1,4 +1,4 @@
-.games-page-section{
+.games-page-section {
     display: flex;
     flex-direction: column;
     padding-top: 128px;
@@ -8,4 +8,62 @@
     min-height: calc(100vh - 208px);
     align-items: flex-start;
     font-family: Roboto;
+}
+
+.filters-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    grid-column: 1 / -1;
+}
+
+.games-page-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 18px;
+    width: 100%;
+}
+
+.games-grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 100%;
+    align-items: flex-start;
+    grid-column: 1 / -1;
+    gap: 1em;
+    transition: all 200ms linear;
+    border-radius: 12px;
+}
+
+@media (max-width: 800px) {
+    .games-page-section {
+        padding-top: 88px;
+        padding-left: 4vw;
+        padding-right: 4vw;
+        min-height: calc(100vh - 888px);
+    }
+
+    .games-grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1em;
+        align-items: flex-start;
+    }
+
+}
+
+@media (max-width: 500px) {
+    .filters-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 425px) {
+    .games-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
 }

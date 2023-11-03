@@ -15,7 +15,7 @@ const GameCard: FC<GameCard> = ({ gameId, gameSlug, gameCover, gameTitle, activi
     return (
         <Link key={gameId} to={'/game/' + gameSlug}>
             <div className="game-card-cover-container">
-                <img src={gameCover} width={40} height={40}/>
+                <img src={gameCover} width={50} height={50}/>
                 <div className="title-card-body-profile">
                     <div className="title-card">
                         <span className="card-title">{gameTitle}</span>

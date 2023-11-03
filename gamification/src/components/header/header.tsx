@@ -65,10 +65,10 @@ const Header: FC = () => {
                     </div>
                     <nav className="menu-body">
                         <ul className="menu-list">
-                            <Link to='/games' className="menu-link"><li className="menu-item" >Игры</li></Link>
-                            <Link to='/lists' className="menu-link"><li className="menu-item" >Списки</li></Link>
-                            <Link to='/news' className="menu-link"><li className="menu-item" >Новости</li></Link>
-                            <Link to='/reviews' className="menu-link"><li className="menu-item" >Обзоры</li></Link>
+                            <Link to='/games' className="menu-link" reloadDocument><li className="menu-item" >Игры</li></Link>
+                            <Link to='/lists' className="menu-link" reloadDocument><li className="menu-item" >Списки</li></Link>
+                            <Link to='/news' className="menu-link" reloadDocument><li className="menu-item" >Новости</li></Link>
+                            <Link to='/reviews' className="menu-link" reloadDocument><li className="menu-item" >Обзоры</li></Link>
                             <div className="nav-grid-wrap">
                                 {auth_store.isAuth ?
                                     <>

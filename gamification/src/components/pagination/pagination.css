@@ -1,0 +1,22 @@
+.pagination-container{
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+.pagination-button{
+    border: none;
+    padding: 6px;
+    background-color: var(--action-button-background);
+    border-radius: 6px;
+    color: var(--action-button-font);
+    backdrop-filter: saturate(180%) blur(20px);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-size: .8em;
+}
+.pagination-button:hover{
+    transform: scale(1.05);
+}

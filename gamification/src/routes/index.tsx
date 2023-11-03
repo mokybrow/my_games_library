@@ -14,6 +14,7 @@ import UserSettings from '../pages/userPages/UserSettings';
 import CreateListPage from '../pages/listsPages/CreateListPage';
 import { observer } from 'mobx-react-lite';
 import MainPage from '../pages/MainPage';
+import AllListsPage from '../pages/AllListsPage';
 
 
 const AppRoutes = () => {
@@ -35,7 +36,7 @@ const AppRoutes = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
             <Route path="/games" element={<GamesPage />} />
-            <Route path="/lists" element={<ListsPage />} />
+            <Route path="/lists" element={<AllListsPage />} />
             <Route path="/news" element={<NewsPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
           </Route>

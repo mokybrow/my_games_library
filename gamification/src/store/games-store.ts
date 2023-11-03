@@ -164,20 +164,13 @@ export default class GamesStore {
             this.setGamesPage(response.data)
 
         } catch (error) {
+            this.setGamesPage([] as GamesResponse[])
             //const err = error as AxiosError
-        } finally {
-            this.setLoading(false);
-        }
-    }
-
-    async getPageCount(limit: number, genre: string | null) {
-        this.setLoading(true);
-        try {
+        }try {
             const response = await GameService.getGamesCount(limit,  genre);
             this.setPageCount(response.data.count)
-
         } catch (error) {
-            //const err = error as AxiosError
+            
         } finally {
             this.setLoading(false);
         }
