@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import './list-card.css'
 import { Link } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
 
 export interface ListPageCard {
     listId: string
@@ -9,7 +10,7 @@ export interface ListPageCard {
     listTitle: string
 }
 
-export const ListPageCard: FC<ListPageCard> = ({ listId, listSlug, listCover, listTitle }) => {
+const ListPageCard: FC<ListPageCard> = ({ listId, listSlug, listCover, listTitle }) => {
     return (
         <Link key={listId} to={'/list/' + listSlug}>
             <div className="profile-card-cover-container">
@@ -23,3 +24,5 @@ export const ListPageCard: FC<ListPageCard> = ({ listId, listSlug, listCover, li
         </Link>
     )
 }
+
+export default observer(ListPageCard);

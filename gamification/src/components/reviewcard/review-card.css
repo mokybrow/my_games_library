@@ -1,4 +1,4 @@
-.profile-card-cover-container {
+.review-card-container {
     height: 200px;
     border-radius: 6px;
     grid-column: 1/2;
@@ -11,8 +11,8 @@
     background-color: var(--background-title-color);
 }
 
-.profile-card-cover-container img {
-    object-fit:cover;
+.review-card-container img {
+    object-fit: cover;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -21,8 +21,8 @@
     transform: translate(-50%, -50%);
 }
 
-.profile-card-cover-container:hover {
-    transform: scale(1.04);
+.review-card-container:hover {
+    transform: scale(1.02);
 
 }
 
@@ -36,4 +36,50 @@
     color: var(--font-color);
     bottom: 0;
     margin-bottom: 1em;
+}
+
+.review-card {
+    text-decoration: none;
+    color: var(--font-color);
+}
+
+.review-info-container {
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    max-width: 100%;
+    max-height: 100%;
+    flex-direction: column;
+    z-index: 1;
+    padding: 12px;
+    gap: 6px;
+}
+
+.review-title-container {
+    max-width: 100%;
+}
+
+.game-title {
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.author-username {
+    display: flex;
+    gap: 6px;
+    font-style: italic;
+}
+
+.user-game-grade {
+    font-weight: 600;
+}
+.review-comment-container{
+    cursor: pointer;
+}
+.review-comment-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }

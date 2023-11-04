@@ -55,7 +55,7 @@ const Header: FC = () => {
         <>
             <header>
                 <div className="header-logo">
-                    <Link to='/'>Bear</Link>
+                    <Link to='/'>Чуваки</Link>
                 </div>
                 <div onClick={buttonFunc} className="header-menu menu">
                     <div className="menu-icon">

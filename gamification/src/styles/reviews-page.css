@@ -1,0 +1,18 @@
+.reviews-page-section {
+    display: flex;
+    flex-direction: column;
+    padding-top: 128px;
+    padding-left: 12vw;
+    padding-right: 12vw;
+    padding-bottom: 80px;
+    min-height: calc(100vh - 208px);
+    align-items: flex-start;
+    font-family: Roboto;
+}
+
+.reviews-page-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    width: 100%;
+}

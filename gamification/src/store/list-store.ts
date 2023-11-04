@@ -103,16 +103,16 @@ export default class ListStore {
 
     }
 
-    async getAllLists() {
+    async getAllLists(page: number, limit: number | null, sort: string | null,) {
         this.setLoading(true);
         try {
-            const allLists = await ListService.getAllLists();
+            const allLists = await ListService.getAllLists(page, limit, sort);
             this.setAllLists(allLists.data)
         } catch (error) {
             const err = error as AxiosError
         } try {
             const response = await ListService.geListsCount();
-            this.setPageCount(response.data.count / 36)
+            this.setPageCount(response.data.count)
 
         } catch (error) {
             //const err = error as AxiosError

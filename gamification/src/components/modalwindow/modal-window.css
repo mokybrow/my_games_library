@@ -11,10 +11,11 @@
     opacity: 0;
     pointer-events: none;
     transition: all 200ms linear;
+    z-index: 2;
 }
 
 .modal-content {
-    background-color: var(--background-title-color);
+    background-color: var(--modal-background);
     padding: 1em;
     border-radius: 6px;
     transform: scale(1.2);
@@ -42,7 +43,7 @@
 
   
 .modal-content.active {
-    background-color: var(--background-title-color);
+    background-color: var(--modal-background);
     padding: 1em;
     transform: scale(1);
     border-radius: 6px;
@@ -57,14 +58,14 @@
 
 @media (max-width: 800px) {
     .modal-content {
-        background-color: var(--background-title-color);
+        background-color: var(--modal-background);
         padding: 1em;
         transform: scale(1.2);
         border-radius: 6px;
         width: 80vw;
     }
     .modal-content.active {
-        background-color: var(--background-title-color);
+        background-color: var(--modal-background);
         padding: 1em;
         transform: scale(1);
         border-radius: 6px;

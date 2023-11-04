@@ -59,8 +59,6 @@ export default class GameService {
             })
     }
 
-
-
     static async addReview(id: string, grade: number, comment: string | null): Promise<AxiosResponse> {
         return $api.post(`review/add`, null, {
             params: {

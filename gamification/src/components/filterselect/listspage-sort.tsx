@@ -1,0 +1,40 @@
+import React, { FC, useContext } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Context } from '../..';
+import { observer } from 'mobx-react-lite';
+import './filter-sort-select.css'
+
+
+const ListPageSortSelect: FC = () => {
+    const { list_store } = useContext(Context);
+    const pageLimitElement = 24
+    const [searchParams, setSearchParams] = useSearchParams();
+    const pageParam = searchParams.get('page');
+    const sortParam = searchParams.get('sort');
+
+    const onClickSort = (sort: string) => {
+        if (pageParam === null) {
+            if (sort !== 'false') {
+                setSearchParams({ sort: String(sort) })
+                list_store.getAllLists(1, pageLimitElement, sort)
+            }
+            if (sort === 'false') {
+                setSearchParams({})
+                list_store.getAllLists(1, pageLimitElement, null)
+            }
+        }
+
+    }
+    return (
+        <select className='sort-filter-selector' defaultValue={sortParam !== null ? sortParam : 'false'} onChange={(event) => onClickSort(event.target.value)}>
+            <option value='false'>Без Сортировки</option>
+            <option value="old">Сначала старые</option>
+            <option value="new">Сначала новые</option>
+            <option value="alphabetically-asc">По алфавиту А-Я</option>
+            <option value="alphabetically-desc">По алфавиту Я-А</option>
+        </select>
+
+    )
+}
+
+export default observer(ListPageSortSelect);

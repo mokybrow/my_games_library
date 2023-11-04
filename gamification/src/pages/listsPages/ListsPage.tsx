@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import '../../styles/lists-page.css'
 import { useContext, useEffect } from 'react';
 import { Context } from '../..';
-import { ListPageCard } from '../../components/listscard/list-card';
+import ListPageCard  from '../../components/listscard/list-card';
 import { useParams } from 'react-router-dom';
 
 
@@ -32,12 +32,15 @@ const ListsPage = () => {
                 {user_store.list.length > 0 ?
                     <>
                         {user_store.list.map((list) =>
-                            <ListPageCard
-                                listId={list.id}
-                                listSlug={list.slug}
-                                listCover={list.cover}
-                                listTitle={list.title} />
-                        )}</>
+                            <div key={list.id}>
+                                <ListPageCard
+                                    listId={list.id}
+                                    listSlug={list.slug}
+                                    listCover={list.cover}
+                                    listTitle={list.title} />
+                            </div>
+                        )}
+                    </>
                     : null}
             </div>
         </section>

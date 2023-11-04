@@ -26,7 +26,7 @@ router = APIRouter()
 @router.get("/games/all", response_model=list[game_model.GetGamesResponseModel])
 async def get_all_games_router(
     page: int,
-        limit: Optional[int] = None,
+    limit: Optional[int] = None,
     sort: Optional[str] = None,
     decade: Optional[str] = None,
     genre: Optional[str] = None,

@@ -75,15 +75,50 @@ async def approve_create_list(db: AsyncSession, username: str, title: str, user_
     return False
 
 
-async def get_all_list(db: AsyncSession) -> Any:
-    query = select(list_table).filter(list_table.c.is_private == False)
+async def get_all_list(db: AsyncSession, page: int, limit: int = None, sort: str = None,) -> Any:
+    if page == 1:
+        page_offset = 0
+    else:
+        page_offset = (page - 1) * limit
+
+    if (sort != None):
+        if sort == 'old':
+            query = (select(list_table).filter(list_table.c.is_private == False)
+                                           .offset(page_offset)
+                        .limit(limit)
+                     .order_by(list_table.c.created_at.asc()))
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'new':
+            query = (select(list_table).filter(list_table.c.is_private == False)
+                                           .offset(page_offset)
+                        .limit(limit).order_by(list_table.c.created_at.desc()))
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'alphabetically-asc':
+            query = (select(list_table).filter(list_table.c.is_private == False)
+                                           .offset(page_offset)
+                        .limit(limit).order_by(list_table.c.title.asc()))
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'alphabetically-desc':
+            query = (select(list_table).filter(list_table.c.is_private == False)                      
+                     .offset(page_offset)
+                        .limit(limit).order_by(list_table.c.title.desc()))
+            result = await db.execute(query)
+            result = result.all()
+            return result
+    query = (select(list_table)                      .offset(page_offset)
+                        .limit(limit).filter(list_table.c.is_private == False))
     result = await db.execute(query)
     result = result.all()
-    return result
-
+    return result   
 
 async def get_all_list_count(db: AsyncSession) -> Any:
-    query = select(func.count("*")).select_from(list_table)
+    query = select(func.count("*")).select_from(list_table).filter(list_table.c.is_private == False)
     result = await db.execute(query)
     result = result.all()
     if not result:

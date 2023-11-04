@@ -11,7 +11,7 @@ export interface ReviewCard {
 export const ReviewCard: FC<ReviewCard> = ({ reviewSlug, reviewCover, reviewGrade }) => {
     return (
         <Link key={reviewSlug} to={'/game/' + reviewSlug}>
-            <div className="profile-card-cover-container">
+            <div className="review-card-container">
                 <img src={reviewCover} />
                 <div className="title-card-body-rate">
                     <div className="title-card">

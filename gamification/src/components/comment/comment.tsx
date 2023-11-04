@@ -2,6 +2,7 @@ import React, { FC, useContext } from 'react'
 import './comment.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Context } from '../..'
+import { observer } from 'mobx-react-lite'
 
 export interface CommentCard {
     reviewId: string
@@ -13,7 +14,7 @@ export interface CommentCard {
     reviewHasAuthorLike: number
 }
 
-export const CommentCard: FC<CommentCard> = ({ reviewId, reviewImg, reviewUsername,reviewGrade, reviewCommnet, reviewLikeCount,reviewHasAuthorLike }) => {
+const CommentCard: FC<CommentCard> = ({ reviewId, reviewImg, reviewUsername,reviewGrade, reviewCommnet, reviewLikeCount,reviewHasAuthorLike }) => {
     const { games_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const { user_store } = useContext(Context);
@@ -56,3 +57,5 @@ export const CommentCard: FC<CommentCard> = ({ reviewId, reviewImg, reviewUserna
         </div>
     )
 }
+
+export default observer(CommentCard);

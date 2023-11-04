@@ -9,30 +9,32 @@ export interface NewsCard {
     newsCover: string
     newsTitle: string
     newsText: string
+    newsAuthor: string
+    newsDate: Date
 }
 
 const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsText }) => {
     return (
-        <Link key={newsId} to={'/game/' + newsSlug}>
-            <div className="news-card-cover-container">
-                <img src={newsCover} width={200} height={200} />
-                <div className="title-card-body-profile">
-                    <div className="title-card">
-                        <span className="card-title">{newsTitle}</span>
+
+        <div className="news-card-cover-container">
+            <div className="background-wrap"></div>
+            {newsCover == null ? null : <img src={newsCover} width={200} height={200} />}
+            <div className="news-info-container">
+                <Link key={newsId} to={'/article/' + newsSlug} className='news-card'>
+                    <div className="news-title-container">
+                        <span className="news-title">{newsTitle}</span>
                     </div>
+                </Link>
 
-                    <div className="title-card-activity">
-
-                        <span className="card-title-activity">
-                            {newsText}
-                        </span>
-
-                    </div>
-
+                <div className="news-text-container">
+                    <span className="news-text">
+                        {newsText}
+                    </span>
                 </div>
-            </div>
 
-        </Link>
+            </div>
+        </div>
+
     )
 }
 

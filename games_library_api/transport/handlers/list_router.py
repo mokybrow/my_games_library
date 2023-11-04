@@ -72,15 +72,19 @@ async def approve_create_list_router(title: str, user: User = Depends(current_ac
 
 
 @router.get('/list/all/', response_model=list[list_model.AllListsResponseModel])
-async def get_all_lists_router(db: AsyncSession = Depends(get_async_session)) -> Any:
-    result = await get_all_list(db=db)
+async def get_all_lists_router(
+    page: int,
+    limit: Optional[int] = None,
+    sort: Optional[str] = None,
+    db: AsyncSession = Depends(get_async_session)
+    ) -> Any:
+    result = await get_all_list(page=page,limit=limit, sort=sort,db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-
     return result
 
 
@@ -93,7 +97,6 @@ async def get_all_lists_count_router(db: AsyncSession = Depends(get_async_sessio
             content=error.model_dump(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
-    print(result[0][0])
     return result[0]
 
 
@@ -244,7 +247,6 @@ async def list_data_router(
             content=error.model_dump(),
             status_code=status.HTTP_200_OK,
         )
-    print(result[0])
     return result[0]
 
 

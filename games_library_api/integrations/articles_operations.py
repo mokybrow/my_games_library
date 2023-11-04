@@ -40,21 +40,279 @@ async def get_all_article(
     db: AsyncSession,
     offset: int = None,
     limit: int = None,
-    popular: bool = None,
-    date: bool = None,
+    sort: str = None, 
+    tag: str = None, 
     user_id: UUID4 = None,
 ):
     if limit == None:
         limit = 4
-    if popular == True:
-        if user_id:
+    if user_id:
+        if not tag:
+            if sort == 'popular-desc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(
+                        func.count(
+                            distinct(article_like_table.c.user_id),
+                        ).desc()
+                    )
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            
+            if sort == 'popular-asc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(
+                        func.count(
+                            distinct(article_like_table.c.user_id),
+                        ).asc()
+                    )
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            
+            if sort == 'old':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.created_at.asc()
+                    )
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            if sort == 'new':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.created_at.desc())
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+
+            if sort == 'alphabetically-asc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.title.asc()
+                    )
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            if sort == 'alphabetically-desc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.title.desc()
+                    )
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+        if tag:
+            if sort == 'popular-desc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(
+                        func.count(
+                            distinct(article_like_table.c.user_id),
+                        ).desc()
+                    ).filter(article_table.c.tags.any(tag))
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            
+            if sort == 'popular-asc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(
+                        func.count(
+                            distinct(article_like_table.c.user_id),
+                        ).asc()
+                    ).filter(article_table.c.tags.any(tag))
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            
+            if sort == 'old':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.created_at.asc()
+                    ).filter(article_table.c.tags.any(tag))
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            if sort == 'new':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.created_at.desc()).filter(article_table.c.tags.any(tag))
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+
+            if sort == 'alphabetically-asc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.title.asc()
+                    ).filter(article_table.c.tags.any(tag))
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+            if sort == 'alphabetically-desc':
+                query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                    .limit(limit)
+                    .offset(offset)
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .group_by(article_table.c.id, user_table.c.id)
+                    .order_by(article_table.c.title.desc()
+                    ).filter(article_table.c.tags.any(tag))
+                )
+                result = await db.execute(query)
+                result = result.all()
+                return result
+    if not tag:
+        if sort == 'popular-desc':
             query = (
                 select(
                     article_table,
                     user_table.c.username,
                     user_table.c.img,
                     func.count(article_like_table.c.user_id).label('like_count'),
-                    func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
                 .offset(offset)
@@ -70,189 +328,295 @@ async def get_all_article(
             result = await db.execute(query)
             result = result.all()
             return result
-
-        query = (
-            select(
-                article_table,
-                user_table.c.username,
-                user_table.c.img,
-                func.count(article_like_table.c.user_id).label('like_count'),
-            )
-            .limit(limit)
-            .offset(offset)
-            .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
-            .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
-            .group_by(article_table.c.id, user_table.c.id)
-            .order_by(
-                func.count(
-                    distinct(article_like_table.c.user_id),
-                ).desc()
-            )
-        )
-        result = await db.execute(query)
-        result = result.all()
-        return result
-    if popular == False:
-        if user_id:
+        if sort == 'popular-asc':
             query = (
                 select(
                     article_table,
                     user_table.c.username,
                     user_table.c.img,
                     func.count(article_like_table.c.user_id).label('like_count'),
-                    func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
                 .offset(offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
-                .order_by(func.count(distinct(article_like_table.c.user_id)))
+                .order_by(
+                    func.count(
+                        distinct(article_like_table.c.user_id),
+                    ).asc()
+                )
             )
             result = await db.execute(query)
             result = result.all()
             return result
-
-        query = (
-            select(
-                article_table,
-                user_table.c.username,
-                user_table.c.img,
-                func.count(article_like_table.c.user_id).label('like_count'),
-            )
-            .limit(limit)
-            .offset(offset)
-            .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
-            .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
-            .group_by(article_table.c.id, user_table.c.id)
-            .order_by(
-                func.count(
-                    distinct(article_like_table.c.user_id),
-                )
-            )
-        )
-        result = await db.execute(query)
-        result = result.all()
-        return result
-    if date == True:
-        if user_id:
+        if sort == 'old':
             query = (
                 select(
                     article_table,
                     user_table.c.username,
                     user_table.c.img,
                     func.count(article_like_table.c.user_id).label('like_count'),
-                    func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
                 .offset(offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
-                .order_by((article_table.c.created_at).desc())
+                .order_by(article_table.c.created_at.asc()
+                )
             )
             result = await db.execute(query)
             result = result.all()
             return result
-
-        query = (
-            select(
-                article_table,
-                user_table.c.username,
-                user_table.c.img,
-                func.count(article_like_table.c.user_id).label('like_count'),
-            )
-            .limit(limit)
-            .offset(offset)
-            .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
-            .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
-            .group_by(article_table.c.id, user_table.c.id)
-            .order_by((article_table.c.created_at).desc())
-        )
-        result = await db.execute(query)
-        result = result.all()
-        return result
-    if date == False:
-        if user_id:
+        if sort == 'new':
             query = (
                 select(
                     article_table,
                     user_table.c.username,
                     user_table.c.img,
                     func.count(article_like_table.c.user_id).label('like_count'),
-                    func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
                 )
                 .limit(limit)
                 .offset(offset)
                 .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
                 .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
                 .group_by(article_table.c.id, user_table.c.id)
-                .order_by((article_table.c.created_at).asc())
+                .order_by(article_table.c.created_at.desc()
+                )
             )
             result = await db.execute(query)
             result = result.all()
             return result
-
-        query = (
-            select(
-                article_table,
-                user_table.c.username,
-                user_table.c.img,
-                func.count(article_like_table.c.user_id).label('like_count'),
+        if sort == 'alphabetically-desc':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(article_table.c.title.desc()
+                )
             )
-            .limit(limit)
-            .offset(offset)
-            .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
-            .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
-            .group_by(article_table.c.id, user_table.c.id)
-            .order_by((article_table.c.created_at).asc())
-        )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'alphabetically-asc':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(article_table.c.created_at.asc()
+                )
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+    if tag:
+        if sort == 'popular-desc':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(
+                    func.count(
+                        distinct(article_like_table.c.user_id),
+                    ).desc()
+                ).filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'popular-asc':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(
+                    func.count(
+                        distinct(article_like_table.c.user_id),
+                    ).asc()
+                ).filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'old':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(article_table.c.created_at.asc()
+                ).filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'new':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(article_table.c.created_at.desc()
+                ).filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'alphabetically-desc':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(article_table.c.title.desc()
+                ).filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if sort == 'alphabetically-asc':
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .order_by(article_table.c.created_at.asc()
+                ).filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+        if not sort:
+            query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .group_by(article_table.c.id, user_table.c.id)
+                .filter(article_table.c.tags.any(tag))
+            )
+            result = await db.execute(query)
+            result = result.all()
+            return result
+    if tag == None:
+        query = (
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .order_by(article_table.c.created_at.desc())
+                .group_by(article_table.c.id, user_table.c.id)
+            )
         result = await db.execute(query)
         result = result.all()
         return result
-    if user_id:
+    if tag:
         query = (
-            select(
-                article_table,
-                user_table.c.username,
-                user_table.c.img,
-                func.count(article_like_table.c.user_id).label('like_count'),
-                func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)),
+                select(
+                    article_table,
+                    user_table.c.username,
+                    user_table.c.img,
+                    func.count(article_like_table.c.user_id).label('like_count'),
+                )
+                .limit(limit)
+                .offset(offset)
+                .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                .order_by(article_table.c.created_at.desc())
+                .group_by(article_table.c.id, user_table.c.id)
+                .filter(article_table.c.tags.any(tag))
             )
-            .limit(limit)
-            .offset(offset)
-            .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
-            .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
-            .group_by(article_table.c.id, user_table.c.id)
-            .order_by(func.count(distinct(article_like_table.c.user_id)))
-        )
         result = await db.execute(query)
         result = result.all()
         return result
-    query = (
-        select(
-            article_table,
-            user_table.c.username,
-            user_table.c.img,
-            func.count(article_like_table.c.user_id).label('like_count'),
-        )
-        .limit(limit)
-        .offset(offset)
-        .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
-        .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
-        .group_by(article_table.c.id, user_table.c.id)
-        .order_by(func.count(distinct(article_like_table.c.user_id)))
-    )
-    result = await db.execute(query)
-    result = result.all()
-    return result
 
 
-async def get_all_article_count(db: AsyncSession) -> Any:
-    query = select(func.count("*")).select_from(article_table)
-    result = await db.execute(query)
-    result = result.all()
-    return result
+async def get_all_article_count(    
+        db: AsyncSession,
+        tag: str = None) -> Any:
+    if not tag:
+        query = select(func.count("*")).select_from(article_table)
+        result = await db.execute(query)
+        result = result.all()
+        return result
+    if tag:
+        query = select(func.count("*")).select_from(article_table).filter(article_table.c.tags.any(tag))
+        result = await db.execute(query)
+        result = result.all()
+        return result
 
 
 async def like_article(article_id: UUID4, user_id: UUID4, db: AsyncSession) -> Any:

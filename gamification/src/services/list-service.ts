@@ -94,8 +94,17 @@ export default class ListService {
         })
     }
 
-    static async getAllLists(): Promise<AxiosResponse<UserListsResponse[]>> {
-        return $api.get<UserListsResponse[]>(`/list/all`)
+    static async getAllLists(page: number, limit: number | null, sort: string | null,): Promise<AxiosResponse<UserListsResponse[]>> {
+        return $api.get<UserListsResponse[]>(`/list/all`, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            params: {
+                page: page,
+                limit: limit,
+                sort: sort,
+            }
+        })
     }
 
     static async geListsCount(): Promise<AxiosResponse<PageCountResponseModel>> {

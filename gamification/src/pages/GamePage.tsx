@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '..';
 import '../styles/game-profile.css'
 import GameCard from '../components/gamecard/game-card';
-import { CommentCard } from '../components/comment/comment';
+import CommentCard from '../components/comment/comment';
 import CheckboxPannel from '../components/checkboxpannel/checkbox-pannel';
 import AddReview from '../components/addreview/add-review';
 
@@ -56,7 +56,15 @@ const GamePage = () => {
                 <div className="grid-profile-info">
                     <div className='game-profile-info-container'>
                         <div className='info-container'>
-                            <h1 className="game-profile-title">{games_store.gameProfile.title} {Number(games_store.gameProfile.avg_rate)}</h1>
+                            <h1 className="game-profile-title">{games_store.gameProfile.title}
+                                <span className='game-profile-avgrate'>
+                                    {Number(games_store.gameProfile.avg_rate) !== 0 && Number(games_store.gameProfile.avg_rate) ?
+                                        Number(games_store.gameProfile.avg_rate) :
+                                        "Н/Д"
+                                    }
+                                </span>
+                            </h1>
+
 
                             <p>{games_store.gameProfile.release?.toString()}</p>
                         </div>
@@ -66,6 +74,8 @@ const GamePage = () => {
                     </div>
                     <div className="comment-wrapper">
                         <h1 className="game-profile-title">Последние Отзывы</h1>
+                        {games_store.reviews?.length > 0 ?
+                        <>
                         {games_store.reviews?.map(review =>
                             <div key={review.id}>
                                 <CommentCard
@@ -77,7 +87,7 @@ const GamePage = () => {
                                     reviewLikeCount={review.like_count}
                                     reviewHasAuthorLike={Number(review.hasAuthorLike)} />
                             </div>
-                        )}
+                        )}</> : null}
                     </div>
                 </div>
             </div>

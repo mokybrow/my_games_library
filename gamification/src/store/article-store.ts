@@ -44,46 +44,42 @@ export default class ArticleStore {
         }
     }
 
-    async getAllArticleFunc(offset: number | null, limit: number | null, popular: boolean | null, date: boolean | null) {
+    async getAllArticleFunc(page: number | null, limit: number | null, sort: string | null, tag: string | null) {
         this.setLoading(true);
         try {
             if (getLocalToken()) {
                 const user = await AuthService.getMyProfile();
-                const response = await ArticleService.getAllArticles(offset, limit, popular, date, String(user.data.id));
+                const response = await ArticleService.getAllArticles(page, limit,sort,tag, String(user.data.id));
                 this.setArticles(response.data)
             } else {
-                const response = await ArticleService.getAllArticles(offset, limit, popular, date, null);
+                const response = await ArticleService.getAllArticles(page, limit, sort,tag, null);
                 this.setArticles(response.data)
             }
 
         } catch (error) {
             const err = error as AxiosError
+        }try {
+            const response = await ArticleService.getArticleCount(tag);
+            this.setPageCount(response.data.count)
+        } catch (error) {
+            
         } finally {
             this.setLoading(false);
         }
     }
-    async getAllArticlePageCountFunc(limit: number) {
 
-        try {
-            const response = await ArticleService.getArticleCount(limit);
-            this.setPageCount(response.data.count)
 
-        } catch (error) {
-            const err = error as AxiosError
-        }
-    }
-
-    async likeArticle(article_id: string, offset: number | null, limit: number | null, popular: boolean | null, date: boolean | null) {
+    async likeArticle(article_id: string, page: number | null, limit: number | null, sort: string | null, tag:string | null,) {
 
         try {
 
             await ArticleService.likeArticle(article_id)
             if (getLocalToken()) {
                 const user = await AuthService.getMyProfile();
-                const response = await ArticleService.getAllArticles(offset, limit, popular, date, user.data.id);
+                const response = await ArticleService.getAllArticles(page, limit, sort,tag, user.data.id);
                 this.setArticles(response.data)
             } else {
-                const response = await ArticleService.getAllArticles(offset, limit, popular, date, null);
+                const response = await ArticleService.getAllArticles(page, limit, sort,tag, null);
                 this.setArticles(response.data)
             }
 

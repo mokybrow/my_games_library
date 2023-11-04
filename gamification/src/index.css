@@ -23,6 +23,7 @@ html[data-theme='dark'] {
   --action-button-background: rgba(0, 0, 0, 0.6);
 
   --background-title-color: rgba(0, 0, 0, .8);
+  --modal-background: rgba(0, 0, 0, 1);
   --background-banner-color: rgba(0, 0, 0, .8);
 
   --input-color: rgba(0, 0, 0, .2);
@@ -39,6 +40,8 @@ html[data-theme='light'] {
   --action-button-font: rgba(255, 255, 255, 1);
 
   --background-title-color: rgba(255, 255, 255, .8);
+
+  --modal-background: rgba(255, 255, 255, 1);
 
   --background-banner-color: rgba(0, 0, 0, .1);
 
