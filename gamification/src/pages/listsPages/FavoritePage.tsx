@@ -27,13 +27,14 @@ const FavoritePage = () => {
 
     }, [])
 
-    if (user_store.isLoading) {
+    if (user_store.isLoading || auth_store.isLoading) {
         return (
-            <section className='games-lists-section'>
-                Loading..
-            </section>
+            <div className='loading-page'>
+                <img src={require('../../assets/img/dude.jpeg')} alt="Dude" />
+            </div>
         )
     }
+
     return (
         <section className='games-lists-section'>
             <div className='game-in-lists-grid-container'>

@@ -7,14 +7,16 @@ import AppRoutes from './routes/index'
 
 function App() {
   const { auth_store } = useContext(Context);
+  const { artilce_store } = useContext(Context);
+  const { list_store } = useContext(Context);
+  const { games_store } = useContext(Context);
   const { theme, setTheme } = useTheme()
-  
+
   useEffect(() => {
     if (getLocalToken()) {
       auth_store.checkAuth()
     }
   }, [auth_store])
-
 
 
   return (

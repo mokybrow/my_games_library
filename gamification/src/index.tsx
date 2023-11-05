@@ -8,6 +8,7 @@ import ListStore from './store/list-store';
 import GamesStore from './store/games-store';
 import ArticleStore from './store/article-store';
 import ReviewStore from './store/review-store';
+import { IntlProvider } from 'react-intl';
 
 
 interface State {
@@ -38,6 +39,9 @@ export const Context = createContext<State>({
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const locale = navigator.language;
+
 root.render(
   <Context.Provider value={{
     auth_store: auth_store,
@@ -45,8 +49,11 @@ root.render(
     list_store: list_store,
     games_store: games_store,
     artilce_store: artilce_store,
-    review_store: review_store,
-  }}>
-    <App />
+    review_store: review_store}}>
+      
+    <IntlProvider locale={locale} >
+      <App />
+    </IntlProvider>
+
   </Context.Provider>
 );

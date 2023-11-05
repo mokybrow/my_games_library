@@ -20,9 +20,12 @@ const MainPage = () => {
 
   }, [games_store, artilce_store, review_store])
 
-  if (games_store.isLoading === true || artilce_store.isLoading === true || review_store.isLoading === true) {
+
+  if (games_store.isLoading || artilce_store.isLoading || review_store.isLoading) {
     return (
-      <div>Loading...</div>
+      <div className='loading-page'>
+        <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
+      </div>
     )
   }
 
@@ -54,17 +57,17 @@ const MainPage = () => {
               <h1>Новости</h1>
             </div>
             {artilce_store.articles.map((article) =>
-            <div key={article.id}>
-              <NewsCard
-                newsId={article.id}
-                newsSlug={article.slug}
-                newsCover={article.cover}
-                newsTitle={article.title}
-                newsText={article.text} 
-                newsAuthor={article.username} 
-                newsDate={article.created_at} 
+              <div key={article.id}>
+                <NewsCard
+                  newsId={article.id}
+                  newsSlug={article.slug}
+                  newsCover={article.cover}
+                  newsTitle={article.title}
+                  newsText={article.text}
+                  newsAuthor={article.username}
+                  newsDate={article.created_at}
                 />
-                </div>
+              </div>
             )}
           </div>
           : null}

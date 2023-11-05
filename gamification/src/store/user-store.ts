@@ -46,13 +46,17 @@ export default class UserStore {
             const user = await UserService.getUserProfile(username);
             this.setAUser(user.data)
 
+        } catch (error) {
+            this.setLoading(false);
+            this.setAUser({} as UserResponseModel)
+            return 1
+        }try {
             if (getLocalToken() != null) {
-                const follow = await UserService.checkFollow(user.data.id);
+                const follow = await UserService.checkFollow(this.user.id);
                 this.setFollower(true)
             }
-
         } catch (error) {
-
+            
         } try {
             const lists = await UserService.getUserLists(this.user.id)
             this.setLists(lists.data)

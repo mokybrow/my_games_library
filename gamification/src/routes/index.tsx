@@ -15,6 +15,8 @@ import CreateListPage from '../pages/listsPages/CreateListPage';
 import MainPage from '../pages/MainPage';
 import AllListsPage from '../pages/AllListsPage';
 import GamePage from '../pages/GamePage';
+import ArticlePage from '../pages/ArticlePage';
+import GameInLists from '../pages/listsPages/GameInLists';
 
 
 const AppRoutes = () => {
@@ -39,8 +41,13 @@ const AppRoutes = () => {
             <Route path="/games" element={<GamesPage />} />
             <Route path="/game/:slug" element={<GamePage />} />
             <Route path="/lists" element={<AllListsPage />} />
+
+            <Route path="/list/:slug" element={<GameInLists />} />
+
             <Route path="/news" element={<NewsPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
+
+            <Route path="/article/:slug" element={<ArticlePage />} />
           </Route>
       </Routes>
     </BrowserRouter>

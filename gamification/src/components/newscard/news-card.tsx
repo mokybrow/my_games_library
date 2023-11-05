@@ -13,19 +13,24 @@ export interface NewsCard {
     newsDate: Date
 }
 
-const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsText }) => {
+const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsText, newsAuthor, newsDate }) => {
     return (
 
         <div className="news-card-cover-container">
             <div className="background-wrap"></div>
-            {newsCover == null ? null : <img src={newsCover} width={200} height={200} />}
+            {/* {newsCover == null ? null : <img src={newsCover} width={200} height={200} />} */}
             <div className="news-info-container">
                 <Link key={newsId} to={'/article/' + newsSlug} className='news-card'>
                     <div className="news-title-container">
                         <span className="news-title">{newsTitle}</span>
                     </div>
                 </Link>
-
+                <span className='author-name'>
+                    <span>Автор </span>
+                    <Link to={'/' + { newsAuthor }}>
+                        <span>{newsAuthor}</span>
+                    </Link>
+                </span>
                 <div className="news-text-container">
                     <span className="news-text">
                         {newsText}

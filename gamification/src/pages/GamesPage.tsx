@@ -17,6 +17,7 @@ const GamesPage: FC = () => {
   const sortParam = searchParams.get('sort');
   const filterParam = searchParams.get('filter');
 
+
   useEffect(() => {
     if (pageParam === null) {
       games_store.getGameByPage(1, pageLimitElement, sortParam, null, filterParam)
@@ -26,9 +27,11 @@ const GamesPage: FC = () => {
     }
   }, [games_store])
 
-  if (games_store.isLoading === true) {
+  if (games_store.isLoading) {
     return (
-      <div>Loading...</div>
+      <div className='loading-page'>
+        <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
+      </div>
     )
   }
 
@@ -52,7 +55,7 @@ const GamesPage: FC = () => {
 
         </div>
         <Pagination currentPage={pageParam !== null ? Number(pageParam) : 1}
-        pageCount={Math.ceil(games_store.pageCount / pageLimitElement)} />
+          pageCount={Math.ceil(games_store.pageCount / pageLimitElement)} />
       </div>
 
     </section>

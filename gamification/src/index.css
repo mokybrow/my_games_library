@@ -47,3 +47,26 @@ html[data-theme='light'] {
 
   --input-color: rgba(0, 0, 0, .2);
 }
+
+a {
+  color: var(--font-color);
+}
+
+.loading-page {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.not-found-container {
+  display: flex;
+  grid-column: 1 / -1;
+  font-weight: 600;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}

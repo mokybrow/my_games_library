@@ -604,6 +604,47 @@ async def get_all_article(
         return result
 
 
+async def get_article(    
+        db: AsyncSession,
+          slug: str,
+        user_id: UUID4 = None,
+      ):
+    if user_id:
+        query = (
+                    select(
+                        article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                        func.sum(case((article_like_table.c.user_id == user_id, 1), else_=0)).label('hasAuthorLike'),
+                    )
+                                    .group_by(article_table.c.id, user_table.c.id)
+
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    .where(article_table.c.slug == slug)
+                )
+        result = await db.execute(query)
+        result = result.all()
+        return result
+    query = (select(article_table,
+                        user_table.c.username,
+                        user_table.c.img,
+                        func.count(article_like_table.c.user_id).label('like_count'),
+                    )
+                    .where(article_table.c.slug == slug)
+                                    .group_by(article_table.c.id, user_table.c.id)
+
+                    .join(article_like_table, onclause=article_like_table.c.article_id == article_table.c.id, isouter=True)
+                    .join(user_table, onclause=article_table.c.user_id == user_table.c.id, isouter=True)
+                    
+                )
+    result = await db.execute(query)
+    result = result.all()
+    return result
+    
+
+
 async def get_all_article_count(    
         db: AsyncSession,
         tag: str = None) -> Any:

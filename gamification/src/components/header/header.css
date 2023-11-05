@@ -81,7 +81,7 @@ header ul li:hover {
 
 
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
     .header-logo:hover {
         transform: none;
     }
@@ -168,9 +168,10 @@ header ul li:hover {
         transition: background-color 200ms linear;
         overflow: auto;
         transition: all 0.4s;
+
     }
 
-    .menu-body.active .menu-list {
+    .menu-body.active  .menu-list {
         padding-left: 24px;
         padding-right: 24px;
         padding-top: 80px;
@@ -184,7 +185,7 @@ header ul li:hover {
 
     }
 
-    .nav-grid-wrap {
+   .menu-body.active  .nav-grid-wrap {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 1em;

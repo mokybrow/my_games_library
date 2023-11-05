@@ -14,6 +14,7 @@ from games_library_api.integrations.articles_operations import (
     create_article,
     get_all_article,
     get_all_article_count,
+    get_article,
     like_article,
 )
 from games_library_api.models import articles_model, error_model
@@ -25,7 +26,7 @@ router = APIRouter()
 @router.post('/article/create')
 async def create_article_router(
     title: str,
-    cover: Optional[UploadFile | str],
+    cover: UploadFile,
     text: str,
     tags: str,
     db: AsyncSession = Depends(get_async_session),
@@ -98,3 +99,19 @@ async def like_article_router(
             status_code=status.HTTP_400_BAD_REQUEST,
         )
     return {"detail": True}
+
+
+@router.get('/article/get/one', response_model=articles_model.ArticleResponseModel)
+async def get_one_article_router(
+    slug: str,
+    user_id: UUID4 = None,
+    db: AsyncSession = Depends(get_async_session),
+):
+    result = await get_article(user_id=user_id, db=db, slug=slug)
+    if not result:
+        error = error_model.ErrorResponseModel(details='No Data')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+    return result[0]

@@ -16,7 +16,7 @@ const Header: FC = () => {
         const menu = document.querySelector('.menu-body')
         const menuBtn = document.querySelector('.menu-icon')
         const body = document.body;
-        const mediaQuery = window.matchMedia('(min-width: 800px)')
+        const mediaQuery = window.matchMedia('(min-width: 900px)')
         if (menu && menuBtn) {
             menu.classList.toggle('active')
             menuBtn.classList.toggle('active')
