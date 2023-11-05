@@ -38,8 +38,11 @@
 }
 
 .game-profile-title {
+    display: flex;
+    align-items: center;
     grid-column: 1 / -1;
     font-size: 2em;
+
 }
 
 .game-profile-avgrate{

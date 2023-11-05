@@ -14,7 +14,7 @@ export interface ListsGameResponse {
     game_id: string,
     slug: string,
     cover: any,
-    title: string | null,
+    title: string ,
 }
 
 export interface checkAddedListsGameResponse {

@@ -75,12 +75,10 @@ export default class ListStore {
             const err = error as AxiosError
             this.setListGames([])
         } try {
-
             const response = await ListService.getListGames(slug)
             this.setListGames(response.data)
-
         } catch (error) {
-
+            this.setListGames([] as ListsGameResponse[])
         } try {
 
         } catch (error) {

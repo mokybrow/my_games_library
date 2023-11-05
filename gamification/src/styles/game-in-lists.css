@@ -17,6 +17,24 @@
     align-items: flex-start;
 }
 
+.user-list-info {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-direction: column;
+    gap: 6px;
+    background-color: var(--background-banner-color);
+    background: rgb(255, 126, 0);
+    background: linear-gradient(-90deg, rgba(255, 126, 0, 0.22032563025210083) 15%, rgba(148, 187, 233, 1) 85%);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.add-to-list-wrap {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+}
+
 @media (max-width: 800px) {
     .game-in-lists-grid-container {
         display: grid;
@@ -27,6 +45,7 @@
     }
 
 }
+
 @media (max-width: 425px) {
     .game-in-lists-grid-container {
         display: grid;

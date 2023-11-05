@@ -146,7 +146,6 @@ export default class GamesStore {
         }
     }
     async addGameToUserList(list_id: string) {
-        this.setLoading(true);
         try {
             await ListService.addGameToList(list_id, this.gameProfile.id)
 
@@ -154,8 +153,6 @@ export default class GamesStore {
             this.setUserLists(checkInUserLists.data)
         } catch (error) {
 
-        } finally {
-            this.setLoading(false);
         }
     }
     // async updateGameInUserList(){
@@ -215,7 +212,7 @@ export default class GamesStore {
             const reviews = await ReviewService.getReviews(0, 6, false, null, slug);
             this.setReviews(reviews.data)
         } catch (error) {
-
+            this.setReviews([] as ReviewCardModel[])
         }
         try {
             const response = await GameService.getGameBySlug(String(slug));

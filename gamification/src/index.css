@@ -60,6 +60,8 @@ a {
   justify-content: center;
   align-items: center;
   display: flex;
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 2000;
 }
 
 .not-found-container {
