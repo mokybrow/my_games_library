@@ -32,7 +32,13 @@ const GamePage = () => {
         }
     }, [games_store, slug, auth_store])
 
-
+    if (games_store.isLoading){
+        return(
+            <div className='loading-page'>
+                <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
+                </div>
+        )
+    }
     return (
         <section className='game-profile-page-section'>
 
