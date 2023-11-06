@@ -5,6 +5,7 @@ from games_library_api.auth.utils import auth_backend, current_active_user, fast
 from games_library_api.database import get_async_session
 from games_library_api.schemas.user import User, UserCreate, UserRead, UserUpdate
 
+
 router = APIRouter()
 
 
@@ -14,6 +15,7 @@ router.include_router(
     prefix='/auth',
     tags=['auth'],
 )
+
 router.include_router(
     fastapi_users.get_reset_password_router(),
     prefix='/auth',
@@ -31,4 +33,3 @@ router.include_router(
     prefix='/users',
     tags=['users'],
 )
-

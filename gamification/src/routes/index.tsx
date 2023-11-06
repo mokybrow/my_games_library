@@ -19,6 +19,8 @@ import ArticlePage from '../pages/ArticlePage';
 import GameInLists from '../pages/listsPages/GameInLists';
 import SearchPage from '../pages/SearchPage';
 import CreateArticle from '../pages/CreateArticle';
+import VerifyEmailPage from '../pages/servicePages/VerifyEmailPage';
+import ChangePasswordPage from '../pages/servicePages/ChangePasswordPage';
 
 
 const AppRoutes = () => {
@@ -52,6 +54,9 @@ const AppRoutes = () => {
 
             <Route path="/article/:slug" element={<ArticlePage />} />
             <Route path="/article/create" element={<CreateArticle />} />
+
+            <Route path="/verify" element={<VerifyEmailPage />} />
+            <Route path="/change-pass" element={<ChangePasswordPage />} />
           </Route>
       </Routes>
     </BrowserRouter>

@@ -82,7 +82,7 @@ async def get_all_article_router(
 ):
     result = await get_all_article(offset=offset, limit=limit, sort=sort,tag=tag, user_id=user_id, db=db)
     if not result:
-        error = error_model.ErrorResponseModel(details='List with this name already exist')
+        error = error_model.ErrorResponseModel(details='No data')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_400_BAD_REQUEST,

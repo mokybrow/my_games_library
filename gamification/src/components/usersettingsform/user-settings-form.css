@@ -11,6 +11,9 @@
     border: none;
     border-radius: 6px;
     padding: 6px;
+    background-color: var(--input-color);
+    color: var(--font-color);
+
 }
 
 .user-settings-form-container select {
@@ -23,8 +26,8 @@
         linear-gradient(to right, #ccc, #ccc);
     background-position:
         calc(100% - 20px),
-        calc(100% - 15px) ,
-        calc(100% - 2.5em) ;
+        calc(100% - 15px),
+        calc(100% - 2.5em);
     background-size:
         5px 5px,
         5px 5px,
@@ -37,10 +40,21 @@
     appearance: none;
     display: inline-block;
     font: inherit;
+    background-color: var(--input-color);
+    color: var(--font-color);
 }
 
 .show-password-container {
     display: flex;
     gap: 6px;
     align-items: center;
+}
+
+.email-verify-container {
+    display: flex;
+    gap: 6px;
+}
+
+.email-verify-container input {
+    color: var(--font-color);
 }

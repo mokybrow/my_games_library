@@ -20,13 +20,13 @@ html[data-theme='dark'] {
   --navbar-color: #383838;
 
   --action-button-font: : rgba(0, 0, 0, 1);
-  --action-button-background: rgba(0, 0, 0, 0.6);
+  --action-button-background: rgba(255, 255, 255, .5);
 
   --background-title-color: rgba(0, 0, 0, .8);
   --modal-background: rgba(0, 0, 0, 1);
   --background-banner-color: rgba(0, 0, 0, .8);
 
-  --input-color: rgba(0, 0, 0, .1);
+  --input-color: rgba(180, 180, 180, 0.3);
 
   --icon-favorite: url('./assets/icons/heart-white.png');
   --icon-completed: url('./assets/icons/check-white.png');

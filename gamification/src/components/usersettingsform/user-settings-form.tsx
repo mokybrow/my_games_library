@@ -45,18 +45,21 @@ export const UserSettingsForm: FC = () => {
     };
 
     const verifyEmail = async () => {
-        console.log(auth_store.user.email)
         await AuthService.veirifyEmail(auth_store.user.email);
     };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='user-settings-form-container' >
             <label htmlFor="email">Почта:</label>
-            <div>
+            <div className='email-verify-container'>
                 <input type="text" id="email"
                     name="email" autoComplete='email'
                     readOnly disabled defaultValue={auth_store.user.email} />
-                <button className='action-button' type='button' onClick={verifyEmail}>Подтвердить</button>
+                {auth_store.user.is_verified ?
+                    <button className='action-button' type='button' disabled>Почта подтверждена</button>
+                    : <button className='action-button' type='button' onClick={verifyEmail}>Подтвердить</button>
+                }
+
 
             </div>
             <label htmlFor="password">Пароль:</label>

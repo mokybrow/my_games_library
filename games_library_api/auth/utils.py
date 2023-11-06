@@ -9,7 +9,7 @@ from fastapi_users.authentication import AuthenticationBackend, BearerTransport,
 from fastapi_users.db import SQLAlchemyUserDatabase
 
 from games_library_api.database import get_user_db
-from games_library_api.email.send_mail import sending_mail
+from games_library_api.email.send_mail import send_email_async, sending_mail
 from games_library_api.integrations.after_registration import create_default_lists
 from games_library_api.schemas.user import User
 from games_library_api.settings import get_settings
@@ -37,10 +37,21 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         print(f"User {user.id} has reset their password.")
 
     async def on_after_request_verify(self, user: User, token: str, request: Optional[Request] = None):
-        # await sending_mail(
-        #         email=user.email, subject='Подтверждение почты в GAMIFICATION', body=f'{settings.ver_body} + {token}'
-        #     )
+        email = {"email": [
+                user.email],
+                "subject" : "Подтверждение почты",
+                "body": {
+                    "title": "Привет",
+                    "message": "Чтобы подтвердить почту, перейдите по ссылке",
+                    "token": f"{token}",
+            }
+        }
+        await send_email_async(email)
+        
         print(f"Verification requested for user {user.id}. Verification token: {token}")
+        # await send_email_async('Hello World',user.email,
+        # {'title': 'Hello World', 'name': 'John Doe'})
+
 
     async def on_after_verify(self, user: User, request: Optional[Request] = None):
         print(f"User {user.id} has been verified")
