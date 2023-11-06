@@ -51,19 +51,19 @@
 }
 
 .custom-checkbox.check+label::before {
-    background-image: url('../../assets//icons/check-black.png');
+    background-image: var(--icon-completed);
 }
 
 .custom-checkbox.heart+label::before {
-    background-image: url('../../assets/icons/heart-black.png');
+    background-image: var(--icon-favorite);
 }
 
 .custom-checkbox.clock+label::before {
-    background-image: url('../../assets/icons/clock-black.png');
+    background-image: var(--icon-wishlist);
 }
 
 .custom-checkbox.plus+label::before {
-    background-image: url('../../assets/icons/plus-black.png');
+    background-image: var(--icon-plus);
 }
 
 

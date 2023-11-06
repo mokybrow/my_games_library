@@ -287,11 +287,3 @@ async def get_game_review_for_all(game_id: UUID4, db: AsyncSession):
 
 
 
-async def game_search(title: Any, db: AsyncSession):
-    search_game = select(game_table).filter(func.lower(game_table.c.title).like(f"%{title.lower()}%"))
-    search_game = await db.execute(search_game)
-    search_game = search_game.all()
-
-    if not search_game:
-        return False
-    return search_game

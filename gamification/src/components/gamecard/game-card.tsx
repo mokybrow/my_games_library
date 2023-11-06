@@ -33,7 +33,6 @@ const GameCard: FC<GameCard> = ({ gameId, gameSlug, gameCover, gameTitle, activi
                         : null}
                 </div>
             </div>
-
         </Link>
     )
 }

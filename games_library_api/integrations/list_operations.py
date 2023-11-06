@@ -68,11 +68,9 @@ async def approve_create_list(db: AsyncSession, username: str, title: str, user_
     query = select(func.count("*")).select_from(list_table).where(list_table.c.owner_id == user_id)
     list_count = await db.execute(query)
     list_count = list_count.all()
-    if list_count[0][0] == 10:
-        return True
     if result:
-        return True
-    return False
+        return False
+    return True
 
 
 async def get_all_list(db: AsyncSession, page: int, limit: int = None, sort: str = None,) -> Any:

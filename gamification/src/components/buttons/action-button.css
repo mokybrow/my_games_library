@@ -1,6 +1,6 @@
 .action-button{
     border: none;
-    padding: 6px;
+    padding: 6px 12px;
     background-color: var(--action-button-background);
     border-radius: 24px;
     color: var(--action-button-font);

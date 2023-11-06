@@ -1,0 +1,13 @@
+.search-container{
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 12px;
+}
+
+.search-container input{
+    border: none;
+    width: 100%;
+    border-radius: 6px;
+    padding: 6px;
+    background-color: var(--input-color);
+}

@@ -11,6 +11,7 @@ from .transport.handlers.game_router import router as game_router
 from .transport.handlers.list_router import router as list_router
 from .transport.handlers.review_router import router as review_router
 from .transport.handlers.user_router import router as user_router
+from .transport.handlers.search_router import router as search_router
 
 
 def _setup_api_routers(
@@ -23,6 +24,7 @@ def _setup_api_routers(
     api.include_router(admin_router, tags=['admin dashboard'], prefix='/api')
     api.include_router(review_router, tags=['review'], prefix='/api')
     api.include_router(article_router, tags=['article'], prefix='/api')
+    api.include_router(search_router, tags=['search'], prefix='/api')
 
 
 @lru_cache

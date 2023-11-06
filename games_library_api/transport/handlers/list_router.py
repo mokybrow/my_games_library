@@ -62,7 +62,7 @@ async def approve_create_list_router(title: str, user: User = Depends(current_ac
                                      db: AsyncSession = Depends(get_async_session),
 ):
     result = await approve_create_list(title=title, username=user.username, user_id=user.id, db=db)
-    if result:
+    if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')
         return JSONResponse(
             content=error.model_dump(),

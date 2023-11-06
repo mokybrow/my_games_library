@@ -24,6 +24,20 @@ export default class ArticleService {
                 }
             },)
     }
+
+    static async approveCreateArticle(title: string): Promise<AxiosResponse> {
+        return $api.post(`article/approve/create`, null,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                },
+                params: {
+                    title: title,
+
+                }
+            },)
+    }
     static async getOneArticle(slug: string, user_id: string | null): Promise<AxiosResponse<ArticleResponseModel>> {
 
         return axios.get<ArticleResponseModel>(`${API_URL}article/get/one`,

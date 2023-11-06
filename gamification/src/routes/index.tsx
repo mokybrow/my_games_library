@@ -17,6 +17,8 @@ import AllListsPage from '../pages/AllListsPage';
 import GamePage from '../pages/GamePage';
 import ArticlePage from '../pages/ArticlePage';
 import GameInLists from '../pages/listsPages/GameInLists';
+import SearchPage from '../pages/SearchPage';
+import CreateArticle from '../pages/CreateArticle';
 
 
 const AppRoutes = () => {
@@ -46,8 +48,10 @@ const AppRoutes = () => {
 
             <Route path="/news" element={<NewsPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/search" element={<SearchPage />} />
 
             <Route path="/article/:slug" element={<ArticlePage />} />
+            <Route path="/article/create" element={<CreateArticle />} />
           </Route>
       </Routes>
     </BrowserRouter>

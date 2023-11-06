@@ -1,5 +1,5 @@
 import React, { FC, SyntheticEvent, useCallback, useContext, useState } from 'react'
-import './list-create-form.css'
+import './create-article-form.css'
 import { useDropzone } from 'react-dropzone';
 import { SubmitButton } from '../buttons/submit-button';
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form"
@@ -7,19 +7,24 @@ import { Context } from '../..';
 import ListService from '../../services/list-service';
 import { ActionButton } from '../buttons/action-button';
 import { observer } from 'mobx-react-lite';
+import ArticleService from '../../services/article-service';
+
+enum TagEnum {
+    what = "Что пишем?",
+    news = "news",
+    review = "review",
+}
 
 interface IFormInput {
     title: string
-    description: string | null
-    isPrivate: boolean
+    text: string
+    tag: TagEnum
 }
 
-
-const ListCreateForm: FC = () => {
+const ArticleCreateForm: FC = () => {
     const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-    const [listTitle, setListTitle] = useState('')
-
-    const { list_store } = useContext(Context);
+    const [artcileTitle, setArticleTitle] = useState('')
+    const { artilce_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const {
         register,
@@ -29,9 +34,9 @@ const ListCreateForm: FC = () => {
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         if (!acceptedFiles[0]) {
-            list_store.CreateList(data.title, data.description, data.isPrivate, '')
+            artilce_store.createArticleFunc(data.title, data.text, data.tag, '')
         } else {
-            list_store.CreateList(data.title, data.description, data.isPrivate, acceptedFiles[0])
+            artilce_store.createArticleFunc(data.title, data.text, data.tag, acceptedFiles[0])
 
         }
         if (typeof acceptedFiles[0] === 'undefined') return;
@@ -53,9 +58,9 @@ const ListCreateForm: FC = () => {
         setPreview(null)
     }
 
-    const uniqListName = async () => {
+    const uniqArticleName = async () => {
         try {
-            const response = await ListService.approveCreateList(listTitle);
+            const response = await ArticleService.approveCreateArticle(artcileTitle);
             if (response.data.detail === true) {
                 return true
             }
@@ -67,48 +72,40 @@ const ListCreateForm: FC = () => {
     return (
 
         <form action="#" onSubmit={handleSubmit(onSubmit)} className='list-create-form-container'>
-            <label htmlFor="username">Название списка:</label>
+            <label htmlFor="username">Название статьи:</label>
             <input {...register("title", {
-                validate: uniqListName,
+                validate: uniqArticleName,
                 required: {
                     value: true,
                     message: 'Поле не может быть пустым'
                 },
                 pattern: {
-                    value: /^[a-zA-Zа-яА-Я 0-9]+$/,
-                    message: "Вы ввели недопустимые символы"
-                },
-                minLength: {
-                    value: 3,
-                    message: 'Название списка должно быть длиннее 3 букв'
-                }
-            },)}
-            onChange={(e) => setListTitle(e.target.value)}
-                type="text" id="title" name="title" />
-
-            {errors.title && <p role="alert">{errors.title.message || "Вы уже создавали список с таким именем"}</p>}
-
-            <label htmlFor="username">Описание:</label>
-            <textarea {...register("description", {
-                pattern: {
-                    value: /^[a-zA-Zа-яА-Я 0-9]+$/,
+                    value: /^[a-zA-Zа-яА-Я 0-9 ! № # ? . ,]+$/,
                     message: "Вы ввели недопустимые символы"
                 },
                 minLength: {
                     value: 10,
-                    message: 'Придумайте описание подлиннее '
-                },
-                maxLength: {
-                    value: 150,
-                    message: 'Описание не должно быть длинее 150 символов'
+                    message: 'Название статьи должно быть длиннее 10 символов'
                 }
             },)}
-                id="description" name="description" />
-            {errors.description && <p role="alert">{errors.description.message}</p>}
-            <div className="private-list-checkbox">
-                <p>Приватный список</p>
-                <input type="checkbox" {...register("isPrivate")} />
-            </div>
+                type="text" id="title" name="title" onChange={(e) => setArticleTitle(e.target.value)}/>
+
+            {errors.title && <p role="alert">{errors.title.message || "Вы уже писали статью с таким названием"}</p>}
+
+            <label htmlFor="text">Текст статьи:</label>
+            <textarea {...register("text", {
+                required: {
+                    value: true,
+                    message: 'Поле не может быть пустым'
+                },
+                minLength: {
+                    value: 200,
+                    message: 'Придумайте статью подлиннее '
+                }
+            },)}
+                id="text" name="text" />
+            {errors.text && <p role="alert">{errors.text.message}</p>}
+
 
             <div className="upload-field-container-form list">
                 <div {...getRootProps()} className='upload-filed-container'>
@@ -128,15 +125,18 @@ const ListCreateForm: FC = () => {
 
                 )}
             </div>
+            <select className='sort-filter-selector' {...register("tag", {
+                required: true
+            })}>
+                <option value=''>Что пишем?</option>
+                <option value="news">Новость</option>
+                <option value="review">Обзор</option>
+            </select>
             <div className="buttons-container">
-                {auth_store.user.list_count < 10 ?
-                    <SubmitButton type={'submit'} onClick={undefined} >
-                        Создать список
-                    </SubmitButton> :
-                    <ActionButton onClick={'/'}>
-                        Вы уже создали максимальное кол-во списков
-                    </ActionButton>
-                }
+
+                <SubmitButton type={'submit'} onClick={undefined} >
+                    В печать
+                </SubmitButton>
 
 
                 <SubmitButton type={'reset'} onClick={clearPhoto}>
@@ -147,4 +147,4 @@ const ListCreateForm: FC = () => {
     )
 }
 
-export default observer(ListCreateForm);
+export default observer(ArticleCreateForm);

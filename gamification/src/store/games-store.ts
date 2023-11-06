@@ -197,6 +197,10 @@ export default class GamesStore {
 
     async addReview(id: string, grade: number, comment: string | null, slug: string) {
         try {
+            if (comment === ''){
+                comment = null
+            }
+            
             await GameService.addReview(id, grade, comment)
 
         } catch (error) {

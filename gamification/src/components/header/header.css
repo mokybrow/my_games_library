@@ -38,6 +38,12 @@ header a {
     gap: 2em;
 }
 
+.menu-item.search-mobile {
+    display: none;
+}
+
+
+
 header ul li:hover {
     opacity: 0.6;
     transition: all 100ms linear;
@@ -79,9 +85,11 @@ header ul li:hover {
     text-align: center;
 }
 
+.menu-item.search{
+    cursor: pointer;
+}
 
-
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .header-logo:hover {
         transform: none;
     }
@@ -97,7 +105,15 @@ header ul li:hover {
     .menu-item {
         padding-left: 12px;
     }
-
+    .menu-item.search-mobile .menu-link{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .menu-item.search-desktop{
+        display: none;
+    }
+    
     .dropdown-menu {
         display: none;
     }

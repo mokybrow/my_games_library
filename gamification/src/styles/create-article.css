@@ -1,0 +1,17 @@
+.create-article-page-section{
+    display: flex;
+    padding-top: 128px;
+    padding-left: 12vw;
+    padding-right: 12vw;
+    padding-bottom: 80px;
+    min-height: calc(100vh - 128px);
+    align-items: flex-start;
+    font-family: Roboto;
+}
+
+.create-article-grid{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+    gap: 1em;
+}

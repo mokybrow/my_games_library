@@ -35,6 +35,14 @@ async def create_article(db: AsyncSession, title: str, cover: Optional[str], tex
     await db.commit()
     return True
 
+async def approve_create_article(db: AsyncSession,  title: str) -> bool:
+    query = select(article_table).filter(article_table.c.slug == await making_slug(title))
+    result = await db.execute(query)
+    result = result.all()
+    if result:
+        return False
+    return True
+
 
 async def get_all_article(
     db: AsyncSession,

@@ -29,7 +29,6 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     birthdate: Optional[datetime.date]
     gender: Optional[str]
 
-
 class UserCreate(schemas.BaseUserCreate):
     username: str
     name: str

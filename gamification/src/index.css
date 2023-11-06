@@ -27,6 +27,11 @@ html[data-theme='dark'] {
   --background-banner-color: rgba(0, 0, 0, .8);
 
   --input-color: rgba(0, 0, 0, .2);
+
+  --icon-favorite: url('./assets/icons/heart-white.png');
+  --icon-completed: url('./assets/icons/check-white.png');
+  --icon-wishlist: url('./assets/icons/clock-white.png');
+  --icon-plus: url('./assets/icons/plus-white.png');
 }
 
 html[data-theme='light'] {
@@ -46,6 +51,11 @@ html[data-theme='light'] {
   --background-banner-color: rgba(0, 0, 0, .1);
 
   --input-color: rgba(0, 0, 0, .2);
+
+  --icon-favorite: url('./assets/icons/heart-black.png');
+  --icon-completed: url('./assets/icons/check-black.png');
+  --icon-wishlist: url('./assets/icons/clock-black.png');
+  --icon-plus: url('./assets/icons/plus-black.png');
 }
 
 a {

@@ -3,7 +3,7 @@ import datetime
 
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
 from pydantic import UUID4, Json
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from games_library_api.auth.utils import current_active_user
 from games_library_api.database import get_async_session
 from games_library_api.integrations.articles_operations import (
+    approve_create_article,
     create_article,
     get_all_article,
     get_all_article_count,
@@ -22,6 +23,11 @@ from games_library_api.schemas.user import User
 
 router = APIRouter()
 
+async def active_user_with_permission(user: User = Depends(current_active_user)):
+    # At this point, you are sure you have an active user at hand. Otherwise, the `current_active_user` would already have thrown an error
+    if not user.reporter:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+    return user
 
 @router.post('/article/create')
 async def create_article_router(
@@ -30,7 +36,7 @@ async def create_article_router(
     text: str,
     tags: str,
     db: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_active_user),
+    user: User = Depends(active_user_with_permission),
 ):
     if not user.reporter:
         error = error_model.ErrorResponseModel(details='Access is denied')
@@ -48,6 +54,21 @@ async def create_article_router(
             status_code=status.HTTP_400_BAD_REQUEST,
         )
     return {"detail": True}
+
+@router.post('/article/approve/create')
+async def approvecreate_article_router(
+    title: str,
+    db: AsyncSession = Depends(get_async_session),
+    user: User = Depends(active_user_with_permission),
+):
+    result = await approve_create_article(title=title, db=db)
+    if not result:
+        error = error_model.ErrorResponseModel(details='Article with this name already exist')
+        return JSONResponse(
+            content=error.model_dump(),
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return {'detail': True}
 
 
 @router.get('/article/get/all', response_model=list[articles_model.ArticleResponseModel])

@@ -8,6 +8,7 @@ import GameCard from '../components/gamecard/game-card';
 import CommentCard from '../components/comment/comment';
 import CheckboxPannel from '../components/checkboxpannel/checkbox-pannel';
 import AddReview from '../components/addreview/add-review';
+import { UnactiveUser } from '../components/unactiveuser/unactive-user';
 
 const GamePage = () => {
     const { slug } = useParams<string>();
@@ -93,7 +94,7 @@ const GamePage = () => {
                                     reviewLikeCount={review.like_count}
                                     reviewHasAuthorLike={Number(review.hasAuthorLike)} />
                             </div>
-                        )}</> : null}
+                        )}</> : <UnactiveUser>Будь первым кто оставит отзыв</UnactiveUser>}
                     </div>
                 </div>
             </div>

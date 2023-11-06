@@ -68,7 +68,7 @@ const AddReview: FC = () => {
                             </div>
                             <textarea className='comment-area'
                                 placeholder='Опишите ваш игровой опыт... (400 символов максимум)'
-                                onChange={e => { { setComment(e.target.value) } { games_store.userGrade.comment = e.target.value } }} maxLength={400} value={games_store.userGrade.comment != undefined ? String(games_store.userGrade.comment) : ''} />
+                                onChange={e => { { setComment(e.target.value) } { games_store.userGrade.comment = e.target.value } }} maxLength={400} value={games_store.userGrade.comment != undefined ? String(games_store.userGrade.comment) : undefined} />
 
 
                             {rating === undefined || hover === undefined ? null : <button className='action-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment(null) } }} disabled={rating == 0 ? true : false}>Оставить отзывы</button>

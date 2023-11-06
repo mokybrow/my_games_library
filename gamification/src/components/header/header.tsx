@@ -16,7 +16,7 @@ const Header: FC = () => {
         const menu = document.querySelector('.menu-body')
         const menuBtn = document.querySelector('.menu-icon')
         const body = document.body;
-        const mediaQuery = window.matchMedia('(min-width: 900px)')
+        const mediaQuery = window.matchMedia('(min-width: 1000px)')
         if (menu && menuBtn) {
             menu.classList.toggle('active')
             menuBtn.classList.toggle('active')
@@ -49,8 +49,10 @@ const Header: FC = () => {
             mediaQuery.addListener(handleTabletChange)
             handleTabletChange(mediaQuery)
         }
-
     }
+
+
+
     return (
         <>
             <header>
@@ -69,6 +71,17 @@ const Header: FC = () => {
                             <Link to='/lists' className="menu-link" reloadDocument><li className="menu-item" >Списки</li></Link>
                             <Link to='/news' className="menu-link" reloadDocument><li className="menu-item" >Новости</li></Link>
                             <Link to='/reviews' className="menu-link" reloadDocument><li className="menu-item" >Обзоры</li></Link>
+                            <li className="menu-item search-desktop">
+                                <Link to='/search' className="menu-link" reloadDocument>
+                                    <img src={require('../../assets/icons/search.png')} alt="" width={20} height={20} />
+                                </Link>
+                            </li>
+                            <li className="menu-item search-mobile">
+                                <Link to='/search' className="menu-link" reloadDocument>
+                                    Поиск
+                                    <img src={require('../../assets/icons/search.png')} alt="" width={20} height={20} />
+                                </Link>
+                            </li>
                             <div className="nav-grid-wrap">
                                 {auth_store.isAuth ?
                                     <>
@@ -114,7 +127,15 @@ const Header: FC = () => {
                                                 <span className='menu-icon-title'>Мои списки</span>
                                             </div>
                                         </Link>
-                                        <Link  to='/'  className="menu-link"onClick={auth_store.logout}>
+                                        {auth_store.user.reporter == true ?
+                                            <Link to='/article/create' className="menu-link">
+                                                <div className='menu-item-icon'>
+                                                    <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                    <span className='menu-icon-title'>Написать статью</span>
+                                                </div>
+                                            </Link> : null}
+
+                                        <Link to='/' className="menu-link" onClick={auth_store.logout}>
                                             <div className='menu-item-icon'>
                                                 <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Выход</span>
@@ -167,6 +188,11 @@ const Header: FC = () => {
                                 <Link to={`/${auth_store.user.username}/lists/create`} reloadDocument>
                                     Создать список
                                 </Link>
+                                {auth_store.user.reporter ?
+                                    <Link to='/article/create' reloadDocument>
+                                        Написать статью
+                                    </Link> : null}
+
                                 <hr className='dropdown-line' />
                                 <Link to={`/${auth_store.user.username}/settings`} reloadDocument>
                                     Настройки
