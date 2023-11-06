@@ -608,13 +608,13 @@ redis = ["redis[redis] (>=4.3,<5.0)"]
 
 [[package]]
 name = "fastapi-users"
-version = "12.1.1"
+version = "12.1.2"
 description = "Ready-to-use and customizable users management for FastAPI"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "fastapi_users-12.1.1-py3-none-any.whl", hash = "sha256:1118f25284b42955414142bf3ecfc47feb6c5864a4b52cffde4a91f705889c29"},
-    {file = "fastapi_users-12.1.1.tar.gz", hash = "sha256:d3ba4278799a53137c4414725840847874cead4578c42aad721de3e2aae42805"},
+    {file = "fastapi_users-12.1.2-py3-none-any.whl", hash = "sha256:768e3b17b9b89b5f5d3c303afefd69874da0fc97ebac16a86167d4c8d414d479"},
+    {file = "fastapi_users-12.1.2.tar.gz", hash = "sha256:9a9b44e0917c483aaba2bf80ea488b4ba6475b0fb24e2abfaf21e0b5c5db59bf"},
 ]
 
 [package.dependencies]
@@ -629,7 +629,7 @@ python-multipart = "0.0.6"
 [package.extras]
 beanie = ["fastapi-users-db-beanie (>=3.0.0)"]
 oauth = ["httpx-oauth (>=0.13)"]
-redis = ["redis (>=4.3.3,<5.0.0)"]
+redis = ["redis (>=4.3.3,<6.0.0)"]
 sqlalchemy = ["fastapi-users-db-sqlalchemy (>=6.0.0)"]
 
 [[package]]
@@ -2102,4 +2102,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d7fca1cbcdc4e840954a2ebd9d81dbd54d6aa7b3d670981500ba485eb024f4c4"
+content-hash = "755c7ed6301b0a19173a680ef542d0f9537530da3ce1c482f50eafb30a7edfc2"

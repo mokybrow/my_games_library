@@ -2,12 +2,11 @@ import React, { FC, SyntheticEvent, useCallback, useContext, useState } from 're
 import './create-article-form.css'
 import { useDropzone } from 'react-dropzone';
 import { SubmitButton } from '../buttons/submit-button';
-import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
 import { Context } from '../..';
-import ListService from '../../services/list-service';
-import { ActionButton } from '../buttons/action-button';
 import { observer } from 'mobx-react-lite';
 import ArticleService from '../../services/article-service';
+import { InfoBanner } from '../infobanner/info-banner';
 
 enum TagEnum {
     what = "Что пишем?",
@@ -71,7 +70,24 @@ const ArticleCreateForm: FC = () => {
     };
     return (
 
-        <form action="#" onSubmit={handleSubmit(onSubmit)} className='list-create-form-container'>
+        <form action="#" onSubmit={handleSubmit(onSubmit)} className='article-create-form-container'>
+            <InfoBanner>
+                <h1>Подсказки по написанию статьи</h1>
+                <ol>
+                    <li>Первый абзац начинается с этого тега {'(<p className="first-paragraph"></p)'}</li>
+                    <li>Последующие абзацы в обычных тегах {'(<p>></p)'}</li>
+                    <li>Картинки упаковываются в этот тег, ссылку на url кратинки нужно вставить в src{'(<img src="" alt="" />)'}</li>
+                    <li>
+                        Заголовки:
+                        <ul>
+                            <li><h1>Заголовок h1</h1>{'(<h1></h1>)'}</li>
+                            <li><h2>Заголовок h2</h2>{'(<h2></h2>)'}</li>
+                            <li><h3>Заголовок h3</h3>{'(<h3></h3>)'}</li>
+                            <li><h4>Заголовок h4</h4>{'(<h4></h4>)'}</li>
+                        </ul>
+                    </li>
+                </ol>
+            </InfoBanner>
             <label htmlFor="username">Название статьи:</label>
             <input {...register("title", {
                 validate: uniqArticleName,
@@ -88,7 +104,8 @@ const ArticleCreateForm: FC = () => {
                     message: 'Название статьи должно быть длиннее 10 символов'
                 }
             },)}
-                type="text" id="title" name="title" onChange={(e) => setArticleTitle(e.target.value)}/>
+            placeholder='Название статьи'
+                type="text" id="title" name="title" onChange={(e) => setArticleTitle(e.target.value)} />
 
             {errors.title && <p role="alert">{errors.title.message || "Вы уже писали статью с таким названием"}</p>}
 
@@ -103,28 +120,30 @@ const ArticleCreateForm: FC = () => {
                     message: 'Придумайте статью подлиннее '
                 }
             },)}
+
+                placeholder='Начни и всё получится!'
                 id="text" name="text" />
             {errors.text && <p role="alert">{errors.text.message}</p>}
 
 
-            <div className="upload-field-container-form list">
-                <div {...getRootProps()} className='upload-filed-container'>
-                    <input {...getInputProps()} />
+            <div className="upload-field-container-form article">
+                <div {...getRootProps()} className='upload-filed-container article'>
+                    <input {...getInputProps()}/>
                     {
                         isDragActive ?
                             <p>Да-да, бросай его сюда...</p> :
                             <p>Нажмите на поле или перетащите в него фото, которое хотите установить</p>
                     }
                 </div>
-
                 {preview && (
 
-                    <div className="list-cover-container-preview">
+                    <div className="article-cover-container-preview">
                         <img src={preview as string} alt="Upload preview" />
                     </div>
 
                 )}
             </div>
+
             <select className='sort-filter-selector' {...register("tag", {
                 required: true
             })}>

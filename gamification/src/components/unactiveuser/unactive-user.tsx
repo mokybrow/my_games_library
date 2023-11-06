@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import './unactive-user.css'
 
 export interface UnactiveUser {
-    children: string
+    children: any
 }
 
 export const UnactiveUser: FC<UnactiveUser> = ({ children }) => {

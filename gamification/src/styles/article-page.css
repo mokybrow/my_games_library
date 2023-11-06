@@ -63,14 +63,23 @@
 }
 
 .article-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     grid-column: 1 / -1;
 }
-
-.article-text-container p {
+.article-text-container p{
     font-size: 1.2em;
 }
 
-.article-text-container p::first-letter {
+.article-text-container img{
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.article-text-container .first-paragraph::first-letter {
     font-size: 70px;
     line-height: 69px;
     /* vertical-align: top; */

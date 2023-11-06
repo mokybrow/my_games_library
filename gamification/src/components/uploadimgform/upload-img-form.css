@@ -13,12 +13,13 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 12px;
+    text-align: center;
+    width: 100%;
 }
 
 .user-profile-cover-container-settings {
     display: block;
-    border-radius: 12px;
+    border-radius: 50%;
     overflow: hidden;
     position: relative;
     margin: 12px 12px;

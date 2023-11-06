@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import '../styles/ all-lists-page.css'
+import '../styles/all-lists-page.css'
 import ListPageSortSelect from '../components/filterselect/listspage-sort';
 import { Context } from '..';
 import { useSearchParams } from 'react-router-dom';

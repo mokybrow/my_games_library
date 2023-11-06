@@ -17,6 +17,7 @@ interface IFormInput {
 export const UserSettingsForm: FC = () => {
     const [password, setPassword] = useState<string>('');
     const [confPassword, setConfPassword] = useState<string>('');
+    const { auth_store } = useContext(Context);
 
     const [passwordShown, setPasswordShown] = useState(false);
 
@@ -43,9 +44,21 @@ export const UserSettingsForm: FC = () => {
         setPasswordShown(passwordShown ? false : true);
     };
 
+    const verifyEmail = async () => {
+        console.log(auth_store.user.email)
+        await AuthService.veirifyEmail(auth_store.user.email);
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='user-settings-form-container' >
+            <label htmlFor="email">Почта:</label>
+            <div>
+                <input type="text" id="email"
+                    name="email" autoComplete='email'
+                    readOnly disabled defaultValue={auth_store.user.email} />
+                <button className='action-button' type='button' onClick={verifyEmail}>Подтвердить</button>
 
+            </div>
             <label htmlFor="password">Пароль:</label>
             <input {...register("password", {
                 required: {
@@ -79,7 +92,7 @@ export const UserSettingsForm: FC = () => {
                 <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
             </div>
             <SubmitButton type={'submit'} onClick={undefined}>
-            Зарегистрироваться
+                Зарегистрироваться
             </SubmitButton>
         </form>
     )

@@ -24,4 +24,6 @@
     font: inherit;
     line-height: 1.5em;
     padding: .5em 3.5em .5em 1em;
+    color: var(--font-color);
+    background-color: var(--input-color);
 }

@@ -12,6 +12,7 @@ const ArticlePage = () => {
     const { auth_store } = useContext(Context);
 
     let navigate = useNavigate();
+    var parse = require('html-react-parser');
 
     useEffect(() => {
         artilce_store.getOneArticleFunc(String(slug))
@@ -70,11 +71,10 @@ const ArticlePage = () => {
                         </div>
                     </div>
                     <div className="article-text-container">
-                        <p>
-                            {artilce_store.article.text}
-                        </p>
-                    </div>
 
+                        {parse(artilce_store.article.text)}
+
+                    </div>
                     <div className="like-count-container">
                         <span>Оценить</span>
 

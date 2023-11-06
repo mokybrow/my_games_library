@@ -16,6 +16,12 @@ export default class AuthService {
                 },
             })
     }
+    static async veirifyEmail(email: string): Promise<AxiosResponse> {
+        return $api.post('/auth/request-verify-token', 
+        {
+            email: email,
+        })
+    }
 
     static async registration(email: string, password: string, username: string, name: string): Promise<AxiosResponse<RegResponse>> {
         return $api.post<RegResponse>('/auth/register', { email: email, password: password, username: username, name: name})

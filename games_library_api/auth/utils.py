@@ -22,24 +22,24 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     verification_token_secret = settings.secret
 
     async def on_after_register(self, user: User, request: Optional[Request] = None):
-        await sending_mail(email=user.email, subject='Добро пожаловать в "Культ Медведя"', body=settings.reg_body)
+        # await sending_mail(email=user.email, subject='Добро пожаловать в "Культ Медведя"', body=settings.reg_body)
         await create_default_lists(user_id=user.id)
         print(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(self, user: User, token: str, request: Optional[Request] = None):
-        await sending_mail(
-            email=user.email, subject='Восстановление пароля в GAMIFICATION', body=f'{settings.fog_pass} + {token}'
-        )
+        # await sending_mail(
+        #     email=user.email, subject='Восстановление пароля в GAMIFICATION', body=f'{settings.fog_pass} + {token}'
+        # )
         print(f"User {user.id} has forgot their password. Reset token: {token}")
 
     async def on_after_reset_password(self, user: User, request: Optional[Request] = None):
-        await sending_mail(email=user.email, subject='Пароль в GAMIFICATION изменён', body=f'{settings.res_pass}')
+        # await sending_mail(email=user.email, subject='Пароль в GAMIFICATION изменён', body=f'{settings.res_pass}')
         print(f"User {user.id} has reset their password.")
 
     async def on_after_request_verify(self, user: User, token: str, request: Optional[Request] = None):
-        await sending_mail(
-            email=user.email, subject='Подтверждение почты в GAMIFICATION', body=f'{settings.ver_body} + {token}'
-        )
+        # await sending_mail(
+        #         email=user.email, subject='Подтверждение почты в GAMIFICATION', body=f'{settings.ver_body} + {token}'
+        #     )
         print(f"Verification requested for user {user.id}. Verification token: {token}")
 
     async def on_after_verify(self, user: User, request: Optional[Request] = None):
