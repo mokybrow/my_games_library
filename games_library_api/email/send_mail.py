@@ -19,7 +19,7 @@ conf = ConnectionConfig(
     MAIL_FROM=settings.mail_from,
     MAIL_PORT=587,
     MAIL_SERVER=settings.mail_server,
-    MAIL_FROM_NAME='GAMIFICATION',
+    MAIL_FROM_NAME='Dudesplay',
     MAIL_STARTTLS=True,
     MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True,
@@ -44,19 +44,8 @@ class EmailSchema(BaseModel):
             }
         }
 
-async def sending_mail(email: str, subject: str, body: dict) -> JSONResponse:
-    message = MessageSchema(
-        subject=subject,
-        recipients=[email],
-        template_body=body.get("body"),
-        subtype=MessageType.html,
-        )
-    fm = FastMail(conf)
-    await fm.send_message(message, template_name="email.html") 
-    return JSONResponse(status_code=200, content={"message": "email has been sent"})
 
-
-async def send_email_async(data: EmailSchema) -> JSONResponse:
+async def send_email_async(data: EmailSchema, type: str) -> JSONResponse:
     data = EmailSchema.model_validate(data)
     message = MessageSchema (
         subject = data.subject,
@@ -65,5 +54,8 @@ async def send_email_async(data: EmailSchema) -> JSONResponse:
         subtype="html"
     )
     fm = FastMail(conf)
-    await fm.send_message(message, template_name="email.html")
+    if type == 'reg':
+        await fm.send_message(message, template_name="reg.html")  
+    if   type == 'verify':
+        await fm.send_message(message, template_name="verify.html")
     return JSONResponse(status_code=200, content={"message": "Email has been sent"})

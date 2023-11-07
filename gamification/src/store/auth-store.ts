@@ -69,12 +69,20 @@ export default class AuthStore {
             const response = await AuthService.getMyProfile();
             this.setUser(response.data)
             this.setAuth(true);
-
         } catch (error) {
 
         } finally {
             this.setLoading(false);
         }
         return this.user.username
+    }
+
+    async emailVerify(token: string){
+        try {
+            await AuthService.veirifyEmailFunc(String(token))
+
+        } catch (error) {
+            
+        }
     }
 }

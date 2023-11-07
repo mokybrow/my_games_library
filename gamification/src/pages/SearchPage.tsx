@@ -14,14 +14,14 @@ const SearchPage = () => {
 
     useEffect(() => {
         search_store.searchFunc(String(tagParam), String(titleParam))
-    },[])
+    }, [])
     if (search_store.isLoading) {
         return (
-          <div className='loading-page'>
-            <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-          </div>
+            <div className='loading-page'>
+                <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
+            </div>
         )
-      }
+    }
     return (
         <section className='search-page-section'>
             <div className="search-page-grid">

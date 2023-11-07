@@ -5,6 +5,7 @@ import { getLocalToken } from '../utils/utils';
 import { observer } from 'mobx-react-lite';
 import '../styles/article-page.css'
 import { FormattedMessage, FormattedDate } from 'react-intl';
+import { NotFoundPage } from '../components/not_found_page/not-found-page';
 
 const ArticlePage = () => {
     const { slug } = useParams<string>();
@@ -27,13 +28,7 @@ const ArticlePage = () => {
     }
     if (artilce_store.article.id === undefined) {
         return (
-            <section className='user-profile-page'>
-                <div className="user-info-grid-container">
-                    <div className="not-found-container">
-                        404 Страница не найдена
-                    </div>
-                </div>
-            </section>
+            <NotFoundPage/>
         )
     }
     return (

@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1d1d1f;
+}
+.email-section{
+    width: calc(100vw - 14vw);
+    height: calc(100vh - 14vw);
+    padding: 7vw;
+}
+.email-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.text-body{
+    padding: 24px;
+    background-color: rgba(234,226,215, .8);
+    border-radius: 12px;
+}
+
+.action-button{
+    border: none;
+    padding: 6px 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 24px;
+    color: rgba(255, 255, 255, 1);
+    backdrop-filter: saturate(180%) blur(20px);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-size: .8em;
+}

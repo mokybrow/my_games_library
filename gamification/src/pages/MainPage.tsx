@@ -6,6 +6,7 @@ import GameCard from '../components/gamecard/game-card';
 import NewsCard from '../components/newscard/news-card';
 import { ReviewCard } from '../components/reviewcard/review-card';
 import { MainPageReviewCard } from '../components/reviewcard/main-page-review';
+import { InfoBanner } from '../components/infobanner/info-banner';
 
 
 const MainPage = () => {
@@ -32,7 +33,30 @@ const MainPage = () => {
   return (
     <section className='main-section'>
       <div className='main-page-grid-container'>
+        <InfoBanner>
+          <div className="checkbox-main-page">
+            <input className="custom-checkbox check" type="checkbox" id="color-5" name="color-5" />
+            <label htmlFor="color-5"></label>
+            <h1>Отмечай игры пройденными</h1>
+          </div>
+          <div className="checkbox-main-page">
+            <input className="custom-checkbox heart" type="checkbox" id="color-6" name="color-6" />
+            <label htmlFor="color-6"></label>
+            <h1>Запоминай понравившиеся</h1>
 
+          </div>
+          <div className="checkbox-main-page">
+            <input className="custom-checkbox clock" type="checkbox" id="color-7" name="color-7" />
+            <label htmlFor="color-7"></label>
+            <h1>Не забудь её пройти...</h1>
+          </div>
+          <div className="checkbox-main-page">
+            <input className="custom-checkbox plus" type="button" id="color-8" name="color-8" />
+            <label htmlFor="color-8"></label>
+            <h1>Составляй собственные списки</h1>
+
+          </div>
+        </InfoBanner>
         {games_store.games.length > 0 ?
           <div className="new-games-grid-container">
             <div className="main-page-section-title">

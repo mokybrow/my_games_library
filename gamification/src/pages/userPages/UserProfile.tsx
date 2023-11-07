@@ -9,6 +9,7 @@ import { ReviewCard } from '../../components/reviewcard/review-card';
 import { UnactiveUser } from '../../components/unactiveuser/unactive-user';
 import GameCard from '../../components/gamecard/game-card';
 import { FollowButton } from '../../components/buttons/follow-button';
+import { NotFoundPage } from '../../components/not_found_page/not-found-page';
 
 const UserProfile = () => {
     const { auth_store } = useContext(Context);
@@ -17,7 +18,9 @@ const UserProfile = () => {
     const [whois, setWhoIs] = useState('');
 
     useEffect(() => {
-
+        if (auth_store.user.id !== undefined){
+            console.log(auth_store.user.username)
+        }
         const checkUsername = async () => {
             const response = await auth_store.checkAuth()
             return response
@@ -25,7 +28,7 @@ const UserProfile = () => {
         checkUsername().then(function (value: any) {
             if (value.toLowerCase() !== String(username).toLowerCase()) {
                 user_store.findUser(String(username), 0, 6)
-
+                
             } else {
                 setWhoIs('myself')
                 user_store.getMyProfileFunc(auth_store.user.id, 0, 6)
@@ -37,7 +40,6 @@ const UserProfile = () => {
     const handleClick = () => {
         user_store.followController(String(username))
     };
-    console.log(user_store.user.id)
     if (user_store.isLoading || auth_store.isLoading) {
         return (
             <div className='loading-page'>
@@ -155,7 +157,7 @@ const UserProfile = () => {
                             {user_store.user.img == null ?
                                 <img src={require('../../assets/icons/icon.png')} width={100} height={100} />
                                 :
-                                <img src={"data:image/jpeg;base64," + auth_store.user.img} width={100} height={100} />
+                                <img src={"data:image/jpeg;base64," + user_store.user.img} width={100} height={100} />
                             }
                         </div>
                         <div className='user-profile-info-container'>
@@ -229,18 +231,10 @@ const UserProfile = () => {
                     </div>
                 </div>
             </section>
-
         )
     }
     return (
-        <section className='user-profile-page'>
-
-            <div className="user-info-grid-container">
-                <div className="not-found-container">
-                    404 Страница не найдена
-                </div>
-            </div>
-        </section>
+        <NotFoundPage/>
     )
 
 }

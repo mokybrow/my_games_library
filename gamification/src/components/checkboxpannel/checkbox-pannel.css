@@ -14,6 +14,7 @@
     transition: all 200ms linear;
     padding: 8px 12px;
     max-width: 100%;
+    gap: 6px;
 }
 
 
@@ -43,7 +44,7 @@
     flex-grow: 0;
     border: 3px solid var(--font-color);
     border-radius: 0.25em;
-    margin: 0.3em;
+    /* margin: 0.3em; */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 70% 70%;

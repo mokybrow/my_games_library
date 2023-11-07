@@ -7,7 +7,7 @@
     position: relative;
     transition: all 0.3s ease 0s;
     transition: all 200ms linear;
-    background-color: var(--background-title-color);
+    background-color: var(--background-card-color);
     grid-column: 1 span;
 }
 

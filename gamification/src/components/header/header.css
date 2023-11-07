@@ -192,13 +192,13 @@ header ul li:hover {
         padding-right: 24px;
         padding-top: 80px;
         padding-bottom: 48px;
+        
     }
 
     .menu-body.active {
         /* top: 0; */
         display: flex;
         transform: translateY(100%);
-
     }
 
    .menu-body.active  .nav-grid-wrap {

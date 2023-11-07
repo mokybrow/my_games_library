@@ -50,8 +50,9 @@ export const UserSettingsForm: FC = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='user-settings-form-container' >
-            <label htmlFor="email">Почта:</label>
             <div className='email-verify-container'>
+            <label htmlFor="email">Почта:</label>
+
                 <input type="text" id="email"
                     name="email" autoComplete='email'
                     readOnly disabled defaultValue={auth_store.user.email} />

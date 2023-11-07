@@ -108,39 +108,39 @@ export default class GamesStore {
         try {
             const response = await GameService.getGameBySlug(String(slug));
             this.setGameProfile(response.data)
+            try {
+                if (getLocalToken() !== null) {
+                    const checkInDefaultLists = await ListService.GameInDefaultListsCheck(this.gameProfile.id)
+                    this.setGameInLists(checkInDefaultLists.data)
+                }
+            } catch (error) {
 
-        } catch (error) {
-        } try {
-            if (getLocalToken() !== null) {
-                const checkInDefaultLists = await ListService.GameInDefaultListsCheck(this.gameProfile.id)
-                this.setGameInLists(checkInDefaultLists.data)
+            } try {
+                const checkInUserLists = await ListService.GameInUserListsCheck(this.gameProfile.id)
+                this.setUserLists(checkInUserLists.data)
+            } catch (error) {
+
+            }
+            try {
+
+                const userGrade = await GameService.getUserGrade(this.gameProfile.id)
+                this.setUserGrade(userGrade.data)
+
+                if (userGrade.data === null) {
+                    this.setUserGrade({
+                        id: 'string',
+                        user_id: 'string',
+                        game_id: 'string',
+                        grade: 0,
+                        comment: 'string',
+                        created_at: null
+                    })
+                }
+
+            } catch (error) {
+
             }
         } catch (error) {
-
-        } try {
-            const checkInUserLists = await ListService.GameInUserListsCheck(this.gameProfile.id)
-            this.setUserLists(checkInUserLists.data)
-        } catch (error) {
-
-        }
-        try {
-
-            const userGrade = await GameService.getUserGrade(this.gameProfile.id)
-            this.setUserGrade(userGrade.data)
-
-            if (userGrade.data === null) {
-                this.setUserGrade({
-                    id: 'string',
-                    user_id: 'string',
-                    game_id: 'string',
-                    grade: 0,
-                    comment: 'string',
-                    created_at: null
-                })
-            }
-
-        } catch (error) {
-
         } finally {
             this.setLoading(false);
         }
@@ -197,10 +197,10 @@ export default class GamesStore {
 
     async addReview(id: string, grade: number, comment: string | null, slug: string) {
         try {
-            if (comment === ''){
+            if (comment === '') {
                 comment = null
             }
-            
+
             await GameService.addReview(id, grade, comment)
 
         } catch (error) {

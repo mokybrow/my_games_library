@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../styles/emailstyles.css">
+</head>
+
+<body style="    margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Arial, Helvetica, sans-serif;
+color: #1d1d1f;">
+    <section class="email-section" style="    width: calc(100vw - 14vw);
+    height: calc(100vh - 14vw);
+    padding: 7vw;">
+        <div class="email-container" style="    display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;">
+            <h1>{{ title }}</h1>
+            <h3 class="text-body" style="    padding: 24px;
+            background-color: rgba(234,226,215, .8);
+            border-radius: 12px;">{{ message }}</h3>
+            <a href=" http://localhost:3000/verify?token={{token}}" target="_blank" class="action-button" 
+            style="    border: none;
+            padding: 6px 12px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 24px;
+            color: rgba(255, 255, 255, 1);
+            backdrop-filter: saturate(180%) blur(20px);
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            font-size: .8em;">
+                Подтвердить
+            </a>
+        </div>
+    </section>
+</body>
+
+</html>

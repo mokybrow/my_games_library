@@ -9,6 +9,8 @@ import CommentCard from '../components/comment/comment';
 import CheckboxPannel from '../components/checkboxpannel/checkbox-pannel';
 import AddReview from '../components/addreview/add-review';
 import { UnactiveUser } from '../components/unactiveuser/unactive-user';
+import { NotFoundPage } from '../components/not_found_page/not-found-page';
+import { InfoBanner } from '../components/infobanner/info-banner';
 
 const GamePage = () => {
     const { slug } = useParams<string>();
@@ -33,73 +35,80 @@ const GamePage = () => {
         }
     }, [games_store, slug, auth_store])
 
-    if (games_store.isLoading){
-        return(
+    if (games_store.isLoading) {
+        return (
             <div className='loading-page'>
                 <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
+            </div>
+        )
+    }
+    if (games_store.gameProfile.id !== undefined) {
+        return (
+            <section className='game-profile-page-section'>
+
+                <div className="background-image-container-shadow">
                 </div>
+
+                <div className="background-image-container">
+                    <img src={games_store.gameProfile.cover} alt="" />
+                </div>
+
+                <div className="game-profile-grid">
+                    <div className='active-wrapper'>
+                        <img src={games_store.gameProfile.cover} alt="" className='game-cover' />
+                        {games_store.gameInLists.liked === undefined ? null :
+                            <CheckboxPannel
+                                inPassed={games_store.gameInLists.passed}
+                                inLiked={games_store.gameInLists.liked}
+                                inWishlist={games_store.gameInLists.wishilst} />}
+                        <AddReview />
+                    </div>
+                    <div className="grid-profile-info">
+                        <div className='game-profile-info-container'>
+                            <div className='info-container'>
+                                <h1 className="game-profile-title">{games_store.gameProfile.title}
+                                    <span className='game-profile-avgrate'>
+                                        {Number(games_store.gameProfile.avg_rate) !== 0 && Number(games_store.gameProfile.avg_rate) ?
+                                            Number(games_store.gameProfile.avg_rate) :
+                                            "Н/Д"
+                                        }
+                                    </span>
+                                </h1>
+
+
+                                <p>{games_store.gameProfile.release?.toString()}</p>
+                            </div>
+                            <div className='info-container'>
+                                <p>{!games_store.gameProfile.description ? 'Описания нет но скоро будет' : games_store.gameProfile.description}</p>
+                            </div>
+                        </div>
+                        <div className="comment-wrapper">
+                            <h1 className="game-profile-title">Последние Отзывы</h1>
+                            {games_store.reviews?.length > 0 ?
+                                <>
+                                    {games_store.reviews?.map(review =>
+                                        <div key={review.id}>
+                                            <CommentCard
+                                                reviewId={review.id}
+                                                reviewImg={review.img}
+                                                reviewUsername={review.username}
+                                                reviewGrade={review.grade}
+                                                reviewCommnet={review.comment}
+                                                reviewLikeCount={review.like_count}
+                                                reviewHasAuthorLike={Number(review.hasAuthorLike)} />
+                                        </div>
+                                    )}</> : 
+                                    <InfoBanner>Будь первым кто оставит отзыв</InfoBanner>}
+                        </div>
+                    </div>
+                </div>
+            </section>
         )
     }
     return (
-        <section className='game-profile-page-section'>
-
-            <div className="background-image-container-shadow">
-            </div>
-
-            <div className="background-image-container">
-                <img src={games_store.gameProfile.cover} alt="" />
-            </div>
-
-            <div className="game-profile-grid">
-                <div className='active-wrapper'>
-                    <img src={games_store.gameProfile.cover} alt="" className='game-cover' />
-                    {games_store.gameInLists.liked === undefined ? null :
-                        <CheckboxPannel
-                            inPassed={games_store.gameInLists.passed}
-                            inLiked={games_store.gameInLists.liked}
-                            inWishlist={games_store.gameInLists.wishilst} />}
-                    <AddReview />
-                </div>
-                <div className="grid-profile-info">
-                    <div className='game-profile-info-container'>
-                        <div className='info-container'>
-                            <h1 className="game-profile-title">{games_store.gameProfile.title}
-                                <span className='game-profile-avgrate'>
-                                    {Number(games_store.gameProfile.avg_rate) !== 0 && Number(games_store.gameProfile.avg_rate) ?
-                                        Number(games_store.gameProfile.avg_rate) :
-                                        "Н/Д"
-                                    }
-                                </span>
-                            </h1>
-
-
-                            <p>{games_store.gameProfile.release?.toString()}</p>
-                        </div>
-                        <div className='info-container'>
-                            <p>{!games_store.gameProfile.description ? 'Описания нет но скоро будет' : games_store.gameProfile.description}</p>
-                        </div>
-                    </div>
-                    <div className="comment-wrapper">
-                        <h1 className="game-profile-title">Последние Отзывы</h1>
-                        {games_store.reviews?.length > 0 ?
-                        <>
-                        {games_store.reviews?.map(review =>
-                            <div key={review.id}>
-                                <CommentCard
-                                    reviewId={review.id}
-                                    reviewImg={review.img}
-                                    reviewUsername={review.username}
-                                    reviewGrade={review.grade}
-                                    reviewCommnet={review.comment}
-                                    reviewLikeCount={review.like_count}
-                                    reviewHasAuthorLike={Number(review.hasAuthorLike)} />
-                            </div>
-                        )}</> : <UnactiveUser>Будь первым кто оставит отзыв</UnactiveUser>}
-                    </div>
-                </div>
-            </div>
-        </section>
+        <NotFoundPage/>
     )
+
 }
 
 export default observer(GamePage);

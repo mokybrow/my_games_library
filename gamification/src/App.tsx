@@ -4,6 +4,8 @@ import { getLocalToken } from './utils/utils';
 import { useTheme } from './hooks/useTheme';
 import { observer } from 'mobx-react-lite';
 import AppRoutes from './routes/index'
+import Footer from './components/footer/footer';
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
   const { auth_store } = useContext(Context);
@@ -22,6 +24,10 @@ function App() {
   return (
     <>
       <AppRoutes />
+
+      <BrowserRouter>
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }
