@@ -12,22 +12,17 @@ const WishlistPage = () => {
     const { username } = useParams<string>();
 
     useEffect(() => {
-        const checkUsername = async () => {
-            const response = await auth_store.checkAuth()
-
-            return response
-        }
-        checkUsername().then(function (value: any) {
-            if (value.toLowerCase() !== String(username).toLowerCase()) {
+        if (auth_store.user.username !== undefined) {
+            if (auth_store.user.username.toLowerCase() !== String(username).toLowerCase()) {
                 user_store.findUser(String(username), 0, null)
             }
             else {
                 user_store.getMyProfileFunc(auth_store.user.id, 0, null)
             }
-        })
-     
+        }
 
-    }, [])
+    }, [auth_store.user.username])
+
     if (user_store.isLoading || auth_store.isLoading) {
         return (
             <div className='loading-page'>

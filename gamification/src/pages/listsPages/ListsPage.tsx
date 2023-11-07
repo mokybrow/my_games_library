@@ -10,22 +10,20 @@ const ListsPage = () => {
     const { user_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const { username } = useParams<{ username?: string }>();
-
     useEffect(() => {
 
-        const checkUsername = async () => {
-            const response = await auth_store.checkAuth()
-            return response
-        }
-        checkUsername().then(function (value: any) {
-            if (value.toLowerCase() !== String(username).toLowerCase()) {
+
+        if (auth_store.user.username !== undefined) {
+            if (auth_store.user.username.toLowerCase() !== String(username).toLowerCase()) {
                 user_store.findUser(String(username), 0, 6)
-            } else {
+            }
+            else {
                 user_store.getUserListsFunc(auth_store.user.id)
             }
-        })
+        }
 
-    }, [])
+    }, [auth_store.user.username])
+
 
     if (user_store.isLoading || auth_store.isLoading) {
         return (

@@ -15,20 +15,19 @@ const UserSettings = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        const checkUsername = async () => {
-            const response = await auth_store.checkAuth()
-            return response
-        }
-        checkUsername().then(function (value: any) {
-            if (value.toLowerCase() !== String(username).toLowerCase()) {
-                navigate('/'+value)
 
-            } else {
-                user_store.getMyProfileFunc(auth_store.user.id, 0, 6)
+        if (auth_store.user.username !== undefined) {
+            if (auth_store.user.username.toLowerCase() !== String(username).toLowerCase()) {
+                navigate('/' +  auth_store.user.username )
+
             }
-        })
+            // else {
+            //     user_store.getMyProfileFunc(auth_store.user.id, 0, 6)
+            // }
+        }
 
-    }, [])
+    }, [auth_store.user.username])
+
 
     if (user_store.isLoading || auth_store.isLoading) {
         return (

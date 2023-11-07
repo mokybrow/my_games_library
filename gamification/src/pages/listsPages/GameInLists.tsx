@@ -9,9 +9,11 @@ const GameInLists = () => {
 
     const { slug } = useParams<string>();
     const { list_store } = useContext(Context);
+    
     useEffect(() => {
         list_store.getListPageGames(String(slug))
     }, [])
+
     const addListToMyProfile = () => {
         list_store.addDeleteList(String(slug))
     }

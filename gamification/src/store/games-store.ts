@@ -10,6 +10,7 @@ import GameService from "../services/game-service";
 import ListService from "../services/list-service";
 
 
+
 export default class GamesStore {
     isLoading = false;
 
@@ -72,22 +73,24 @@ export default class GamesStore {
 
 
 
-    async getReviewsFunc(offset: number | null, limit: number | null, popular: boolean | null, slug: string | null) {
+    async getReviewsFunc(offset: number | null, limit: number | null, 
+        popular: boolean | null, slug: string | null, user_id: string, game_id: string) {
         this.setLoading(true);
         try {
             if (getLocalToken()) {
-                const user = await AuthService.getMyProfile();
-                const response = await ReviewService.getReviews(offset, limit, popular, String(user.data.id), slug);
+                // const user = await AuthService.getMyProfile();
+                const response = await ReviewService.getReviews(offset, limit, popular, user_id, slug);
                 this.setReviews(response.data)
-            } else {
+            } 
+            else {
                 const response = await ReviewService.getReviews(offset, limit, popular, null, slug);
                 this.setReviews(response.data)
             }
         } catch (error) {
             this.setReviews([] as ReviewCardModel[])
         } try {
-            const response = await GameService.getGameBySlug(String(slug));
-            const userGrade = await GameService.getUserGrade(response.data.id)
+            // const response = await GameService.getGameBySlug(String(slug));
+            const userGrade = await GameService.getUserGrade(game_id)
             this.setUserGrade(userGrade.data)
         } catch (error) {
             this.setUserGrade({} as userGrade)
@@ -121,25 +124,25 @@ export default class GamesStore {
             } catch (error) {
 
             }
-            try {
+            // try {
 
-                const userGrade = await GameService.getUserGrade(this.gameProfile.id)
-                this.setUserGrade(userGrade.data)
+            //     const userGrade = await GameService.getUserGrade(this.gameProfile.id)
+            //     this.setUserGrade(userGrade.data)
 
-                if (userGrade.data === null) {
-                    this.setUserGrade({
-                        id: 'string',
-                        user_id: 'string',
-                        game_id: 'string',
-                        grade: 0,
-                        comment: 'string',
-                        created_at: null
-                    })
-                }
+            //     if (userGrade.data === null) {
+            //         this.setUserGrade({
+            //             id: 'string',
+            //             user_id: 'string',
+            //             game_id: 'string',
+            //             grade: 0,
+            //             comment: 'string',
+            //             created_at: null
+            //         })
+            //     }
 
-            } catch (error) {
+            // } catch (error) {
 
-            }
+            // }
         } catch (error) {
         } finally {
             this.setLoading(false);

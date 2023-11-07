@@ -21,6 +21,7 @@ import SearchPage from '../pages/SearchPage';
 import CreateArticle from '../pages/CreateArticle';
 import VerifyEmailPage from '../pages/servicePages/VerifyEmailPage';
 import ChangePasswordPage from '../pages/servicePages/ChangePasswordPage';
+import { observer } from 'mobx-react-lite';
 
 
 const AppRoutes = () => {
@@ -63,4 +64,4 @@ const AppRoutes = () => {
   );
 }
 
-export default AppRoutes;
+export default observer(AppRoutes);

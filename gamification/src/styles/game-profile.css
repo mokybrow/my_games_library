@@ -107,7 +107,7 @@
     .game-profile-page-section {
         padding-top: 108px;
         padding-bottom: 80px;
-        min-height: calc(100vh - 208px);
+        min-height: calc(100vh - 188px);
     }
 
     .game-profile-grid {

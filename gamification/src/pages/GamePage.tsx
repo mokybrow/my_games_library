@@ -17,23 +17,19 @@ const GamePage = () => {
     const { games_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const { user_store } = useContext(Context);
-    let navigate = useNavigate();
 
     useEffect(() => {
         games_store.getGameData(String(slug))
-        games_store.getReviewsFunc(0, 6, false, String(slug))
+        if (games_store.gameProfile.id !== undefined){
+            games_store.getReviewsFunc(0, 6, false, String(slug), auth_store.user.id, games_store.gameProfile.id)
 
+        }
         if (getLocalToken()) {
-            const getUserLists = async () => {
-                const response = await auth_store.checkAuth()
-                return response
-            }
-            getUserLists().then(function () {
+            if (auth_store.user.id !== undefined){
                 user_store.getUserListsFunc(auth_store.user.id)
             }
-            )
         }
-    }, [games_store, slug, auth_store])
+    }, [games_store, slug, auth_store.user.id])
 
     if (games_store.isLoading) {
         return (
@@ -56,11 +52,11 @@ const GamePage = () => {
                 <div className="game-profile-grid">
                     <div className='active-wrapper'>
                         <img src={games_store.gameProfile.cover} alt="" className='game-cover' />
-                        {games_store.gameInLists.liked === undefined ? null :
-                            <CheckboxPannel
-                                inPassed={games_store.gameInLists.passed}
-                                inLiked={games_store.gameInLists.liked}
-                                inWishlist={games_store.gameInLists.wishilst} />}
+
+                        <CheckboxPannel
+                            inPassed={games_store.gameInLists.passed}
+                            inLiked={games_store.gameInLists.liked}
+                            inWishlist={games_store.gameInLists.wishilst} />
                         <AddReview />
                     </div>
                     <div className="grid-profile-info">
@@ -97,8 +93,8 @@ const GamePage = () => {
                                                 reviewLikeCount={review.like_count}
                                                 reviewHasAuthorLike={Number(review.hasAuthorLike)} />
                                         </div>
-                                    )}</> : 
-                                    <InfoBanner>Будь первым кто оставит отзыв</InfoBanner>}
+                                    )}</> :
+                                <InfoBanner>Будь первым кто оставит отзыв</InfoBanner>}
                         </div>
                     </div>
                 </div>
@@ -106,7 +102,7 @@ const GamePage = () => {
         )
     }
     return (
-        <NotFoundPage/>
+        <NotFoundPage />
     )
 
 }
