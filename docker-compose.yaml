@@ -46,3 +46,4 @@ services:
       - 3000
     depends_on:
       - app
+

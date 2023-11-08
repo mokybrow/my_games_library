@@ -145,13 +145,13 @@ const Header: FC = () => {
                                     <>
                                         <Link to='/login' className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                            <img src={require('../../assets/headericons/profile.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Вход</span>
                                             </div>
                                         </Link>
                                         <Link to='/registration' className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                            <img src={require('../../assets/headericons/signin.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Регистрация</span>
                                             </div>
                                         </Link>

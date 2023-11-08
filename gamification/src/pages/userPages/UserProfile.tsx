@@ -19,19 +19,6 @@ const UserProfile = () => {
 
     useEffect(() => {
 
-        // const checkUsername = async () => {
-        //     const response = await auth_store.checkAuth()
-        //     return response
-        // }
-        // checkUsername().then(function (value: any) {
-        //     if (value.toLowerCase() !== String(username).toLowerCase()) {
-        //         user_store.findUser(String(username), 0, 6)
-                
-        //     } else {
-        //         setWhoIs('myself')
-        //         user_store.getMyProfileFunc(auth_store.user.id, 0, 6)
-        //     }
-        // })
         if (auth_store.user.username !== undefined){
             if (auth_store.user.username.toLowerCase() !== String(username).toLowerCase()){
                 user_store.findUser(String(username), 0, 6)
@@ -217,10 +204,10 @@ const UserProfile = () => {
 
                     </div>
                     <div className="user-lists-grid-container">
-                        <ListCard children={''} linkTo={'favorite'} img={'icon.png'} />
-                        <ListCard children={''} linkTo={'wishlist'} img={'icon.png'} />
-                        <ListCard children={''} linkTo={'completed'} img={'icon.png'} />
-                        <ListCard children={''} linkTo={'lists'} img={'icon.png'} />
+                    <ListCard children={''} linkTo={'favorite'} img={'favorite.png'} />
+                        <ListCard children={''} linkTo={'wishlist'} img={'wishlist.png'} />
+                        <ListCard children={''} linkTo={'completed'} img={'completed.png'} />
+                        <ListCard children={''} linkTo={'lists'} img={'mylists.png'} />
                     </div>
                     <div className="last-activity-grid-container">
                         <h1 className='profile-banner-header'>Активность </h1>
@@ -304,10 +291,10 @@ const UserProfile = () => {
 
                     </div>
                     <div className="user-lists-grid-container">
-                        <ListCard children={''} linkTo={'favorite'} img={'icon.png'} />
-                        <ListCard children={''} linkTo={'wishlist'} img={'icon.png'} />
-                        <ListCard children={''} linkTo={'completed'} img={'icon.png'} />
-                        <ListCard children={''} linkTo={'lists'} img={'icon.png'} />
+                        <ListCard children={''} linkTo={'favorite'} img={'favorite.png'} />
+                        <ListCard children={''} linkTo={'wishlist'} img={'wishlist.png'} />
+                        <ListCard children={''} linkTo={'completed'} img={'completed.png'} />
+                        <ListCard children={''} linkTo={'lists'} img={'mylists.png'} />
                     </div>
                     <div className="last-activity-grid-container">
                         <h1 className='profile-banner-header'>Активность </h1>
