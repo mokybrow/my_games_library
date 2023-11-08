@@ -87,57 +87,57 @@ const Header: FC = () => {
                                     <>
                                         <Link to={`/${auth_store.user.username}`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/profile.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Профиль</span>
                                             </div>
                                         </Link>
                                         <Link to={`/${auth_store.user.username}/settings`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/settings.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Настройки</span>
                                             </div>
                                         </Link>
                                         <Link to={`/${auth_store.user.username}/lists/create`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/createlist.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Создать список</span>
                                             </div>
                                         </Link>
                                         <Link to={`/${auth_store.user.username}/favorite`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/favorite.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Понравились</span>
                                             </div>
                                         </Link>
                                         <Link to={`/${auth_store.user.username}/wishlist`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/wishlist.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Пройду</span>
                                             </div>
                                         </Link>
                                         <Link to={`/${auth_store.user.username}/completed`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/completed.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Пройденные</span>
                                             </div>
                                         </Link>
                                         <Link to={`/${auth_store.user.username}/lists`} className="menu-link">
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/mylists.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Мои списки</span>
                                             </div>
                                         </Link>
                                         {auth_store.user.reporter == true ?
                                             <Link to='/article/create' className="menu-link">
                                                 <div className='menu-item-icon'>
-                                                    <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                    <img src={require('../../assets/headericons/createarticle.png')} alt="" width={54} height={54} />
                                                     <span className='menu-icon-title'>Написать статью</span>
                                                 </div>
                                             </Link> : null}
 
                                         <Link to='/' className="menu-link" onClick={auth_store.logout}>
                                             <div className='menu-item-icon'>
-                                                <img src={require('../../assets/icons/icon.png')} alt="" width={54} height={54} />
+                                                <img src={require('../../assets/headericons/exit.png')} alt="" width={54} height={54} />
                                                 <span className='menu-icon-title'>Выход</span>
                                             </div>
                                         </Link>

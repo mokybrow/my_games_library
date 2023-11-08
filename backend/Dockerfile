@@ -8,9 +8,6 @@ RUN pip3 install poetry==1.6.1
 RUN poetry config virtualenvs.create false
 RUN poetry install
 
-COPY alembic.ini /fastapi
-COPY migrations /fastapi/migrations
-
 COPY . /fastapi
 
 WORKDIR  /fastapi
