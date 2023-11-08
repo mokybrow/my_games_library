@@ -11,9 +11,7 @@ RUN poetry install
 COPY alembic.ini /fastapi
 COPY migrations /fastapi/migrations
 
-WORKDIR  /fastapi/backend
-
-COPY . /fastapi/backend/
+COPY . /fastapi
 
 WORKDIR  /fastapi
 

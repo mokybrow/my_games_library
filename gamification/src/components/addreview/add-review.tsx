@@ -35,7 +35,6 @@ const AddReview: FC = () => {
             setHover(0)
         }
     }
-    console.log(games_store.userGrade.comment)
     return (
         <>
             {

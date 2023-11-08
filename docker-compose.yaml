@@ -1,31 +1,31 @@
 version: "3.9"
 services:
-  nginx:
-    image: nginx:1.17
-    container_name: nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - 80:90
-      - 443:443
-    restart: always
-    depends_on:
-      - backend
-      - frontend
+  # nginx:
+  #   image: nginx:1.17
+  #   container_name: nginx
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+  #   ports:
+  #     - 80:90
+  #     - 443:443
+  #   restart: always
+  #   depends_on:
+  #     - backend
+  #     - frontend
 
   db:
     image: postgres:15.4
     container_name: database
     env_file:
-      - .env-prod
+      - .env.prod
     ports:
       - "5433:5432"
 
   backend:
     build:
-      context: games_library_api/
+      context: ./backend
     env_file:
-      - .env-prod
+      - .env.prod
     container_name: backend
     image: backend
 
@@ -39,7 +39,7 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     env_file:
-      - .env-prod
+      - .env.prod
     container_name: frontend
 
     depends_on:

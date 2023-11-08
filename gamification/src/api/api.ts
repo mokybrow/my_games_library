@@ -1,7 +1,9 @@
 import axios from "axios";
 import { getLocalToken } from "../utils/utils";
 
-export const API_URL = 'http://127.0.0.1:8888/api/'
+export const API_URL = process.env.REACT_APP_API_URL
+
+// const API_URL = process.env.REACT_APP_NOT_SECRET_CODE
 
 const $api = axios.create({
     withCredentials: true,

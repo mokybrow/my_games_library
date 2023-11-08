@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "gamers society"
 authors = ["Mikhail Panin <mokybrow@gmail.com>"]
 readme = "README.md"
-packages = [{include = "my_games_library"}]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"

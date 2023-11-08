@@ -1,21 +1,11 @@
-# pull official base image
-FROM node:latest as build
-# set working directory
+FROM node:20-slim as builder
+
 WORKDIR /app
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-# Silent clean install of npm
-RUN npm ci --silent
-RUN npm install react-scripts@5.0.1 -g --silent
-# add app
-COPY . /app/
 
-# Build production
+COPY package*.json /app/
+
+RUN npm ci
+
+COPY ./ /app/
+
 RUN npm run build
-RUN npm install -g serve
-
-## Start the app on port 3006
-CMD serve -s build -l 3000
