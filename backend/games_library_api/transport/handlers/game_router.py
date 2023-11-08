@@ -21,7 +21,6 @@ from games_library_api.schemas.user import User
 
 router = APIRouter()
 
-
 @router.get("/games/all", response_model=list[game_model.GetGamesResponseModel])
 async def get_all_games_router(
     page: int,
