@@ -10,25 +10,26 @@ services:
       - 443:443
     restart: always
     depends_on:
-      - app
+      - backend
       - frontend
- 
+
   db:
     image: postgres:15.4
     container_name: database
     env_file:
       - .env
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
-  app:
+  backend:
     build:
       context: ./backend/
     env_file:
       - .env
     container_name: backend
     image: backend
-    command: bash -c "gunicorn -w 4 -k uvicorn.workers.UvicornWorker games_library_api.main:make_app --bind 0.0.0.0:8888"
+
+    command: bash -c "gunicorn -w 4 -k uvicorn.workers.UvicornWorker my_games_library.main:make_app --bind 0.0.0.0:8888"
     depends_on:
       - db
 
@@ -40,5 +41,7 @@ services:
     env_file:
       - .env
     container_name: frontend
+
     depends_on:
-      - app
+      - backend
+
