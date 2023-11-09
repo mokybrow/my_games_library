@@ -1,4 +1,4 @@
-FROM node:19.5.0-alpine
+FROM node:latest as build
 WORKDIR /app
 
 ENV PATH /app/node_modules/.bin:$PATH
