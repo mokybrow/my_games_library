@@ -2,6 +2,7 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
+
 from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -29,7 +30,7 @@ async def get_all_games_router(
     decade: Optional[str] = None,
     genre: Optional[str] = None,
     db: AsyncSession = Depends(get_async_session),
-):
+) -> game_model.GetGamesResponseModel:
     result = await get_all_games(page=page,limit=limit, sort=sort, decade=decade, genre=genre,db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')
@@ -45,7 +46,7 @@ async def get_all_games_count_router(
     decade: Optional[str] = None,
     genre: Optional[str] = None,
     db: AsyncSession = Depends(get_async_session),
-):
+) -> game_model.GetGamesCountResponseModel:
     result = await get_count_games(db=db, decade=decade, genre=genre)
     if not result:
         error = error_model.ErrorResponseModel(details='No Data')

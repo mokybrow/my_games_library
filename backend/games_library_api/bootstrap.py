@@ -3,6 +3,7 @@ from functools import lru_cache
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
 from .settings import get_settings
 from .transport.handlers.admin_router import router as admin_router
 from .transport.handlers.article_router import router as article_router
