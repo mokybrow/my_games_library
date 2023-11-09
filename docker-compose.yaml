@@ -40,7 +40,5 @@ services:
     env_file:
       - .env
     container_name: frontend
-    expose:
-      - 3000
     depends_on:
       - app
