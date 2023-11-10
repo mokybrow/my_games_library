@@ -14,9 +14,12 @@ header {
     font-weight: 400;
 }
 
-.header-logo {
+.header-logo a{
     text-transform: uppercase;
     font-size: 1.4em;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
 }
 
 .header-logo:hover {
@@ -27,7 +30,7 @@ header {
 header a {
     text-decoration: none;
     color: var(--font-color);
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto;
     font-size: 1.2em;
 }
 
@@ -108,8 +111,14 @@ header ul li:hover {
     .menu-item.search-mobile .menu-link{
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
+
     }
+    .menu-item.search-mobile {
+        display: flex;
+        align-items: center;
+    }
+
     .menu-item.search-desktop{
         display: none;
     }

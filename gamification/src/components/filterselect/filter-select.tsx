@@ -66,8 +66,19 @@ const FilterSelect: FC = () => {
             <option value='false'>Любой жанр</option>
             <option value="Action">Экшн</option>
             <option value="Shooter">Шутер</option>
-
-
+            <option value="Fighting">Файтинг</option>
+            <option value="Adventure">Приключение</option>
+            <option value="RPG">РПГ</option>
+            <option value="Puzzle">Головоломка</option>
+            <option value="Platformer">Платформер</option>
+            <option value="Indie">Инди</option>
+            <option value="Simulation">Симулятор</option>
+            <option value="Arcade">Аркада</option>
+            <option value="Massively Multiplayer">Многопользовательские</option>
+            <option value="Casual">Казуальные</option>
+            <option value="Strategy">Стратегии</option>
+            <option value="Family">Семейные</option>
+            <option value="Educational">Обучающие</option>
         </select>
     )
 }

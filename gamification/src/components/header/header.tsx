@@ -73,13 +73,13 @@ const Header: FC = () => {
                             <Link to='/reviews' className="menu-link" reloadDocument><li className="menu-item" >Обзоры</li></Link>
                             <li className="menu-item search-desktop">
                                 <Link to='/search' className="menu-link" reloadDocument>
-                                    <img src={require('../../assets/icons/search.png')} alt="" width={20} height={20} />
+                                    <img src={require('../../assets/icons/search.png')} alt="" width={24} height={24} />
                                 </Link>
                             </li>
                             <li className="menu-item search-mobile">
                                 <Link to='/search' className="menu-link" reloadDocument>
                                     Поиск
-                                    <img src={require('../../assets/icons/search.png')} alt="" width={20} height={20} />
+                                    <img src={require('../../assets/icons/search.png')} alt="" width={24} height={24} />
                                 </Link>
                             </li>
                             <div className="nav-grid-wrap">

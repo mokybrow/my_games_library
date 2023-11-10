@@ -77,6 +77,7 @@ const ArticleCreateForm: FC = () => {
                     <li>Первый абзац начинается с этого тега {'(<p className="first-paragraph"></p>)'}</li>
                     <li>Последующие абзацы в обычных тегах {'(<p>></p>)'}</li>
                     <li>Картинки упаковываются в этот тег, ссылку на url кратинки нужно вставить в src{'(<img src="" alt="" />)'}</li>
+                    <li>Ссылка вставляется в тэг (href = 'ссылка'){'( <a href=""></a>)'}</li>
                     <li>
                         Заголовки:
                         <ul>
@@ -104,6 +105,7 @@ const ArticleCreateForm: FC = () => {
                     message: 'Название статьи должно быть длиннее 10 символов'
                 }
             },)}
+           
             placeholder='Название статьи'
                 type="text" id="title" name="title" onChange={(e) => setArticleTitle(e.target.value)} />
 

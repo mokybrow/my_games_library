@@ -34,6 +34,7 @@ const VerifyEmailPage = () => {
         <section className='sevice-page-section'>
             <img src={require('../../assets/img/tom_approve.webp')} alt="tom approve" />
             <h1>Почта успешно подтверждена</h1>
+    
         </section>
     )
 }

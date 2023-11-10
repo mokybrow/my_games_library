@@ -52,8 +52,14 @@ const Footer = () => {
                     </Link>
                 </div>
                 <div className='footer-container'>
-                    <h3>Почта для связи</h3>
+                    <h3>Обратная связь</h3>
                     <a href="mailto:mokybrow@yandex.ru">mokybrow@yandex.ru</a>
+                </div>
+                <div className='footer-container'>
+                    <h3>Поддержка</h3>
+                    <a href="mailto:dudesplay@icloud.com">                
+                    dudesplay@icloud.com
+                    </a>
                 </div>
                 <div className='footer-container'>
                     <h3>Соц. сети</h3>
