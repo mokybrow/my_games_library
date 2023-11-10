@@ -18,6 +18,14 @@
 }
 
 @media (max-width:1000px) {
+
+    .news-page-section {
+
+        padding-left: 4vw;
+        padding-right: 4vw;
+
+    }
+
     .news-page-grid {
         grid-template-columns: repeat(1, 1fr);
     }
