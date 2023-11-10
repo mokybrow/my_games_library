@@ -19,7 +19,7 @@ services:
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
-
+      - ./certbot/conf/:/etc/letsencrypt/:rw
   # db:
   #   image: postgres:15.4
   #   container_name: database
