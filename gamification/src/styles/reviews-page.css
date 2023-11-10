@@ -16,3 +16,10 @@
     gap: 18px;
     width: 100%;
 }
+
+@media (max-width:1000px) {
+    .reviews-page-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+}
