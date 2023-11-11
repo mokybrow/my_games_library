@@ -32,9 +32,10 @@ async def active_user_with_permission(user: User = Depends(current_active_user))
 @router.post('/article/create')
 async def create_article_router(
     title: str,
-    cover: UploadFile,
     text: str,
     tags: str,
+        cover: Optional[UploadFile] = None,
+
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(active_user_with_permission),
 ):
@@ -44,8 +45,11 @@ async def create_article_router(
             content=error.model_dump(),
             status_code=status.HTTP_400_BAD_REQUEST,
         )
-    img_bytes = cover.file.read()
-    base64_string = base64.b64encode(img_bytes).decode('utf-8')
+    if cover:
+        img_bytes = cover.file.read()
+        base64_string = base64.b64encode(img_bytes).decode('utf-8')
+    if not cover:
+        base64_string = None
     result = await create_article(title=title, cover=base64_string, text=text, tags=tags, user_id=user.id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')

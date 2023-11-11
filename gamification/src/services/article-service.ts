@@ -8,6 +8,21 @@ import { ArticleResponseModel } from "../models/articleModels";
 export default class ArticleService {
 
     static async createArticle(title: string, text: string, tags: string, cover: any): Promise<AxiosResponse> {
+        console.log(cover)
+        if (cover == ''){
+            return $api.post(`article/create`, null,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+                },
+                params: {
+                    title: title,
+                    text: text,
+                    tags: tags,
+                }
+            },) 
+        }
         const formData = new FormData();
         formData.set('cover', cover);
 

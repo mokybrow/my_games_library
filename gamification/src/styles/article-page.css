@@ -51,6 +51,7 @@
     text-align: center;
     grid-column: 1 / -1;
     font-size: 3em;
+    word-break: break-all;
 }
 
 .about-author {
@@ -67,8 +68,18 @@
     flex-direction: column;
     gap: 12px;
     grid-column: 1 / -1;
+    word-wrap: break-word;
 }
 .article-text-container p{
+    font-size: 1.2em;
+}
+
+.article-text-container p ul{
+    list-style: none;
+    font-size: 1.2em;
+}
+.article-text-container ul {
+    list-style: none;
     font-size: 1.2em;
 }
 
