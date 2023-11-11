@@ -33,7 +33,7 @@
 
 .article-image-container {
     top: 0;
-    width: calc(100vw - 24vw);
+    width: calc(100% - 24vw);
     max-height: 40vh;
     position: absolute;
     overflow: hidden;
