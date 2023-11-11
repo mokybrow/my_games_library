@@ -15,6 +15,7 @@ const ReviewsPage = () => {
     const sortParam = searchParams.get('sort');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         if (pageParam === null) {
             artilce_store.getAllArticleFunc(1, pageLimitElement, sortParam, 'review')
         }

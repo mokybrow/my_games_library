@@ -11,6 +11,7 @@ const CompletedPage = () => {
     const { username } = useParams<string>();
     // const { username } = useParams<{username?: string}>();
     useEffect(() => {
+        window.scrollTo(0, 0);
 
         if (auth_store.user.username !== undefined) {
             if (auth_store.user.username.toLowerCase() !== String(username).toLowerCase()) {

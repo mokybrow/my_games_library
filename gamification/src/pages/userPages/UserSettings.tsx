@@ -15,6 +15,7 @@ const UserSettings = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
 
         if (auth_store.user.username !== undefined) {
             if (auth_store.user.username.toLowerCase() !== String(username).toLowerCase()) {

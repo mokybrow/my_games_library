@@ -16,6 +16,7 @@ const ArticlePage = () => {
     var parse = require('html-react-parser');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         artilce_store.getOneArticleFunc(String(slug))
     }, [artilce_store, slug])
 

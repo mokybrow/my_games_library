@@ -16,6 +16,7 @@ const AllListsPage = () => {
   const filterParam = searchParams.get('filter');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (pageParam === null) {
       list_store.getAllLists(1, pageLimitElement, sortParam,)
     }

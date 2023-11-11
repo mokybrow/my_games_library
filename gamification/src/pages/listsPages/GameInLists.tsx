@@ -11,6 +11,8 @@ const GameInLists = () => {
     const { list_store } = useContext(Context);
     
     useEffect(() => {
+        window.scrollTo(0, 0);
+
         list_store.getListPageGames(String(slug))
     }, [])
 

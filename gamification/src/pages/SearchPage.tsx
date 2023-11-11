@@ -13,6 +13,7 @@ const SearchPage = () => {
     const titleParam = searchParams.get('title');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         search_store.searchFunc(String(tagParam), String(titleParam))
     }, [])
 
