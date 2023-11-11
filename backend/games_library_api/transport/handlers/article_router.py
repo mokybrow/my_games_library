@@ -1,9 +1,9 @@
 import base64
 import datetime
 
-from typing import Any, Optional
+from typing import Annotated, Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
 from pydantic import UUID4, Json
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,29 +28,29 @@ async def active_user_with_permission(user: User = Depends(current_active_user))
     if not user.reporter:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
     return user
+from pydantic import BaseModel
+
+
 
 @router.post('/article/create')
 async def create_article_router(
-    title: str,
-    text: str,
-    tags: str,
-        cover: Optional[UploadFile] = None,
-
+    model: articles_model.ArticleCreateModel,
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(active_user_with_permission),
 ):
+    print("АЛО", model,model.tags)
     if not user.reporter:
         error = error_model.ErrorResponseModel(details='Access is denied')
         return JSONResponse(
             content=error.model_dump(),
             status_code=status.HTTP_400_BAD_REQUEST,
         )
-    if cover:
-        img_bytes = cover.file.read()
-        base64_string = base64.b64encode(img_bytes).decode('utf-8')
-    if not cover:
-        base64_string = None
-    result = await create_article(title=title, cover=base64_string, text=text, tags=tags, user_id=user.id, db=db)
+    # if cover:
+    #     img_bytes = cover.file.read()
+    #     base64_string = base64.b64encode(img_bytes).decode('utf-8')
+    # if not cover:
+    #     base64_string = None
+    result = await create_article(title=model.title, text=model.text, tags=model.tags, user_id=user.id, db=db)
     if not result:
         error = error_model.ErrorResponseModel(details='List with this name already exist')
         return JSONResponse(

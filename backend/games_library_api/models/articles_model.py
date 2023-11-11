@@ -5,6 +5,11 @@ from typing import Any, Optional
 from pydantic import UUID4, BaseModel
 
 
+class ArticleCreateModel(BaseModel):
+    title: str
+    text: str
+    tags: str
+
 class ArticleResponseModel(BaseModel):
     id: UUID4
     user_id: UUID4

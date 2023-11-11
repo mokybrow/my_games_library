@@ -9,20 +9,17 @@ export default class ArticleService {
 
     static async createArticle(title: string, text: string, tags: string, cover: any): Promise<AxiosResponse> {
         console.log(cover)
+        return $api.post(`article/create`,  { title: title, text: text, tags: tags}) 
+
         if (cover == ''){
-            return $api.post(`article/create`, null,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
-                },
-                params: {
-                    title: title,
-                    text: text,
-                    tags: tags,
-                }
-            },) 
+            return $api.post(`article/create`,  { title: title, text: text, tags: tags, cover: null}) 
+
         }
+        else{
+            return $api.post(`article/create`,  { title: title, text: text, tags: tags, cover: cover}) 
+
+        }
+
         const formData = new FormData();
         formData.set('cover', cover);
 

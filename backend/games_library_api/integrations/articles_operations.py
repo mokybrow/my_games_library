@@ -13,7 +13,7 @@ from games_library_api.schemas.database import article_like_table, article_table
 from games_library_api.services.list_slug import making_slug
 
 
-async def create_article(db: AsyncSession, title: str, cover: Optional[str], text: str, tags: str, user_id: UUID4):
+async def create_article(db: AsyncSession, title: str, text: str, tags: str, user_id: UUID4, cover: Optional[str] = None):
     tags = tags.replace(' ', '').split(",")
 
     query = select(article_table.c.title).filter(article_table.c.slug == await making_slug(title))
