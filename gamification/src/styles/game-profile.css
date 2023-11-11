@@ -42,7 +42,7 @@
     align-items: center;
     grid-column: 1 / -1;
     font-size: 2em;
-
+    word-break: break-all;
 }
 
 .game-profile-avgrate{
