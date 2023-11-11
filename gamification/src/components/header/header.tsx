@@ -16,6 +16,7 @@ const Header: FC = () => {
         const menu = document.querySelector('.menu-body')
         const menuBtn = document.querySelector('.menu-icon')
         const body = document.body;
+
         const mediaQuery = window.matchMedia('(min-width: 1000px)')
         if (menu && menuBtn) {
             menu.classList.toggle('active')
@@ -67,10 +68,10 @@ const Header: FC = () => {
                     </div>
                     <nav className="menu-body">
                         <ul className="menu-list">
-                            <Link to='/games' className="menu-link" reloadDocument><li className="menu-item" >Игры</li></Link>
-                            <Link to='/lists' className="menu-link" reloadDocument><li className="menu-item" >Списки</li></Link>
-                            <Link to='/news' className="menu-link" reloadDocument><li className="menu-item" >Новости</li></Link>
-                            <Link to='/reviews' className="menu-link" reloadDocument><li className="menu-item" >Обзоры</li></Link>
+                        <li className="menu-item" >  <Link to='/games' className="menu-link" reloadDocument>Игры</Link></li>
+                        <li className="menu-item" >  <Link to='/lists' className="menu-link" reloadDocument>Списки</Link></li>
+                        <li className="menu-item" > <Link to='/news' className="menu-link" reloadDocument>Новости</Link></li>
+                        <li className="menu-item" ><Link to='/reviews' className="menu-link" reloadDocument>Обзоры</Link></li>
                             <li className="menu-item search-desktop">
                                 <Link to='/search' className="menu-link" reloadDocument>
                                     <img src={require('../../assets/icons/search.png')} alt="" width={24} height={24} />

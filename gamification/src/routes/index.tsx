@@ -22,43 +22,52 @@ import CreateArticle from '../pages/CreateArticle';
 import VerifyEmailPage from '../pages/servicePages/VerifyEmailPage';
 import ChangePasswordPage from '../pages/servicePages/ChangePasswordPage';
 import { observer } from 'mobx-react-lite';
+import Footer from '../components/footer/footer';
+import { useContext } from 'react';
+import { Context } from '..';
 
 
 const AppRoutes = () => {
+  const { auth_store } = useContext(Context);
+  const { artilce_store } = useContext(Context);
+  const { list_store } = useContext(Context);
+  const { games_store } = useContext(Context);
+  const { review_store } = useContext(Context);
+  
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Header />} >
-            <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<> <Header /><Footer /></>}  >
+          <Route path="/" element={<MainPage />} />
+          <Route path="/:username" element={<UserProfile />} />
+          <Route path="/:username/favorite" element={<FavoritePage />} />
+          <Route path="/:username/wishlist" element={<WishlistPage />} />
+          <Route path="/:username/completed" element={<CompletedPage />} />
+          <Route path="/:username/lists" element={<ListsPage />} />
+          <Route path="/:username/settings" element={<UserSettings />} />
+          <Route path="/:username/lists/create" element={<CreateListPage />} />
 
-            <Route path="/:username" element={<UserProfile />} />
-            <Route path="/:username/favorite" element={<FavoritePage />} />
-            <Route path="/:username/wishlist" element={<WishlistPage />} />
-            <Route path="/:username/completed" element={<CompletedPage />} />
-            <Route path="/:username/lists" element={<ListsPage />} />
-            <Route path="/:username/settings" element={<UserSettings />} />
-            <Route path="/:username/lists/create" element={<CreateListPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/registration" element={<RegistrationPage />} />
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/registration" element={<RegistrationPage />} />
+          <Route path="/games" element={<GamesPage />} />
+          <Route path="/game/:slug" element={<GamePage />} />
+          <Route path="/lists" element={<AllListsPage />} />
 
-            <Route path="/games" element={<GamesPage />} />
-            <Route path="/game/:slug" element={<GamePage />} />
-            <Route path="/lists" element={<AllListsPage />} />
+          <Route path="/list/:slug" element={<GameInLists />} />
 
-            <Route path="/list/:slug" element={<GameInLists />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/search" element={<SearchPage />} />
 
-            <Route path="/news" element={<NewsPage />} />
-            <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/search" element={<SearchPage />} />
+          <Route path="/article/:slug" element={<ArticlePage />} />
+          <Route path="/article/create" element={<CreateArticle />} />
 
-            <Route path="/article/:slug" element={<ArticlePage />} />
-            <Route path="/article/create" element={<CreateArticle />} />
+          <Route path="/verify" element={<VerifyEmailPage />} />
+          <Route path="/change-pass" element={<ChangePasswordPage />} />
 
-            <Route path="/verify" element={<VerifyEmailPage />} />
-            <Route path="/change-pass" element={<ChangePasswordPage />} />
-          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -8,13 +8,6 @@ import { observer } from 'mobx-react-lite';
 const CreateListPage = () => {
     const { auth_store } = useContext(Context);
 
-    if ( auth_store.isLoading) {
-        return (
-            <div className='loading-page'>
-                <img src={require('../../assets/img/dude.jpeg')} alt="Dude" />
-            </div>
-        )
-    }
     return (
         <section className='create-list-page'>
             <div className="create-list-grid-container">

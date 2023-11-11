@@ -78,7 +78,7 @@ a {
 
 .loading-page {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   position: absolute;
   z-index: 100;
   justify-content: center;

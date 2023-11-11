@@ -15,20 +15,15 @@ const MainPage = () => {
   const { review_store } = useContext(Context);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     games_store.getNewstGame()
     artilce_store.getAllArticleFunc(1, 4, 'popular-desc', null)
     review_store.getReviewsFunc(0, 4, true, null)
 
-  }, [games_store, artilce_store, review_store])
+  }, [])
 
 
-  if (games_store.isLoading || artilce_store.isLoading || review_store.isLoading) {
-    return (
-      <div className='loading-page'>
-        <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-      </div>
-    )
-  }
+
 
   return (
     <section className='main-section'>

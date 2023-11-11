@@ -19,13 +19,7 @@ const ArticlePage = () => {
         artilce_store.getOneArticleFunc(String(slug))
     }, [artilce_store, slug])
 
-    if (artilce_store.isLoading) {
-        return (
-            <div className='loading-page'>
-                <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-            </div>
-        )
-    }
+
     if (artilce_store.article.id === undefined) {
         return (
             <NotFoundPage/>

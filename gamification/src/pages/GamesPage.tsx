@@ -19,6 +19,7 @@ const GamesPage: FC = () => {
 
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (pageParam === null) {
       games_store.getGameByPage(1, pageLimitElement, sortParam, null, filterParam)
     }
@@ -27,13 +28,6 @@ const GamesPage: FC = () => {
     }
   }, [games_store])
 
-  if (games_store.isLoading) {
-    return (
-      <div className='loading-page'>
-        <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-      </div>
-    )
-  }
 
   return (
     <section className='games-page-section'>

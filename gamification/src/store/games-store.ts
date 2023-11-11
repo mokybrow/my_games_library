@@ -89,7 +89,6 @@ export default class GamesStore {
         } catch (error) {
             this.setReviews([] as ReviewCardModel[])
         } try {
-            // const response = await GameService.getGameBySlug(String(slug));
             const userGrade = await GameService.getUserGrade(game_id)
             this.setUserGrade(userGrade.data)
         } catch (error) {

@@ -23,14 +23,6 @@ const CompletedPage = () => {
 
     }, [auth_store.user.username])
 
-    if (user_store.isLoading || auth_store.isLoading) {
-        return (
-            <div className='loading-page'>
-                <img src={require('../../assets/img/dude.jpeg')} alt="Dude" />
-            </div>
-        )
-    }
-
     return (
         <section className='games-lists-section'>
             <div className='game-in-lists-grid-container'>

@@ -12,22 +12,28 @@ function App() {
   const { artilce_store } = useContext(Context);
   const { list_store } = useContext(Context);
   const { games_store } = useContext(Context);
+  const { review_store } = useContext(Context);
   const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     if (getLocalToken()) {
       auth_store.checkAuth()
     }
-  }, [auth_store])
+  }, [auth_store, artilce_store, review_store, games_store,list_store])
+
+  if (auth_store.isLoading) {
+    return (
+      <div className='loading-page'>
+        <img src={require('./assets/img/dude.jpeg')} alt="Dude" />
+      </div>
+    )
+  }
 
 
   return (
     <>
       <AppRoutes />
 
-      <BrowserRouter>
-        <Footer />
-      </BrowserRouter>
     </>
   );
 }

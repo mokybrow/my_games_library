@@ -24,13 +24,7 @@ const AllListsPage = () => {
     }
   }, [list_store])
 
-  if (list_store.isLoading) {
-    return (
-      <div className='loading-page'>
-        <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-      </div>
-    )
-  }
+
 
   return (
 

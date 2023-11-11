@@ -23,13 +23,7 @@ const NewsPage = () => {
         }
     }, [artilce_store])
 
-    if (artilce_store.isLoading){
-        return(
-            <div className='loading-page'>
-                <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-                </div>
-        )
-    }
+
     return (
         <section className='news-page-section'>
             <div className="news-page-grid">

@@ -19,25 +19,18 @@ const GamePage = () => {
     const { user_store } = useContext(Context);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         games_store.getGameData(String(slug))
         if (games_store.gameProfile.id !== undefined){
             games_store.getReviewsFunc(0, 6, false, String(slug), auth_store.user.id, games_store.gameProfile.id)
-
         }
         if (getLocalToken()) {
             if (auth_store.user.id !== undefined){
                 user_store.getUserListsFunc(auth_store.user.id)
             }
         }
-    }, [games_store, slug, auth_store.user.id])
+    }, [games_store.gameProfile.id, slug, auth_store.user.id])
 
-    if (games_store.isLoading) {
-        return (
-            <div className='loading-page'>
-                <img src={require('../assets/img/dude.jpeg')} alt="Dude" />
-            </div>
-        )
-    }
     if (games_store.gameProfile.id !== undefined) {
         return (
             <section className='game-profile-page-section'>

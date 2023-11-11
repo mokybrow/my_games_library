@@ -25,13 +25,6 @@ const ListsPage = () => {
     }, [auth_store.user.username])
 
 
-    if (user_store.isLoading || auth_store.isLoading) {
-        return (
-            <div className='loading-page'>
-                <img src={require('../../assets/img/dude.jpeg')} alt="Dude" />
-            </div>
-        )
-    }
     return (
         <section className='lists-page-section'>
             <div className='lists-grid-container'>

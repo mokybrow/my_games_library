@@ -25,9 +25,11 @@ export const LoginForm: FC = () => {
 
     const {
         register,
-        formState: { errors },
+        formState: { errors, isValid },
         handleSubmit,
-    } = useForm<IFormInput>()
+        getValues,
+        
+    } = useForm<IFormInput>({ mode: "onSubmit" })
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         auth_store.login(data.email, data.password)
@@ -87,7 +89,7 @@ export const LoginForm: FC = () => {
                 <p>Показать пароль</p>
                 <input className='show-password' type="checkbox" onClick={togglePasswordVisiblity} />
             </div>
-            <SubmitButton type={'submit'} onClick={undefined}>
+            <SubmitButton  type={"submit"} onClick={undefined}>
                 Вход
             </SubmitButton>
 
