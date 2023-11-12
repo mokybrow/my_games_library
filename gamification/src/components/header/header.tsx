@@ -58,6 +58,7 @@ const Header: FC = () => {
         <>
             <header>
                 <div className="header-logo">
+                    {/* <img className='logo-img' src={require('../../assets/img/tomloading.png')} alt="logo" width={32} height={32}/> */}
                     <Link to='/'>Чуваки</Link>
                 </div>
                 <div onClick={buttonFunc} className="header-menu menu">

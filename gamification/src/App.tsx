@@ -21,19 +21,10 @@ function App() {
     }
   }, [auth_store, artilce_store, review_store, games_store,list_store])
 
-  if (auth_store.isLoading) {
-    return (
-      <div className='loading-page'>
-        <img src={require('./assets/img/dude.jpeg')} alt="Dude" />
-      </div>
-    )
-  }
-
 
   return (
     <>
       <AppRoutes />
-
     </>
   );
 }

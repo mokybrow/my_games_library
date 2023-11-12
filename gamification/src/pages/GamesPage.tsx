@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 import Pagination from '../components/pagination/pagination';
 import FilterSelect from '../components/filterselect/filter-select';
 import SortSelect from '../components/filterselect/sort-select';
+import Loader from '../components/loader/loader';
 
 
 const GamesPage: FC = () => {
@@ -28,7 +29,11 @@ const GamesPage: FC = () => {
     }
   }, [games_store])
 
-
+  if (games_store.isLoading) {
+    return (
+        <Loader />
+    )
+}
   return (
     <section className='games-page-section'>
       <div className='games-page-grid-container'>

@@ -50,6 +50,8 @@
     margin: 0.4em;
     padding: 0.4em;
     transition: all 200ms linear;
+    font-weight: 600;
+
 }
 
 .title-card-activity {

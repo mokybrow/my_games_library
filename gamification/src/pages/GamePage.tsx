@@ -11,6 +11,8 @@ import AddReview from '../components/addreview/add-review';
 import { UnactiveUser } from '../components/unactiveuser/unactive-user';
 import { NotFoundPage } from '../components/not_found_page/not-found-page';
 import { InfoBanner } from '../components/infobanner/info-banner';
+import Loader from '../components/loader/loader';
+import { FormattedDate } from 'react-intl';
 
 const GamePage = () => {
     const { slug } = useParams<string>();
@@ -21,15 +23,21 @@ const GamePage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         games_store.getGameData(String(slug))
-        if (games_store.gameProfile.id !== undefined){
+        if (games_store.gameProfile.id !== undefined) {
             games_store.getReviewsFunc(0, 6, false, String(slug), auth_store.user.id, games_store.gameProfile.id)
         }
         if (getLocalToken()) {
-            if (auth_store.user.id !== undefined){
+            if (auth_store.user.id !== undefined) {
                 user_store.getUserListsFunc(auth_store.user.id)
             }
         }
     }, [games_store.gameProfile.id, slug, auth_store.user.id])
+
+    if (games_store.isLoading) {
+        return (
+            <Loader />
+        )
+    }
 
     if (games_store.gameProfile.id !== undefined) {
         return (
@@ -63,12 +71,44 @@ const GamePage = () => {
                                         }
                                     </span>
                                 </h1>
-
-
-                                <p>{games_store.gameProfile.release?.toString()}</p>
+                                {games_store.gameProfile.release !== undefined ?
+                                <div>
+                                <span>Дата выхода: </span>
+                                    <FormattedDate
+                                        value={games_store.gameProfile.release}
+                                        year='numeric'
+                                        month='short'
+                                        day='numeric'
+                                    />
+                                   </div> : null
+                                }
                             </div>
-                            <div className='info-container'>
+                            <div className='description-container'>
                                 <p>{!games_store.gameProfile.description ? 'Описания нет но скоро будет' : games_store.gameProfile.description}</p>
+                            </div>
+                            <div className='other-game-info'>
+                                <ul>
+                                    <span>Жанр:</span>
+
+                                    {games_store.gameProfile.genre.length > 0 ?
+                                        <>{games_store.gameProfile.genre.map(genre =>
+                                            <li key={genre}>
+                                                {genre}
+                                            </li>)}</> : null}
+                                </ul>
+                                <ul>
+                                    <span>Где играть:</span>
+
+                                    {games_store.gameProfile.platform.length > 0 ?
+                                        <>{games_store.gameProfile.platform.map(platform =>
+                                            <li key={platform}>
+                                                {platform}
+                                            </li>)}</> : null}
+                                </ul>
+                                <ul>
+                                    <span>Возраст:</span>
+                                        <li>{games_store.gameProfile.esrb_rating}</li>
+                                </ul>
                             </div>
                         </div>
                         <div className="comment-wrapper">

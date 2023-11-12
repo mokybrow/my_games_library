@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import GameCard from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
+import Loader from '../../components/loader/loader';
 
 const FavoritePage = () => {
     const { auth_store } = useContext(Context);
@@ -24,15 +25,12 @@ const FavoritePage = () => {
 
     }, [auth_store.user.username])
 
-
-
-    if (user_store.isLoading || auth_store.isLoading) {
+    if (user_store.isLoading) {
         return (
-            <div className='loading-page'>
-                <img src={require('../../assets/img/dude.jpeg')} alt="Dude" />
-            </div>
+            <Loader />
         )
     }
+
 
     return (
         <section className='games-lists-section'>

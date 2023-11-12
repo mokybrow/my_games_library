@@ -49,6 +49,7 @@
     margin: 0.4em;
     padding: 0.4em;
     transition: all 200ms linear;
+    word-break: break-all;
 }
 
 .title-card-activity {

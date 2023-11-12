@@ -11,6 +11,7 @@
     border-radius: 0 0 6px 6px;
     transition: all 200ms linear;
     padding-bottom: 10px;
+    font-weight: 600;
 }
 
 .dropdown-content a {

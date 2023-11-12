@@ -3,6 +3,7 @@ import { Context } from '../..';
 import { useParams } from 'react-router-dom';
 import GameCard from '../../components/gamecard/game-card';
 import { observer } from 'mobx-react-lite';
+import Loader from '../../components/loader/loader';
 
 const GameInLists = () => {
     const { auth_store } = useContext(Context);
@@ -18,6 +19,12 @@ const GameInLists = () => {
 
     const addListToMyProfile = () => {
         list_store.addDeleteList(String(slug))
+    }
+
+    if (list_store.isLoading) {
+        return (
+            <Loader />
+        )
     }
     return (
         <section className='games-lists-section'>

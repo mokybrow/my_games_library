@@ -218,7 +218,7 @@ async def get_new_games(db: AsyncSession):
         )
         .limit(6)
         .offset(0)
-        .filter(game_table.c.release <= datetime.date.today())
+        .filter(game_table.c.release >= datetime.date.today(), game_table.c.release <= datetime.date.today() + datetime.timedelta(days=20))
         .order_by(game_table.c.release.desc())
     )
     result = await db.execute(query)

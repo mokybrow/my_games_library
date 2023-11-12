@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import ListsPagePagination from '../components/pagination/listspage-pagination';
 import ListPageCard  from '../components/listscard/list-card';
 import { observer } from 'mobx-react-lite';
+import Loader from '../components/loader/loader';
 
 const AllListsPage = () => {
   const { list_store } = useContext(Context);
@@ -25,7 +26,11 @@ const AllListsPage = () => {
     }
   }, [list_store])
 
-
+  if (list_store.isLoading) {
+    return (
+        <Loader/>
+    )
+}
 
   return (
 

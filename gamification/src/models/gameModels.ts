@@ -4,7 +4,7 @@ export interface GameProfileResponse {
     cover: string;
     description: null;
     slug: string;
-    release: Date | null;
+    release: Date;
     platform: string[];
     platform_name: string[];
     genre: string[];

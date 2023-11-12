@@ -4,6 +4,7 @@ import { Context } from '../..';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 import GameCard from '../../components/gamecard/game-card';
+import Loader from '../../components/loader/loader';
 
 const CompletedPage = () => {
     const { auth_store } = useContext(Context);
@@ -24,6 +25,11 @@ const CompletedPage = () => {
 
     }, [auth_store.user.username])
 
+    if (user_store.isLoading) {
+        return (
+            <Loader />
+        )
+    }
     return (
         <section className='games-lists-section'>
             <div className='game-in-lists-grid-container'>

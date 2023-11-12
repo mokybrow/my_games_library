@@ -101,3 +101,20 @@
 .custom-checkbox.plus:checked+label::before {
     background-image: url('../../assets/icons/plus-white.png');
 }
+
+
+@media (max-width: 1000px) {
+
+    /* стили при наведении курсора на checkbox */
+    .custom-checkbox:not(:disabled):not(:checked)+label:hover::before {
+        border-color: var(--font-color);
+    }
+
+    /* стили для активного чекбокса (при нажатии на него) */
+    .custom-checkbox:not(:disabled):active+label::before {
+        background-color: none;
+        border-color: none;
+    }
+
+
+}

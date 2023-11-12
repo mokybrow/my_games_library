@@ -14,6 +14,11 @@ header {
     font-weight: 400;
 }
 
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
 .header-logo a {
     text-transform: uppercase;
     font-size: 1.4em;
@@ -23,17 +28,27 @@ header {
 }
 
 .header-logo:hover {
-    transform: scale(1.01);
+    transform: scale(1.1);
     transition: all 100ms linear;
 }
 
 header a {
     text-decoration: none;
     color: var(--font-color);
-    font-family: Roboto;
+    font-family: Montserrat;
     font-size: 1.2em;
 }
 
+/* .logo-img {
+    border-radius: 50%;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    transition: transform .8s ease-in-out;
+}
+
+.logo-img:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+} */
 
 .menu-list {
     list-style: none;

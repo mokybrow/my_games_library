@@ -9,6 +9,7 @@
     transition: all 200ms linear;
     background-color: var(--background-card-color);
     grid-column: 1 span;
+    font-weight: 600;
 }
 
 .background-wrap {

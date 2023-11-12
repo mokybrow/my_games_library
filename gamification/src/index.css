@@ -12,6 +12,8 @@ body.lock {
   overflow: hidden;
 }
 
+
+
 @font-face {
   font-family: Montserrat;
   src: url('./assets/fonts/Montserrat-VariableFont_wght.ttf');
@@ -58,7 +60,7 @@ html[data-theme='light'] {
 
   --background-title-color: rgba(255, 255, 255, .8);
 
-  --background-card-color: rgba(234,226,215, .8);
+  --background-card-color: rgba(234, 226, 215, .8);
 
   --modal-background: rgba(255, 255, 255, 1);
 
@@ -76,19 +78,6 @@ a {
   color: var(--font-color);
 }
 
-.loading-page {
-  width: 100vw;
-  height: 100%;
-  position: absolute;
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  background-color: rgba(0, 0, 0, 1);
-  z-index: 2000;
-  top: 0;
-  left: 0;
-}
 
 .not-found-container {
   display: flex;

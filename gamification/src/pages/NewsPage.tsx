@@ -6,6 +6,7 @@ import NewsCard from '../components/newscard/news-card';
 import { observer } from 'mobx-react-lite';
 import NewsPageSortSelect from '../components/filterselect/newspage-sort';
 import NewsPagePagination from '../components/pagination/newspage-pagination';
+import Loader from '../components/loader/loader';
 
 const NewsPage = () => {
     const { artilce_store } = useContext(Context);
@@ -24,7 +25,11 @@ const NewsPage = () => {
         }
     }, [artilce_store])
 
-
+    if (artilce_store.isLoading) {
+        return (
+            <Loader />
+        )
+    }
     return (
         <section className='news-page-section'>
             <div className="news-page-grid">

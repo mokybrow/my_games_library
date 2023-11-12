@@ -7,6 +7,8 @@ import NewsCard from '../components/newscard/news-card';
 import { ReviewCard } from '../components/reviewcard/review-card';
 import { MainPageReviewCard } from '../components/reviewcard/main-page-review';
 import { InfoBanner } from '../components/infobanner/info-banner';
+import { Link } from 'react-router-dom';
+import Loader from '../components/loader/loader';
 
 
 const MainPage = () => {
@@ -17,13 +19,16 @@ const MainPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     games_store.getNewstGame()
-    artilce_store.getAllArticleFunc(1, 4, 'popular-desc', null)
+    artilce_store.getAllArticleFunc(1, 4, 'new', null)
     review_store.getReviewsFunc(0, 4, true, null)
 
   }, [])
 
-
-
+  if (artilce_store.isLoading || games_store.isLoading || review_store.isLoading ) {
+    return (
+      <Loader />
+    )
+  }
 
   return (
     <section className='main-section'>
@@ -32,7 +37,7 @@ const MainPage = () => {
           <div className="checkbox-main-page">
             <input className="custom-checkbox check" type="checkbox" id="color-5" name="color-5" />
             <label htmlFor="color-5"></label>
-            <h1>Отмечай игры пройденными</h1>
+            <h1>Отмечай пройденные игры</h1>
           </div>
           <div className="checkbox-main-page">
             <input className="custom-checkbox heart" type="checkbox" id="color-6" name="color-6" />
@@ -73,7 +78,7 @@ const MainPage = () => {
         {artilce_store.articles.length > 0 ?
           <div className="news-articles-grid-container">
             <div className="main-page-section-title">
-              <h1>Новости</h1>
+              <h1><Link to='/news'>Новости</Link></h1>
             </div>
             {artilce_store.articles.map((article) =>
               <div key={article.id}>

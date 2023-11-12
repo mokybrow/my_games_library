@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import GameCard from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
+import Loader from '../../components/loader/loader';
 
 const WishlistPage = () => {
 
@@ -25,6 +26,11 @@ const WishlistPage = () => {
 
     }, [auth_store.user.username])
 
+    if (user_store.isLoading) {
+        return (
+            <Loader />
+        )
+    }
     return (
         <section className='games-lists-section'>
             <div className='game-in-lists-grid-container'>

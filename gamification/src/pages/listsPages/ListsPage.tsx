@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react';
 import { Context } from '../..';
 import ListPageCard  from '../../components/listscard/list-card';
 import { useParams } from 'react-router-dom';
+import Loader from '../../components/loader/loader';
 
 
 const ListsPage = () => {
@@ -23,7 +24,11 @@ const ListsPage = () => {
 
     }, [auth_store.user.username])
 
-
+    if (user_store.isLoading) {
+        return (
+            <Loader />
+        )
+    }
     return (
         <section className='lists-page-section'>
             <div className='lists-grid-container'>

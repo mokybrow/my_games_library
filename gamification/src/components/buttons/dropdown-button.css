@@ -1,5 +1,5 @@
 .dropdown-button {
-    font-family: 'Roboto', sans-serif;
+    font-family: Montserrat;
     padding: 10px;
     font-size: 20px;
     text-transform: uppercase;
@@ -16,6 +16,7 @@
     min-width: 160px;
     max-width: 100%;
     color: var(--font-color);
+    font-weight: 600;
 }
 
 .dropdown-menu:hover .dropdown-button {

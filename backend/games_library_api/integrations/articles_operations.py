@@ -55,6 +55,7 @@ async def get_all_article(
     if limit == None:
         limit = 4
     if user_id:
+        print('с пользаком')
         if not tag:
             if sort == 'popular-desc':
                 query = (

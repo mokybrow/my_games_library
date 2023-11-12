@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 import SearchItem from '../components/search-items/search-item'
 import { Context } from '..'
 import { useSearchParams } from 'react-router-dom'
+import Loader from '../components/loader/loader'
 
 const SearchPage = () => {
     const { search_store } = useContext(Context);
@@ -17,6 +18,11 @@ const SearchPage = () => {
         search_store.searchFunc(String(tagParam), String(titleParam))
     }, [])
 
+    if (search_store.isLoading) {
+        return (
+            <Loader />
+        )
+    }
     return (
         <section className='search-page-section'>
             <div className="search-page-grid">
