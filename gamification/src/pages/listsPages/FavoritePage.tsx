@@ -5,6 +5,7 @@ import GameCard from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 import Loader from '../../components/loader/loader';
+import { Helmet } from 'react-helmet';
 
 const FavoritePage = () => {
     const { auth_store } = useContext(Context);
@@ -33,27 +34,40 @@ const FavoritePage = () => {
 
 
     return (
-        <section className='games-lists-section'>
-            <div className='game-in-lists-grid-container'>
-                {user_store.userActivity.length > 0 ?
-                    <>
-                        {user_store.userActivity.map((game) =>
-                            <>
-                                {game.activity_type == 'liked' ?
-                                    <div key={game.id}>
-                                        <GameCard
-                                            gameId={game.id}
-                                            gameSlug={game.slug}
-                                            gameCover={game.cover}
-                                            gameTitle={game.title}
-                                            activityType={game.activity_type} />
-                                    </div>
-                                    : null}
-                            </>)}
-                    </> : null
-                }
-            </div>
-        </section>
+        <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Любимые игры {username}</title>
+                <link rel="canonical" href={'https://dudesplay.ru/' + username + '/favorite'} />
+                <meta name="title" content='Любимые игры' />
+                <meta name="description" content={'Любимые игры' + username} />
+                <meta property="og:site_name" content='Чуваки' />
+                <meta property="og:title" content='Любимые игры' />
+                <meta property="og:description" content={'Любимые игры' + username} />
+
+            </Helmet>
+            <section className='games-lists-section'>
+                <div className='game-in-lists-grid-container'>
+                    {user_store.userActivity.length > 0 ?
+                        <>
+                            {user_store.userActivity.map((game) =>
+                                <>
+                                    {game.activity_type == 'liked' ?
+                                        <div key={game.id}>
+                                            <GameCard
+                                                gameId={game.id}
+                                                gameSlug={game.slug}
+                                                gameCover={game.cover}
+                                                gameTitle={game.title}
+                                                activityType={game.activity_type} />
+                                        </div>
+                                        : null}
+                                </>)}
+                        </> : null
+                    }
+                </div>
+            </section>
+        </>
     )
 }
 

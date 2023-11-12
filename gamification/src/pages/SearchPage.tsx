@@ -6,6 +6,7 @@ import SearchItem from '../components/search-items/search-item'
 import { Context } from '..'
 import { useSearchParams } from 'react-router-dom'
 import Loader from '../components/loader/loader'
+import { Helmet } from 'react-helmet'
 
 const SearchPage = () => {
     const { search_store } = useContext(Context);
@@ -24,21 +25,33 @@ const SearchPage = () => {
         )
     }
     return (
-        <section className='search-page-section'>
-            <div className="search-page-grid">
-                <SearchInput />
-                {search_store.items.length > 0 ?
-                    <>
-                        {search_store.items.map((item) =>
-                            <div key={item.slug}>
-                                <SearchItem tag={''} ItemSlug={item.slug} ItemCover={item.cover} ItemTitle={item.title} />
+        <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Поиск</title>
+                <link rel="canonical" href={'https://dudesplay.ru/search'} />
+                <meta name="title" content='Чуваки' />
+                <meta name="description" content='Находи интересующие тебя игры' />
+                <meta property="og:site_name" content='Чуваки' />
+                <meta property="og:title" content='Чуваки' />
+                <meta property="og:description" content='Находи интересующие тебя игры' />
+            </Helmet>
+            <section className='search-page-section'>
+                <div className="search-page-grid">
+                    <SearchInput />
+                    {search_store.items.length > 0 ?
+                        <>
+                            {search_store.items.map((item) =>
+                                <div key={item.slug}>
+                                    <SearchItem tag={''} ItemSlug={item.slug} ItemCover={item.cover} ItemTitle={item.title} />
 
-                            </div>
-                        )}
-                    </>
-                    : null}
-            </div>
-        </section>
+                                </div>
+                            )}
+                        </>
+                        : null}
+                </div>
+            </section>
+        </>
     )
 }
 

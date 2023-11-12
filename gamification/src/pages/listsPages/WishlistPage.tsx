@@ -5,6 +5,7 @@ import GameCard from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 import Loader from '../../components/loader/loader';
+import { Helmet } from 'react-helmet';
 
 const WishlistPage = () => {
 
@@ -32,27 +33,40 @@ const WishlistPage = () => {
         )
     }
     return (
-        <section className='games-lists-section'>
-            <div className='game-in-lists-grid-container'>
-                {user_store.userActivity.length > 0 ?
-                    <>
-                        {user_store.userActivity.map((game) =>
-                            <>
-                                {game.activity_type === 'wanted' ?
-                                    <div key={game.id}>
-                                        <GameCard
-                                            gameId={game.id}
-                                            gameSlug={game.slug}
-                                            gameCover={game.cover}
-                                            gameTitle={game.title}
-                                            activityType={game.activity_type} />
-                                    </div>
-                                    : null}
-                            </>)}
-                    </> : null
-                }
-            </div>
-        </section>
+        <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Игры, которые {username} пройдёт</title>
+                <link rel="canonical" href={'https://dudesplay.ru/' + username + '/wishlist'} />
+                <meta name="title" content='Игры, которые пользователь пройдёт' />
+                <meta name="description" content={'Игры, которые' + username +'пользователь пройдёт'}/>
+                <meta property="og:site_name" content='Чуваки' />
+                <meta property="og:title" content='Игры, которые пользователь пройдёт' />
+                <meta property="og:description" content={'Игры, которые' + username +'пользователь пройдёт'} />
+
+            </Helmet>
+            <section className='games-lists-section'>
+                <div className='game-in-lists-grid-container'>
+                    {user_store.userActivity.length > 0 ?
+                        <>
+                            {user_store.userActivity.map((game) =>
+                                <>
+                                    {game.activity_type === 'wanted' ?
+                                        <div key={game.id}>
+                                            <GameCard
+                                                gameId={game.id}
+                                                gameSlug={game.slug}
+                                                gameCover={game.cover}
+                                                gameTitle={game.title}
+                                                activityType={game.activity_type} />
+                                        </div>
+                                        : null}
+                                </>)}
+                        </> : null
+                    }
+                </div>
+            </section>
+        </>
     )
 }
 

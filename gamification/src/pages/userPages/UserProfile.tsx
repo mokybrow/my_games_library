@@ -161,10 +161,13 @@ const UserProfile = () => {
                     <title>{user_store.user.username}</title>
                     <link rel="canonical" href={'https://dudesplay.ru/' + user_store.user.username} />
                     <meta name="title" content={user_store.user.username} />
+                    <meta name="description" content='Старница пользователя' />
                     <meta property="og:site_name" content='Чуваки' />
-                    <meta property="og:type" content='article' />
                     <meta property="og:title" content={user_store.user.username} />
+                    <meta property="og:description" content='Страница пользователя' />
+
                 </Helmet>
+
                 <section className='user-profile-page'>
 
                     <div className="user-info-grid-container">

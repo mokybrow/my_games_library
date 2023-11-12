@@ -5,6 +5,7 @@ import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 import GameCard from '../../components/gamecard/game-card';
 import Loader from '../../components/loader/loader';
+import { Helmet } from 'react-helmet';
 
 const CompletedPage = () => {
     const { auth_store } = useContext(Context);
@@ -31,27 +32,40 @@ const CompletedPage = () => {
         )
     }
     return (
-        <section className='games-lists-section'>
-            <div className='game-in-lists-grid-container'>
-                {user_store.userActivity.length > 0 ?
-                    <>
-                        {user_store.userActivity.map((game) =>
-                            <>
-                                {game.activity_type == 'passed' ?
-                                    <div key={game.id}>
-                                        <GameCard
-                                            gameId={game.id}
-                                            gameSlug={game.slug}
-                                            gameCover={game.cover}
-                                            gameTitle={game.title}
-                                            activityType={game.activity_type} />
-                                    </div>
-                                    : null}
-                            </>)}
-                    </> : null
-                }
-            </div>
-        </section>
+        <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Пройденные игры {username}</title>
+                <link rel="canonical" href={'https://dudesplay.ru/' + username + '/completed'} />
+                <meta name="title" content='Пройденные игры' />
+                <meta name="description" content={'Пройденные игры пользователя' + username} />
+                <meta property="og:site_name" content='Чуваки' />
+                <meta property="og:title" content='Пройденные игры' />
+                <meta property="og:description" content={'Пройденные игры пользователя' + username} />
+
+            </Helmet>
+            <section className='games-lists-section'>
+                <div className='game-in-lists-grid-container'>
+                    {user_store.userActivity.length > 0 ?
+                        <>
+                            {user_store.userActivity.map((game) =>
+                                <>
+                                    {game.activity_type == 'passed' ?
+                                        <div key={game.id}>
+                                            <GameCard
+                                                gameId={game.id}
+                                                gameSlug={game.slug}
+                                                gameCover={game.cover}
+                                                gameTitle={game.title}
+                                                activityType={game.activity_type} />
+                                        </div>
+                                        : null}
+                                </>)}
+                        </> : null
+                    }
+                </div>
+            </section>
+        </>
     )
 }
 
