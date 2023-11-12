@@ -8,6 +8,7 @@ import { FormattedMessage, FormattedDate } from 'react-intl';
 import { NotFoundPage } from '../components/not_found_page/not-found-page';
 import ModalWindow from '../components/modalwindow/modal-window';
 import Loader from '../components/loader/loader';
+import { Helmet } from "react-helmet";
 
 const ArticlePage = () => {
     const { slug } = useParams<string>();
@@ -30,11 +31,11 @@ const ArticlePage = () => {
             setHasAuthorLike(false)
         }
 
-    }, [artilce_store.article.id, slug])
+    }, [artilce_store.article.id,artilce_store.article.text, slug])
 
     if (artilce_store.isLoading) {
         return (
-            <Loader/>
+            <Loader />
         )
     }
 
@@ -45,6 +46,20 @@ const ArticlePage = () => {
     }
     return (
         <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>{artilce_store.article.title}</title>
+                <link rel="canonical" href={'https://dudesplay.ru/article/'+artilce_store.article.slug} />
+                <meta name="title" content={artilce_store.article.title} />
+                <meta name="description" content={parse(artilce_store.article.text)[0].props.children} />
+                <meta property="og:site_name" content='Чуваки' />
+                <meta property="og:type" content='article' />
+                <meta property="og:title" content={artilce_store.article.title} />
+                <meta property="og:description" content={parse(artilce_store.article.text)[0].props.children} />
+                <meta property="article:published_date" content={artilce_store.article.created_at.toString()} />
+
+            </Helmet>
+
             <section className='article-page-section'>
                 <div className="article-image-container-shadow">
                 </div>
@@ -101,6 +116,8 @@ const ArticlePage = () => {
             </section >
         </>
     )
+
+
 }
 
 export default observer(ArticlePage);
