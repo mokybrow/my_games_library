@@ -8,7 +8,7 @@ import Pagination from '../components/pagination/pagination';
 import FilterSelect from '../components/filterselect/filter-select';
 import SortSelect from '../components/filterselect/sort-select';
 import Loader from '../components/loader/loader';
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet';
 
 
 const GamesPage: FC = () => {

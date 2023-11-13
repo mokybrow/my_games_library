@@ -10,7 +10,6 @@ import ArticleStore from './store/article-store';
 import ReviewStore from './store/review-store';
 import { IntlProvider } from 'react-intl';
 import SearchStore from './store/search-store';
-import { Helmet, HelmetProvider } from "react-helmet-async";
 
 
 interface State {
@@ -49,21 +48,19 @@ const root = ReactDOM.createRoot(
 const locale = navigator.language;
 
 root.render(
-  <HelmetProvider>
-    <Context.Provider value={{
-      auth_store: auth_store,
-      user_store: user_store,
-      list_store: list_store,
-      games_store: games_store,
-      artilce_store: artilce_store,
-      review_store: review_store,
-      search_store: search_store
-    }}>
+  <Context.Provider value={{
+    auth_store: auth_store,
+    user_store: user_store,
+    list_store: list_store,
+    games_store: games_store,
+    artilce_store: artilce_store,
+    review_store: review_store,
+    search_store: search_store
+  }}>
 
-      <IntlProvider locale={locale} >
-        <App />
-      </IntlProvider>
+    <IntlProvider locale={locale} >
+      <App />
+    </IntlProvider>
 
-    </Context.Provider>
-  </HelmetProvider>
+  </Context.Provider>
 );

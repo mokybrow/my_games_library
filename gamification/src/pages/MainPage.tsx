@@ -9,7 +9,7 @@ import { MainPageReviewCard } from '../components/reviewcard/main-page-review';
 import { InfoBanner } from '../components/infobanner/info-banner';
 import { Link } from 'react-router-dom';
 import Loader from '../components/loader/loader';
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet';
 
 
 const MainPage = () => {

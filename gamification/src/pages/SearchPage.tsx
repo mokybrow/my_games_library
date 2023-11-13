@@ -6,7 +6,7 @@ import SearchItem from '../components/search-items/search-item'
 import { Context } from '..'
 import { useSearchParams } from 'react-router-dom'
 import Loader from '../components/loader/loader'
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet'
 
 const SearchPage = () => {
     const { search_store } = useContext(Context);

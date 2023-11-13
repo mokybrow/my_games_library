@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import NewsPageSortSelect from '../components/filterselect/newspage-sort';
 import NewsPagePagination from '../components/pagination/newspage-pagination';
 import Loader from '../components/loader/loader';
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet';
 
 const NewsPage = () => {
     const { artilce_store } = useContext(Context);
