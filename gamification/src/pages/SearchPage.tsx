@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import  { useContext, useEffect } from 'react'
 import '../styles/search-page.css'
 import SearchInput from '../components/search-items/search-input'
 import { observer } from 'mobx-react-lite'

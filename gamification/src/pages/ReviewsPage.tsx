@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import  { useContext, useEffect } from 'react'
 import '../styles/reviews-page.css'
 import { Context } from '..';
 import { useSearchParams } from 'react-router-dom';
