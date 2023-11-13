@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 import AppRoutes from './routes/index'
 import Footer from './components/footer/footer';
 import { BrowserRouter } from 'react-router-dom'
-import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function App() {
   const { auth_store } = useContext(Context);
@@ -25,9 +24,7 @@ function App() {
 
   return (
     <>
-      <HelmetProvider>
         <AppRoutes />
-      </HelmetProvider>
 
     </>
   );
