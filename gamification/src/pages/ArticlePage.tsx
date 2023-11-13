@@ -30,7 +30,6 @@ const ArticlePage = () => {
         if (artilce_store.article.hasAuthorLike === 0) {
             setHasAuthorLike(false)
         }
-
     }, [artilce_store.article.id,artilce_store.article.text, slug])
 
     if (artilce_store.isLoading) {
@@ -44,6 +43,7 @@ const ArticlePage = () => {
             <NotFoundPage />
         )
     }
+
     return (
         <>
             <Helmet>
@@ -51,11 +51,15 @@ const ArticlePage = () => {
                 <title>{artilce_store.article.title}</title>
                 <link rel="canonical" href={'https://dudesplay.ru/article/'+artilce_store.article.slug} />
                 <meta name="title" content={artilce_store.article.title} />
+                { parse(artilce_store.article.text)[0] != undefined ? 
                 <meta name="description" content={parse(artilce_store.article.text)[0].props.children} />
+                : null}
                 <meta property="og:site_name" content='Чуваки' />
                 <meta property="og:type" content='article' />
                 <meta property="og:title" content={artilce_store.article.title} />
+                { parse(artilce_store.article.text)[0] != undefined ? 
                 <meta property="og:description" content={parse(artilce_store.article.text)[0].props.children} />
+                : null}
                 <meta property="article:published_date" content={artilce_store.article.created_at.toString()} />
 
             </Helmet>

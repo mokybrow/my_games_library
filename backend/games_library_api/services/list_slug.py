@@ -114,4 +114,5 @@ async def making_slug(s: str) -> str:
         s = re.sub(" +", " ", s)
         s = s.strip()
         s = s.replace(" ", "_")
+        s = s.replace(".", "")
     return s
