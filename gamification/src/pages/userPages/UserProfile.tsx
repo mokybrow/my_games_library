@@ -10,7 +10,7 @@ import { UnactiveUser } from '../../components/unactiveuser/unactive-user';
 import GameCard from '../../components/gamecard/game-card';
 import { FollowButton } from '../../components/buttons/follow-button';
 import { NotFoundPage } from '../../components/not_found_page/not-found-page';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const UserProfile = () => {
     const { auth_store } = useContext(Context);

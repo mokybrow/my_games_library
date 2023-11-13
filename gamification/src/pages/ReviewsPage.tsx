@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import ReviewsPageSortSelect from '../components/filterselect/reviewpage-sort';
 import ReviewsPagePagination from '../components/pagination/reviewspage-pagination';
 import Loader from '../components/loader/loader';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const ReviewsPage = () => {
     const { artilce_store } = useContext(Context);

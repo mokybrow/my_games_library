@@ -8,7 +8,7 @@ import { FormattedMessage, FormattedDate } from 'react-intl';
 import { NotFoundPage } from '../components/not_found_page/not-found-page';
 import ModalWindow from '../components/modalwindow/modal-window';
 import Loader from '../components/loader/loader';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const ArticlePage = () => {
     const { slug } = useParams<string>();

@@ -5,7 +5,7 @@ import { Context } from '../..';
 import ListPageCard from '../../components/listscard/list-card';
 import { useParams } from 'react-router-dom';
 import Loader from '../../components/loader/loader';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 
 const ListsPage = () => {

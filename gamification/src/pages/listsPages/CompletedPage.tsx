@@ -5,7 +5,7 @@ import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 import GameCard from '../../components/gamecard/game-card';
 import Loader from '../../components/loader/loader';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const CompletedPage = () => {
     const { auth_store } = useContext(Context);

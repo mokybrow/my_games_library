@@ -7,7 +7,7 @@ import { UploadImgForm } from '../../components/uploadimgform/upload-img-form';
 import { UserSettingsForm } from '../../components/usersettingsform/user-settings-form';
 import PersonalDataForm from '../../components/usersettingsform/personal-data-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const UserSettings = () => {
     const { user_store } = useContext(Context);

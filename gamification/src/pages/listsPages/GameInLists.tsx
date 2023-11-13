@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import GameCard from '../../components/gamecard/game-card';
 import { observer } from 'mobx-react-lite';
 import Loader from '../../components/loader/loader';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const GameInLists = () => {
     const { auth_store } = useContext(Context);

@@ -5,7 +5,7 @@ import GameCard from '../../components/gamecard/game-card';
 import '../../styles/game-in-lists.css'
 import { observer } from 'mobx-react-lite';
 import Loader from '../../components/loader/loader';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const WishlistPage = () => {
 

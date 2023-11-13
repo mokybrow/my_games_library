@@ -7,7 +7,7 @@ import ListsPagePagination from '../components/pagination/listspage-pagination';
 import ListPageCard from '../components/listscard/list-card';
 import { observer } from 'mobx-react-lite';
 import Loader from '../components/loader/loader';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const AllListsPage = () => {
   const { list_store } = useContext(Context);

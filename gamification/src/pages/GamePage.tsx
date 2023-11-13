@@ -13,7 +13,7 @@ import { NotFoundPage } from '../components/not_found_page/not-found-page';
 import { InfoBanner } from '../components/infobanner/info-banner';
 import Loader from '../components/loader/loader';
 import { FormattedDate } from 'react-intl';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const GamePage = () => {
     const { slug } = useParams<string>();

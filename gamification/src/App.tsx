@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import AppRoutes from './routes/index'
 import Footer from './components/footer/footer';
 import { BrowserRouter } from 'react-router-dom'
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 function App() {
   const { auth_store } = useContext(Context);
@@ -19,12 +20,15 @@ function App() {
     if (getLocalToken()) {
       auth_store.checkAuth()
     }
-  }, [auth_store, artilce_store, review_store, games_store,list_store])
+  }, [auth_store, artilce_store, review_store, games_store, list_store])
 
 
   return (
     <>
-      <AppRoutes />
+      <HelmetProvider>
+        <AppRoutes />
+      </HelmetProvider>
+
     </>
   );
 }

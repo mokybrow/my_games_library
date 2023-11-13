@@ -3,7 +3,7 @@ import '../../styles/create-list-page.css'
 import { Context } from '../..';
 import ListCreateForm from '../../components/listcreateform/list-create-form';
 import { observer } from 'mobx-react-lite';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 import { useParams } from 'react-router-dom';
 
 
