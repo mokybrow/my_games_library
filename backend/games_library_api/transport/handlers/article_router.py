@@ -38,7 +38,6 @@ async def create_article_router(
     db: AsyncSession = Depends(get_async_session),
     user: User = Depends(active_user_with_permission),
 ):
-    print("АЛО", model,model.tags)
     if not user.reporter:
         error = error_model.ErrorResponseModel(details='Access is denied')
         return JSONResponse(
