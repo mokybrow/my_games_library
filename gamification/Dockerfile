@@ -1,6 +1,4 @@
-# FROM node:latest as build
-FROM node:9-alpine as builder
-
+FROM node:latest as build
 
 WORKDIR /app
 
