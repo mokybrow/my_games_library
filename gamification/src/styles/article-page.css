@@ -63,7 +63,6 @@
 .article-text-container {
     display: flex;
     flex-direction: column;
-    gap: 6px;
     grid-column: 1 / -1;
     word-wrap: break-word;
 }
