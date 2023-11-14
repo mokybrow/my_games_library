@@ -44,49 +44,9 @@ export const Context = createContext<State>({
   search_store: search_store,
 })
 
-// const rootElement = document.getElementById("root") as HTMLElement;
-// if (rootElement.hasChildNodes()) {
-//   hydrate(<Context.Provider value={{
-//     auth_store: auth_store,
-//     user_store: user_store,
-//     list_store: list_store,
-//     games_store: games_store,
-//     artilce_store: artilce_store,
-//     review_store: review_store,
-//     search_store: search_store
-//   }}>
-
-//     <IntlProvider locale={locale} >
-//       <App />
-//     </IntlProvider>
-
-//   </Context.Provider>, rootElement);
-// } else {
-//   render(<Context.Provider value={{
-//     auth_store: auth_store,
-//     user_store: user_store,
-//     list_store: list_store,
-//     games_store: games_store,
-//     artilce_store: artilce_store,
-//     review_store: review_store,
-//     search_store: search_store
-//   }}>
-
-//     <IntlProvider locale={locale} >
-//       <App />
-//     </IntlProvider>
-
-//   </Context.Provider>, rootElement);
-// }
-
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
-
-root.render(
-  <Context.Provider value={{
+const rootElement = document.getElementById("root") as HTMLElement;
+if (rootElement.hasChildNodes()) {
+  hydrate(<Context.Provider value={{
     auth_store: auth_store,
     user_store: user_store,
     list_store: list_store,
@@ -100,5 +60,45 @@ root.render(
       <App />
     </IntlProvider>
 
-  </Context.Provider>
-);
+  </Context.Provider>, rootElement);
+} else {
+  render(<Context.Provider value={{
+    auth_store: auth_store,
+    user_store: user_store,
+    list_store: list_store,
+    games_store: games_store,
+    artilce_store: artilce_store,
+    review_store: review_store,
+    search_store: search_store
+  }}>
+
+    <IntlProvider locale={locale} >
+      <App />
+    </IntlProvider>
+
+  </Context.Provider>, rootElement);
+}
+
+
+// const root = ReactDOM.createRoot(
+//   document.getElementById('root') as HTMLElement
+// );
+
+
+// root.render(
+//   <Context.Provider value={{
+//     auth_store: auth_store,
+//     user_store: user_store,
+//     list_store: list_store,
+//     games_store: games_store,
+//     artilce_store: artilce_store,
+//     review_store: review_store,
+//     search_store: search_store
+//   }}>
+
+//     <IntlProvider locale={locale} >
+//       <App />
+//     </IntlProvider>
+
+//   </Context.Provider>
+// );
