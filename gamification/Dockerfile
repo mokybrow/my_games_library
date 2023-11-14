@@ -1,4 +1,5 @@
-FROM node:latest as build
+# FROM node:latest as build
+FROM node:9-alpine as builder
 
 # Installs latest Chromium (63) package.
 RUN apk update && apk upgrade && \
