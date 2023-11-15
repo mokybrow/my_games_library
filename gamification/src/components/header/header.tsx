@@ -69,17 +69,17 @@ const Header: FC = () => {
                     </div>
                     <nav className="menu-body">
                         <ul className="menu-list">
-                        <li className="menu-item" >  <Link to='/games' className="menu-link" reloadDocument>Игры</Link></li>
-                        <li className="menu-item" >  <Link to='/lists' className="menu-link" reloadDocument>Списки</Link></li>
-                        <li className="menu-item" > <Link to='/news' className="menu-link" reloadDocument>Новости</Link></li>
-                        <li className="menu-item" ><Link to='/reviews' className="menu-link" reloadDocument>Обзоры</Link></li>
+                        <li className="menu-item" >  <Link to='/games' className="menu-link" >Игры</Link></li>
+                        <li className="menu-item" >  <Link to='/lists' className="menu-link" >Списки</Link></li>
+                        <li className="menu-item" > <Link to='/news' className="menu-link" >Новости</Link></li>
+                        <li className="menu-item" ><Link to='/reviews' className="menu-link" >Обзоры</Link></li>
                             <li className="menu-item search-desktop">
-                                <Link to='/search' className="menu-link" reloadDocument>
+                                <Link to='/search' className="menu-link" >
                                     <img src={require('../../assets/icons/search.png')} alt="" width={24} height={24} />
                                 </Link>
                             </li>
                             <li className="menu-item search-mobile">
-                                <Link to='/search' className="menu-link" reloadDocument>
+                                <Link to='/search' className="menu-link" >
                                     Поиск
                                     <img src={require('../../assets/icons/search.png')} alt="" width={24} height={24} />
                                 </Link>
@@ -171,32 +171,32 @@ const Header: FC = () => {
                             <DropdownButtonContent userImg={auth_store.user.img} username={auth_store.user.username} />
                             <DropdownContent>
                                 <hr className='dropdown-line' />
-                                <Link to={`/${auth_store.user.username}`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}`} >
                                     Профиль
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/favorite`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/favorite`} >
                                     Любимые
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/wishlist`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/wishlist`} >
                                     Пройду
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/completed`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/completed`}>
                                     Пройденные
                                 </Link>
 
-                                <Link to={`/${auth_store.user.username}/lists`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/lists`}>
                                     Списки
                                 </Link>
-                                <Link to={`/${auth_store.user.username}/lists/create`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/lists/create`}>
                                     Создать список
                                 </Link>
                                 {auth_store.user.reporter ?
-                                    <Link to='/article/create' reloadDocument>
+                                    <Link to='/article/create'>
                                         Написать статью
                                     </Link> : null}
 
                                 <hr className='dropdown-line' />
-                                <Link to={`/${auth_store.user.username}/settings`} reloadDocument>
+                                <Link to={`/${auth_store.user.username}/settings`}>
                                     Настройки
                                 </Link>
                                 <Link to='/' onClick={auth_store.logout}>
@@ -206,10 +206,10 @@ const Header: FC = () => {
                         </> : <>
                             <DropdownButtonContent userImg={auth_store.user.img} username={auth_store.user.username} />
                             <DropdownContent>
-                                <Link to='/login' reloadDocument>
+                                <Link to='/login'>
                                     Войти
                                 </Link>
-                                <Link to='/registration' reloadDocument>
+                                <Link to='/registration'>
                                     Зарегистрироваться
                                 </Link>
                             </DropdownContent>
