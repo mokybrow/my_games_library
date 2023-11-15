@@ -15,7 +15,6 @@ const NewsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const pageParam = searchParams.get('page');
     const sortParam = searchParams.get('sort');
-
     useEffect(() => {
         window.scrollTo(0, 0);
         if (pageParam === null) {
@@ -31,6 +30,7 @@ const NewsPage = () => {
             <Loader />
         )
     }
+
     return (
         <>
             <Helmet>
@@ -56,7 +56,7 @@ const NewsPage = () => {
                                 newsSlug={article.slug}
                                 newsCover={article.cover}
                                 newsTitle={article.title}
-                                newsText={article.text}
+                                newsText={article.text.replace(/<img[^>]*>/g,"")}
                                 newsAuthor={article.username}
                                 newsDate={article.created_at}
                             />

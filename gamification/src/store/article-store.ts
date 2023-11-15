@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { AxiosError } from "axios";
 
 import { getLocalToken } from "../utils/utils";
-import { ArticleResponseModel } from "../models/articleModels";
+import { ArticleResponseModel, getOneArticleResponse } from "../models/articleModels";
 import AuthService from "../services/auth-service";
 import ArticleService from "../services/article-service";
 
@@ -12,7 +12,7 @@ export default class ArticleStore {
     isLoading = false;
     pageCount = 0;
 
-    articles = [] as ArticleResponseModel[];
+    articles = [] as getOneArticleResponse[];
 
     article = {} as ArticleResponseModel;
 
@@ -27,7 +27,7 @@ export default class ArticleStore {
         this.isLoading = bool;
     }
 
-    setArticles(articles: ArticleResponseModel[]) {
+    setArticles(articles: getOneArticleResponse[]) {
         this.articles = articles
     }
 

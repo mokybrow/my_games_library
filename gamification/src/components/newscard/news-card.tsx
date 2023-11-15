@@ -15,6 +15,8 @@ export interface NewsCard {
 
 const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsText, newsAuthor, newsDate }) => {
     var parse = require('html-react-parser');
+    console.log(newsText)
+
     return (
 
         <div className="news-card-cover-container">
@@ -39,6 +41,7 @@ const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsTe
                 <div className="news-text-container">
                     <span className="news-text">
                         {parse(newsText)}
+                        
                     </span>
                 </div>
 
