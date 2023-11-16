@@ -111,8 +111,8 @@ const GamePage = () => {
                                     <ul>
                                         <span>Где играть:</span>
 
-                                        {games_store.gameProfile.platform.length > 0 ?
-                                            <>{games_store.gameProfile.platform.map(platform =>
+                                        {games_store.gameProfile.platform_name.length > 0 ?
+                                            <>{games_store.gameProfile.platform_name.map(platform =>
                                                 <li key={platform}>
                                                     {platform}
                                                 </li>)}</> : null}

@@ -68,7 +68,7 @@ const AddReview: FC = () => {
                                 placeholder='Опишите ваш игровой опыт... (400 символов максимум)'
                                 onChange={e => { { setComment(e.target.value) } }} 
                                 maxLength={400} 
-                                defaultValue={games_store.userGrade.comment === undefined ? undefined  : String(games_store.userGrade.comment)} />
+                                defaultValue={games_store.userGrade.comment === undefined || games_store.userGrade.comment === null ? undefined  : String(games_store.userGrade.comment)} />
 
 
                             {rating === undefined || hover === undefined ? null : 

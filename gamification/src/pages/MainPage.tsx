@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import '../styles/main-page.css'
 import { Context } from '..';
 import { observer } from 'mobx-react-lite';
@@ -10,12 +10,15 @@ import { InfoBanner } from '../components/infobanner/info-banner';
 import { Link } from 'react-router-dom';
 import Loader from '../components/loader/loader';
 import { Helmet } from 'react-helmet';
+import { MouseParallax, ScrollParallax, ScrollParallaxHandle } from "react-just-parallax";
 
 
 const MainPage = () => {
   const { games_store } = useContext(Context);
   const { artilce_store } = useContext(Context);
   const { review_store } = useContext(Context);
+
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,36 +40,35 @@ const MainPage = () => {
         <meta charSet="utf-8" />
         <title>Чуваки</title>
         <link rel="canonical" href={'https://dudesplay.ru/'} />
-        <meta name="title" content='Чуваки'/>
+        <meta name="title" content='Чуваки' />
         <meta property="og:site_name" content='Чуваки' />
         <meta property="og:title" content='Чуваки' />
       </Helmet>
+      <section className='info-section'>
+        <div className="parallax-grid">
+          <div className='parallax-banner-1'>
+            <img src={require('../assets/img/banner1.png')} alt="" />
+          </div>
+          <div className='parallax-banner-2'>
+            <img src={require('../assets/img/banner2.png')} alt="" />
+          </div>
+          <div className='parallax-banner-3'>
+            <img src={require('../assets/img/banner3.png')} alt="" />
+          </div>
+          <div className='parallax-banner-4'>
+            <img src={require('../assets/img/banner4.png')} alt="" />
+          </div>
+        </div>
+        <div className='parallax-img'>
+          <ScrollParallax>
+            <img src={require('../assets/img/tomloading.png')} alt="" />
+          </ScrollParallax>
+        </div>
+
+      </section>
       <section className='main-section'>
         <div className='main-page-grid-container'>
-          <InfoBanner>
-            <div className="checkbox-main-page">
-              <input className="custom-checkbox check" type="checkbox" id="color-5" name="color-5" />
-              <label htmlFor="color-5"></label>
-              <h1>Отмечай пройденные игры</h1>
-            </div>
-            <div className="checkbox-main-page">
-              <input className="custom-checkbox heart" type="checkbox" id="color-6" name="color-6" />
-              <label htmlFor="color-6"></label>
-              <h1>Запоминай понравившиеся</h1>
 
-            </div>
-            <div className="checkbox-main-page">
-              <input className="custom-checkbox clock" type="checkbox" id="color-7" name="color-7" />
-              <label htmlFor="color-7"></label>
-              <h1>Не забудь её пройти...</h1>
-            </div>
-            <div className="checkbox-main-page">
-              <input className="custom-checkbox plus" type="button" id="color-8" name="color-8" />
-              <label htmlFor="color-8"></label>
-              <h1>Составляй собственные списки</h1>
-
-            </div>
-          </InfoBanner>
           {games_store.games.length > 0 ?
             <div className="new-games-grid-container">
               <div className="main-page-section-title">
