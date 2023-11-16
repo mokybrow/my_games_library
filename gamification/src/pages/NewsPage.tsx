@@ -15,6 +15,7 @@ const NewsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const pageParam = searchParams.get('page');
     const sortParam = searchParams.get('sort');
+
     useEffect(() => {
         window.scrollTo(0, 0);
         if (pageParam === null) {
@@ -23,7 +24,8 @@ const NewsPage = () => {
         else {
             artilce_store.getAllArticleFunc(Number(pageParam), pageLimitElement, sortParam, 'news')
         }
-    }, [artilce_store])
+    }, [artilce_store, pageParam])
+
 
     if (artilce_store.isLoading) {
         return (
@@ -56,7 +58,7 @@ const NewsPage = () => {
                                 newsSlug={article.slug}
                                 newsCover={article.cover}
                                 newsTitle={article.title}
-                                newsText={article.text.replace(/<img[^>]*>/g,"")}
+                                newsText={article.snippet}
                                 newsAuthor={article.username}
                                 newsDate={article.created_at}
                             />

@@ -9,6 +9,7 @@ import { NotFoundPage } from '../components/not_found_page/not-found-page';
 import ModalWindow from '../components/modalwindow/modal-window';
 import Loader from '../components/loader/loader';
 import { Helmet } from "react-helmet";
+import { ActionButton } from '../components/buttons/action-button';
 
 const ArticlePage = () => {
     const { slug } = useParams<string>();
@@ -67,7 +68,7 @@ const ArticlePage = () => {
             <section className='article-page-section'>
                 <div className="article-image-container-shadow">
                 </div>
-
+                        {auth_store.user.reporter ? <div className='edit-button'><ActionButton onClick={`/article/edit?title=${slug}`}>Отредактировать</ActionButton></div>: null}
                 <div className="article-image-container">
                     {artilce_store.article.cover !== undefined ?
                         <img src={"data:image/jpeg;base64," + artilce_store.article.cover} alt="" />

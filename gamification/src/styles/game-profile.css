@@ -33,10 +33,11 @@
     gap: 1em;
 }
 
-.description-container{
+.description-container {
     display: flex;
     flex-direction: column;
-    background-color: antiquewhite;
+    background-color: var(--background-card-color);
+
 }
 
 .other-game-info {

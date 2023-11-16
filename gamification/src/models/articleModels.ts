@@ -4,6 +4,7 @@ export interface getOneArticleResponse {
     title: string
     cover: string
     text: string
+    snippet: string
     slug: string
     publishing: boolean
     tags: string[]
@@ -18,8 +19,8 @@ export interface ArticleResponseModel {
     id: string
     user_id: string
     title: string
+    snippet : any
     cover: string
-    text: string
     slug: string
     publishing: boolean
     tags: string[]

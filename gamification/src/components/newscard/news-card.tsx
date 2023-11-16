@@ -8,7 +8,7 @@ export interface NewsCard {
     newsSlug: string
     newsCover: string
     newsTitle: string
-    newsText: string
+    newsText: any
     newsAuthor: string
     newsDate: Date
 }
@@ -39,7 +39,7 @@ const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsTe
                 </span>
                 <div className="news-text-container">
                     <span className="news-text">
-                        {parse(newsText)}
+                        {newsText}
                         
                     </span>
                 </div>

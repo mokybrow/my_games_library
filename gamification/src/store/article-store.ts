@@ -12,9 +12,9 @@ export default class ArticleStore {
     isLoading = false;
     pageCount = 0;
 
-    articles = [] as getOneArticleResponse[];
+    articles = [] as ArticleResponseModel[];
 
-    article = {} as ArticleResponseModel;
+    article = {} as getOneArticleResponse;
 
     constructor() {
         makeAutoObservable(this);
@@ -27,19 +27,31 @@ export default class ArticleStore {
         this.isLoading = bool;
     }
 
-    setArticles(articles: getOneArticleResponse[]) {
+    setArticles(articles: ArticleResponseModel[]) {
         this.articles = articles
     }
 
-    setArticle(article: ArticleResponseModel) {
+    setArticle(article: getOneArticleResponse) {
         this.article = article
     }
 
-    async createArticleFunc(title: string, text: string, tags: string, cover: any) {
+    async createArticleFunc(title: string, text: string, snippet: string, tags: string, cover: any) {
         this.setLoading(true);
         try {
-            const response = await ArticleService.createArticle(title, text, tags, cover);
-            // await ListService.addListCover(String(response.data.detail), img);
+            const response = await ArticleService.createArticle(title, text, snippet, tags);
+
+        } catch (error) {
+            const err = error as AxiosError
+        } finally {
+            this.setLoading(false);
+            window.location.reload();
+        }
+    }
+
+    async editArticleFunc(title: string, text: string, snippet: string, tags: string, article_id: string) {
+        this.setLoading(true);
+        try {
+            const response = await ArticleService.editArticle(title, text, snippet, tags, article_id);
 
         } catch (error) {
             const err = error as AxiosError

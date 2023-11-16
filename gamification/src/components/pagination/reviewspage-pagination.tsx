@@ -20,22 +20,22 @@ const ReviewsPagePagination: FC<Pagination> = ({ currentPage, pageCount }) => {
 
         if (sortParam !== null ) {
             setSearchParams({ page: String(currentPage - 1), sort: String(sortParam) })
-            artilce_store.getAllArticleFunc(Number(pageParam) - 1, pageLimitElement, sortParam, 'review')
+            artilce_store.getAllArticleFunc(Number(currentPage) - 1, pageLimitElement, sortParam, 'review')
         }
 
         if (sortParam === null ) {
             setSearchParams({ page: String(currentPage - 1) })
-            artilce_store.getAllArticleFunc(Number(pageParam) - 1, pageLimitElement, null, 'review')
+            artilce_store.getAllArticleFunc(Number(currentPage) - 1, pageLimitElement, null, 'review')
         }
     }
     const pageUp = () => {
         if (sortParam !== null) {
             setSearchParams({ page: String(currentPage + 1), sort: String(sortParam)})
-            artilce_store.getAllArticleFunc(Number(pageParam) + 1, pageLimitElement, sortParam, 'review')
+            artilce_store.getAllArticleFunc(Number(currentPage) + 1, pageLimitElement, sortParam, 'review')
         }
         if (sortParam === null) {
             setSearchParams({ page: String(currentPage + 1)})
-            artilce_store.getAllArticleFunc(Number(pageParam) + 1, pageLimitElement, null, 'review')
+            artilce_store.getAllArticleFunc(Number(currentPage) + 1, pageLimitElement, null, 'review')
         }
     }
     return (

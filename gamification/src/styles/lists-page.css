@@ -22,7 +22,7 @@
         padding-top: 88px;
         padding-left: 6vw;
         padding-right: 6vw;
-        min-height: calc(100vh - 888px);
+        min-height: calc(100vh - 88px);
     }
 
     .lists-grid-container  {

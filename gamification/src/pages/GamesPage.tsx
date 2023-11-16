@@ -28,7 +28,7 @@ const GamesPage: FC = () => {
     else {
       games_store.getGameByPage(Number(pageParam), pageLimitElement, sortParam, null, filterParam)
     }
-  }, [games_store])
+  }, [games_store, pageParam])
 
   if (games_store.isLoading) {
     return (

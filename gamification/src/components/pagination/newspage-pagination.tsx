@@ -16,26 +16,27 @@ const NewsPagePagination: FC<Pagination> = ({ currentPage, pageCount }) => {
     const sortParam = searchParams.get('sort');
     const pageLimitElement = 24
 
+
     const pageDown = () => {
 
         if (sortParam !== null ) {
             setSearchParams({ page: String(currentPage - 1), sort: String(sortParam) })
-            artilce_store.getAllArticleFunc(Number(pageParam) - 1, pageLimitElement, sortParam, 'news')
+            artilce_store.getAllArticleFunc(currentPage - 1, pageLimitElement, sortParam, 'news')
         }
 
         if (sortParam === null ) {
             setSearchParams({ page: String(currentPage - 1) })
-            artilce_store.getAllArticleFunc(Number(pageParam) - 1, pageLimitElement, null, 'news')
+            artilce_store.getAllArticleFunc(currentPage -1 , pageLimitElement, null, 'news')
         }
     }
     const pageUp = () => {
         if (sortParam !== null) {
             setSearchParams({ page: String(currentPage + 1), sort: String(sortParam)})
-            artilce_store.getAllArticleFunc(Number(pageParam) + 1, pageLimitElement, sortParam, 'news')
+            artilce_store.getAllArticleFunc(currentPage +1 , pageLimitElement, sortParam, 'news')
         }
         if (sortParam === null) {
             setSearchParams({ page: String(currentPage + 1)})
-            artilce_store.getAllArticleFunc(Number(pageParam) + 1, pageLimitElement, null, 'news')
+            artilce_store.getAllArticleFunc(currentPage +1, pageLimitElement, null, 'news')
         }
     }
     return (

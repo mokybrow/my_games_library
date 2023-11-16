@@ -6,14 +6,14 @@ from operator import or_
 from typing import Any, Optional
 
 from pydantic import UUID4, Json
-from sqlalchemy import JSON, Text, case, cast, delete, desc, distinct, func, insert, select
+from sqlalchemy import JSON, Text, case, cast, delete, desc, distinct, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from games_library_api.schemas.database import article_like_table, article_table, user_table
 from games_library_api.services.list_slug import making_slug
 
 
-async def create_article(db: AsyncSession, title: str, text: str, tags: str, user_id: UUID4, cover: Optional[str] = None):
+async def create_article(db: AsyncSession, title: str, snippet: str, text: str, tags: str, user_id: UUID4, cover: Optional[str] = None):
     tags = tags.replace(' ', '').split(",")
 
     query = select(article_table.c.title).filter(article_table.c.slug == await making_slug(title))
@@ -24,6 +24,7 @@ async def create_article(db: AsyncSession, title: str, text: str, tags: str, use
         id=uuid.uuid4(),
         user_id=user_id,
         title=title,
+        snippet= snippet,
         cover=cover,
         text=text,
         slug=await making_slug(title),
@@ -43,6 +44,25 @@ async def approve_create_article(db: AsyncSession,  title: str) -> bool:
         return False
     return True
 
+async def edit_article(db: AsyncSession, title: str, snippet: str, text: str, tags: str, article_id: str):
+    tags = tags.replace(' ', '').split(",")
+
+    query = select(article_table.c.title).filter(article_table.c.slug == await making_slug(title))
+    result = await db.execute(query)
+    result = result.all()
+    if len(result) > 1:
+        return False
+    print(title)
+    stmt = update(article_table).values(
+        title=title,
+        snippet= snippet,
+        text=text,
+        slug=await making_slug(title),
+        tags=tags,
+    ).where(article_table.c.id == article_id)
+    await db.execute(stmt)
+    await db.commit()
+    return True
 
 async def get_all_article(
     db: AsyncSession,
@@ -52,10 +72,13 @@ async def get_all_article(
     tag: str = None, 
     user_id: UUID4 = None,
 ):
+    if offset == 1:
+        offset = 0
+    else:
+        offset = (offset - 1) * limit
     if limit == None:
         limit = 4
     if user_id:
-        print('с пользаком')
         if not tag:
             if sort == 'popular-desc':
                 query = (

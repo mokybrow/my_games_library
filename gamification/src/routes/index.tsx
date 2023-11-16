@@ -25,6 +25,7 @@ import { observer } from 'mobx-react-lite';
 import Footer from '../components/footer/footer';
 import { useContext } from 'react';
 import { Context } from '..';
+import EditArticle from '../pages/EditArticle';
 
 
 const AppRoutes = () => {
@@ -63,6 +64,7 @@ const AppRoutes = () => {
 
           <Route path="/article/:slug" element={<ArticlePage />} />
           <Route path="/article/create" element={<CreateArticle />} />
+          <Route path="/article/edit" element={<EditArticle />} />
 
           <Route path="/verify" element={<VerifyEmailPage />} />
           <Route path="/change-pass" element={<ChangePasswordPage />} />

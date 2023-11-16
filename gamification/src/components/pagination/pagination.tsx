@@ -22,37 +22,37 @@ const Pagination: FC<Pagination> = ({ currentPage, pageCount }) => {
 
         if (sortParam !== null && filterParam !== null) {
             setSearchParams({ page: String(currentPage - 1), sort: String(sortParam), filter: String(filterParam) })
-            games_store.getGameByPage(Number(pageParam) - 1, pageLimitElement, sortParam, null, filterParam)
+            games_store.getGameByPage(Number(currentPage) - 1, pageLimitElement, sortParam, null, filterParam)
         }
         if (sortParam === null && filterParam !== null) {
             setSearchParams({ page: String(currentPage - 1), filter: String(filterParam) })
-            games_store.getGameByPage(Number(pageParam) - 1, pageLimitElement, null, null, filterParam)
+            games_store.getGameByPage(Number(currentPage) - 1, pageLimitElement, null, null, filterParam)
         }
         if (sortParam !== null && filterParam === null) {
             setSearchParams({ page: String(currentPage - 1), sort: String(sortParam) })
-            games_store.getGameByPage(Number(pageParam) - 1, pageLimitElement, sortParam, null, null)
+            games_store.getGameByPage(Number(currentPage) - 1, pageLimitElement, sortParam, null, null)
         }
         if (sortParam === null && filterParam === null) {
             setSearchParams({ page: String(currentPage - 1) })
-            games_store.getGameByPage(Number(pageParam) - 1, pageLimitElement, null, null, null)
+            games_store.getGameByPage(Number(currentPage) - 1, pageLimitElement, null, null, null)
         }
     }
     const pageUp = () => {
         if (sortParam !== null && filterParam !== null) {
             setSearchParams({ page: String(currentPage + 1), sort: String(sortParam), filter: String(filterParam) })
-            games_store.getGameByPage(Number(pageParam) + 1, pageLimitElement, sortParam, null, filterParam)
+            games_store.getGameByPage(Number(currentPage) + 1, pageLimitElement, sortParam, null, filterParam)
         }
         if (sortParam === null && filterParam !== null) {
             setSearchParams({ page: String(currentPage + 1), filter: String(filterParam) })
-            games_store.getGameByPage(Number(pageParam) + 1, pageLimitElement, null, null, filterParam)
+            games_store.getGameByPage(Number(currentPage) + 1, pageLimitElement, null, null, filterParam)
         }
         if (sortParam !== null && filterParam === null) {
             setSearchParams({ page: String(currentPage + 1), sort: String(sortParam) })
-            games_store.getGameByPage(Number(pageParam) + 1, pageLimitElement, sortParam, null, null)
+            games_store.getGameByPage(Number(currentPage) + 1, pageLimitElement, sortParam, null, null)
         }
         if (sortParam === null && filterParam === null) {
             setSearchParams({ page: String(currentPage + 1) })
-            games_store.getGameByPage(Number(pageParam) + 1, pageLimitElement, null, null, null)
+            games_store.getGameByPage(Number(currentPage) + 1, pageLimitElement, null, null, null)
         }
     }
     return (

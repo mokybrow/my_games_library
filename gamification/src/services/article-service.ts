@@ -3,15 +3,30 @@ import $api, { API_URL } from "../api/api";
 import { getLocalToken } from "../utils/utils";
 
 import { PageCountResponseModel } from "../models/generalModels";
-import { ArticleResponseModel } from "../models/articleModels";
+import { ArticleResponseModel, getOneArticleResponse } from "../models/articleModels";
 
 export default class ArticleService {
 
-    static async createArticle(title: string, text: string, tags: string, cover: any): Promise<AxiosResponse> {
-        console.log(cover)
-        return $api.post(`article/create`,  { title: title, text: text, tags: tags}) 
-    }
+    static async createArticle(title: string, text: string, snippet: string, tags: string): Promise<AxiosResponse> {
+        return $api.post(`article/create`,
+            {
+                title: title,
+                text: text,
+                snippet: snippet,
+                tags: tags,
 
+            },)
+    }
+    static async editArticle(title: string, text: string, snippet: string, tags: string, article_id: string): Promise<AxiosResponse> {
+        return $api.post(`article/edit`,
+            {
+                title: title,
+                text: text,
+                snippet: snippet,
+                tags: tags,
+                article_id: article_id 
+            },)
+    }
     static async approveCreateArticle(title: string): Promise<AxiosResponse> {
         return $api.post(`article/approve/create`, null,
             {
@@ -25,9 +40,9 @@ export default class ArticleService {
                 }
             },)
     }
-    static async getOneArticle(slug: string, user_id: string | null): Promise<AxiosResponse<ArticleResponseModel>> {
+    static async getOneArticle(slug: string, user_id: string | null): Promise<AxiosResponse<getOneArticleResponse>> {
 
-        return axios.get<ArticleResponseModel>(`${API_URL}article/get/one`,
+        return axios.get<getOneArticleResponse>(`${API_URL}article/get/one`,
             {
                 params: {
                     slug: slug,

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useCallback, useContext, useState } from 'react'
+import React, { FC, SyntheticEvent, useCallback, useContext, useEffect, useState } from 'react'
 import './create-article-form.css'
 import { useDropzone } from 'react-dropzone';
 import { SubmitButton } from '../buttons/submit-button';
@@ -9,6 +9,7 @@ import ArticleService from '../../services/article-service';
 import { InfoBanner } from '../infobanner/info-banner';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
+import { useParams, useSearchParams } from 'react-router-dom';
 
 enum TagEnum {
     what = "Что пишем?",
@@ -22,18 +23,33 @@ interface IFormInput {
     text: string
     tag: TagEnum
 }
+interface EditorProps {
+    text: string
+    title: string
+    snippet: any
+    tag: any
+    article_id: string
+}
 
 
-const ArticleCreateForm: FC = () => {
+const ArticleEditForm: FC<EditorProps> = ({ text, title, snippet, tag, article_id }) => {
     const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
     const [artcileTitle, setArticleTitle] = useState('')
     const { artilce_store } = useContext(Context);
     const { auth_store } = useContext(Context);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const titleParam = searchParams.get('title');
+
+    useEffect(() => {
+        artilce_store.getOneArticleFunc(String(titleParam))
+    }, [artilce_store.article.id, artilce_store.article.text])
+
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm<IFormInput>()
+
     ///////////
     // const myColors = [
     //     "purple",
@@ -51,7 +67,7 @@ const ArticleCreateForm: FC = () => {
             [{ align: ["right", "center", "justify"] }],
             [{ list: "ordered" }, { list: "bullet" }],
             ["link", "image", "video"],
-            
+
             // [{ color: myColors }],
             // [{ background: myColors }]
         ]
@@ -73,22 +89,16 @@ const ArticleCreateForm: FC = () => {
         "align", 'video'
     ];
 
-    const [code, setCode] = useState(
-''
-    );
+    const [code, setCode] = useState(text);
     const handleProcedureContentChange = (content: any) => {
         setCode(content);
     };
 
     ///////////
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        if (!acceptedFiles[0]) {
-            artilce_store.createArticleFunc(data.title, code, data.snippet, data.tag, '')
-        } else {
-            artilce_store.createArticleFunc(data.title, code,data.snippet, data.tag, acceptedFiles[0])
 
-        }
-        if (typeof acceptedFiles[0] === 'undefined') return;
+        artilce_store.editArticleFunc(data.title, code, data.snippet, data.tag, article_id)
+
     }
     const onDrop = useCallback((acceptedFiles: Array<File>) => {
         const file = new FileReader();
@@ -102,10 +112,6 @@ const ArticleCreateForm: FC = () => {
     const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop
     });
-
-    const clearPhoto = () => {
-        setPreview(null)
-    }
 
     const uniqArticleName = async () => {
         try {
@@ -134,10 +140,10 @@ const ArticleCreateForm: FC = () => {
                     message: 'Название статьи должно быть длиннее 10 символов'
                 }
             },)}
-
+                defaultValue={title}
                 placeholder='Название статьи'
                 type="text" id="title" name="title" onChange={(e) => setArticleTitle(e.target.value)} />
-            
+
             <label htmlFor="snippet">Сниппет:</label>
             <input {...register("snippet", {
                 required: {
@@ -145,15 +151,16 @@ const ArticleCreateForm: FC = () => {
                     message: 'Поле не может быть пустым'
                 },
                 minLength: {
-                    value: 100,
-                    message: 'Сниппет должен быть длиннее 100 символов'
+                    value: 50,
+                    message: 'Сниппет должен быть длиннее 50 символов'
                 }
             },)}
+                defaultValue={snippet}
 
                 placeholder='Сниппет статьи'
-                type="text" id="snippet" name="snippet"/>
+                type="text" id="snippet" name="snippet" />
             {errors.title && <p role="alert">{errors.title.message}</p>}
-            
+
             {/* <label htmlFor="username">Обложка статьи:</label> */}
 
             {/* <div className="upload-field-container-form article">
@@ -202,7 +209,8 @@ const ArticleCreateForm: FC = () => {
 
             <select className='sort-filter-selector' {...register("tag", {
                 required: true
-            })}>
+            })} defaultValue={tag}
+            >
                 <option value=''>Что пишем?</option>
                 <option value="news">Новость</option>
                 <option value="review">Обзор</option>
@@ -213,13 +221,9 @@ const ArticleCreateForm: FC = () => {
                     В печать
                 </SubmitButton>
 
-
-                <SubmitButton type={'reset'} onClick={clearPhoto}>
-                    Очистить
-                </SubmitButton>
             </div>
         </form>
     )
 }
 
-export default observer(ArticleCreateForm);
+export default observer(ArticleEditForm);

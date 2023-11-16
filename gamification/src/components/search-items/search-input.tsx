@@ -28,7 +28,6 @@ const SearchInput = () => {
     } = useForm<IFormInput>()
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        console.log(data.tag, data.title)
         search_store.searchFunc(data.tag, data.title)
         setSearchParams({ tag: String(data.tag), title: String(data.title)})
     }

@@ -193,7 +193,7 @@ header ul li:hover {
         width: 100%;
         background-color: var(--navbar-color);
         transition: background-color 200ms linear;
-        transition: all 0.4s;
+        transition: all .6s;
         overflow: auto;
     }
 

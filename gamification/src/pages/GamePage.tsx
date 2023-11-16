@@ -33,7 +33,7 @@ const GamePage = () => {
             }
         }
 
-    }, [games_store.gameProfile.id, slug, auth_store.user.id])
+    }, [games_store.gameProfile.id, slug, auth_store.user.id, games_store.userGrade.comment])
 
     if (games_store.isLoading) {
         return (

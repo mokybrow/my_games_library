@@ -5,11 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Context } from '../..'
 import ModalWindow from '../modalwindow/modal-window'
 
-// export interface addReviewProps {
-//     active: boolean,
-//     setActive: any,
-//     children: any
-// }
 
 const AddReview: FC = () => {
     const [actvie, setModalActive] = useState(false);
@@ -21,6 +16,7 @@ const AddReview: FC = () => {
     const { games_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     let navigate = useNavigate();
+
 
     const isOpenMove = () => {
         setOpen(!isOpen)
@@ -47,6 +43,7 @@ const AddReview: FC = () => {
                             </div> :
 
                             <div onClick={() => { { isOpenMove() } { setOpen(true) } { setComment(null) } }} className='game-profile-grade'>
+                                
                                 <span>Оценка</span>
                             </div>}
                         <ModalWindow active={isOpen} setActive={setOpen}>
@@ -69,10 +66,13 @@ const AddReview: FC = () => {
                             </div>
                             <textarea className='comment-area'
                                 placeholder='Опишите ваш игровой опыт... (400 символов максимум)'
-                                onChange={e => { { setComment(e.target.value) } }} maxLength={400} defaultValue={games_store.userGrade.comment != undefined ? String(games_store.userGrade.comment) : undefined} />
+                                onChange={e => { { setComment(e.target.value) } }} 
+                                maxLength={400} 
+                                defaultValue={games_store.userGrade.comment === undefined ? undefined  : String(games_store.userGrade.comment)} />
 
 
-                            {rating === undefined || hover === undefined ? null : <button className='action-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment(null) } }} disabled={rating == 0 ? true : false}>Оставить отзывы</button>
+                            {rating === undefined || hover === undefined ? null : 
+                            <button className='action-button' onClick={() => { { setOpen(!isOpen) } { games_store.addReview(games_store.gameProfile.id, rating, comment, String(slug)) } { setComment(null) } }} disabled={rating == 0 ? true : false}>Оставить отзывы</button>
                             }
 
                             {games_store.userGrade?.grade > 0 || games_store.userGrade?.grade != null ?

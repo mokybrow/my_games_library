@@ -20,7 +20,7 @@ const MainPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     games_store.getNewstGame()
-    artilce_store.getAllArticleFunc(1, 4, 'new', null)
+    artilce_store.getAllArticleFunc(1, 4, 'new', 'news')
     review_store.getReviewsFunc(0, 4, true, null)
 
   }, [])
@@ -97,7 +97,7 @@ const MainPage = () => {
                     newsSlug={article.slug}
                     newsCover={article.cover}
                     newsTitle={article.title}
-                    newsText={article.text}
+                    newsText={article.snippet}
                     newsAuthor={article.username}
                     newsDate={article.created_at}
                   />

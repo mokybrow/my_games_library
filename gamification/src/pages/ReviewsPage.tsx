@@ -24,7 +24,7 @@ const ReviewsPage = () => {
         else {
             artilce_store.getAllArticleFunc(Number(pageParam), pageLimitElement, sortParam, 'review')
         }
-    }, [artilce_store])
+    }, [artilce_store, pageParam])
 
     if (artilce_store.isLoading) {
         return (
@@ -56,7 +56,7 @@ const ReviewsPage = () => {
                                 newsSlug={article.slug}
                                 newsCover={article.cover}
                                 newsTitle={article.title}
-                                newsText={article.text}
+                                newsText={article.snippet}
                                 newsAuthor={article.username}
                                 newsDate={article.created_at}
                             />

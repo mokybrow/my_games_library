@@ -179,6 +179,7 @@ article_table = Table(
     Column('title', String, nullable=False),
     Column('cover', String, nullable=True),
     Column('text', Text, nullable=False),
+    Column('snippet', Text, nullable=True),
     Column('slug', String, nullable=False),
     Column('publishing', Boolean, default=False),
     Column('tags', ARRAY(String), nullable=True, unique=False),
