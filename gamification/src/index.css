@@ -60,7 +60,7 @@ html[data-theme='light'] {
 
   --background-title-color: rgba(255, 255, 255, .8);
 
-  --background-card-color: rgba(234, 226, 215, .8);
+  --background-card-color: #D9D9D9;
 
   --modal-background: rgba(255, 255, 255, 1);
 

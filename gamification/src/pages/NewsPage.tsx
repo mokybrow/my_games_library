@@ -15,7 +15,7 @@ const NewsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const pageParam = searchParams.get('page');
     const sortParam = searchParams.get('sort');
-
+    
     useEffect(() => {
         window.scrollTo(0, 0);
         if (pageParam === null) {

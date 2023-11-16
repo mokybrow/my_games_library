@@ -9,7 +9,7 @@ import ArticleService from '../../services/article-service';
 import { InfoBanner } from '../infobanner/info-banner';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 enum TagEnum {
     what = "Что пишем?",
@@ -39,6 +39,7 @@ const ArticleEditForm: FC<EditorProps> = ({ text, title, snippet, tag, article_i
     const { auth_store } = useContext(Context);
     const [searchParams, setSearchParams] = useSearchParams();
     const titleParam = searchParams.get('title');
+    const navigate = useNavigate()
 
     useEffect(() => {
         artilce_store.getOneArticleFunc(String(titleParam))
@@ -96,9 +97,15 @@ const ArticleEditForm: FC<EditorProps> = ({ text, title, snippet, tag, article_i
 
     ///////////
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
+            try {
+                artilce_store.editArticleFunc(data.title, code, data.snippet, data.tag, article_id)
 
-        artilce_store.editArticleFunc(data.title, code, data.snippet, data.tag, article_id)
+            } catch (error) {
+                
+            }finally{
+                navigate('/')
 
+            }
     }
     const onDrop = useCallback((acceptedFiles: Array<File>) => {
         const file = new FileReader();

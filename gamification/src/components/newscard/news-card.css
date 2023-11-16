@@ -1,5 +1,5 @@
 .news-card-cover-container {
-    height: 200px;
+    height: 220px;
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -7,8 +7,8 @@
     position: relative;
     transition: all 0.3s ease 0s;
     transition: all 200ms linear;
-    /* background-color: var(--background-card-color); */
-    background-image: radial-gradient(circle at 50% -20.71%, #fffff6 0, #fffbe1 16.67%, #faedcc 33.33%, #f2deb5 50%, #ebcf9f 66.67%, #e6c08c 83.33%, #e2b17a 100%);
+    background-color: var(--background-card-color);
+    border-radius: 12px;
     grid-column: 1 span;
     font-weight: 600;
 }
@@ -17,7 +17,7 @@
     display: flex;
     width: 100%;
     height: 100%;
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
     z-index: 1;
     opacity: .6;
 }
@@ -58,7 +58,7 @@
     font-size: 1.2em;
 }
 
-.news-text img {
+.news-text img{
     display: none;
 }
 
@@ -71,7 +71,6 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 5;
-    font-weight: 400;
     -webkit-box-orient: vertical;
 }
 

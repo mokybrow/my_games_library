@@ -19,7 +19,7 @@ const NewsCard: FC<NewsCard> = ({ newsId, newsSlug, newsCover, newsTitle, newsTe
     return (
 
         <div className="news-card-cover-container">
-            <div className="background-wrap"></div>
+            {/* <div className="background-wrap"></div> */}
             {/* {newsCover == null ? null : <img src={newsCover} width={200} height={200} />} */}
             <div className="news-info-container">
                 <Link key={newsId} to={'/article/' + newsSlug} className='news-card'>

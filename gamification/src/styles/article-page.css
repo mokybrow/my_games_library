@@ -110,9 +110,16 @@
     top: 80px;
 }
 
+.ql-video{
+    height: 30vw;
+}
+
 @media (max-width: 1100px) {
     .article-page-grid {
         width: 600px;
+    }
+    .ql-video{
+        height: 30vh;
     }
 }
 

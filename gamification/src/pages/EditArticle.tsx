@@ -33,7 +33,9 @@ const EditArticle = () => {
         <>
             <Helmet>
                 <meta charSet="utf-8" />
+                {artilce_store.article.title !== undefined ? 
                 <title>Редактирование статьи {artilce_store.article.title}</title>
+            : null}
                 <link rel="canonical" href={'https://dudesplay.ru/games'} />
                 <meta name="title" content='Чуваки' />
             </Helmet>
