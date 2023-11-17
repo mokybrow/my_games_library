@@ -10,7 +10,7 @@
     transition: all 200ms linear;
     background-color: var(--background-card-color);
     font-weight: 600;
-
+    cursor: pointer;
 }
 
 .review-card-container img {
@@ -53,8 +53,9 @@
     max-height: 100%;
     flex-direction: column;
     z-index: 1;
-    padding: 12px;
+    padding: 6px;
     gap: 6px;
+    bottom: 0;
 }
 
 .review-title-container {
@@ -84,4 +85,16 @@
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+}
+.review-info-background{
+    display: flex;
+    flex-direction: column;
+    background-color: var( --background-title-color);
+    align-items: flex-start;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    transition: all 200ms linear;
+    padding: 6px;
 }

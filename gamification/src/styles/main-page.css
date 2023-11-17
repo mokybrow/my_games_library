@@ -99,7 +99,7 @@
     left: 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .main-section {
         padding-top: 88px;
         padding-left: 4vw;
@@ -132,9 +132,20 @@
 
 }
 
+@media (max-width: 768px) {
+
+    .news-articles-grid-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .reviews-grid-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
 @media (max-width: 425px) {
     .new-games-grid-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .news-articles-grid-container {

@@ -81,6 +81,7 @@ const MainPage = () => {
                     gameSlug={game.slug}
                     gameCover={game.cover}
                     gameTitle={game.title}
+                    gameRelease={game.release}
                     activityType={''} />
                 </div>
               )}

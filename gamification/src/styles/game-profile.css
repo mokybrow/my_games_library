@@ -36,9 +36,14 @@
 .description-container {
     display: flex;
     flex-direction: column;
-    background-color: var(--background-card-color);
-
 }
+.description-container p{
+    display: flex;
+    padding: 6px;
+    border-radius:6px;
+    background-color: var( --background-title-color);
+}
+
 
 .other-game-info {
     font-weight: 600;

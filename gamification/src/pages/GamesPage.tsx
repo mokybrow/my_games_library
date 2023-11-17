@@ -61,7 +61,8 @@ const GamesPage: FC = () => {
                   gameSlug={game.slug}
                   gameCover={game.cover}
                   gameTitle={game.title}
-                  activityType={''} />
+                  activityType={''}
+                   />
               </div>)}
 
           </div>

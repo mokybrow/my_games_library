@@ -69,50 +69,53 @@ export const MainPageReviewCard: FC<MainPageReviewCardProps> = ({ reviewId, revi
                     <span>{reviewLikeCount}</span>
                 </div>
             </ModalWindow>
-            <div className="review-card-container" >
+            <div className="review-card-container" onClick={() => setModalActive(true)}>
                 <div className="background-wrap"></div>
                 <img src={reviewCover} />
                 <div className="review-info-container ">
-                    <Link key={reviewSlug} to={'/game/' + reviewSlug} className='review-card'>
-                        <div className="review-title-container">
-                            <span className="game-title">{reviewTitle}</span>
+                    <div className="review-info-background">
+
+                        <Link key={reviewSlug} to={'/game/' + reviewSlug} className='review-card'>
+                            <div className="review-title-container">
+                                <span className="game-title">{reviewTitle}</span>
+                            </div>
+                        </Link>
+
+                        <div className="review-username-container">
+                            <span className="author-username">
+                                <span>
+                                    <Link to={'/' + reviewUsername} className='review-card'>
+                                        {reviewUsername}
+                                    </Link>
+                                </span>
+                                <span>
+                                    Поставил(а) игре
+                                </span>
+                                <span className='user-game-grade'>
+                                    {reviewGrade}
+                                </span>
+                            </span>
                         </div>
-                    </Link>
+                        <div className="review-comment-container">
+                            <span className="review-comment-text">
+                                {reviewComment}
+                            </span>
+                        </div>
+                        <div className="review-username-container">
+                            <span className="author-username">
+                                <span>
+                                    Оценили
+                                </span>
+                                <span className='user-game-grade'>
+                                    <span>{reviewLikeCount}</span>
+                                </span>
+                                <span>
+                                    раз
+                                </span>
+                            </span>
+                        </div>
 
-                    <div className="review-username-container">
-                        <span className="author-username">
-                            <span>
-                                <Link to={'/' + reviewUsername} className='review-card'>
-                                    {reviewUsername}
-                                </Link>
-                            </span>
-                            <span>
-                                Поставил(а) игре
-                            </span>
-                            <span className='user-game-grade'>
-                                {reviewGrade}
-                            </span>
-                        </span>
                     </div>
-                    <div className="review-comment-container" onClick={() => setModalActive(true)}>
-                        <span className="review-comment-text">
-                            {reviewComment}
-                        </span>
-                    </div>
-                    <div className="review-username-container">
-                        <span className="author-username">
-                            <span>
-                                Оценили
-                            </span>
-                            <span className='user-game-grade'>
-                                <span>{reviewLikeCount}</span>
-                            </span>
-                            <span>
-                                раз
-                            </span>
-                        </span>
-                    </div>
-
                 </div>
             </div>
         </>
